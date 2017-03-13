@@ -2,13 +2,17 @@
 
 \chapter{Introduction}
 
-This chapter will introduce the project by providing background information for the problem and research area. It will also explain the motivation behind such a project, before composing this motivation into a set of goals and research questions. Finally, the chapter will describe the research method and the structure of the Thesis.
+This chapter will introduce the project by providing background information for the problem and research area. It will also explain the motivation behind such a project, before composing this motivation into a set of goals and research questions. Finally, the chapter will describe the research method and the structure of the thesis.
 
 \section{Background}
 
-\textit{Introduce the project and describe how it is a continuation of the specialization project. Both the web interface as well as the case study in facial recognition with expressions.} \\
+\textit{Introduce the project and describe how it is a continuation of the specialization project. Both the web interface as well as the case study in facial recognition with expressions.}
 
-\noindent The problem to be solved in this Master's Thesis can be divided into two parts:
+\begin{itemize}
+    \item Maybe start with an overall general introduction to the problem, i.e. that it is in the field of artificial neural networks and how they behave, specifically images.
+\end{itemize}
+
+\noindent The problem to be solved in this thesis can be divided into two parts:
 \begin{enumerate}
     \item A web interface for deep learning
     \item A case study in facial recognition
@@ -16,25 +20,44 @@ This chapter will introduce the project by providing background information for 
 
 \noindent The first part proposes a tool for visualizing data produced during the training of an artificial neural network. This visualization tool is implemented in the form of a web interface where users can upload and run their Python scripts for creating and training such networks. The tool will use established visualization techniques to generate visualizations for the user to help them make sense of how their networks behave in various situations. \\
 
-\noindent The purpose of this Master's Thesis will be to continue the development of an initial version of this interface, developed as part of the/our Specialization Project. A more thorough description of the initial version as well as a detailed overview of what to implement for this Thesis, will be presented at a later point (USIKKER PÅ HVOR).
+\noindent The purpose of the first part of this thesis will be to continue the development of an initial version of this interface, developed as part of the/our Specialization Project. A more thorough description of the initial version as well as a detailed overview of what to implement for this thesis, will be presented at a later point (USIKKER PAA HVOR). \\
 
-\noindent The second part will act as an example of how to utilize the implemented visualization tool when working with neural networks.
+\noindent The second part will act as an example of how to utilize the implemented visualization tool when working with artificial neural networks. In this part, the purpose will be to explore whether it is possible to exploit facial expression data in order to improve an artificial neural networks for face recognition. We intend to create three different networks, where one is using a standard implementation, and functions as a benchmark for the other two, which will be experimental.
 
-\noindent Not sure if we should mention here that it is a continuation of the specialization project. Can also mention this in the preface if we choose to have one.
-\noindent Something about 2D input (images, not necessarily convolutional networks).
+\begin{itemize}
+    \item Not sure if/how we should mention here that it is a continuation of the specialization project. Can also mention this in the preface if we choose to have one.
+    \item Something about 2D input (images, not necessarily convolutional networks).
+\end{itemize}
 
 \section{Motivation}
 
-\textit{State why such a visualization tool (and web interface) is needed. Also something about face recognition and the importance of it, can reuse a lot from the project.} \\
+\textit{State why such a visualization tool (and web interface) is needed. Also something about face recognition and the importance of it, can reuse a lot from the project.}
 
-\noindent Something about how (convolutional) neural networks and convolutional networks are widely used etc. etc. \\
+\begin{itemize}
+    \item Something about how (convolutional) neural networks and convolutional networks are widely used etc. etc.
+    \item Then something about how these networks present a lot of data, and how visualization can help with this.
+\end{itemize}
 
-\noindent Then something about how these networks present a lot of data, and how visualization can help with this.
+\section{Contributions}
+
+\begin{itemize}
+    \item New computer-based product (the visualization tool)
+    \item Should also be easily extensible, and general
+    \item Add to research regarding facial expressions in artificial neural networks.
+\end{itemize}
 
 \section{Goals and Research Questions}
 
 \textit{Perhaps we should create some goals/requirements for the visualization tool. \\
 We can use the existing research questions for the case study.}
+
+\begin{itemize}
+    \item Need to describe the initial version of the web interface, so that we can explain exactly what we want to add to it.
+\end{itemize}
+
+\noindent\textbf{Main question:} How can facial expression data be utilized to improve a face recognition system? \\
+\textbf{Sub question 1:} What is the best method for incorporating facial expressions in a face recognition network? \\
+\textbf{Sub question 2:} How does expression domain size affect face recognition performance? \textit{Not sure if we should include this last sub question any more.}
 
 \section{Research Method}
 
@@ -44,5 +67,26 @@ We can use the existing research questions for the case study.}
 
 \textit{Describe the structure of the thesis. \\
 Could be done in a table.}
+
+\begin{table}[!h]
+\begin{center}
+\begin{tabular}{ | l | l |}
+\hline
+\textbf{Chapter/Appendix} & \textbf{Description} \\ \hline
+1. Introduction & Gives the reader an overview of the project. \\ \hline
+2. Background Theory & Provides the theory relevant for the project. \\ \hline
+Chapter 3 - Implementation & blah blah blah \\ \hline
+Chapter 4 - Case Study & blah blah blah \\ \hline
+Chapter 5 - Results & blah blah blah \\ \hline
+Chapter 6 - Discussion & blah blah blah \\ \hline
+Chapter 7 - Conclusion & blah blah blah \\ \hline
+Appendix A - Installation & blah blah blah \\ \hline
+Appendix B - User Manual & blah blah blah \\ \hline
+Appendix C - API & blah blah blah \\ \hline
+\end{tabular}
+\end{center}
+\caption{Overview of the thesis structure}
+\label{Tab1}
+\end{table}
 
 \cleardoublepage
