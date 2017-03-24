@@ -2,7 +2,7 @@
 
 \chapter{Introduction}
 
-This chapter will introduce the project by providing background information for the problem and research area. It will also explain the motivation behind such a project, and what we hope to contribute to the field. The basis for the project will be further described, before composing the motivation and contributions into a set of goals and research questions. Finally, the chapter will describe the research method and the structure of the thesis.
+This chapter will introduce the project by providing background information for the problem and research area. It will also explain the motivation behind such a project, and what we hope to contribute to the field. The existing prototype for the project will be described, before composing the motivation and contributions into a set of goals and research questions. Finally, the chapter will describe the research method and the structure of the thesis.
 
 \section{Background}
 
@@ -48,27 +48,36 @@ This chapter will introduce the project by providing background information for 
     \item Add to research regarding facial expressions in artificial neural networks. May not be at competing level, but it is an original method that have not been researched much before.
 \end{itemize}
 
-\section{Description of Prototype}
+\section{Prototype}
 
-\textit{Describe the initial version implemented in Specialization Project in detail.}
+This section will describe the prototype of the web interface to be improved as well as some pointers on what should be implemented in the next version.
 
-\noindent This section will describe the prototype of the web interface to be improved. \\
+\subsection{Description}
 
-\noindent The prototype provides all the basic user functionality for creating a user, and logging in and out, including validation of user name and password. A user can upload python scripts from their computer to the server, and tag them with various topics to make them easier to search for, using the search bar on the page showing all uploaded scripts. \\ \\
+\noindent The prototype provides all the basic user functionality for creating a user, and logging in and out, including validation of user name and password. A user can upload python scripts from their computer to the server, and tag them with various topics to make them easier to search for, using the search bar on the page showing all uploaded scripts. \\
+
 \noindent By selecting a specific script, the user can view the code, add tags to, delete, and of course run, the script. A separate menu tab for visualizations provides the user with visualizations of the data produced while running. The only visualization techniques implemented are the training progress and layer activations laid out after each other on a single page. The training progress includes two separate plots showing accuracy and loss over batch, while the layer activations are shown for each single layer of the network defined in the script.
+
+\subsection{Further Work}
+
+\noindent The next step will be to add more visualization techniques to the prototype, as well as improve the presentation of the resulting visualizations. \\
+
+\noindent Other functionality that could make it better:
+\begin{itemize}
+    \item Display output in terminal.
+    \item Select an image for visualization.
+    \item Predict using a trained model.
+\end{itemize}
 
 \section{Goals and Research Questions}
 
 \textit{Perhaps we should create some goals/requirements for the visualization tool. \\
-We can use the existing research questions for the case study.}
+We need to change the existing research questions for the case study since we do not want to care about the domain.}\\
 
-\begin{itemize}
-    \item Added a separate section to describe the initial version of the web interface. Not sure if this should be placed anywhere else.
-\end{itemize}
+\noindent\textbf{Research Question:} How can facial expression data be utilized to improve a face recognition system? \\
 
-\noindent\textbf{Main question:} How can facial expression data be utilized to improve a face recognition system? \\
-\textbf{Sub question 1:} What is the best method for incorporating facial expressions in a face recognition network? \\
-\textbf{Sub question 2:} How does expression domain size affect face recognition performance? \textit{Not sure if we should include this last sub question any more.}
+\noindent\textbf{Question 1:} Can facial expression data be utilized to improve a face recognition system? \\
+\noindent\textbf{Question 2:} What is the best method for incorporating facial expressions in a face recognition network?
 
 \section{Research Method}
 
@@ -76,7 +85,11 @@ We can use the existing research questions for the case study.}
 
 \noindent Oates (REFERENCE) proposed six different strategies for answering research questions. In our case, two of these approaches will be employed, namely design and creation for developing the visualization tool, and experiments for the case study in facial recognition. \\
 
-\noindent The role of the visualization tool can be viewed as being a vehicle for the case study. Even though the tool itself can be of great use to others, it needs to contribute to knowledge in some way in order for it to be considered as research. The case study will act as a (REPEATS FIRST SECTION) scenario where we apply our proposed application to an actual problem and examine what happens. This way, we can demonstrate both technical skills and academic qualities. (REWRITE LAST SENTENCE)
+\noindent The role of the visualization tool can be viewed as being a vehicle for the case study. Even though the tool itself can be of great use to others, it needs to contribute to knowledge in some way in order for it to be considered as research. The case study will act as a (REPEATS FIRST SECTION) scenario where we apply our proposed application to an actual problem and examine what happens. This will allow us do demonstrate the academic qualities of our implemented tool, instead of only the technical skills. \\
+
+\noindent Even though a goal of the case study is to see how the tool can help in creating and training artificial neural networks, another part is the actual outcome of the case study. To summarize the research questions, we want to investigate if adding expression data to a network will improve its performance, and find the best method for doing this. In order to answer these questions, we will have to conduct experiments. \\
+
+\noindent Of the three previously described networks (KANSKJE BESKRIVE DEM HER ISTEDET?), the first will be used as a baseline, to measure the improvement of the two others against. The second network must learn how the expression input affects facial features in the image input to be successful, while the third network must learn how to recognize faces and expressions simultaneously, as well as how they affect each other. By comparing the results of the different approaches, we will be able to discover which method should be preferred. We will analyze the results through quantitative data.
 
 \begin{itemize}
     \item More on using experiments for the case study
