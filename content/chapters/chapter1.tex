@@ -22,7 +22,7 @@ This chapter will introduce the project by providing background information for 
 
 \noindent A prototype of this interface has been implemented as part of the/our Specialization Project, and will act as a basis as we continue the development. A more thorough description of the prototype, as well as a detailed overview of what to implement for this thesis, will be presented in later sections of this chapter. \\
 
-\noindent The case study in the second part will act as an example of how to utilize the implemented visualization tool when working with artificial neural networks. In this part, the purpose will be to explore whether it is possible to exploit facial expression data in order to improve an artificial neural networks for face recognition. We intend to create three different networks, where one is using a standard implementation, and functions as a benchmark for the other two, which will be experimental.
+\noindent The case study in the second part will act as an example of how to utilize the implemented visualization tool when working with artificial neural networks. In this part, the purpose will be to explore whether it is possible to exploit facial expression data in order to improve an artificial neural networks for face recognition. We theorize that a network with access to facial expression data could learn the alterations of features associated with various expressions, and apply this to recognize faces which differ in the corresponding features. We intend to create three different networks, where one is using a standard implementation, and functions as a benchmark for the other two, which will be experimental.
 
 \begin{itemize}
     \item Not sure if/how we should mention here that it is a continuation of the specialization project. Can also mention this in the preface if we choose to have one.
@@ -74,10 +74,17 @@ This section will describe the prototype of the web interface to be improved as 
 \textit{Perhaps we should create some goals/requirements for the visualization tool. \\
 We need to change the existing research questions for the case study since we do not want to care about the domain.}\\
 
-\noindent\textbf{Research Question:} How can facial expression data be utilized to improve a face recognition system? \\
+\noindent\textbf{RQ1:} Is it possible to develop a web interface to help users gain a better understanding of an artificial neural network? \\
 
-\noindent\textbf{Question 1:} Can facial expression data be utilized to improve a face recognition system? \\
-\noindent\textbf{Question 2:} What is the best method for incorporating facial expressions in a face recognition network?
+\noindent For the case study, we plan to consider three different approaches for facial recognition. The first will be used as a baseline, to measure the performance of the two others against. Following is a description of the three proposed networks:
+\begin{enumerate}
+    \item No utilization of expression data
+    \item A network which receives the facial expression of the subject in the input image
+    \item A network which outputs both the recognition result and a facial expression suggestion, without any extra input
+\end{enumerate}
+
+\noindent By implementing these three networks and comparing the results, we hope to be able to answer our second research question:\\\\
+\noindent\textbf{RQ2:} How can facial expression data be utilized to improve a face recognition system?
 
 \section{Research Method}
 
@@ -85,16 +92,25 @@ We need to change the existing research questions for the case study since we do
 
 \noindent Oates (REFERENCE) proposed six different strategies for answering research questions. In our case, two of these approaches will be employed, namely design and creation for developing the visualization tool, and experiments for the case study in facial recognition. \\
 
-\noindent The role of the visualization tool can be viewed as being a vehicle for the case study. Even though the tool itself can be of great use to others, it needs to contribute to knowledge in some way in order for it to be considered as research. The case study will act as a (REPEATS FIRST SECTION) scenario where we apply our proposed application to an actual problem and examine what happens. This will allow us do demonstrate the academic qualities of our implemented tool, instead of only the technical skills. \\
+\noindent The visualization tool will be developed by following an iterative process of defining the problem, suggesting a solution, implementing and evaluating the proposed solution, and finally document the results in a conclusion. The more specific system development method will be further addressed in chapter 3. The role of the visualization tool can be viewed as being a vehicle for the case study. Although the tool itself can be of great use to others, it needs to contribute to knowledge in some way in order for it to be considered as research. The case study will act as a scenario where we apply our proposed application to an actual problem and examine what happens. This will allow us do demonstrate the academic qualities of our implemented tool, in addition to the technical skills. \\
 
 \noindent Even though a goal of the case study is to see how the tool can help in creating and training artificial neural networks, another part is the actual outcome of the case study. To summarize the research questions, we want to investigate if adding expression data to a network will improve its performance, and find the best method for doing this. In order to answer these questions, we will have to conduct experiments. \\
 
-\noindent Of the three previously described networks (KANSKJE BESKRIVE DEM HER ISTEDET?), the first will be used as a baseline, to measure the improvement of the two others against. The second network must learn how the expression input affects facial features in the image input to be successful, while the third network must learn how to recognize faces and expressions simultaneously, as well as how they affect each other. By comparing the results of the different approaches, we will be able to discover which method should be preferred. We will analyze the results through quantitative data.
+\noindent The performance of a network is measured by its verification accuracy. The experimental process will thus be to (1) observe the results of the baseline network; (2) add the extra input/output to obtain the second/third network; (3) re-observe the results of the new network to identify any changes. By comparing the results of the different approaches, we should be able to discover which method is preferred.\\
 
+\noindent\textbf{Notes:}
 \begin{itemize}
-    \item More on using experiments for the case study
+    \item Note that the networks have to be implemented, it is not as easy as to just add an extra input/output
+    \item Something about how implementing the networks also will include experimentation (not sure if we can call it a strategy though)
     \item Data generation (documents)
     \item Quantitative and qualitative analysis
+    \item Should probably shorten this section
+\end{itemize}
+
+\noindent\textbf{Hypotheses:} We might want to state the hypotheses. Not sure how, example:
+\begin{itemize}
+    \item Network 2 gives better results than Network 1
+    \item Network 3 gives better results than Network 1
 \end{itemize}
 
 \section{Thesis Structure}
@@ -107,7 +123,7 @@ Could be done in a table.}
 \begin{tabular}{ | l | l |}
 \hline
 \textbf{Chapter/Appendix} & \textbf{Description} \\ \hline
-1. Introduction & Gives the reader an overview of the project. \\ \hline
+1. Introduction & Gives the reader an overview of the project and the thesis. \\ \hline
 2. Background Theory & Provides the theory relevant for the project. \\ \hline
 Chapter 3 - Implementation & blah blah blah \\ \hline
 Chapter 4 - Case Study & blah blah blah \\ \hline
