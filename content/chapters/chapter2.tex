@@ -31,35 +31,6 @@ Artificial Neural Networks (ANNs) are inspired by the structure and behavior of 
 
 \noindent There are several different classes and types of ANNs. We will only describe the feedforward neural network, which is the original version, and thus we will use the term ANN when referring to such a network. In this kind of network, all connections are from one layer to the next layer, and there are no cycles or connections between units in the same layer. A network with cycles is called a recurrent neural network (RNN).
 
-\subsection{Optimization}
-
-The goal of an ANN is to find a function that solves a specific problem, more specifically that finds an optimal solution. The definition of this optimal solution is that given a cost function, there are no other solution with less of a cost. The cost function is in that sense a measure of how far away a solution is from an optimal solution. The goal of the learning process is thus to find a a function with the smallest possible cost. In supervised learning, this means to find the function that best maps the input to the output. The cost will then be the mismatch between such a mapping and the example data, and is often calculated using the mean squared error (MSE), defined as the average of the squares of the errors:
-\begin{equation}
-    MSE = \frac{1}{n}\sum_{i=1}^{n}(\hat{Y}_i - Y_i)^2
-\end{equation}
-
-\noindent To optimize the cost, we can use an algorithm called gradient descent, which minimizes any function iteratively. The process is a repeated loop of evaluating the gradient of the cost function, and then updating the weights based on this gradient. There are a number of different algorithms to optimize this process, and we will following describe the ones commonly used.
-
-\subsubsection{Stochastic Gradient Descent}
-
-\subsubsection{RMSprop}
-\subsubsection{Adagrad}
-\subsubsection{Adadelta}
-
-\begin{itemize}
-    \item SGD
-    \item RMSprop
-    \item Adagrad
-    \item Adadelta
-    \item Adam
-    \item Adamax
-    \item basically all optimizers keras provide, or only the ones we actually end up using
-\end{itemize}
-
-\begin{itemize}
-    \item backpropagation
-\end{itemize}
-
 \subsection{The Activation Function}
 
 \noindent There are a great variety of activation functions in use, but we will only briefly describe those most commonly used and thus considered in our implementation. The mathematical function of these are plotted in \textbf{Fig. \ref{activationfuncs}}. For further details we refer the reader to the Stanford CS class on convolutional neural networks\cite{cs231n_part1}. The common behaviour of all activation functions is that they define the output of a unit given a set of inputs. \\
@@ -130,6 +101,33 @@ The tanh activation function is a scaled version of the sigmoid function. Its ma
 \subsubsection{ReLU}
 
 The Rectified Linear Unit (ReLU) activation has the mathematical function $f(x) = max(0,x)$. This means that it is very close to linear; thresholding the input at zero, but keeping any value above. It has become very popular, and is in general the activation function of choice. It is non-saturating, and has been found to speed up the convergence of stochastic gradient descent. The computation of the function is also very inexpensive compared to the sigmoid and tanh function. The only problem with the ReLU function is the possibility of "dead" units, meaning that they will never activate. Generally, lowering the learning rate can prevent this, but there have also been several attempts to fix this issue, for instance using so called PReLU or Maxout units.
+
+\subsection{Optimization}
+
+The goal of an ANN is to find a function that solves a specific problem, more specifically that finds an optimal solution. The definition of this optimal solution is that given a cost function, there are no other solution with less of a cost. The cost function is in that sense a measure of how far away a solution is from an optimal solution. The goal of the learning process is thus to find a a function with the smallest possible cost. In supervised learning, this means to find the function that best maps the input to the output. The cost will then be the mismatch between such a mapping and the example data, and can be calculated in several different ways. \\
+
+\noindent To optimize the cost, we can use an algorithm called gradient descent, which minimizes any function iteratively. The process is a repeated loop of evaluating the gradient of the cost function, and then updating the weights based on this gradient. There are a number of different algorithms to optimize this process, and we will describe the ones commonly used. We will not go into detailed implementation of all of them.
+
+\subsubsection{Gradient Descent}
+
+The vanilla version of gradient descent is also called batch gradient descent. A batch of data is a portion of the training data, in this case the entire training data set. The gradient is computed over such a batch, which is very slow and expensive in terms of memory. \\
+
+\noindent Stochastic gradient descent (SGD) improves the vanilla version. In this case, the gradient is computed over mini-batches consisting of only one training pair. This is a special case of the more general mini-batch gradient descent, which computes the gradient over batches of the training data, instead of the entire set. SGD refers to both mini-batch gradient descent, as well as the special case of stochastic gradient descent. Usually it is more efficient to compute the gradient over a number of examples instead of only one. Even though SGD is much more efficient than the vanilla version, it also has its drawbacks, and therefore a number of algorithms intended to improve this has been developed.
+
+\subsubsection{Momentum}
+
+One way to improve SGD is to add momentum. SGD can get stuck in local optima, and adding momentum can help accelerating in the right direction. A further improvement is the Nesterov momentum, which adds some notion of where SGD is heading by approximating the next position.
+
+\subsubsection{Adaptive Learning Rate Methods}
+
+Adaptive learning rate methods are algorithms that automatically adapts the learning rate to the parameters. They are quite similar, and perform thereafter. In general, SGD often finds a minimum, but these methods can help to achieve faster convergence, and you do not have to tune the learning rate. The algorithms are usually implemented with a good default starting value. \\
+
+\noindent Adagrad was the first adaptive learning rate method proposed, and the others are thus extensions to this. Its weakness is that the learning rate decreases and eventually becomes close to zero. Adadelta and RMSprop are methods that try to overcome this, and they are close to identical. Adam adds some form of momentum to the optimization, and might be the best overall choice.
+
+
+\begin{itemize}
+    \item backpropagation
+\end{itemize}
 
 \subsection{Architecture}
 
