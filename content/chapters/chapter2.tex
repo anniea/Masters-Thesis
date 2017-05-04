@@ -33,7 +33,7 @@ Artificial Neural Networks (ANNs) are inspired by the structure and behavior of 
 
 \noindent The idea of an ANN is that it can approximate any continuous function, and that it has the possibility of learning. The simplest form of an ANN is the single layer perceptron, which consists of only one layer of output nodes. This network can only learn linearly separable patterns. To allow for learning complex patterns, more layers need to be added. As layers are added, the depth of the network increases. This is why we refer to the the use of multi-layer perceptrons (MLPs) as "deep learning". \\
 
-\noindent There are several different classes and types of ANNs. We will only describe the feedforward neural network, which is the original version, and thus we will use the term ANN when referring to such a network. In this kind of network, all connections are directed from one layer to the next layer, and there are no cycles or connections between units in the same layer. A network with cycles is called a recurrent neural network (RNN).
+\noindent There are several different classes and types of ANNs. We will only describe the feed-forward neural network, which is the original version, and thus we will use the term ANN when referring to such a network. In this kind of network, all connections are directed from one layer to the next layer, and there are no cycles or connections between units in the same layer. A network with cycles is called a recurrent neural network (RNN).
 
 \subsection{The Learning Process}
 
@@ -45,7 +45,7 @@ The weights of a model can be learned by training the model on a set of input an
 
 \subsubsection{Gradient Descent}
 
-\noindent To optimize the loss, we can use an algorithm called gradient descent, which minimizes any function iteratively. The process is a repeated loop of evaluating the gradient of the loss function, and then updating the weights based on this gradient. There are a number of different algorithms to optimize this process, and we will briefly describe the ones commonly used in a later section. The simplest form of this algorithm, also called its vanilla version, looks something like this: \\
+\noindent To optimize the loss, we can use an algorithm called gradient descent, which minimizes any function iteratively. The process is a repeated loop of evaluating the gradient of the loss function, and then updating the weights based on this gradient. The simplest form of this algorithm, also called its vanilla version, looks something like this:
 
 \begin{lstlisting}
     for i in range(epochs):
@@ -53,15 +53,13 @@ The weights of a model can be learned by training the model on a set of input an
         weights += - learning rate * weights_grad
 \end{lstlisting}
 
-\noindent First, the algorithm evaluates the gradient of the loss function for the whole data set with respect to the current weights. Then it updates the weights based on the evaluated gradient and a learning rate. The learning rate controls the magnitude of the update, and is a crucial network hyperparameter setting. This process is repeated for a pre-defined number of epochs.
+\noindent First, the algorithm evaluates the gradient of the loss function for the whole data set with respect to the current weights. Then it updates the weights based on the evaluated gradient and a learning rate. The learning rate controls the magnitude of the update, and is a crucial network hyperparameter setting. This process is repeated for a pre-defined number of epochs. \\
+
+\noindent There are a number of different algorithms to optimize this process, and we will briefly describe the ones commonly used in a later section. Usually, the gradient is not evaluated for the whole data set at once, but instead in smaller portions, to make the algorithm much more efficient.
 
 \subsubsection{Backpropagation}
 
-\noindent Backpropagation is an algorithm for computing the gradients in combination with gradient descent.
-
-Backpropagation is an algorithm that is used in combination with gradient descent. 
-
-\noindent Describe backpropagation.
+\noindent Backpropagation is an algorithm commonly used to compute the gradients in gradient descent. Often, the term is used to refer to the complete process of repeatedly computing the gradient and updating the weights. Each iteration of computing the gradient involves two steps: forward propagation and backward propagation. The forward propagation is simply the propagation of an input through the network in order to generate an output. In the backward propagation, the loss, or error, between the generated output and the actual output is computed, and this error is propagated backwards to the previous layers. The weights of these layers are adjusted accordingly, as described in the previous section, and the process is repeated until the loss is below a satisfactory threshold.
 
 \subsection{The Activation Function}
 
@@ -198,7 +196,7 @@ When using ANNs to solve complex problems, like face recognition, it is not unli
 
 \subsection{Training Progress Measurements}
 
-Throughout training, the progress of the network is visualized in a simple line plot. Measurements are made of the standard network appraisal values, loss and accuracy, both on the training set data and, if provided, the validation set data. A typical thing to want to monitor, these values provide a means to explicitly evaluate a network’s performance. Plotting these values against time, at certain batch intervals or at epoch completion, puts the current measurements in perspective, and makes the training progress, or lack thereof, easily discernible. The shape of the line plot could also be used to reveal undesirable values in the training hyperparameters. For example, if the learning rate is too large, the network is likely to vastly improve at first, only to have its progress quickly stagnate. In this case, both loss and accuracy plots would have distinct shapes that indicate a problem, without having to look at any of their actual values.
+Throughout training, the progress of the network is visualized in a simple line plot. Measurements are made of the standard network appraisal values, loss and accuracy, both on the training set data and, if provided, the validation set data. A typical thing to want to monitor, these values provide a means to explicitly evaluate a network’s performance. Plotting the values against time, at certain batch intervals or at epoch completion, puts the current measurements in perspective, and makes the training progress, or lack thereof, easily discernible. The shape of the line plot could also be used to reveal undesirable values in the training hyperparameters. For example, if the learning rate is too large, the network is likely to vastly improve at first, only to have its progress quickly stagnate. In this case, both loss and accuracy plots would have distinct shapes that indicate a problem, without having to look at any of their actual values.
 
 By including the validation values, one could also be able to identify the presence of overfitting, marked by a point where the validation accuracy begins to decline while training accuracy continues to rise.
 
@@ -210,13 +208,60 @@ By including the validation values, one could also be able to identify the prese
 
 \noindent \textit{Additionally, in networks using ReLUs, a common activation function, the expectation of seeing sparse and localized activations can be confirmed, which is an indicator of the network learning properly. If some feature maps are entirely dark, with all pixel values zero, this can be a warning sign that the learning rate is too high. The particular filters are then rendered useless, and they have no possible way to recover \cite{cs231n_act}. }
 
-\subsection{Salience Maps}
+\subsection{Saliency Maps}
 
 \textit{A salience map is typically a black-and-white image with the same size as the input, where important pixels have a high value, and insignificant pixels have a low value \cite{salience}. Thus, the important regions can be easily identified by their brightness. A map for classification is specific to an image and a class, and it allows us to observe which parts of an image influences the network classification score the most. In other words, we can view which parts of an image that the network deems more important when deciding upon the classification score chosen. Such a map can be produced by efficiently using the back-propagation gradient of the output score with respect to the input image.} \\
 
 \noindent \textit{In a face recognition case, the saliency would allow us to investigate what the network emphasizes, for example which facial regions are decisive in producing the identification output. We could also exploit salience maps for expression classification, creating maps to display which areas were the most influential for selecting the outputted expression results. By using the insight gained through salience maps, we would be able to confirm our beliefs that a network focuses on regions containing important feature information, and alert us to any peculiarities.}
 
-\subsection{Deconvolution}
+\subsection{Deconvolution Network}
+
+Modern networks that receive images as inputs are likely to have convolutional layers form the initial part of the network. This part is aimed at detecting certain features in the image, with the complexity of the features rising as the depth of the convolutional part increases. In such cases, we can utilize a visualization technique that employs a deconvolutional network, which can be thought of as a reverse convolutional network \cite{deconv_net}. To obtain a visualization, an image is first fed to the original network to produce activations in its various layers. The activations of the convolutional part can then be processed and fed to the deconvolutional network to create a visualization of the pattern in the input image that was responsible for eliciting the given activations. This pattern can then reveal what a certain part of the original network finds important and what it is looking for in an image.
+
+To build such a deconvolutional network, it is necessary to examine the original network we want to produce visualization for. Only the feature extracting part is of interest, and we can regard this part as a network on its own. The purpose of the deconvolutional network is to map the feature activity present in this convolutional network back to the input pixel space \cite{deconv_vis}. For a convolutional network consisting of convolution and max pooling layers, the corresponding deconvolutional network would consist of transposed convolution and unpooling layers in the opposite order of the original layers. In addition, where a ReLU activation function commonly follow each convolution layer, they would precede transposed convolution layers. In other words, by a top-down examination the convolutional network would enable a bottom-up creation of the deconvolutional network. 
+
+A transposed convolution layer (also known as a fractionally strided convolution layer) is used to reverse the convolution layer effects. Where as a convolution layer typically performs downsampling, i.e. it outputs matrices that have dimensions smaller than the ones it receives as input, a transposed convolution typically performs upsampling, i.e. it outputs matrices that have dimensions greater than the ones it receives as input. To achieve this, a transposed convolution swaps the forward and backward passes of a convolution, both of which are dependent on the kernel. Consider a 3x3 kernel used in a convolution on a 4x4 matrix. If we unroll the matrix from left to right and top to bottom, the convolution can be represented by the matrix $C$, where \textit{$w_{ij}$} is the element at row \textit{i} and column \textit{j} in the kernel:
+
+\[
+    C = 
+    \left(
+    \begin{smallmatrix}
+    \textit{$w_{00}$} & \textit{$w_{01}$} & \textit{$w_{02}$} & 0 & 
+    \textit{$w_{10}$} & \textit{$w_{11}$} & \textit{$w_{12}$} & 0 & 
+    \textit{$w_{20}$} & \textit{$w_{21}$} & \textit{$w_{22}$} & 0 & 
+    0 & 0 & 0 & 0\\
+    0 & \textit{$w_{00}$} & \textit{$w_{01}$} & \textit{$w_{02}$} & 
+    0 & \textit{$w_{10}$} & \textit{$w_{11}$} & \textit{$w_{12}$} & 
+    0 & \textit{$w_{20}$} & \textit{$w_{21}$} & \textit{$w_{22}$} & 
+    0 & 0 & 0 & 0\\
+    0 & 0 & 0 & 0 & 
+    \textit{$w_{00}$} & \textit{$w_{01}$} & \textit{$w_{02}$} & 0 & 
+    \textit{$w_{10}$} & \textit{$w_{11}$} & \textit{$w_{12}$} & 0 & 
+    \textit{$w_{20}$} & \textit{$w_{21}$} & \textit{$w_{22}$} & 0\\
+    0 & 0 & 0 & 0 & 
+    0 & \textit{$w_{00}$} & \textit{$w_{01}$} & \textit{$w_{02}$} & 
+    0 & \textit{$w_{10}$} & \textit{$w_{11}$} & \textit{$w_{12}$} & 
+    0 & \textit{$w_{20}$} & \textit{$w_{21}$} & \textit{$w_{22}$}\\
+    \end{smallmatrix}
+    \right)
+\]
+
+Multiplying $C$ with the now 16-dimensional vector would produce a 4 dimensional vector, which could be reshaped to a 2x2  be equivalent to a convolution forward pass. 
+
+The technique allows for any feature map in any layer of the convolutional network to be chosen for visualization.
+
+
+layer of choice
+
+
+
+
+
+
+Deconvolution layers are also known as transposed convolution or fractionally strided convolution layers. 
+
+If we consider the convolution operation on a 2D matrix
+
 
 \textit{Deconvolution involves using a deconvolutional network, which can be thought of as a reverse convolutional network \cite{deconv_net}. The aim of visualizing deconvolution is to map the feature activity present in the intermediate layers back to the input pixel space \cite{deconv_vis}. This enables us to see what the input pattern that caused the activation looks like. To acquire the pattern for a certain activation, we first feed an image into the regular network to get the activations, then set all the the other activations in the relevant layer to zero, and finally feed these feature maps into the appropriate layer in the deconvolutional network.} \\
 
