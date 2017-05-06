@@ -220,7 +220,7 @@ Modern networks that receive images as inputs are likely to have convolutional l
 
 To build such a deconvolutional network, it is necessary to examine the original network we want to produce visualization for. Only the feature extracting part is of interest, and we can regard this part as a network on its own. The purpose of the deconvolutional network is to map the feature activity present in this convolutional network back to the input pixel space \cite{deconv_vis}. For a convolutional network consisting of convolution and max pooling layers, the corresponding deconvolutional network would consist of transposed convolution and unpooling layers in the opposite order of the original layers. In addition, where a ReLU activation function commonly follow each convolution layer, they would precede transposed convolution layers. In other words, by a top-down examination the convolutional network would enable a bottom-up creation of the deconvolutional network. 
 
-A transposed convolution layer (also known as a fractionally strided convolution layer) is used to reverse the convolution layer effects. Where as a convolution layer typically performs downsampling, i.e. it outputs matrices that have dimensions smaller than the ones it receives as input, a transposed convolution typically performs upsampling, i.e. it outputs matrices that have dimensions greater than the ones it receives as input. To achieve this, a transposed convolution swaps the forward and backward passes of a convolution, both of which are dependent on the kernel. Consider a 3x3 kernel used in a convolution on a 4x4 matrix. If we unroll the matrix from left to right and top to bottom, the convolution can be represented by the matrix $C$, where \textit{$w_{ij}$} is the element at row \textit{i} and column \textit{j} in the kernel:
+A transposed convolution layer (also known as a fractionally strided convolution layer) is used to reverse the convolution layer effects. Where as a convolution layer typically performs downsampling, i.e. it outputs matrices that have dimensions smaller than the ones it receives as input, a transposed convolution typically performs upsampling, i.e. it outputs matrices that have dimensions greater than the ones it receives as input. To achieve this, a transposed convolution swaps the forward and backward passes of a convolution, both of which can be defined by the kernel. Consider a 3x3 kernel used in a normal convolution on a 4x4 matrix. If we unroll the matrix from left to right and top to bottom, the convolution can be represented by the matrix $C$, where \textit{$w_{ij}$} is the element at row \textit{i} and column \textit{j} in the kernel:
 
 \[
     C = 
@@ -246,7 +246,9 @@ A transposed convolution layer (also known as a fractionally strided convolution
     \right)
 \]
 
-Multiplying $C$ with the now 16-dimensional vector would produce a 4 dimensional vector, which could be reshaped to a 2x2  be equivalent to a convolution forward pass. 
+Multiplying $C$ with the now 16-dimensional vector would produce a 4-dimensional vector, which could be reshaped into the 2x2 matrix we expect from the convolution. The operation is therefore equivalent to a convolution forward pass. To do a convolution backward pass, the transposed version of $C$, $C^T$, would be used. Where a normal convolution uses $C$ and $C^T$ for the forward and backward pass, respectively, the transposed convolution would use $C^T$ and $C$ for the forward and backward pass, respectively. In context of the example, this swap allows the transposed convolution to receive a 4-dimensional vector as input and produce a 16-dimensional vector as output, ELABORATE ON CONNECTIVITY PATTERN AND MENTION $(C^T)^T$ = $C$
+
+while keeping the connectivity pattern for the convolution operation. 
 
 The technique allows for any feature map in any layer of the convolutional network to be chosen for visualization.
 
