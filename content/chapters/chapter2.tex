@@ -6,11 +6,9 @@
 
 \textit{This was missing in the specialization project. Need to cover all concepts used later in the report. This includes all different layers of a neural network. The layers (dropout, pooling, etc) could perhaps be a separate section after this one.}
 
-\subsection{Basics}
+\subsection{Biological Background}
 
-\subsubsection{The Neuron}
-
-Artificial Neural Networks (ANNs) are inspired by the structure and behavior of a biological brain, but they are generally not intended to be realistic models. A neural network consist of interconnected nodes referred to as units. These correspond to a biological neuron, the basic computational unit of the brain, structured as illustrated in \textbf{Fig. \ref{fig1}}. The connections between the units in an  corresponds to a biological neuron's dendrites, which provide input signals, and its single axon, which produces output signals and is connected to other neurons. \\
+The idea of an Artifical Neural Network (ANN) is that it can approximate any continuous function, and that it has the possibility of learning. ANNs are inspired by the structure and behavior of a biological brain and its ability to learn, but they are generally not intended to be realistic models. A neural network consists of interconnected nodes referred to as units. These correspond to a biological neuron, the basic computational unit of the brain, structured as illustrated in \textbf{Fig. \ref{fig1}}. The connections between the units in an  corresponds to a biological neuron's dendrites, which provide input signals, and its single axon, which produces output signals and is connected to other neurons. \\
 
 \begin{figure}
     \begin{minipage}{0.5\textwidth}
@@ -27,41 +25,9 @@ Artificial Neural Networks (ANNs) are inspired by the structure and behavior of 
     \end{minipage}
 \end{figure}
 
-\noindent To simulate these signals, an ANN uses a mathematical model as illustrated in \textbf{Fig. \ref{fig2}}, where the signal is multiplied by the weight of a connection. The weight of a specific connection control how much the unit on one end influences the unit on the other end. The sum of all input signals are computed at the cell body of the unit. If this sum is above a certain threshold, the unit fires an output signal determined by its activation function by performing a specific mathematical operation on the sum.
+\noindent To simulate these signals, an ANN uses a mathematical model as illustrated in \textbf{Fig. \ref{fig2}}, where the signal is multiplied by the weight of a connection. The weight of a specific connection control how much the unit on one end influences the unit on the other end. The sum of all input signals are computed at the cell body of the unit. If this sum is above a certain threshold, the unit fires an output signal determined by its activation function by performing a specific mathematical operation on the sum. \\
 
-\subsubsection{Organization}
-
-\noindent The idea of an ANN is that it can approximate any continuous function, and that it has the possibility of learning. The simplest form of an ANN is the single layer perceptron, which consists of only one layer of output nodes. This network can only learn linearly separable patterns. To allow for learning complex patterns, more layers need to be added. As layers are added, the depth of the network increases. This is why we refer to the the use of multi-layer perceptrons (MLPs) as "deep learning". \\
-
-\noindent There are several different classes and types of ANNs. We will only describe the feed-forward neural network, which is the original version, and thus we will use the term ANN when referring to such a network. In this kind of network, all connections are directed from one layer to the next layer, and there are no cycles or connections between units in the same layer. A network with cycles is called a recurrent neural network (RNN).
-
-\subsection{The Learning Process}
-
-The weights of a model can be learned by training the model on a set of input and output values, a task which is called supervised learning. There are also other kinds of learning, but we will not cover these. The learning process runs for a number of epochs, meaning the number of times the learning algorithm will see the entire data set. Often, the data is split into so-called batches when passed to the algorithm. The batch size is thus the number of training examples in a batch.
-
-\subsubsection{Loss Function}
-
-\noindent The goal of an ANN is to find a function that solves a certain problem, more specifically that finds an optimal solution to the problem. The definition of this optimal solution is that given a loss function, there are no other solution with less of a loss. The loss function is in that sense a measure of how far away a solution is from an optimal solution. The goal of the learning process is thus to find a function with the smallest possible loss. The weights of a model can be learned by training the model on a set of input and output values, a task which is called supervised learning. There are also other kinds of learning, but we will not cover these. In supervised learning, the goal is to find the function that best maps the input to the output. The loss will then be the mismatch between such a mapping and the example data. \\ 
-
-\subsubsection{Gradient Descent}
-
-\noindent To optimize the loss, we can use an algorithm called gradient descent, which minimizes any function iteratively. The process is a repeated loop of evaluating the gradient of the loss function, and then updating the weights based on this gradient. The simplest form of this algorithm, also called its vanilla version, looks something like this:
-
-\begin{lstlisting}
-    for i in range(epochs):
-        weights_grad = evaluate_gradient(loss_function, data, weights)
-        weights += - learning rate * weights_grad
-\end{lstlisting}
-
-\noindent First, the algorithm evaluates the gradient of the loss function for the whole data set with respect to the current weights. Then it updates the weights based on the evaluated gradient and a learning rate. The learning rate controls the magnitude of the update, and is a crucial network hyperparameter setting. This process is repeated for a pre-defined number of epochs. \\
-
-\noindent There are a number of different algorithms to optimize this process, and we will briefly describe the ones commonly used in a later section. Usually, the gradient is not evaluated for the whole data set at once, but instead in smaller portions, to make the algorithm much more efficient.
-
-\subsubsection{Backpropagation}
-
-\noindent Backpropagation is an algorithm commonly used to compute the gradients in gradient descent. Often, the term is used to refer to the complete process of repeatedly computing the gradient and updating the weights. Each iteration of computing the gradient involves two steps: forward propagation and backward propagation. The forward propagation is simply the propagation of an input through the network in order to generate an output. In the backward propagation, the loss, or error, between the generated output and the actual output is computed, and this error is propagated backwards to the previous layers. The weights of these layers are adjusted accordingly, as described in the previous section, and the process is repeated until the loss is below a satisfactory threshold.
-
-\subsection{The Activation Function}
+\subsection{Activation Functions}
 
 \noindent There are a great variety of activation functions in use, but we will only briefly describe those most commonly used and thus considered in our implementation. The mathematical function of these are plotted in \textbf{Fig. \ref{activationfuncs}}. For further details we refer the reader to the Stanford CS class on convolutional neural networks\cite{cs231n_part1}. The common behaviour of all activation functions is that they define the output of a unit given a set of inputs. \\
 \begin{figure}[H]
@@ -122,7 +88,7 @@ The weights of a model can be learned by training the model on a set of input an
 
 \subsubsection{Sigmoid}
 
-The sigmoid activation function is mathematically defined as $\sigma(x) = 1/(1 + e^{-x})$. The function takes a number as input, and outputs a number within a continuous range from 0 to 1. The sigmoid function has previously been used a lot, but because of its drawbacks, other activations functions tend to be preferred nowadays. The first drawback is that the outputs are not centered around zero, which can cause undesirable behaviour during gradient descent. A bigger drawback is that the activation saturates, meaning that the unit outputs mostly 0 and 1 instead of anything in between, and thus the gradient at these regions is very low. If the gradient falls to zero, the weights will not be updated through gradient descent, and so the network will stop learning.
+The sigmoid activation function is mathematically defined as $\sigma(x) = 1/(1 + e^{-x})$. The function takes a number as input, and outputs a number within a continuous range from 0 to 1. The sigmoid function has previously been used a lot, but because of its drawbacks, other activations functions tend to be preferred nowadays. The first drawback is that the outputs are not centered around zero, which can cause the network to display undesirable behaviour. A bigger drawback is that the activation saturates, meaning that the unit outputs mostly 0 and 1 instead of anything in between, and thus the gradient at these regions is very low. If the gradient falls to zero, the network will stop learning.
 
 \subsubsection{Tanh}
 
@@ -130,9 +96,63 @@ The tanh activation function is a scaled version of the sigmoid function. Its ma
 
 \subsubsection{ReLU}
 
-The Rectified Linear Unit (ReLU) activation has the mathematical function $f(x) = max(0,x)$. This means that it is very close to linear; thresholding the input at zero, but keeping any value above. It has become very popular, and is in general the activation function of choice. It is non-saturating, and has been found to speed up the convergence of stochastic gradient descent. The computation of the function is also very inexpensive compared to the sigmoid and tanh function. The only problem with the ReLU function is the possibility of "dead" units, meaning that they will never activate. Generally, lowering the learning rate can prevent this, but there have also been several attempts to fix this issue, for instance using so called PReLU or Maxout units.
+The Rectified Linear Unit (ReLU) activation has the mathematical function $f(x) = max(0,x)$. This means that it is very close to linear; thresholding the input at zero, but keeping any value above. It has become very popular, and is in general the activation function of choice. It is non-saturating, and has been found to speed up the convergence of the learning. The computation of the function is also very inexpensive compared to the sigmoid and tanh function. The only problem with the ReLU function is the possibility of "dead" units, meaning that they will never activate. Generally, adjusting the learning parameters can prevent this, but there have also been several attempts to fix this issue, for instance using so called PReLU or Maxout units.
 
-\subsection{Optimization}
+
+\subsection{Architecture of a Network}
+
+\subsubsection{Multi-Layer Perceptron}
+
+\noindent The simplest form of an ANN is the single layer perceptron, which consists of only one layer of output nodes. This network can only learn linearly separable patterns. To allow for learning complex patterns, more layers need to be added. As layers are added, the depth of the network increases. This is why we refer to the the use of multi-layer perceptrons as "deep learning". There are several different classes and types of ANNs. We will only describe the feed-forward neural network, which is the original version, and thus we will use the term ANN when referring to such a network. In this kind of network, all connections are directed from one layer to the next layer, and there are no cycles or connections between units in the same layer. A network with cycles is called a recurrent neural network.
+
+\subsubsection{The Multi-Layer Perceptron}
+
+The simplest form of an ANN is the single-layer perceptron, which consists of only one layer of output nodes. This network can only learn linearly separable patterns. To allow for learning complex patterns, more layers need to be added. There are several different kinds of multi-layer 
+
+
+When adding more layers, we obtain a multi-layer perceptron (MLP). 
+
+
+\subsubsection{Deep Learning}
+
+As layers are added, the depth of the network increases. This is why we refer to the use of MLPs as "deep learning". 
+
+\begin{itemize}
+    \item Input and output layers
+    \item Fully-connected layer
+    \item Hidden layers
+    \item Dropout layer
+\end{itemize}
+
+
+\subsection{Training a Network}
+
+The weights of a model can be learned by training the model on a set of input and output values, a task which is called supervised learning. There are also other kinds of learning, but we will not cover these. The learning process runs for a number of epochs, meaning the number of times the learning algorithm will see the entire data set. Often, the data is split into so-called batches when passed to the algorithm. The batch size is thus the number of training examples in a batch.
+
+\subsubsection{Loss Function}
+
+\noindent The goal of an ANN is to find a function that solves a certain problem, more specifically that finds an optimal solution to the problem. The definition of this optimal solution is that given a loss function, there are no other solution with less of a loss. The loss function is in that sense a measure of how far away a solution is from an optimal solution. The goal of the learning process is thus to find a function with the smallest possible loss. The weights of a model can be learned by training the model on a set of input and output values, a task which is called supervised learning. There are also other kinds of learning, but we will not cover these. In supervised learning, the goal is to find the function that best maps the input to the output. The loss will then be the mismatch between such a mapping and the example data. \\ 
+
+\subsubsection{Gradient Descent}
+
+\noindent To optimize the loss, we can use an algorithm called gradient descent, which minimizes any function iteratively. The process is a repeated loop of evaluating the gradient of the loss function, and then updating the weights based on this gradient. The simplest form of this algorithm, also called its vanilla version, looks something like this:
+
+\begin{lstlisting}
+    for i in range(epochs):
+        weights_grad = evaluate_gradient(loss_function, data, weights)
+        weights += - learning rate * weights_grad
+\end{lstlisting}
+
+\noindent First, the algorithm evaluates the gradient of the loss function for the whole data set with respect to the current weights. Then it updates the weights based on the evaluated gradient and a learning rate. The learning rate controls the magnitude of the update, and is a crucial network hyperparameter setting. This process is repeated for a pre-defined number of epochs. \\
+
+\noindent There are a number of different algorithms to optimize this process, and we will briefly describe the ones commonly used in a later section. Usually, the gradient is not evaluated for the whole data set at once, but instead in smaller portions, to make the algorithm much more efficient.
+
+\subsubsection{Backpropagation}
+
+\noindent Backpropagation is an algorithm commonly used to compute the gradients in gradient descent. Often, the term is used to refer to the complete process of repeatedly computing the gradient and updating the weights. Each iteration of computing the gradient involves two steps: forward propagation and backward propagation. The forward propagation is simply the propagation of an input through the network in order to generate an output. In the backward propagation, the loss, or error, between the generated output and the actual output is computed, and this error is propagated backwards to the previous layers. The weights of these layers are adjusted accordingly, as described in the previous section, and the process is repeated until the loss is below a satisfactory threshold.
+
+
+\subsection{Optimization of the Learning Process}
 
 \subsubsection{Stochastic Gradient Descent}
 
@@ -151,26 +171,15 @@ Adaptive learning rate methods are algorithms that automatically adapts the lear
 \noindent Adagrad was the first adaptive learning rate method proposed, and the others are thus extensions to this. Its weakness is that the learning rate decreases and eventually becomes close to zero. Adadelta and RMSprop are methods that try to overcome this, and they are close to identical. Adam adds some form of momentum to the optimization, and might be the best overall choice.
 
 
-\begin{itemize}
-    \item backpropagation
-\end{itemize}
-
-\subsection{Architecture}
-
-\begin{itemize}
-    \item Input and output layers
-    \item Fully-connected layer
-    \item Hidden layers
-    \item Deep models
-    \item Convolutional layer
-    \item Dropout layer
-    \item Pooling
-\end{itemize}
-
 \section{Convolutional Networks}
 
 \textit{More in-depth than covered in the specialization project. \\
 What exactly is the convolutional operation? Convolutional layer (local connections and weight sharing) vs normal layer.}
+
+\begin{itemize}
+    \item Convolutional layer
+    \item Pooling
+\end{itemize}
 
 \section{Residual Networks}
 
