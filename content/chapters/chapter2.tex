@@ -181,7 +181,7 @@ What exactly is the convolutional operation? Convolutional layer (local connecti
     \item Pooling
 \end{itemize}
 
-\section{Residual Networks}
+\section{Transfer Learning}
 
 \section{Face Recognition}
 
@@ -225,11 +225,11 @@ By including the validation values, one could also be able to identify the prese
 
 \subsection{Deconvolution Network}
 
-Modern networks that receive images as inputs are likely to have convolutional layers form the initial part of the network. This part is aimed at detecting certain features in the image, with the complexity of the features rising as the depth of the convolutional part increases. In such cases, we can utilize a visualization technique that employs a deconvolutional network, which can be thought of as a reverse convolutional network \cite{deconv_net}. To obtain a visualization, an image is first fed to the original network to produce activations in its various layers. The activations of the convolutional part can then be processed and fed to the deconvolutional network to create a visualization of the pattern in the input image that was responsible for eliciting the given activations. This pattern can then reveal what a certain part of the original network finds important and what it is looking for in an image.
+Modern networks that receive images as inputs are likely to have convolutional layers form the initial part of the network. This part is aimed at detecting certain features in the image, with the complexity of the features rising as the depth of the convolutional part increases. In such cases, we can utilize a visualization technique that employs a deconvolutional network, which can be thought of as a reverse convolutional network \cite{deconv_net}. To obtain a visualization, an image is first fed to the original network to produce activations in its various layers. The activations of the convolutional part can then be processed and fed to the deconvolutional network to create a visualization of the pattern in the input image that was responsible for eliciting the given activations. This pattern can then reveal what a certain part of the original network finds important and what it is looking for in an image. \\
 
-To build such a deconvolutional network, it is necessary to examine the original network we want to produce visualization for. Only the feature extracting part is of interest, and we can regard this part as a network on its own. The purpose of the deconvolutional network is to map the feature activity present in this convolutional network back to the input pixel space \cite{deconv_vis}. For a convolutional network consisting of convolution and max pooling layers, the corresponding deconvolutional network would consist of transposed convolution and unpooling layers in the opposite order of the original layers. In addition, where a ReLU activation function commonly follow each convolution layer, they would precede transposed convolution layers. In other words, by a top-down examination the convolutional network would enable a bottom-up creation of the deconvolutional network. 
+\noindent To build such a deconvolutional network, it is necessary to examine the original network we want to produce visualization for. Only the feature extracting part is of interest, and we can regard this part as a network on its own. The purpose of the deconvolutional network is to map the feature activity present in this convolutional network back to the input pixel space \cite{deconv_vis}. For a convolutional network consisting of convolution and max pooling layers, the corresponding deconvolutional network would consist of transposed convolution and unpooling layers in the opposite order of the original layers. In addition, where a ReLU activation function commonly follow each convolution layer, they would precede transposed convolution layers. In other words, by a top-down examination the convolutional network would enable a bottom-up creation of the deconvolutional network. \\
 
-A transposed convolution layer (also known as a fractionally strided convolution layer) is used to reverse the convolution layer effects. Where as a convolution layer typically performs downsampling, i.e. it outputs matrices that have dimensions smaller than the ones it receives as input, a transposed convolution typically performs upsampling, i.e. it outputs matrices that have dimensions greater than the ones it receives as input. To achieve this, a transposed convolution swaps the forward and backward passes of a convolution, both of which can be defined by the kernel. Consider a 3x3 kernel used in a normal convolution on a 4x4 matrix. If we unroll the matrix from left to right and top to bottom, the convolution can be represented by the matrix $C$, where \textit{$w_{ij}$} is the element at row \textit{i} and column \textit{j} in the kernel:
+\noindent A transposed convolution layer (also known as a fractionally strided convolution layer) is used to reverse the convolution layer effects. Where as a convolution layer typically performs downsampling, i.e. it outputs matrices that have dimensions smaller than the ones it receives as input, a transposed convolution typically performs upsampling, i.e. it outputs matrices that have dimensions greater than the ones it receives as input. To achieve this, a transposed convolution swaps the forward and backward passes of a convolution, both of which can be defined by the kernel. Consider a 3x3 kernel used in a normal convolution on a 4x4 matrix. If we unroll the matrix from left to right and top to bottom, the convolution can be represented by the matrix $C$, where \textit{$w_{ij}$} is the element at row \textit{i} and column \textit{j} in the kernel:
 
 \[
     C = 
@@ -255,23 +255,37 @@ A transposed convolution layer (also known as a fractionally strided convolution
     \right)
 \]
 
-Multiplying $C$ with the now 16-dimensional vector would produce a 4-dimensional vector, which could be reshaped into the 2x2 matrix we expect from the convolution. The operation is therefore equivalent to a convolution forward pass. To do a convolution backward pass, the transposed version of $C$, $C^T$, would be used. Where a normal convolution uses $C$ and $C^T$ for the forward and backward pass, respectively, the transposed convolution would use $C^T$ and $C$ for the forward and backward pass, respectively. In context of the example, this swap allows the transposed convolution to receive a 4-dimensional vector as input and produce a 16-dimensional vector as output, ELABORATE ON CONNECTIVITY PATTERN AND MENTION $(C^T)^T$ = $C$
 
-while keeping the connectivity pattern for the convolution operation. 
+\\
+\noindent Multiplying $C$ with the now 16-dimensional vector would produce a 4-dimensional vector, which could be reshaped into the 2x2 matrix we expect from the convolution. The operation is therefore equivalent to a convolution forward pass. To do a convolution backward pass, the transposed version of $C$, $C^T$, would be used. This transposed version of the convolution matrix allows the backward pass to receive a 4-dimensional vector as input and produce a 16-dimensional vector as output, which can be reshaped to the original 4x4 size. \\
+
+\noindent In a forward pass, a single entry in the output vector is only affected by a subset of the entries in the input vector and always the same ones. The backward pass has the same connectivity pattern between the entries in the input and output vector, only in the reverse order. These connectivity patterns are compatible since both passes are defined by $C$. In context of the example, the first entry (index 0) of the forward pass output vector would be connected to the input vector entries with index 0-2, 4-6, and 8-10. Subsequently, the backward pass output vector entries with index 0-2, 4-6, and 8-10 would be connected to the first entry in the input vector.\\
+
+\noindent Where a normal convolution uses $C$ and $C^T$ for the forward and backward pass, respectively, the transposed convolution would use $C^T$ and $C$ for the forward and backward pass, respectively. As $(C^T)^T=C$, the transposed convolution is simply a convolution using transposed convolution matrices, hence the name. Because both the passes in transposed convolution are defined by $C$ as well, the connectivity pattern found in normal convolution also holds for transposed convolution. \\
+
+\noindent The fact that a transposed convolution can reverse a convolution downsampling while maintaining a similar connectivity pattern makes them suitable for a deconvolutional network. A convolution layer in the original network would apply their filters to the output of the previous layer (or the image input) and produce feature maps, which are then rectified by the ReLU activation function. In the deconvolutional network, the aim is to map the rectified feature maps back to convolution input, and this is where transposed convolution is used. By using the same filter weights in a transposed convolution layer as in its corresponding convolution layer, the deconvolutional network is able to create a mapping that is specific to the original network. \\
+
+\noindent As previously mentioned, the input to the transposed convolution should first be passed through a ReLU activation function. In a convolution layer, ReLU ensures that the feature maps outputted are strictly positive. For the convolution input reconstruction to be valid, the reconstructed feature maps used as input for the transposed convolution layers must also be strictly positive. Passing the reconstructed feature maps through a ReLU activation function ensures this. \\
+
+\noindent To reverse the effects of the max pooling layers of the original network, the deconvolutional network uses unpooling layers. Pooling, however, is not an invertible operation and the unpooling layers therefore focus on obtaining an approximation of the original max pooling input. The key to the approximation is to use a switch variable for each pooling region. When performing max pooling, these switches record the location of the chosen maximum in each region and pass the information to the unpooling layer. Here, they are used to place the entries in the unpooling input into the appropriate locations in the output. The result is an unpooling output that only has non-zero values in entries that correspond to the maximum entries in the pooling input. This reconstruction of max pooling input preserves the structure of the stimulus. \\
+
+\noindent To utilize a constructed deconvolutional network, first the feature map output from a chosen layer in the original network must be produced. Before the feature maps are fed to the corresponding layer of the deconvolutional network, they must be processed. To visualize what a particular filter is looking for, all entries in the feature maps is set to zero, except the maximum entry in the filter's corresponding feature map. Only the maximum entry is left untouched to create a visualization that is able to convey what pattern in the input image activates that filter strongly. When the processed feature maps are inputted into the deconvolutional network, the layers will successively reconstruct the activity that was responsible for the chosen feature map activation until the input pixel space is reached. 
+
+If visualizations for several filters are desired, the deconvolutional network has to run multiple times, each with feature maps only containing a single non-zero entry. 
+
+This gives you an idea of what activates that feature map really strongly. 
+
+
+By connecting each unpooling layer to its corresponding pooling layer
+
 
 The technique allows for any feature map in any layer of the convolutional network to be chosen for visualization.
 
+interpret feature activity in the intermediate layers of the original network
 
 layer of choice
 
-
-
-
-
-
-Deconvolution layers are also known as transposed convolution or fractionally strided convolution layers. 
-
-If we consider the convolution operation on a 2D matrix
+"A deconvnet can be thought of as a convnet model that uses the same components (filtering, pooling) but in reverse, so instead of mapping pixels to features does the opposite."
 
 
 \textit{Deconvolution involves using a deconvolutional network, which can be thought of as a reverse convolutional network \cite{deconv_net}. The aim of visualizing deconvolution is to map the feature activity present in the intermediate layers back to the input pixel space \cite{deconv_vis}. This enables us to see what the input pattern that caused the activation looks like. To acquire the pattern for a certain activation, we first feed an image into the regular network to get the activations, then set all the the other activations in the relevant layer to zero, and finally feed these feature maps into the appropriate layer in the deconvolutional network.} \\

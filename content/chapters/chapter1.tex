@@ -1,7 +1,7 @@
 %===================================== CHAP 1 =================================
 \chapter{Introduction}
 
-This chapter will introduce the project by providing background information for the problem and research area. It will also explain the motivation behind such a project, and what we hope to contribute to the field. The existing prototype for the project will be described, before composing the motivation and contributions into a set of goals and research questions. Finally, the chapter will describe the research method and the structure of the thesis.
+This chapter will introduce the project by providing background information for the problem and research area. It will also explain the motivation behind such a project, and what we hope to contribute to the field, before composing this into a set of goals and research questions. Finally, the chapter will describe the research method and the structure of the thesis.
 
 \section{Background}
 
@@ -17,11 +17,11 @@ This chapter will introduce the project by providing background information for 
     \item A case study in facial recognition
 \end{enumerate}
 
-\noindent The first part proposes a tool for visualizing data produced during the training of an artificial neural network. This visualization tool is implemented in the form of a web interface where users can upload and run their Python scripts for creating and training such networks. The tool will use established visualization techniques to generate visualizations for the user to help them make sense of how their networks behave in various situations. \\
+\noindent The first part proposes a tool for visualizing data produced during the training of an artificial neural network. This visualization tool should be implemented in the form of a web interface where users can upload and run their Python scripts for creating and training such networks. The tool should use established visualization techniques to generate visualizations for the user in order to help them make sense of how their networks behave in various situations. \\
 
-\noindent A prototype of this interface has been implemented as part of the/our Specialization Project, and will act as a basis as we continue the development. A more thorough description of the prototype, as well as a detailed overview of what to implement for this thesis, will be presented in later sections of this chapter. \\
+\noindent A prototype of this interface has been implemented as part of our Specialization Project, and will act as a basis as we continue the development. A more thorough description of the prototype, as well as a detailed overview of what to implement for this thesis, will be presented in the implementation chapter. \\
 
-\noindent The case study in the second part will act as an example of how to utilize the implemented visualization tool when working with artificial neural networks. In this part, the purpose will be to explore whether it is possible to exploit facial expression data in order to improve an artificial neural networks for face recognition. We theorize that a network with access to facial expression data could learn the alterations of features associated with various expressions, and apply this to recognize faces which differ in the corresponding features. We intend to create three different networks, where one is using a standard implementation, and functions as a benchmark for the other two, which will be experimental.
+\noindent The case study in the second part will act as an example of how to utilize the implemented visualization tool when working with artificial neural networks. In this part, the purpose will be to explore whether it is possible to exploit facial expression data in order to improve an artificial neural networks for face recognition. We theorize that a network with access to facial expression data could learn the alterations of features associated with various expressions, and apply this to recognize faces which differ in the corresponding features. We intent to create different networks, where one is using a standard implementation, and functions as a benchmark for the other two, which will be experimental.
 
 \begin{itemize}
     \item Not sure if/how we should mention here that it is a continuation of the specialization project. Can also mention this in the preface if we choose to have one.
@@ -43,20 +43,6 @@ This chapter will introduce the project by providing background information for 
 
 \noindent Our contributions to the field will be a new computer-based product as well as a new method for facial recognition. The product is the visualization tool, that can help researchers gain a better understanding of why their artificial neural networks act the way they do. The tool should be easily extensible, in regard to adding new visualization techniques and customizing the tool to a completely different programming language or machine learning framework. The new method is the exploitation of facial expressions in face recognition systems. We propose an original method that currently can not not be found in any previous research.
 
-\section{Prototype}
-
-This section will describe the prototype of the web interface to be improved as well as some pointers on what should be implemented in the next version.
-
-\subsection{Description}
-
-\noindent The prototype provides all the basic user functionality for creating a user, and logging in and out, including validation of user name and password. A user can upload Python scripts from their computer to the server, and tag them with various topics to make them easier to search for, using the search bar on the page showing all uploaded scripts. \\
-
-\noindent By selecting a specific script, the user can view the code, add tags to, delete, and of course run, the script. A separate menu tab for visualizations provides the user with visualizations of the data produced while running. The only visualization techniques implemented are the training progress and layer activations laid out after each other on a single page. The training progress includes two separate plots showing accuracy and loss over batch, while the layer activations are shown for each single layer of the network defined in the script.
-
-\subsection{Further Work}
-
-The overall purpose will be to add more functionality with the goal of improving the user's understanding of the network. This may be new visualization techniques, training process statistics, better presentations of data, and more user controls. Another useful addition can be allowing the user more flexibility and make the visualizations more interactive.
-
 \section{Goals and Research Questions}
 
 \textit{Perhaps we should create some goals/requirements for the visualization tool. \\
@@ -64,18 +50,7 @@ We need to change the existing research questions for the case study since we do
 
 \noindent This thesis will aim to answer two research questions: \\
 \noindent\textbf{RQ1:} Is it possible to develop a tool to help users gain a better understanding of an artificial neural network? \\
-\noindent\textbf{RQ2:} How can facial expression data be utilized to improve a face recognition system? \\
-
-\noindent The first question will be answered based on our own experiences while trying to answer the second question. \\
-
-\noindent For the case study, we plan to consider three different approaches for facial recognition. The first will be used as a baseline, to measure the performance of the two others against. Following is a description of the three proposed networks:
-\begin{enumerate}
-    \item No utilization of expression data
-    \item A network which receives the facial expression of the subject in the input image
-    \item A network which outputs both the recognition result and a facial expression suggestion, without any extra input
-\end{enumerate}
-
-\noindent By implementing these three networks and comparing the results, we hope to be able to answer our second research question.
+\noindent\textbf{RQ2:} How can facial expression data be utilized to improve a face recognition system?
 
 \section{Research Method}
 
@@ -83,13 +58,13 @@ We need to change the existing research questions for the case study since we do
 
 \subsection{Research Strategy}
 
-\noindent Oates (REFERENCE) proposed six different strategies for answering research questions. In our case, two of these approaches will be employed, namely design and creation for developing the visualization tool, and experiments for the case study in facial recognition. \\
+\noindent Oates proposed six different strategies for answering research questions. In our case, two of these approaches will be employed, namely design and creation for developing the visualization tool, and experiments for the case study in facial recognition. \\
 
 \noindent The visualization tool will be developed by following an iterative process of defining the problem, suggesting a solution, implementing and evaluating the proposed solution, and finally document the results in a conclusion. The more specific system development method will be further addressed in chapter 3. The role of the visualization tool can be viewed as being a vehicle for the case study. Although the tool itself can be of great use to others, it needs to contribute to knowledge in some way in order for it to be considered as research. The case study is a scenario where we apply our proposed application to an actual problem and examine what happens. This will allow us do demonstrate the academic qualities of our implemented tool, in addition to the technical skills. \\
 
 \noindent Even though a goal of the case study is to see how the tool can help in the process of creating artificial neural networks, another part is the actual outcome of the case study. We want to investigate if adding expression data to a network will improve its performance, and find the best method for doing this. This will be done by conducting experiments. \\
 
-\noindent The experimental process will be to (1) observe the results of the baseline network; (2) make changes to the network; (3) re-observe the results of the new network. Step 2 and 3 will be repeated for each of our proposed networks as well as adjustments to a specific network. The performance of a network is measured by its verification accuracy. By comparing the performance of the different approaches, we should be able to discover which network, and thus method, is preferred. \\
+\noindent The experimental process will be to (1) observe the results of the baseline network; (2) make changes to the network; (3) re-observe the results of the new network. Step 2 and 3 will be repeated for each of our proposed networks as well as adjustments to a specific network. The performance of a network is measured by its verification accuracy. By comparing the performance of the different approaches, we should be able to discover which network, and thus method, is preferred.
 
 \subsection{Data Generation Methods}
 
@@ -108,11 +83,12 @@ Both quantitative and qualitative data analysis will be performed on the results
 \textbf{Chapter/Appendix} & \textbf{Description} \\ \hline
 1. Introduction & Gives the reader an overview of the project and the thesis. \\ \hline
 2. Background Theory & Provides the theory relevant for the project. \\ \hline
-3. Implementation & Describes the web interface in terms of architecture and technologies used. \\ \hline
-4. Case Study & Describes the case study. \\ \hline
+3. Related Work & ... \\ \hline
+4. Implementation & Describes the web interface in terms of architecture and technologies used. \\ \hline
 5. Results & Presents the results from the case study. \\ \hline
 6. Discussion & Discussion of the results from the case study as well as the use of the web interface. \\ \hline
 7. Conclusion & Provides a short conclusion and some pointers on future work. \\ \hline
+8. Future Work & ... \\ \hline
 A. Installation & A step by step wizard for how to install and setup the interface. \\ \hline
 B. User Manual & How to use the web interface. \\ \hline
 C. API & Provides an overview of the API and explanation of the callbacks available. \\ \hline

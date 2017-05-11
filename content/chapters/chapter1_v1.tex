@@ -1,0 +1,116 @@
+%===================================== CHAP 1 =================================
+\chapter{Introduction}
+
+This chapter will introduce the project by providing background information for the problem and research area. It will also explain the motivation behind such a project, and what we hope to contribute to the field. The existing prototype for the project will be described, before composing the motivation and contributions into a set of goals and research questions. Finally, the chapter will describe the research method and the structure of the thesis.
+
+\section{Background}
+
+\textit{Maybe start with an overall general introduction to the problem, i.e. that it is in the field of artificial neural networks and how they behave, specifically images.}
+
+\noindent The problem to be solved in this thesis can be divided into two parts:
+\begin{enumerate}
+    \item A web interface for deep learning
+    \item A case study in facial recognition
+\end{enumerate}
+
+\noindent The first part proposes a tool for visualizing data produced during the training of an artificial neural network. This visualization tool is implemented in the form of a web interface where users can upload and run their Python scripts for creating and training such networks. The tool will use established visualization techniques to generate visualizations for the user to help them make sense of how their networks behave in various situations. \\
+
+\noindent A prototype of this interface has been implemented as part of the/our Specialization Project, and will act as a basis as we continue the development. A more thorough description of the prototype, as well as a detailed overview of what to implement for this thesis, will be presented in later sections of this chapter. \\
+
+\noindent The case study in the second part will act as an example of how to utilize the implemented visualization tool when working with artificial neural networks. In this part, the purpose will be to explore whether it is possible to exploit facial expression data in order to improve an artificial neural networks for face recognition. We theorize that a network with access to facial expression data could learn the alterations of features associated with various expressions, and apply this to recognize faces which differ in the corresponding features. We intend to create three different networks, where one is using a standard implementation, and functions as a benchmark for the other two, which will be experimental.
+
+\section{Visualization Tool}
+
+\subsection{Motivation}
+
+\textit{State why such a visualization tool (and web interface) is needed.}
+
+\noindent\textbf{RQ1:} Is it possible to develop a tool to help users gain a better understanding of an artificial neural network?
+
+\section{Contributions}
+
+\textit{List your contributions in a summary/short way. Purpose is to make the thesis easier to read. Should be repeated towards the end, e.g. conclusion.} \\
+
+\noindent Our contributions to the field will be a new computer-based product. The product is the visualization tool, that can help researchers gain a better understanding of why their artificial neural networks act the way they do. The tool should be easily extensible, in regard to adding new visualization techniques and customizing the tool to a completely different programming language or machine learning framework.
+
+\section{Prototype}
+
+This section will describe the prototype of the web interface to be improved as well as some pointers on what should be implemented in the next version.
+
+\subsection{Description}
+
+\noindent The prototype provides all the basic user functionality for creating a user, and logging in and out, including validation of user name and password. A user can upload Python scripts from their computer to the server, and tag them with various topics to make them easier to search for, using the search bar on the page showing all uploaded scripts. \\
+
+\noindent By selecting a specific script, the user can view the code, add tags to, delete, and of course run, the script. A separate menu tab for visualizations provides the user with visualizations of the data produced while running. The only visualization techniques implemented are the training progress and layer activations laid out after each other on a single page. The training progress includes two separate plots showing accuracy and loss over batch, while the layer activations are shown for each single layer of the network defined in the script.
+
+\subsection{Further Work}
+
+The overall purpose will be to add more functionality with the goal of improving the user's understanding of the network. This may be new visualization techniques, training process statistics, better presentations of data, and more user controls. Another useful addition can be allowing the user more flexibility and make the visualizations more interactive.
+
+\subsection{Research Strategy}
+
+\noindent Oates (REFERENCE) proposed six different strategies for answering research questions. In our case, design and creation will be employed for developing the visualization tool. \\
+
+\noindent The visualization tool will be developed by following an iterative process of defining the problem, suggesting a solution, implementing and evaluating the proposed solution, and finally document the results in a conclusion. The more specific system development method will be further addressed in chapter 3. The role of the visualization tool can be viewed as being a vehicle for the case study. Although the tool itself can be of great use to others, it needs to contribute to knowledge in some way in order for it to be considered as research. The case study is a scenario where we apply our proposed application to an actual problem and examine what happens. This will allow us do demonstrate the academic qualities of our implemented tool, in addition to the technical skills.
+
+\subsection{Data Generation Methods}
+
+The data that will be used in this project will be mainly qualitative data in the form of documents. For the design and creation phase, existing documents will be used to gain a better understanding of the context in which the tool will be used, namely the process of creating and training artificial neural networks. In addition, researcher-generated documents like architectural diagrams and user manuals will help to document the design and creation strategy.
+
+\subsection{Data Analysis}
+
+Both quantitative and qualitative data analysis will be performed on the results. A part of the results are performance measures of a network, for example its verification accuracy. These measures will naturally be examined using quantitative approaches. However, another part of the results are the actual visualizations produced. To interpret these visualizations, qualitative analysis needs to be applied in order to identify connections between the visualizations and the behaviour of the networks.
+
+\section{Case Study in Face Recognition}
+
+\subsection{Motivation}
+
+\textit{Something about face recognition and the importance of it, can reuse a lot from the project.}
+
+\noindent\textbf{RQ2:} How can facial expression data be utilized to improve a face recognition system? \\
+
+\section{Contributions}
+
+\noindent Our contributions to the field will be a new method for facial recognition. The new method is the exploitation of facial expressions in face recognition systems. We propose an original method that currently can not not be found in any previous research.
+
+\subsection{Research Strategy}
+
+\noindent Oates (REFERENCE) proposed six different strategies for answering research questions. Experiments will be employed for the case study in facial recognition. \\
+
+\noindent The visualization tool will be developed by following an iterative process of defining the problem, suggesting a solution, implementing and evaluating the proposed solution, and finally document the results in a conclusion. The more specific system development method will be further addressed in chapter 3. The role of the visualization tool can be viewed as being a vehicle for the case study. Although the tool itself can be of great use to others, it needs to contribute to knowledge in some way in order for it to be considered as research. The case study is a scenario where we apply our proposed application to an actual problem and examine what happens. This will allow us do demonstrate the academic qualities of our implemented tool, in addition to the technical skills. \\
+
+\noindent Even though a goal of the case study is to see how the tool can help in the process of creating artificial neural networks, another part is the actual outcome of the case study. We want to investigate if adding expression data to a network will improve its performance, and find the best method for doing this. This will be done by conducting experiments. \\
+
+\noindent The experimental process will be to (1) observe the results of the baseline network; (2) make changes to the network; (3) re-observe the results of the new network. Step 2 and 3 will be repeated for each of our proposed networks as well as adjustments to a specific network. The performance of a network is measured by its verification accuracy. By comparing the performance of the different approaches, we should be able to discover which network, and thus method, is preferred. \\
+
+\subsection{Data Generation Methods}
+
+The data that will be used in this project will be mainly qualitative data in the form of documents. For the design and creation phase, existing documents will be used to gain a better understanding of the context in which the tool will be used, namely the process of creating and training artificial neural networks. In addition, researcher-generated documents like architectural diagrams and user manuals will help to document the design and creation strategy. Documents will also be used in the case study, here in the form of existing multimedia documents. There exists many publicly available datasets created solely for the purpose of face recognition research, consisting of images of people with different facial expressions, photographed under various conditions. These will be used to both train the networks and to validate the performance afterwards.
+
+\subsection{Data Analysis}
+
+Both quantitative and qualitative data analysis will be performed on the results. A part of the results are performance measures of a network, for example its verification accuracy. These measures will naturally be examined using quantitative approaches. However, another part of the results are the actual visualizations produced. To interpret these visualizations, qualitative analysis needs to be applied in order to identify connections between the visualizations and the behaviour of the networks.
+
+\section{Thesis Structure}
+
+\begin{table}[!h]
+\begin{center}
+\begin{tabular}{ | l | p{8cm} |}
+\hline
+\textbf{Chapter/Appendix} & \textbf{Description} \\ \hline
+1. Introduction & Gives the reader an overview of the project and the thesis. \\ \hline
+2. Background Theory & Provides the theory relevant for the project. \\ \hline
+3. Implementation & Describes the web interface in terms of architecture and technologies used. \\ \hline
+4. Case Study & Describes the case study. \\ \hline
+5. Results & Presents the results from the case study. \\ \hline
+6. Discussion & Discussion of the results from the case study as well as the use of the web interface. \\ \hline
+7. Conclusion & Provides a short conclusion and some pointers on future work. \\ \hline
+A. Installation & A step by step wizard for how to install and setup the interface. \\ \hline
+B. User Manual & How to use the web interface. \\ \hline
+C. API & Provides an overview of the API and explanation of the callbacks available. \\ \hline
+\end{tabular}
+\end{center}
+\caption{Overview of the thesis structure}
+\label{Tab1}
+\end{table}
+
