@@ -8,7 +8,7 @@
 
 \subsection{Biological Background}
 
-The idea of an Artifical Neural Network (ANN) is that it can approximate any continuous function, and that it has the possibility of learning. ANNs are inspired by the structure and behavior of a biological brain and its ability to learn, but they are generally not intended to be realistic models. A neural network consists of interconnected nodes referred to as units. These correspond to a biological neuron, the basic computational unit of the brain, structured as illustrated in \textbf{Fig. \ref{fig1}}. The connections between the units in an  corresponds to a biological neuron's dendrites, which provide input signals, and its single axon, which produces output signals and is connected to other neurons. \\
+The idea of an Artifical Neural Network (ANN) is that it can approximate any continuous function, and that it has the possibility of learning. ANNs are inspired by the structure and behavior of a biological brain and its ability to learn, but they are generally not intended to be realistic models. A neural network consists of interconnected nodes referred to as units. These correspond to a biological neuron, the basic computational unit of the brain, structured as illustrated in \textbf{Fig. \ref{fig1}}. The connections between the units corresponds to a biological neuron's dendrites, which provide input signals, and its single axon, which produces output signals and is connected to other neurons. \\
 
 \begin{figure}
     \begin{minipage}{0.5\textwidth}
@@ -25,11 +25,19 @@ The idea of an Artifical Neural Network (ANN) is that it can approximate any con
     \end{minipage}
 \end{figure}
 
-\noindent To simulate these signals, an ANN uses a mathematical model as illustrated in \textbf{Fig. \ref{fig2}}, where the signal is multiplied by the weight of a connection. The weight of a specific connection control how much the unit on one end influences the unit on the other end. The sum of all input signals are computed at the cell body of the unit. If this sum is above a certain threshold, the unit fires an output signal determined by its activation function by performing a specific mathematical operation on the sum. \\
+\noindent To simulate these signals, an ANN uses a mathematical model as illustrated in \textbf{Fig. \ref{fig2}}, where the signal is multiplied by the weight of a connection. The weight of a specific connection control how much the unit on one end influences the unit on the other end. The sum of all input signals are computed at the cell body of the unit. If this sum is above a certain threshold, the unit fires an output signal determined by its activation function by performing a specific mathematical operation on the sum.
+
+\subsection{The Multi-Layer Perceptron}
+
+\noindent The simplest form of an ANN is the single layer perceptron, which consists of only one layer of output nodes. This network can only learn linearly separable patterns. To allow for learning complex patterns, more layers need to be added, and we obtain the multi-layer perceptron (MLP). As layers are added, the depth of the network increases. This is why we refer to the the use of MLPs as "deep learning". \\
+
+\noindent There are several different classes and types of ANNs. We will focus on the standard feed-forward neural network, and thus we will use the term ANN when referring to such a network. In this kind of network, all connections are directed from one layer to the next layer, and there are no cycles or connections between units in the same layer. \\
+
+\noindent The first layer of an ANN is called the input layer. Similarly, the last layer is called the output layer. All layers in between are referred to as hidden layers, and are usually fully connected layers. This means that every node in a layer is connected to every node in the following layer. A hidden layer can also be a convolutional layer, or a pooling layer, but these cases will be covered in the section on convolutional networks.
 
 \subsection{Activation Functions}
 
-\noindent There are a great variety of activation functions in use, but we will only briefly describe those most commonly used and thus considered in our implementation. The mathematical function of these are plotted in \textbf{Fig. \ref{activationfuncs}}. For further details we refer the reader to the Stanford CS class on convolutional neural networks\cite{cs231n_part1}. The common behaviour of all activation functions is that they define the output of a unit given a set of inputs. \\
+\noindent The common behaviour of all activation functions is that they define the output of a unit given a set of inputs. There are a great variety of activation functions in use, but we will only describe those most commonly used and thus considered in our implementation. The mathematical function of three of these are plotted in \textbf{Fig. \ref{activationfuncs}}. For further details we refer the reader to the Stanford CS class on convolutional neural networks\cite{cs231n_part1}. \\
 \begin{figure}[H]
     \begin{minipage}{0.3\textwidth}
         \begin{tikzpicture}
@@ -88,7 +96,11 @@ The idea of an Artifical Neural Network (ANN) is that it can approximate any con
 
 \subsubsection{Sigmoid}
 
-The sigmoid activation function is mathematically defined as $\sigma(x) = 1/(1 + e^{-x})$. The function takes a number as input, and outputs a number within a continuous range from 0 to 1. The sigmoid function has previously been used a lot, but because of its drawbacks, other activations functions tend to be preferred nowadays. The first drawback is that the outputs are not centered around zero, which can cause the network to display undesirable behaviour. A bigger drawback is that the activation saturates, meaning that the unit outputs mostly 0 and 1 instead of anything in between, and thus the gradient at these regions is very low. If the gradient falls to zero, the network will stop learning.
+The sigmoid activation function is mathematically defined as $\sigma(x) = 1/(1 + e^{-x})$. The function takes a number as input, and outputs a number within a continuous range from 0 to 1. It is commonly used as the activation function for the output node of a binary classification problem. Apart from this, the other activations functions tend to be preferred to the sigmoid function because of its drawbacks. The first drawback is that the outputs are not centered around zero, which can cause the network to display undesirable behaviour. A bigger drawback is that the activation saturates, meaning that the unit outputs mostly 0 and 1 instead of anything in between, and thus the gradient at these regions is very low. If the gradient falls to zero, the network will stop learning.
+
+\subsubsection{Softmax}
+
+The softmax activation function is a variant of the sigmoid function in that instead of being used in binary classification, it is used for the output nodes of a multiclass classification problem, where the goal is to classify instances into one of more than two classes. The mathematical equation for the softmax function is $f(x) = e^x/\sum_{j=0}^k e^{x_j}$. It calculates the probability distribution of each target class over all possible target class. A convenient result of this is that the sum of all probabilities will be equal to one. Note that the softmax function is not used in middle nodes, but only as the activation function of output nodes.
 
 \subsubsection{Tanh}
 
@@ -98,44 +110,17 @@ The tanh activation function is a scaled version of the sigmoid function. Its ma
 
 The Rectified Linear Unit (ReLU) activation has the mathematical function $f(x) = max(0,x)$. This means that it is very close to linear; thresholding the input at zero, but keeping any value above. It has become very popular, and is in general the activation function of choice. It is non-saturating, and has been found to speed up the convergence of the learning. The computation of the function is also very inexpensive compared to the sigmoid and tanh function. The only problem with the ReLU function is the possibility of "dead" units, meaning that they will never activate. Generally, adjusting the learning parameters can prevent this, but there have also been several attempts to fix this issue, for instance using so called PReLU or Maxout units.
 
-
-\subsection{Architecture of a Network}
-
-\subsubsection{Multi-Layer Perceptron}
-
-\noindent The simplest form of an ANN is the single layer perceptron, which consists of only one layer of output nodes. This network can only learn linearly separable patterns. To allow for learning complex patterns, more layers need to be added. As layers are added, the depth of the network increases. This is why we refer to the the use of multi-layer perceptrons as "deep learning". There are several different classes and types of ANNs. We will only describe the feed-forward neural network, which is the original version, and thus we will use the term ANN when referring to such a network. In this kind of network, all connections are directed from one layer to the next layer, and there are no cycles or connections between units in the same layer. A network with cycles is called a recurrent neural network.
-
-\subsubsection{The Multi-Layer Perceptron}
-
-The simplest form of an ANN is the single-layer perceptron, which consists of only one layer of output nodes. This network can only learn linearly separable patterns. To allow for learning complex patterns, more layers need to be added. There are several different kinds of multi-layer 
-
-
-When adding more layers, we obtain a multi-layer perceptron (MLP). 
-
-
-\subsubsection{Deep Learning}
-
-As layers are added, the depth of the network increases. This is why we refer to the use of MLPs as "deep learning". 
-
-\begin{itemize}
-    \item Input and output layers
-    \item Fully-connected layer
-    \item Hidden layers
-    \item Dropout layer
-\end{itemize}
-
-
 \subsection{Training a Network}
 
-The weights of a model can be learned by training the model on a set of input and output values, a task which is called supervised learning. There are also other kinds of learning, but we will not cover these. The learning process runs for a number of epochs, meaning the number of times the learning algorithm will see the entire data set. Often, the data is split into so-called batches when passed to the algorithm. The batch size is thus the number of training examples in a batch.
+The weights of a model can be learned by training the model on a set of input and output values, a task which is called supervised learning. There are also other kinds of learning, but we will not cover these. The learning process runs for a number of epochs, meaning the number of times the learning algorithm will see the entire data set. Often, the data is split into so-called batches when passed to the algorithm. The number of training examples in a batch is referred to as the batch size.
 
 \subsubsection{Loss Function}
 
-\noindent The goal of an ANN is to find a function that solves a certain problem, more specifically that finds an optimal solution to the problem. The definition of this optimal solution is that given a loss function, there are no other solution with less of a loss. The loss function is in that sense a measure of how far away a solution is from an optimal solution. The goal of the learning process is thus to find a function with the smallest possible loss. The weights of a model can be learned by training the model on a set of input and output values, a task which is called supervised learning. There are also other kinds of learning, but we will not cover these. In supervised learning, the goal is to find the function that best maps the input to the output. The loss will then be the mismatch between such a mapping and the example data. \\ 
+\noindent The goal of an ANN is to find a function that solves a certain problem, more specifically that finds an optimal solution to the problem. The definition of this optimal solution is that given a loss function, there are no other solution with less of a loss. The loss function is in that sense a measure of how far away a solution is from an optimal solution. The goal of the learning process is thus to find a function with the smallest possible loss. The weights of a model can be learned by training the model on a set of input and output values, a task which is called supervised learning. There are also other kinds of learning, but we will not cover these. In supervised learning, the goal is to find the function that best maps the input to the output. The loss will then be the mismatch between such a mapping and the example data.
 
-\subsubsection{Gradient Descent}
+\subsubsection{Vanilla Gradient Descent and Backpropagation}
 
-\noindent To optimize the loss, we can use an algorithm called gradient descent, which minimizes any function iteratively. The process is a repeated loop of evaluating the gradient of the loss function, and then updating the weights based on this gradient. The simplest form of this algorithm, also called its vanilla version, looks something like this:
+\noindent To optimize the loss, we can use an algorithm called gradient descent, which minimizes any function iteratively. The process is a repeated loop of evaluating the gradient, and then updating the weights based on this gradient. The simplest form of this algorithm, also called its vanilla version, looks something like this:
 
 \begin{lstlisting}
     for i in range(epochs):
@@ -143,33 +128,23 @@ The weights of a model can be learned by training the model on a set of input an
         weights += - learning rate * weights_grad
 \end{lstlisting}
 
-\noindent First, the algorithm evaluates the gradient of the loss function for the whole data set with respect to the current weights. Then it updates the weights based on the evaluated gradient and a learning rate. The learning rate controls the magnitude of the update, and is a crucial network hyperparameter setting. This process is repeated for a pre-defined number of epochs. \\
-
-\noindent There are a number of different algorithms to optimize this process, and we will briefly describe the ones commonly used in a later section. Usually, the gradient is not evaluated for the whole data set at once, but instead in smaller portions, to make the algorithm much more efficient.
-
-\subsubsection{Backpropagation}
-
-\noindent Backpropagation is an algorithm commonly used to compute the gradients in gradient descent. Often, the term is used to refer to the complete process of repeatedly computing the gradient and updating the weights. Each iteration of computing the gradient involves two steps: forward propagation and backward propagation. The forward propagation is simply the propagation of an input through the network in order to generate an output. In the backward propagation, the loss, or error, between the generated output and the actual output is computed, and this error is propagated backwards to the previous layers. The weights of these layers are adjusted accordingly, as described in the previous section, and the process is repeated until the loss is below a satisfactory threshold.
-
-
-\subsection{Optimization of the Learning Process}
+\noindent First, the algorithm evaluates the gradient of the loss function for the whole data set with respect to the current weights. This is done using an algorithm called backpropagation. Often, the term is used to refer to the complete process of repeatedly computing the gradient and updating the weights. Each iteration of computing the gradient involves two steps: forward propagation and backward propagation. The forward propagation is simply the propagation of an input through the network in order to generate an output. In the backward propagation, the loss, or error, between the generated output and the actual output is computed, and this error is propagated backwards to the previous layers. The error values are then used to calculate the gradient. The next step of gradient descent is to adjust the weights, based on the evaluated gradient and a learning rate. The learning rate controls the magnitude of the update, and is a crucial network hyperparameter setting. This process is repeated for a pre-defined number of epochs.
 
 \subsubsection{Stochastic Gradient Descent}
 
-The vanilla version of gradient descent is also called batch gradient descent. A batch of data is a portion of the training data, in this case the entire training data set. The gradient is computed over such a batch, which is very slow and expensive in terms of memory. \\
+The vanilla version of gradient descent is also called batch gradient descent. A batch of data is a portion of the training data, in this case the entire training data set. The gradient is computed over such a batch, which is very slow and expensive in terms of memory. There are a number of different ways to optimize gradient descent by extending its vanilla version. Stochastic gradient descent (SGD) is one of these methods. In this case, the gradient is computed over mini-batches consisting of only one training pair. This is a special case of the more general mini-batch gradient descent, which computes the gradient over batches of the training data, instead of the entire set. SGD refers to both mini-batch gradient descent, as well as the special case of stochastic gradient descent. Usually it is more efficient to compute the gradient over a number of examples instead of only one. Even though SGD is much more efficient than the vanilla version, it also has its drawbacks, and therefore a number of algorithms intended to improve this has been developed.
 
-\noindent Stochastic gradient descent (SGD) improves the vanilla version. In this case, the gradient is computed over mini-batches consisting of only one training pair. This is a special case of the more general mini-batch gradient descent, which computes the gradient over batches of the training data, instead of the entire set. SGD refers to both mini-batch gradient descent, as well as the special case of stochastic gradient descent. Usually it is more efficient to compute the gradient over a number of examples instead of only one. Even though SGD is much more efficient than the vanilla version, it also has its drawbacks, and therefore a number of algorithms intended to improve this has been developed.
-
-\subsubsection{Momentum}
+\subsubsection{Adding Momentum}
 
 One way to improve SGD is to add momentum. SGD can get stuck in local optima, and adding momentum can help accelerating in the right direction. A further improvement is the Nesterov momentum, which adds some notion of where SGD is heading by approximating the next position.
 
 \subsubsection{Adaptive Learning Rate Methods}
 
-Adaptive learning rate methods are algorithms that automatically adapts the learning rate to the parameters. They are quite similar, and perform thereafter. In general, SGD often finds a minimum, but these methods can help to achieve faster convergence, and you do not have to tune the learning rate. The algorithms are usually implemented with a good default starting value. \\
+Adaptive learning rate methods are algorithms that automatically adapts the learning rate to the parameters. They are quite similar, and perform thereafter. In general, SGD often finds a minimum, but these methods can help to achieve faster convergence, and you do not have to tune the learning rate. The algorithms are usually implemented with a good default starting value. Adagrad was the first adaptive learning rate method proposed, and the others are thus extensions to this. Its weakness is that the learning rate decreases and eventually becomes close to zero. Adadelta and RMSprop are methods that try to overcome this, and they are close to identical. Adam adds some form of momentum to the optimization, and therefore might be the best overall choice.
 
-\noindent Adagrad was the first adaptive learning rate method proposed, and the others are thus extensions to this. Its weakness is that the learning rate decreases and eventually becomes close to zero. Adadelta and RMSprop are methods that try to overcome this, and they are close to identical. Adam adds some form of momentum to the optimization, and might be the best overall choice.
+\subsubsection{Regularization}
 
+Dropout, L2 regularization, etc.
 
 \section{Convolutional Networks}
 
@@ -180,16 +155,6 @@ What exactly is the convolutional operation? Convolutional layer (local connecti
     \item Convolutional layer
     \item Pooling
 \end{itemize}
-
-\section{Transfer Learning}
-
-\section{Face Recognition}
-
-\textit{Can probably use a lot from the specialization project here.}
-
-\section{Facial Expression}
-
-\textit{Here as well.}
 
 \section{Visualization}
 \textit{Describe all the different techniques, perhaps in more detail. \\
@@ -225,7 +190,7 @@ By including the validation values, one could also be able to identify the prese
 
 \subsection{Deconvolution Network}
 
-Modern networks that receive images as inputs are likely to have convolutional layers form the initial part of the network. This part is aimed at detecting certain features in the image, with the complexity of the features rising as the depth of the convolutional part increases. In such cases, we can utilize a visualization technique that employs a deconvolutional network, which can be thought of as a reverse convolutional network \cite{deconv_net}. To obtain a visualization, an image is first fed to the original network to produce activations in its various layers. The activations of the convolutional part can then be processed and fed to the deconvolutional network to create a visualization of the pattern in the input image that was responsible for eliciting the given activations. This pattern can then reveal what a certain part of the original network finds important and what it is looking for in an image. \\
+Modern networks that receive images as inputs are likely to have convolutional layers form the initial part of the network. This part is aimed at detecting certain features in the image, with the complexity of the features rising as the depth of the convolutional part increases. In such cases, we can utilize a visualization technique that employs a deconvolutional network, which can be thought of as a reverse convolutional network \cite{deconv_net}. The visualizations are used to interpret the feature activity in the intermediate layers of the original network. To obtain a visualization, an image is first fed to the original network to produce activations in its various layers. The activations of the convolutional part can then be processed and fed to the deconvolutional network to create a visualization of the pattern in the input image that was responsible for eliciting the given activations. This pattern can then reveal what a certain part of the original network finds important and what it is looking for in an image. \\
 
 \noindent To build such a deconvolutional network, it is necessary to examine the original network we want to produce visualization for. Only the feature extracting part is of interest, and we can regard this part as a network on its own. The purpose of the deconvolutional network is to map the feature activity present in this convolutional network back to the input pixel space \cite{deconv_vis}. For a convolutional network consisting of convolution and max pooling layers, the corresponding deconvolutional network would consist of transposed convolution and unpooling layers in the opposite order of the original layers. In addition, where a ReLU activation function commonly follow each convolution layer, they would precede transposed convolution layers. In other words, by a top-down examination the convolutional network would enable a bottom-up creation of the deconvolutional network. \\
 
@@ -255,8 +220,6 @@ Modern networks that receive images as inputs are likely to have convolutional l
     \right)
 \]
 
-
-\\
 \noindent Multiplying $C$ with the now 16-dimensional vector would produce a 4-dimensional vector, which could be reshaped into the 2x2 matrix we expect from the convolution. The operation is therefore equivalent to a convolution forward pass. To do a convolution backward pass, the transposed version of $C$, $C^T$, would be used. This transposed version of the convolution matrix allows the backward pass to receive a 4-dimensional vector as input and produce a 16-dimensional vector as output, which can be reshaped to the original 4x4 size. \\
 
 \noindent In a forward pass, a single entry in the output vector is only affected by a subset of the entries in the input vector and always the same ones. The backward pass has the same connectivity pattern between the entries in the input and output vector, only in the reverse order. These connectivity patterns are compatible since both passes are defined by $C$. In context of the example, the first entry (index 0) of the forward pass output vector would be connected to the input vector entries with index 0-2, 4-6, and 8-10. Subsequently, the backward pass output vector entries with index 0-2, 4-6, and 8-10 would be connected to the first entry in the input vector.\\
@@ -267,39 +230,52 @@ Modern networks that receive images as inputs are likely to have convolutional l
 
 \noindent As previously mentioned, the input to the transposed convolution should first be passed through a ReLU activation function. In a convolution layer, ReLU ensures that the feature maps outputted are strictly positive. For the convolution input reconstruction to be valid, the reconstructed feature maps used as input for the transposed convolution layers must also be strictly positive. Passing the reconstructed feature maps through a ReLU activation function ensures this. \\
 
-\noindent To reverse the effects of the max pooling layers of the original network, the deconvolutional network uses unpooling layers. Pooling, however, is not an invertible operation and the unpooling layers therefore focus on obtaining an approximation of the original max pooling input. The key to the approximation is to use a switch variable for each pooling region. When performing max pooling, these switches record the location of the chosen maximum in each region and pass the information to the unpooling layer. Here, they are used to place the entries in the unpooling input into the appropriate locations in the output. The result is an unpooling output that only has non-zero values in entries that correspond to the maximum entries in the pooling input. This reconstruction of max pooling input preserves the structure of the stimulus. \\
+\noindent To reverse the effects of the max pooling layers of the original network, the deconvolutional network uses unpooling layers. Pooling, however, is not an invertible operation and the unpooling layers therefore focus on obtaining an approximation of the original max pooling input. The key to the approximation is to use a switch variable for each pooling region. When performing max pooling, these switches record the location of the chosen maximum in each region and pass the information to the unpooling layer. Here, they are used to place the entries in the unpooling input into the appropriate locations in the output. The result is an unpooling output that only has non-zero values in entries that correspond to the maximum entries in the pooling input. This reconstruction approach preserves the structure of how max pooling processes stimulus. \\
 
-\noindent To utilize a constructed deconvolutional network, first the feature map output from a chosen layer in the original network must be produced. Before the feature maps are fed to the corresponding layer of the deconvolutional network, they must be processed. To visualize what a particular filter is looking for, all entries in the feature maps is set to zero, except the maximum entry in the filter's corresponding feature map. Only the maximum entry is left untouched to create a visualization that is able to convey what pattern in the input image activates that filter strongly. When the processed feature maps are inputted into the deconvolutional network, the layers will successively reconstruct the activity that was responsible for the chosen feature map activation until the input pixel space is reached. 
+\noindent To utilize a constructed deconvolutional network, first the feature map output from a chosen layer in the original network must be produced. Before the feature maps are fed to the corresponding layer of the deconvolutional network, they must be processed. To visualize what a particular filter is looking for, all entries in the feature maps is set to zero, except the maximum entry in the filter's corresponding feature map. Only the maximum entry is left untouched to create a visualization that is able to convey what pattern in the input image activates that filter strongly. When the processed feature maps are inputted into the deconvolutional network, the layers will successively reconstruct the activity that was responsible for the chosen feature map activation until the input pixel space is reached. If visualizations for several filters are desired, the deconvolutional network has to run multiple times, each with feature maps only containing a single non-zero entry. \\
 
-If visualizations for several filters are desired, the deconvolutional network has to run multiple times, each with feature maps only containing a single non-zero entry. 
+\noindent When the original network is applied to an input image, the switches created in its max pooling layers are specific for that image. The reconstruction from the processed feature maps are created using these switches and it will therefore resemble the input image. However, only the patterns that contribute towards the chosen feature map activation are reconstructed. The visualization outputted by the deconvolutional network will then be mostly blank, with a highlight of the important section of the image and its characteristics. Creating visualizations from several images for a single filter can reveal what the filter is looking for. For example, if a filter is trained to detect eyes, the reconstructions from this filter will repeatedly focus on image sections containing eye-like traits, as well as highlighting those traits. One could also have a single image and use several different filters to produce visualizations, which could reveal if the original network is capable exploiting the discriminative features in the image. If a network is supposed to locate faces, but none of the visualizations show any focus on the eyes, they could warn about flaws in the network and potentially explain poor performance. Conversely, if the visualizations cover a wide range of facial characteristics, they can provide reassurance about the quality of the network's feature utilization. \\
 
-This gives you an idea of what activates that feature map really strongly. 
+\noindent Visualizing for several layers can also shed light on the hierarchy of the filters, where the lower layers usually concentrates on low level features like edges and textures and the upper layers looks for more complex features, e.g. eyes. If a network experiences problems with upper layer filters, it is possible that these stem from poor filters further down. Applied during training, visualizations from different layers reveal when the filters of each layer converges. Typically, the lower layer filters converge quickly, while the upper layer filters develop at a much slower rate.
 
-
-By connecting each unpooling layer to its corresponding pooling layer
-
-
-The technique allows for any feature map in any layer of the convolutional network to be chosen for visualization.
-
-interpret feature activity in the intermediate layers of the original network
-
-layer of choice
-
-"A deconvnet can be thought of as a convnet model that uses the same components (filtering, pooling) but in reverse, so instead of mapping pixels to features does the opposite."
-
-
-\textit{Deconvolution involves using a deconvolutional network, which can be thought of as a reverse convolutional network \cite{deconv_net}. The aim of visualizing deconvolution is to map the feature activity present in the intermediate layers back to the input pixel space \cite{deconv_vis}. This enables us to see what the input pattern that caused the activation looks like. To acquire the pattern for a certain activation, we first feed an image into the regular network to get the activations, then set all the the other activations in the relevant layer to zero, and finally feed these feature maps into the appropriate layer in the deconvolutional network.} \\
-
-\noindent \textit{By identifying the input patterns responsible for the activations, we should be able to understand what each feature map is concentrated on. This could help explain why we experience similar activations on images that are seemingly unrelated, if the feature map is focused on something unexpected, like an object in the background. It also demonstrates the hierarchy among the maps, as deconvolution for later layers will reveal more complex patterns.} \\
-
-\noindent \textit{Viewing the progression of these patterns during training can tell us something about their development. The patterns of the lower layers will typically converge early, possibly after a few epochs, while the complex layers further up will have slower converging patterns, maintaining the need for substantial network training. If any patterns have trouble converging, it could signal a potential problem with the model.}
 
 \subsection{Deep Visualization}
+
+In contrast to the other techniques discussed, deep visualization does not require any input image...
+
+\subsubsection{$L_2$ Decay}
+
+Employing $L_2$ decay is a common regularization technique for ANNs, where it is used to penalize large weight values. In these cases, the weights are linearly decayed towards zero with a chosen regularization strength. In deep visualization, $L_2$ decay is similarly applied to the input image, where it is used to penalize extreme pixel values and prevents them from dominating the image. This is desirable as extreme pixel values are neither naturally prevalent nor useful for visualizations.
+
+\subsubsection{Gaussian Blur}
+
+Without regularization, the input image has a tendency to contain high frequency information. Induced by the gradient ascent for its ability to cause high activations in the network, this high frequency information impedes the image's visualization qualities. 
+
+\subsubsection{Clipping Based on Value}
+
+
+
+\subsubsection{Clipping Based on Norm}
+
+
+
+\subsubsection{Clipping Based on Contribution}
+Explain both abs. and normal contribution...
 
 \textit{Deep visualization offers visualization of the learned features of a network, computed by the individual neuron at each layer \cite{deepvis, deepvis_web}. The outputs are images that maximally activate individual neurons, and represent what the neurons in the network have learned to look for. Starting with random images, the method iteratively updates the images based on the gradient update of a chosen neuron to create images that optimally triggers the activation of that neuron. For example, in an image classification network, we could use the output neuron responsible for the class ‘cat’, and produce deep visualizations for this neuron. The resulting images should display various catlike features across their pixel space. As we start with random images, the optimization is stochastic, meaning that the variance of these images provides information about the network unit’s learned invariances. In our case, we could choose neurons that classify the face recognition result to similar effect. If the neurons are looking for sensible features, the network is heading in the right direction. If the features portrayed are irrational or intangible, the opposite might be the case.} \\ 
 
 \noindent \textit{The visualization is not restricted to the output units, and can be performed for all neurons in the network. We can then determine what a hidden unit has learned to look for, which would typically be a lower level feature. For very low layers, this could for example be edges. In the face recognition domain, at an intermediate layer, we might get output images depicting an eye, or eyelike features.} \\
 
 \noindent \textit{It is important to note that the technique is reliant on heavy regularization to produce recognizable and interpretable output images.}
+
+\section{Transfer Learning}
+
+\section{Face Recognition}
+
+\textit{Can probably use a lot from the specialization project here.}
+
+\section{Facial Expression}
+
+\textit{Here as well.}
 
 \cleardoublepage
