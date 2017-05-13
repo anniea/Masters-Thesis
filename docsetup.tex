@@ -4,7 +4,8 @@
 \usepackage{mathrsfs}
 \usepackage{amsthm}
 \usepackage{amsmath}
-\usepackage{color}
+\usepackage{xcolor} % lagt til xcolor istedenfor color
+%\usepackage{color}
 \usepackage[Lenny]{fncychap}
 \usepackage[pdftex,bookmarks=true]{hyperref}
 \usepackage[pdftex]{hyperref}
@@ -33,7 +34,14 @@
 \usepackage{pgfplots}
 \pgfplotsset{width=5cm,compat=1.9}
 \usepackage{listings}
-%\setcounter{secnumdepth}{4}
+\usepackage{minted}
+\usemintedstyle{colorful}
+\renewcommand\listingscaption{Code}
+\renewcommand\listoflistingscaption{List of Code}
+\renewcommand{\thelisting}{\thechapter.\arabic{listing}}
+\usepackage{comment}
+
+% slutt på egendef
 
 \usepackage{glossaries}
 \makeglossaries

@@ -68,7 +68,9 @@ A lot of possibilities for adding interactions, easy to stream live plotting of 
 
 \subsection{Overview of the Architecture}
 
-As seen in \textbf{Fig. \ref{architecture1}}, the system can be said to consist of five separate modules: Flask, Bokeh, Keras, the user storage and the database. The Flask module is the very core of the application, that defines the routes (URLs), models and forms of the web page, tying it all together with the HTML templates, CSS and JavaScript.
+As seen in \textbf{Fig. \ref{architecture1}}, the system can be said to consist of five separate modules: Flask, the user storage, the database, Bokeh, and Keras. The Flask module is the very core of the application, and defines the routes (URLs), models and forms of the web page, tying the logic together with HTML templates, CSS and JavaScript into a simple functional web interface. The user storage is where all scripts and images uploaded through the Flask application are stored, as well as text files containing the produced data during training. The database contains metadata about the scripts that is used in the Flask application, such as the owner, when it was uploaded, and the path to the script. The Keras module includes the custom callbacks created for visualization that writes data to the files stored in the user storage. A user applied the wanted callbacks to his or her scripts. It is the Flask application that implements the logic of running these scripts. Finally, the Bokeh module uses the data stored in user storage to create live interactive visualizations, and the Flask application takes care of displaying these on the web page. \\
+
+\noindent \textit{Something about modular approach, that it is good for extensibility, etc.}
 
 % First, the overall architecture. Explain the different modules.
 % Then we can focus on some parts of the architecture that we want to "show off".
@@ -83,6 +85,63 @@ As seen in \textbf{Fig. \ref{architecture1}}, the system can be said to consist 
 % Examples here are the relation between bokeh and flask, flask and keras, flask and the user storage. etc.
 
 \subsection{The Flask Application}
+
+\textbf{Fig. \ref{struct}} shows the structure of the files included in the Flask application. The static folder serves all the CSS and JavaScript files, while the templates folder contains Jinja2 templates that Flask can render to generate the HTML. The init file contains the instantiation of the Flask application as well as some setup for the database and log in system.
+
+\begin{figure}[h!]
+\begin{verbatim}
+| ---- visualizer
+|   | ---- static
+|   |   | ---- css
+|   |   | ---- js
+|   | ---- templates
+|   |   | ---- home.html
+|   |   | ---- layout.html
+|   |   | ---- ...
+|   | ---- __init__.py
+|   | ---- config.py
+|   | ---- forms.py
+|   | ---- helpers.py
+|   | ---- models.py
+|   | ---- requirements.txt
+|   | ---- views.py
+|   | ---- visualizer.db
+\end{verbatim}
+\caption{Flask project files}
+\label{struct}
+\end{figure}
+
+\begin{comment}
+\begin{figure}
+\begin{verbatim}
+/visualizer
+    /static
+        /css
+        /fonts
+        /js
+    /templates
+        /create_user.html
+        /home.html
+        /layout.html
+        /login.html
+        /macros.html
+        /show_all_files.html
+        /show_file.html
+        /...
+    /__init__.py
+    /config.py
+    /forms.py
+    /helpers.py
+    /models.py
+    /requirements.txt
+    /views.py
+    /visualizer.db
+\end{verbatim}
+\caption{Flask package structure}
+\label{test}
+\end{figure}
+\end{comment}
+
 
 \subsection{Spotlight2}
 

@@ -120,13 +120,25 @@ The weights of a model can be learned by training the model on a set of input an
 
 \subsubsection{Vanilla Gradient Descent and Backpropagation}
 
-\noindent To optimize the loss, we can use an algorithm called gradient descent, which minimizes any function iteratively. The process is a repeated loop of evaluating the gradient, and then updating the weights based on this gradient. The simplest form of this algorithm, also called its vanilla version, looks something like this:
+\noindent To optimize the loss, we can use an algorithm called gradient descent, which minimizes any function iteratively. The process is a repeated loop of evaluating the gradient, and then updating the weights based on this gradient. The simplest form of this algorithm, also called its vanilla version, is shown in \textbf{Code \ref{code:1}}.
 
-\begin{lstlisting}
-    for i in range(epochs):
-        weights_grad = evaluate_gradient(loss_function, data, weights)
-        weights += - learning rate * weights_grad
-\end{lstlisting}
+\begin{listing}%[ht]
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize,
+linenos
+]
+{python}
+for i in range(epochs):
+    weights_grad = evaluate_gradient(loss_function, data, weights)
+    weights += - learning rate * weights_grad
+\end{minted}
+\caption{Vanilla gradient descent}
+\label{code:1}
+\end{listing}
 
 \noindent First, the algorithm evaluates the gradient of the loss function for the whole data set with respect to the current weights. This is done using an algorithm called backpropagation. Often, the term is used to refer to the complete process of repeatedly computing the gradient and updating the weights. Each iteration of computing the gradient involves two steps: forward propagation and backward propagation. The forward propagation is simply the propagation of an input through the network in order to generate an output. In the backward propagation, the loss, or error, between the generated output and the actual output is computed, and this error is propagated backwards to the previous layers. The error values are then used to calculate the gradient. The next step of gradient descent is to adjust the weights, based on the evaluated gradient and a learning rate. The learning rate controls the magnitude of the update, and is a crucial network hyperparameter setting. This process is repeated for a pre-defined number of epochs.
 
@@ -249,7 +261,9 @@ Employing $L_2$ decay is a common regularization technique for ANNs, where it is
 
 \subsubsection{Gaussian Blur}
 
-Without regularization, the input image has a tendency to contain high frequency information. Induced by the gradient ascent for its ability to cause high activations in the network, this high frequency information impedes the image's visualization qualities. 
+Without regularization, the image generated from deep visualization has a tendency to contain a great deal of high frequency information, i.e. the pixel values are often radically different from that of their neighbours. While normal images do contain some high frequency information, for example at edges of objects, an excessive amount of it leads to unrealistic and uninterpretable visualizations. 
+
+Induced by the gradient ascent for its ability to cause high activations in the network, this high frequency information impedes the image's visualization qualities. 
 
 \subsubsection{Clipping Based on Value}
 
