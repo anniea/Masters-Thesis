@@ -77,7 +77,7 @@ As seen in \textbf{Fig. \ref{architecture1}}, the system can be said to consist 
 
 \begin{figure}[h!]
     \centering
-        \includegraphics[width=1\textwidth]{fig/overall-architecture.pdf}
+        \includegraphics[width=0.7\textwidth]{fig/overall-architecture.pdf}
         \caption{Overall Architecture of the System}
         \label{architecture1}
 \end{figure}
@@ -86,33 +86,9 @@ As seen in \textbf{Fig. \ref{architecture1}}, the system can be said to consist 
 
 \subsection{The Flask Application}
 
-\textbf{Fig. \ref{struct}} shows the structure of the files included in the Flask application. The static folder serves all the CSS and JavaScript files, while the templates folder contains Jinja2 templates that Flask can render to generate the HTML. The init file contains the instantiation of the Flask application as well as some setup for the database and log in system.
+\textbf{Fig. \ref{struct}} shows a high-level overview of the structure of the files included in the Flask application. The static folder serves all the CSS and JavaScript files, while the templates folder contains Jinja2 templates that Flask can render to generate the HTML. The init file contains the instantiation of the Flask application as well as some setup for the database and log in system. The config file configures some parameters for the application, such as the command used to run a python script.\\
 
-\begin{figure}[h!]
-\begin{verbatim}
-| ---- visualizer
-|   | ---- static
-|   |   | ---- css
-|   |   | ---- js
-|   | ---- templates
-|   |   | ---- home.html
-|   |   | ---- layout.html
-|   |   | ---- ...
-|   | ---- __init__.py
-|   | ---- config.py
-|   | ---- forms.py
-|   | ---- helpers.py
-|   | ---- models.py
-|   | ---- requirements.txt
-|   | ---- views.py
-|   | ---- visualizer.db
-\end{verbatim}
-\caption{Flask project files}
-\label{struct}
-\end{figure}
-
-\begin{comment}
-\begin{figure}
+\begin{figure}[ht]
 \begin{verbatim}
 /visualizer
     /static
@@ -123,10 +99,6 @@ As seen in \textbf{Fig. \ref{architecture1}}, the system can be said to consist 
         /create_user.html
         /home.html
         /layout.html
-        /login.html
-        /macros.html
-        /show_all_files.html
-        /show_file.html
         /...
     /__init__.py
     /config.py
@@ -137,21 +109,124 @@ As seen in \textbf{Fig. \ref{architecture1}}, the system can be said to consist 
     /views.py
     /visualizer.db
 \end{verbatim}
-\caption{Flask package structure}
-\label{test}
+\caption{Flask project files}
+\label{struct}
 \end{figure}
-\end{comment}
+
+\noindent There are three main files implementing the logic: forms.py, models.py and views.py. They define all the forms, models and views, respectively, of the web page. A form is used to collect user input, for instance while registering a new user, or uploading a script. Models are used to create database objects. Finally, a view defines a URL endpoint, or a route, as well as what HTTP requests it answers to, and determines what should happen when a user arrives at that URL. There is also a helpers file that contains various helper methods.\\
+
+\noindent An actual example of a view from views.py is shown in \textbf{Code \ref{code:2}}. Comments and irrelevant code are removed to simplify the example. Line 1 defines the route of the view, hence the complete URL of this view will be \texttt{localhost:5000/create\_user}. It also defines the HTTP requests to answer to, which is both GET and POST. GET is for just returning the page to register a user, while POST is when a user actually presses the button to register. The code illustrates the use of a form in line 3, in this case a form for creating a new user, which contains the chosen username and password of the new user. Line 5 checks if all fields are valid when a user has submitted (the POST request), while the next line makes sure to alert the user and break the process if the username is alredy taken. If everything this far is fine, line 9 creates a User model consisting of the username and password (the model also takes care of hashing the password) and adds it to the database. Line 13 redirects the user to another view, namely the log in view. If the user has not submitted their form, line 15 makes sure to render the correct template for the user registration page. \\
+
+\begin{listing}[ht]
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize,
+linenos
+]
+{python}
+@app.route('/create_user', methods=['GET', 'POST'])
+def create_user():
+	form = CreateUserForm()
+	
+	if form.validate_on_submit():
+		if not unique_username(form.username.data):
+			flash('Username is already taken', 'danger')
+		else:
+			db.session.add(User(form.username.data, form.password.data))
+			db.session.commit()
+			
+			flash('User successfully created', 'success')
+			return redirect(url_for('login'))
+		
+	return render_template('create_user.html', form=form)
+\end{minted}
+\caption{View for creating a user}
+\label{code:2}
+\end{listing}
+
+\subsection{Running a Python Script}
+
+The visualization tool allows a user to both start and stop the uploaded python scripts. Functionality for running a script is implemented as a helper function, and is done by executing \texttt{python [file\_path]} in a new subprocess, as seen in \textbf{Code \ref{code:3}}. The actual Python command is determined by a config variable, since it depends on the user's Python installations (e.g. some systems use \texttt{python3} for Python 3.6 and simply \texttt{python} for Python 2.7). The \texttt{stdout} argument specifies the standard output file handle, which is in this case a text file that will be displayed on the web page, so that the user is given easy access to the output of the script. Note that even though \textbf{Fig. \ref{architecture1}} shows a connection between Keras and Flask, the real connection is really between Python and Flask. A user could easily upload a Python script that uses the scikit-learn library or pure TensorFlow, running such a script would not cause any problems. However, if someone wanted to adapt the visualization tool to a whole different programming language, this section of the code would need to be replaced.
+
+\begin{listing}[ht]
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize,
+linenos
+]
+{python}
+with open(get_output_file(get_current_user(), basename(file_path)), 'w') as f:
+	p = subprocess.Popen([PYTHON, file_path], stdout=f)
+\end{minted}
+\caption{Running a Python script using subprocess}
+\label{code:3}
+\end{listing}
+
+\subsection{Custom Keras Callbacks}
+
+The custom callbacks are the only part of the visualization tool that are specific to Keras. As mentioned, a callback is a set of functions to be applied at given stages of the ANN training procedure, and Keras provides the user with many of these including the possibility of creating your own callbacks. We have taken advantage of this functionality, and created a callback for each visualization technique, as well as some other useful functionality to be utilized on the web page. An overview of all of them, and how to adapt them to your script, is thoroughly explained in the appendix. In addition, we we will also showcase the implementation in this section.
+
+\subsubsection{The CustomCallbacks Class}
+
+All of our custom callbacks require the path to the correct folder in the user storage where all of the training data needed should be written. There are also some optional arguments that all callbacks can take, these will be further explained later. In addition, some of the callbacks require and provide their own optional or non-optional arguments, such as a list of neurons to be visualized, or a list of layers to be excluded from the visualization. To simplify the user's process of adding callbacks to their code, we created a wrapper class that takes all the common arguments on its instantiation. The wrapper class provides methods for registering each callback with their associated arguments.
+
+\begin{listing}[ht]
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize,
+linenos
+]
+{python}
+class CustomCallbacks:
+
+	def __init__(self, file_folder, custom_preprocess=None, 
+	    custom_postprocess=None, base_interval=10):
+		
+		self.file_folder = file_folder
+		self.custom_preprocess = custom_preprocess
+		self.custom_postprocess = custom_postprocess
+		self.base_interval = base_interval
+		self.callback_list = []
+		
+	def get_list(self):
+		return self.callback_list
+		
+	def register_training_progress(self):
+		self.callback_list.append(TrainingProgress(self.file_folder))
+		
+	def register_saliency_maps(self, interval=None):
+		if interval is None:
+			interval = self.base_interval
+		self.callback_list.append(SaliencyMaps(self.file_folder, 
+		                                        self.custom_preprocess, 
+		                                        self.custom_postprocess, 
+		                                        interval))
+\end{minted}
+\caption{Wrapper class for custom callbacks}
+\label{code:4}
+\end{listing}
 
 
-\subsection{Spotlight2}
+and might include optional arguments. To simplify the user's process of adding the callbacks to our code, we have created a wrapper class that takes the folder path as an argument 
 
-\subsection{Callbacks}
-% Just say something about HOW the visualizations are implemented.
-% We can refer the reader to an Appendix on exactly how to use them and what they are.
+
+The Keras module includes the custom callbacks created for visualization that writes data to the files stored in the user storage.
+
+
+A user can apply their selected callbacks by passing a list of callbacks to the \texttt{.fit()} method of a Keras model.
 
 \subsection{Visualizations}
 
-\subsection{Spotlight4}
+\subsection{Database}
 
 \section{Case Study in Face Recognition}
 

@@ -261,20 +261,23 @@ Employing $L_2$ decay is a common regularization technique for ANNs, where it is
 
 \subsubsection{Gaussian Blur}
 
-Without regularization, the image generated from deep visualization has a tendency to contain a great deal of high frequency information, i.e. the pixel values are often radically different from that of their neighbours. While normal images do contain some high frequency information, for example at edges of objects, an excessive amount of it leads to unrealistic and uninterpretable visualizations. 
+Without regularization, an image generated from deep visualization has a tendency to contain a great deal of high frequency information, i.e. the pixel values are often radically different from that of their neighbours. While natural images do contain some high frequency information, for example at edges of objects, an excessive amount of it leads to unrealistic and uninterpretable visualizations. To combat this problem, Gaussian blur is applied as a regularization technique. The blurring makes transitions between pixels smoother, lowering the amount of high frequency information. \\
 
-Induced by the gradient ascent for its ability to cause high activations in the network, this high frequency information impedes the image's visualization qualities. 
+\noindent Of the techniques implemented, Gaussian blurring is the most computationally expensive. To reduce the cost, blurring can be performed only at certain intervals, using a blur kernel with a greater width. A single application of blurring with a large width kernel is equivalent to blurring multiple times with a small width kernel. Although the image will change slightly in between applications, the desired effect will be similar. 
 
-\subsubsection{Clipping Based on Value}
+\subsubsection{Clipping Based on Value, Norm and Contribution}
+
+Another characteristic of images produced using deep visualization is an abundance of non-zero pixel values. In general, natural images contains a myriad of information aside from the primary focus. While not necessarily essential to the network, the secondary information will influence it nonetheless. In the visualizations, it manifests as disruptive non-zero pixel values. A subset of pixels will show the main object or type of input that excite the chosen unit and these are the focal point of the visualization technique. The other pixels, however, will still generally influence the gradient, each with a minor contribution to raise the activation. As a result, unwanted patterns will emerge in the visualization, disturbing the primary focus and cluttering the image. To prevent this behaviour, these disruptive pixels should be set to zero, which can be handled by using clipping regularization based different attributes, namely value, norm and contribution. \\
+
+\noindent Clipping based on value is rather straightforward. If the absolute value of a pixel in the visualization is below a set threshold, set the pixel value to zero. For an RGB-image, each color value can be examined separately. Although using values for clipping is not very complicated, it is neither very sophisticated. Another approach is to clip pixels based on their norm. The norm of each pixel would be computed over their color channels, and each pixel with a norm under the chosen limit would be set to zero. Finally, the pixel contributions to the unit activation can be used. The pixel contributions could be found by measuring how activation changes when each pixel is set to zero, but would require a forward pass for every pixel and therefore be excessively expensive. Instead, the pixel contributions can be approximated by the elementwise product of the visualization and the gradient. For an RGB-image, each pixel contribution would be the sum of its color channel contributions. Normally, a pixel would be clipped, i.e. set to zero, if the absolute value of its contribution is below a set threshold. This would discard pixels which have a small contribution in either a positive or negative direction. Alternatively, one could use the contributions without computing their absolute values. In this case, pixels which greatly affect the activation in a negative manner are more likely to fall beneath the threshold and be clipped. The arguments against this is that the approximation made limits the validity of such large shifts and that the gradient ascent will handle these pixels iteratively. Thus, it could prove better to restrict regularization to only clip pixels that are considered to have an insignificant contribution value. 
+
+... the visualization will show the main object and nothing else. 
+... mention that thresholds are percentiles?
 
 
+The threshold for the norm,
+θn pct, is specified as a percentile of all pixel norms in x.
 
-\subsubsection{Clipping Based on Norm}
-
-
-
-\subsubsection{Clipping Based on Contribution}
-Explain both abs. and normal contribution...
 
 \textit{Deep visualization offers visualization of the learned features of a network, computed by the individual neuron at each layer \cite{deepvis, deepvis_web}. The outputs are images that maximally activate individual neurons, and represent what the neurons in the network have learned to look for. Starting with random images, the method iteratively updates the images based on the gradient update of a chosen neuron to create images that optimally triggers the activation of that neuron. For example, in an image classification network, we could use the output neuron responsible for the class ‘cat’, and produce deep visualizations for this neuron. The resulting images should display various catlike features across their pixel space. As we start with random images, the optimization is stochastic, meaning that the variance of these images provides information about the network unit’s learned invariances. In our case, we could choose neurons that classify the face recognition result to similar effect. If the neurons are looking for sensible features, the network is heading in the right direction. If the features portrayed are irrational or intangible, the opposite might be the case.} \\ 
 
