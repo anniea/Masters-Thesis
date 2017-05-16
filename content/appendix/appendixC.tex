@@ -1,0 +1,232 @@
+%===================================== APPENDIX C =================================
+\chapter{Callbacks/API}
+
+\section*{Usage of Callbacks}
+
+Oh! The garbage chute was a really wonderful idea. What an incredible smell you've discovered! Let's get out of here! Get away from there... No! wait! Will you forget it? I already tried it. It's magnetically sealed! Put that thing away! You're going to get us all killed. Absolutely, Your Worship. Look, I had everything under control until you led us down here. You know, it's not going to take them long to figure out what happened to us. It could be worst... It's worst. There's something alive in here! That's your imagination. Something just moves past my leg! Look! Did you see that? What? Help!
+
+\subsection*{CustomCallbacks}
+
+\begin{minted}
+[
+frame=single,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize
+]
+{python}
+custom_keras.callbacks.CustomCallbacks(file_folder, 
+                                        custom_preprocess=None,
+                                        custom_postprocess=None,
+                                        base_interval=10)
+\end{minted}
+
+\noindent A wrapper class for callbacks.
+
+\subsubsection*{Arguments}
+
+\begin{itemize}
+    \item \textbf{file\_folder:} The script's corresponding folder in user-storage. This should be \\
+    \texttt{os.path.dirname(\_\_file\_\_)}, since the script is uploaded and placed in the user-storage itself.
+    \item \textbf{custom\_preprocess:}
+    \item \textbf{custom\_postprocess:}
+    \item \textbf{base\_interval:}
+\end{itemize}
+
+\subsubsection*{Methods}
+
+\begin{itemize}
+    \item \textbf{get\_list:}
+    \item \textbf{register\_network\_saver:}
+    \item \textbf{register\_training\_progress:}
+    \item \textbf{register\_layer\_activations:}
+    \item \textbf{register\_saliency\_maps:}
+    \item \textbf{register\_deconvolution\_network:}
+    \item \textbf{register\_deep\_visualization:}
+\end{itemize}
+
+\subsection*{NetworkSaver}
+
+\begin{minted}
+[
+frame=single,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize
+]
+{python}
+custom_keras.callbacks.NetworkSaver(file_folder)
+\end{minted}
+
+\noindent Saves the network after each epoch in a folder named 'networks' inside of the file\_folder.
+
+\subsubsection*{Arguments}
+
+\begin{itemize}
+    \item \textbf{file\_folder:} The script's corresponding folder in user-storage. This should be \\
+    \texttt{os.path.dirname(\_\_file\_\_)}, since the script is uploaded and placed in the user-storage itself.
+\end{itemize}
+
+\subsection*{TrainingProgress}
+
+\begin{minted}
+[
+frame=single,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize
+]
+{python}
+custom_keras.callbacks.TrainingProgress(file_folder)
+\end{minted}
+
+\noindent At each determined interval, the callback writes accuracy and loss to a text file in a folder named 'results' inside of the file\_folder. At each interval, a new line is written to the file, containing three separate decimal numbers. The first number is the percentage of the training progress that the metrics occur at, for instance 0.1 is 10\% of the first epoch, 1.5 is halfway in the second epoch, and so on. The second and third number is the accuracy and loss respectively at that point. This callback assumes that accuracy is enabled as a metric when compiling the Keras model. \\
+
+\noindent If validation is enabled, the callback will also save the validation accuracy and validation loss at each epoch, in a separate text file. The files has the same structure as described above.
+
+\subsubsection*{Arguments}
+
+\begin{itemize}
+    \item \textbf{file\_folder:} The script's corresponding folder in user-storage. This should be \\
+    \texttt{os.path.dirname(\_\_file\_\_)}, since the script is uploaded and placed in the user-storage itself.
+\end{itemize}
+
+\subsection*{LayerActivations}
+
+\begin{minted}
+[
+frame=single,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize
+]
+{python}
+custom_keras.callbacks.LayerActivations(file_folder,
+                                        exclude_layers=EXCLUDE_LAYERS, 
+                                        custom_preprocess=None, 
+                                        interval=10)
+\end{minted}
+
+\noindent Saves activation arrays for each layer of the network except the excluded layers to a pickle file on the form: \texttt{[(layer\_name, array), ...]}, in a folder named 'results' inside of the file\_folder.
+
+\subsubsection*{Arguments}
+
+\begin{itemize}
+    \item \textbf{file\_folder:} The script's corresponding folder in user-storage. This should be \\
+    \texttt{os.path.dirname(\_\_file\_\_)}, since the script is uploaded and placed in the user-storage itself.
+    \item \textbf{exclude\_layers:} A tuple of Keras layers to exclude from visualization. The default value \texttt{EXCLUDE\_LAYERS} is a tuple containing \texttt{keras.layers.InputLayer}, \texttt{keras.layers.Dropout} and \texttt{keras.layers.Flatten}
+    \item \textbf{custom\_preprocess:}
+    \item \textbf{interval:}
+\end{itemize}
+
+\subsection*{SaliencyMaps}
+
+\begin{minted}
+[
+frame=single,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize
+]
+{python}
+custom_keras.callbacks.SaliencyMaps(file_folder, 
+                                    custom_preprocess=None,
+                                    custom_postprocess=None,
+                                    interval=10)
+\end{minted}
+
+\noindent Saves Saliency maps.
+
+\subsubsection*{Arguments}
+
+\begin{itemize}
+    \item \textbf{file\_folder:} The script's corresponding folder in user-storage. This should be \\
+    \texttt{os.path.dirname(\_\_file\_\_)}, since the script is uploaded and placed in the user-storage itself.
+    \item \textbf{custom\_preprocess:}
+    \item \textbf{custom\_postprocess:}
+    \item \textbf{interval:}
+\end{itemize}
+
+\subsection*{DeconvolutionNetwork}
+
+\begin{minted}
+[
+frame=single,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize
+]
+{python}
+custom_keras.callbacks.DeconvolutionNetwork(file_folder,
+                                            feat_map_layer_no,
+                                            feat_map_amount=None,
+                                            feat_map_nos=None,
+                                            custom_preprocess=None,
+                                            custom_postprocess=None,
+                                            custom_keras_model_info=None,
+                                            interval=100)
+\end{minted}
+
+\noindent Easy, Chewie. Whoa! Whoa! Help! Chewie, you okay? Where is he? I'm okay, pal. Han! Chewie? 
+
+\subsubsection*{Arguments}
+
+\begin{itemize}
+    \item \textbf{file\_folder:} The script's corresponding folder in user-storage. This should be \\
+    \texttt{os.path.dirname(\_\_file\_\_)}, since the script is uploaded and placed in the user-storage itself.
+    \item \textbf{feat\_map\_layer\_no:}
+    \item \textbf{feat\_map\_amount:}
+    \item \textbf{feat\_map\_nos:}
+    \item \textbf{custom\_preprocess:}
+    \item \textbf{custom\_postprocess:}
+    \item \textbf{custom\_keras\_model\_info:}
+    \item \textbf{interval:}
+\end{itemize}
+
+\subsection*{DeepVisualization}
+
+\begin{minted}
+[
+frame=single,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize
+]
+{python}
+custom_keras.callbacks.DeepVisualization(file_folder,
+                                        neurons_to_visualize,
+                                        learning_rate,
+                                        no_of_iterations,
+                                        l2_decay=0,
+                                        blur_interval=0,
+                                        blur_std=0,
+                                        value_percentile=0,
+                                        norm_percentile=0,
+                                        contribution_percentile=0,
+                                        abs_contribution_percentile=0,
+                                        custom_postprocess=None,
+                                        interval=1000)
+\end{minted}
+
+\noindent Easy, Chewie. Whoa! Whoa! Help! Chewie, you okay? Where is he? I'm okay, pal. Han! Chewie? 
+
+\subsubsection*{Arguments}
+
+\begin{itemize}
+    \item \textbf{file\_folder:} The script's corresponding folder in user-storage. This should be \\
+    \texttt{os.path.dirname(\_\_file\_\_)}, since the script is uploaded and placed in the user-storage itself.
+    \item \textbf{neurons\_to\_visualize:}
+    \item \textbf{learning\_rate:}
+    \item \textbf{no\_of\_iterations:}
+    \item \textbf{l2\_decay:}
+    \item \textbf{blur\_interval:}
+    \item \textbf{blur\_std:}
+    \item \textbf{value\_percentile:}
+    \item \textbf{norm\_percentile:}
+    \item \textbf{contribution\_percentile:}
+    \item \textbf{abs\_contribution\_percentile:}
+    \item \textbf{custom\_postprocess:}
+    \item \textbf{interval:}
+\end{itemize}
+
+\cleardoublepage
