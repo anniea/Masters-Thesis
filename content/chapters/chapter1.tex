@@ -21,11 +21,12 @@ This chapter will introduce the project by providing background information for 
 
 \noindent A prototype of this interface has been implemented as part of our Specialization Project, and will act as a basis as we continue the development. A more thorough description of the prototype, as well as a detailed overview of what to implement for this thesis, will be presented in the implementation chapter. \\
 
-\noindent The case study in the second part will act as an example of how to utilize the implemented visualization tool when working with artificial neural networks. In this part, the purpose will be to explore whether it is possible to exploit facial expression data in order to improve an artificial neural networks for face recognition. We theorize that a network with access to facial expression data could learn the alterations of features associated with various expressions, and apply this to recognize faces which differ in the corresponding features. We intent to create different networks, where one is using a standard implementation, and functions as a benchmark for the other two, which will be experimental.
+\noindent The case study in the second part will act as an example of how to utilize the implemented visualization tool when working with artificial neural networks. In this part, the purpose will be to explore whether it is possible to exploit facial expression data in order to improve an artificial neural networks for face recognition. We theorize that a network with access to facial expression data could learn the alterations of features associated with various expressions, and apply this to recognize faces which differ in the corresponding features. We intent to create three different networks, where one is using a standard implementation and functions as a benchmark for the other two, which will be experimental.
 
 \begin{itemize}
     \item Not sure if/how we should mention here that it is a continuation of the specialization project. Can also mention this in the preface if we choose to have one.
     \item Something about 2D input (images, not necessarily convolutional networks).
+    \item Mention that tool supports Keras/Theano/Tensorflow?
 \end{itemize}
 
 \section{Motivation}
@@ -37,11 +38,15 @@ This chapter will introduce the project by providing background information for 
     \item Then something about how these networks present a lot of data, and how visualization can help with this.
 \end{itemize}
 
+In the modern computer science landscape, artificial neural networks are on the rise. They have enjoyed considerable success in a plethora of fields and there exist a multitude of frameworks dedicated to creating and training such networks. Among the frameworks are Tensorflow and Caffe2, which are open-source projects backed by tech giants Google and Facebook, respectively. However, an issue with artificial neural networks is that they have been notoriously hard to understand. Being dissatisfied with this knowledge vacuum, researchers have developed a number of visualization techniques to help gain insight into the inner workings of a network. Unfortunately, unlike the building of networks, there does not exist an extensive amount of options when it comes to facilitating the creation of visualizations. As a response to this shortage, we aim to design and develop a tool that provides users with easy access to visualization techniques through a convenient user interface. More specifically, we plan to fill the void of an advanced visualization tool for the machine learning frameworks Theano and Tensorflow through the use of Keras, a high-level API supporting both frameworks. The tool would aid researchers using these popular frameworks to gain a better understanding of their networks and how to improve them, and, by extension, enable further research. \\
+
+\noindent In addition to the developing the visualization tool, we intend to investigate a theory regarding facial recognition neural networks. We postulate that an approach that utilizes the information available in facial expressions may experience greater accuracy than one that tries to overcome expressions through invariance. The hypothesis will be examined by adapting a well known artificial neural network architecture to the face recognition domain to create two networks: one conventional to act a basis to be evaluated against and one experimental that exploits facial expression data. \\
+
 \section{Contributions}
 
 \textit{List your contributions in a summary/short way. Purpose is to make the thesis easier to read. Should be repeated towards the end, e.g. conclusion.} \\
 
-\noindent Our contributions to the field will be a new computer-based product as well as a new method for facial recognition. The product is the visualization tool, that can help researchers gain a better understanding of why their artificial neural networks act the way they do. The tool should be easily extensible, in regard to adding new visualization techniques and customizing the tool to a completely different programming language or machine learning framework. The new method is the exploitation of facial expressions in face recognition systems. We propose an original method that currently can not not be found in any previous research.
+\noindent Our contributions to the field will be a new computer-based product, as well as a new method for facial recognition. The product is the visualization tool, that can help researchers gain a better understanding of why their artificial neural networks act the way they do. The tool should be easily extensible, in regard to adding new visualization techniques and customizing the tool to a completely different programming language or machine learning framework. The new method is the exploitation of facial expressions in face recognition systems. We propose an original method that currently can not not be found in any previous research.
 
 \section{Goals and Research Questions}
 

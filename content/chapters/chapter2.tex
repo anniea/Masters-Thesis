@@ -37,7 +37,7 @@ The idea of an Artifical Neural Network (ANN) is that it can approximate any con
 
 \subsection{Activation Functions}
 
-\noindent The common behaviour of all activation functions is that they define the output of a unit given a set of inputs. There are a great variety of activation functions in use, but we will only describe those most commonly used and thus considered in our implementation. The mathematical function of three of these are plotted in \textbf{Fig. \ref{activationfuncs}}. For further details we refer the reader to the Stanford CS class on convolutional neural networks\cite{cs231n_part1}. \\
+\noindent The common behaviour of all activation functions is that they define the output of a unit given a set of inputs. There are a great variety of activation functions in use, but we will only describe those most commonly used and thus considered in our implementation. The mathematical function of three of these are plotted in \textbf{Fig. \ref{activationfuncs}}. For further details, we refer the reader to the Stanford CS class on convolutional neural networks\cite{cs231n_part1}. \\
 \begin{figure}[H]
     \begin{minipage}{0.3\textwidth}
         \begin{tikzpicture}
@@ -172,9 +172,9 @@ What exactly is the convolutional operation? Convolutional layer (local connecti
 \textit{Describe all the different techniques, perhaps in more detail. \\
 Possibly even implementation level.}
 
-\subsection{Why Visualize?}
+\subsection{Why Visualize}
 
-When using ANNs to solve complex problems, like face recognition, the inner workings can be difficult to understand. It is not unlikely that the network is highly non-linear and requires millions of parameter values to obtain a desirable performance level. In these cases, it is hard to gain insight about the network's performance by examining the parameter values directly, both because of the unfeasible amount of values and each value's relative insignificance by itself. However, when applying ANNs to tasks in the image domain, there are several ways to help us understand the inner workings of the network by presenting information in the same readable format as the input. Aside from the fact that images more suited than numbers for human readability, there exists several techniques that utilizes the connections in the network to produce visualizations. These images can then provide insight into a larger part of the network, spanning several layers, possibly the whole network. Through the use of these visualization techniques, the network can improved by making informed decisions, instead of employing a trial and error approach.
+When using ANNs to solve complex problems the inner workings can be difficult to understand. It is not unlikely that the network is highly non-linear and requires millions of parameter values to obtain a desirable performance level. In these cases, it is hard to gain insight about the network's performance by examining the parameter values directly, both because of the unfeasible amount of values and each value's relative insignificance by itself. However, when applying ANNs to tasks in the image domain, there are several ways to help us understand the inner workings of the network by presenting information in the same readable format as the input. Aside from the fact that images more suited than numbers for human readability, there exists several techniques that utilizes the connections in the network to produce visualizations. These images can then provide insight into a larger part of the network, spanning several layers, possibly the whole network. Through the use of these visualization techniques, the network can improved by making informed decisions, instead of employing a trial and error approach.
 
 \textit{Visualization offers a reasonable method for presenting the vast amount of information available when analyzing a convolutional neural network in a readable manner. For example, one technique allows us to view which areas of an input image a classifying network focuses on, informing us on what the network discerns as important when computing output classifications}. \\
 
@@ -297,7 +297,7 @@ Through a random hyperparameter search, \cite{deepvis} found several useful comb
 0 & 0.5 & 4 & 0 & 90 \\ \hline
 \end{tabular}
 \end{center}
-\caption{Hyperparameters found in random search, with useful combinations found in rows}
+\caption{Hyperparameters found in random search, with useful combinations located in rows}
 \label{tab:reg_hyperparams}
 \end{table}
 
