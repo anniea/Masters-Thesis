@@ -266,6 +266,10 @@ class CustomCallbacks:
 
 \subsubsection{Example Implementation of a Callback}
 
+The implementation of the \texttt{LayerActivations} callback can be seen in \textbf{Code \ref{code:5}}. Specific functionality is removed, as the purpose is to showcase the general approach. The callback is an extension of the base abstract class \texttt{keras.callbacks.Callback} as you can see in line 1. The initialization takes all necessary and optional arguments, and set the attributes accordingly. The folder to save the data is obtained by taking the \texttt{file\_folder} argument and adding 'results' to it. Line 13 starts the process of getting the visualization image and converting it to the correct format. In line 18, the preprocess function is applied if the user has specified one. \\
+
+\noindent The Keras callbacks provides various methods that are called at specified events, such as \texttt{on\_batch\_end} which is used in this example. Other methods used in the other callbacks are \texttt{on\_train\_begin} and \texttt{on\_epoch\_end}. The counter value is increased in line 25, and line 28 checks whether it is time to perform the computation of the visualization data. The specific functionality varies from the different visualization techniques, and will not be further explained. Finally, line 32 creates the correct file for storing the data, in this case in a pickle file, and the counter is reset. Note that some of the callbacks also takes use of a postprocess function, which would be applied to the result before saving it.
+
 \begin{listing}[ht]
 \begin{minted}
 [
@@ -290,8 +294,8 @@ class LayerActivations(Callback):
 
 		images_folder = join(file_folder, 'images')
 		img_name = listdir(images_folder)[-1]
-		
-		self.img_array = image.img_to_array(Image.open(join(images_folder, img_name)))
+		img = Image.open(join(images_folder, img_name))
+		self.img_array = img_to_array(img)
 
 		if custom_preprocess is not None:
 			self.img_array = custom_preprocess(self.img_array)
@@ -307,13 +311,14 @@ class LayerActivations(Callback):
 
 			# specific functionality, removed to simplify example
 
-			with open(join(self.results_folder, 'layer_activations.pickle'), 'wb') as f:
+			with open(join(self.results_folder,
+			                'layer_activations.pickle'), 'wb') as f:
 				pickle.dump(layer_tuples, f)
 
 			self.counter = 0
 \end{minted}
-\caption{Wrapper class for custom callbacks}
-\label{code:4}
+\caption{Example implementation of a callback}
+\label{code:5}
 \end{listing}
 
 \subsection{Visualizations}

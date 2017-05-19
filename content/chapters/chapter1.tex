@@ -1,61 +1,62 @@
 %===================================== CHAP 1 =================================
 \chapter{Introduction}
 
-This chapter will introduce the project by providing background information for the problem and research area. It will also explain the motivation behind such a project, and what we hope to contribute to the field, before composing this into a set of goals and research questions. Finally, the chapter will describe the research method and the structure of the thesis.
+This chapter will introduce the thesis by providing a background for the problem and research area. It will also explain the motivation behind the thesis, and what we aspire to contribute to the field, before composing this into a set of goals and research questions. Finally, the chapter will describe the research method and the structure of the thesis.
 
 \section{Background}
 
-\textit{Introduce the project and describe how it is a continuation of the specialization project. Both the web interface as well as the case study in facial recognition with expressions.}
+\textit{Introduce the thesis and describe how it is a continuation of the specialization project. Both the web interface as well as the case study in facial recognition with expressions.}
 
 \begin{itemize}
-    \item Maybe start with an overall general introduction to the problem, i.e. that it is in the field of artificial neural networks and how they behave, specifically images.
+    \item Maybe start with an overall general introduction to the problem, i.e. that it is in the field of artificial neural networks and how they behave, specifically images. Ex. this thesis deals with the field of ...
 \end{itemize}
+
+The thesis is concerned with artificial neural networks and the use of visualization techniques to gain an understanding of their behaviour. Furthermore, the thesis explores a novel approach to improve the accuracy of facial recognition networks. The work presented in the thesis is a continuation from the results of the Specialization Project. 
 
 \noindent The problem to be solved in this thesis can be divided into two parts:
 \begin{enumerate}
-    \item A web interface for deep learning
+    \item A visualization tool for deep learning
     \item A case study in facial recognition
 \end{enumerate}
 
-\noindent The first part proposes a tool for visualizing data produced during the training of an artificial neural network. This visualization tool should be implemented in the form of a web interface where users can upload and run their Python scripts for creating and training such networks. The tool should use established visualization techniques to generate visualizations for the user in order to help them make sense of how their networks behave in various situations. \\
+\noindent The first part proposes a tool for visualizing data produced during the training of an artificial neural network. This visualization tool should be implemented in the form of a web interface where users can upload and run their Python scripts for creating and training such networks. The tool should use established visualization techniques to generate visualizations for the user in order to help them gain insight into why their networks behave as they do and, by extension, how they can be improved. \\
 
-\noindent A prototype of this interface has been implemented as part of our Specialization Project, and will act as a basis as we continue the development. A more thorough description of the prototype, as well as a detailed overview of what to implement for this thesis, will be presented in the implementation chapter. \\
+\noindent A prototype of this interface has been implemented as part of the Specialization Project and will act as a basis as we continue the development. A more thorough description of the prototype, as well as an overview of what to implement for this thesis, will be presented in chapter 4. \\
 
-\noindent The case study in the second part will act as an example of how to utilize the implemented visualization tool when working with artificial neural networks. In this part, the purpose will be to explore whether it is possible to exploit facial expression data in order to improve an artificial neural networks for face recognition. We theorize that a network with access to facial expression data could learn the alterations of features associated with various expressions, and apply this to recognize faces which differ in the corresponding features. We intent to create three different networks, where one is using a standard implementation and functions as a benchmark for the other two, which will be experimental.
+\noindent The purpose of the case study in the second part will be to explore whether it is possible to exploit facial expression data in order to improve an artificial neural network for face recognition. We theorize that a network with access to facial expression data could learn the alterations of features associated with various expressions, and apply this to recognize faces which differ in the corresponding features. \\
 
-\begin{itemize}
-    \item Not sure if/how we should mention here that it is a continuation of the specialization project. Can also mention this in the preface if we choose to have one.
-    \item Something about 2D input (images, not necessarily convolutional networks).
-    \item Mention that tool supports Keras/Theano/Tensorflow?
-\end{itemize}
+\noindent The case study in the second part will act as an example of how to utilize the implemented visualization tool when working with artificial neural networks. In this part, the purpose will be to explore whether it is possible to exploit facial expression data in order to improve an artificial neural network for face recognition. We theorize that a network with access to facial expression data could learn the alterations of features associated with various expressions, and apply this to recognize faces which differ in the corresponding features. We intend to create three different networks, where one is using a standard implementation and functions as a benchmark for the other two, which will be experimental.
+
 
 \section{Motivation}
 
-\textit{State why such a visualization tool (and web interface) is needed. Also something about face recognition and the importance of it, can reuse a lot from the project.}
+\noindent In the modern computer science landscape, artificial neural networks are on the rise. They have enjoyed considerable success in a plethora of fields and there exist a multitude of frameworks dedicated to creating and training such networks. Among the frameworks are TensorFlow and Caffe2, which are open-source projects backed by tech giants Google and Facebook, respectively. However, an issue with artificial neural networks is that they have been notoriously difficult to understand. Being dissatisfied with this knowledge vacuum, researchers have developed a number of visualization techniques to help gain insight into the inner workings of a network. Unfortunately, unlike the building of networks, there does not exist an extensive amount of options when it comes to facilitating the creation of visualizations. To combat this shortage, we aim to design and develop a tool that provides users with easy access to visualization techniques through a convenient user interface. More specifically, we plan to fill the void of an advanced visualization tool for the machine learning frameworks Theano and TensorFlow through the use of Keras, a high-level API supporting both frameworks. The tool would aid researchers using these popular frameworks to gain a better understanding of their networks and how to improve them, thus enabling further research. \\
 
-\begin{itemize}
-    \item Something about how (convolutional) neural networks and convolutional networks are widely used etc. etc.
-    \item Then something about how these networks present a lot of data, and how visualization can help with this.
-\end{itemize}
-
-In the modern computer science landscape, artificial neural networks are on the rise. They have enjoyed considerable success in a plethora of fields and there exist a multitude of frameworks dedicated to creating and training such networks. Among the frameworks are Tensorflow and Caffe2, which are open-source projects backed by tech giants Google and Facebook, respectively. However, an issue with artificial neural networks is that they have been notoriously hard to understand. Being dissatisfied with this knowledge vacuum, researchers have developed a number of visualization techniques to help gain insight into the inner workings of a network. Unfortunately, unlike the building of networks, there does not exist an extensive amount of options when it comes to facilitating the creation of visualizations. As a response to this shortage, we aim to design and develop a tool that provides users with easy access to visualization techniques through a convenient user interface. More specifically, we plan to fill the void of an advanced visualization tool for the machine learning frameworks Theano and Tensorflow through the use of Keras, a high-level API supporting both frameworks. The tool would aid researchers using these popular frameworks to gain a better understanding of their networks and how to improve them, and, by extension, enable further research. \\
-
-\noindent In addition to the developing the visualization tool, we intend to investigate a theory regarding facial recognition neural networks. We postulate that an approach that utilizes the information available in facial expressions may experience greater accuracy than one that tries to overcome expressions through invariance. The hypothesis will be examined by adapting a well known artificial neural network architecture to the face recognition domain to create two networks: one conventional to act a basis to be evaluated against and one experimental that exploits facial expression data. \\
+\noindent One of the fields where artificial neural networks have been successfully applied is the area of face recognition. In addition to developing the visualization tool, we also propose a case study in the face recognition field, where we intend to investigate a theory regarding facial recognition neural networks. We postulate that an approach that utilizes the information available in facial expressions may experience greater accuracy than one that tries to overcome expressions through invariance. The hypothesis will be examined by adapting a well known artificial neural network architecture to the face recognition domain to create two networks: one conventional to act a basis to be evaluated against and one experimental that exploits facial expression data. \\
 
 \section{Contributions}
 
-\textit{List your contributions in a summary/short way. Purpose is to make the thesis easier to read. Should be repeated towards the end, e.g. conclusion.} \\
+The thesis introduces a visualization tool, implemented as a web interface, that can help researchers and engineers gain a better understanding of the behaviour of their artificial neural networks and how to improve them. The effort will be concentrated on generating visualizations for networks whose input data reside in the 2D-image domain. The tool should be easily extensible, in regard to adding new visualization techniques and customizing the tool to a different machine learning framework. \\
 
-\noindent Our contributions to the field will be a new computer-based product, as well as a new method for facial recognition. The product is the visualization tool, that can help researchers gain a better understanding of why their artificial neural networks act the way they do. The tool should be easily extensible, in regard to adding new visualization techniques and customizing the tool to a completely different programming language or machine learning framework. The new method is the exploitation of facial expressions in face recognition systems. We propose an original method that currently can not not be found in any previous research.
+\noindent The thesis also explores the face recognition field by investigating if the exploitation of facial expression data in face recognition systems could be beneficial. \\
 
-\section{Goals and Research Questions}
+\noindent\textit{List your contributions in a summary/short way. Purpose is to make the thesis easier to read. Should be repeated towards the end, e.g. conclusion.} \\
 
-\textit{Perhaps we should create some goals/requirements for the visualization tool. \\
-We need to change the existing research questions for the case study since we do not want to care about the domain.}\\
+\noindent Our contributions to the field will be a new computer-based product, as well as a new method for facial recognition. The product is the visualization tool, that can help researchers and engineers gain a better understanding of the behaviour of their artificial neural networks and how to improve them. The tool should be easily extensible, in regard to adding new visualization techniques and customizing the tool to a different machine learning framework. The new method is the exploitation of facial expressions in face recognition systems. We propose an original method that currently can not not be found in any previous research.
 
-\noindent This thesis will aim to answer two research questions: \\
-\noindent\textbf{RQ1:} Is it possible to develop a tool to help users gain a better understanding of an artificial neural network? \\
-\noindent\textbf{RQ2:} How can facial expression data be utilized to improve a face recognition system?
+\section{Methodology}
+
+Vaishnavi \& Kuechler proposes an iterative process for design science research. The process suggests a "learning through making" approach and involves five steps, followed in an iterative cycle:
+
+\begin{itemize}
+    \item \textbf{Awareness of problem:} The awareness of a problem may come from studying existing literature and research, and finding the need for something.
+    \item \textbf{Suggestion:} A creative step for developing a simple idea of how the problem could be solved.
+    \item \textbf{Development:} The implementation of the idea in the previous step.
+    \item \textbf{Evaluation:} Evaluate the implementation and explain possible deviations from the expectation.
+    \item \textbf{Conclusion:} The result is documented. Knowledge gained and any possible future work is identified.
+\end{itemize}
+
+\noindent To achieve the goals of our thesis, we will follow this process. First, we identify the gap by examining related work and proposing our own solution. The development follows as we implement the proposed solution. We evaluate the implementation, and if there are any deviations keeping the result from being satisfying, we repeat the cycle. Finally, the result should be satisfactory, and we can document the finished implemented solution.
 
 \section{Research Method}
 
@@ -63,17 +64,17 @@ We need to change the existing research questions for the case study since we do
 
 \subsection{Research Strategy}
 
-\noindent Oates proposed six different strategies for answering research questions. In our case, two of these approaches will be employed, namely design and creation for developing the visualization tool, and experiments for the case study in facial recognition. \\
+\noindent Oates proposed six different strategies for answering research questions. In our case, two of these approaches will be employed, namely design and creation for the development of the visualization tool, and experiments for the case study in facial recognition. \\
 
-\noindent The visualization tool will be developed by following an iterative process of defining the problem, suggesting a solution, implementing and evaluating the proposed solution, and finally document the results in a conclusion. The more specific system development method will be further addressed in chapter 3. The role of the visualization tool can be viewed as being a vehicle for the case study. Although the tool itself can be of great use to others, it needs to contribute to knowledge in some way in order for it to be considered as research. The case study is a scenario where we apply our proposed application to an actual problem and examine what happens. This will allow us do demonstrate the academic qualities of our implemented tool, in addition to the technical skills. \\
+\noindent The visualization tool will be developed by following an iterative process of defining the problem, suggesting a solution, implementing and evaluating the proposed solution, and finally documenting the results in a conclusion. The more specific system development method will be further addressed in chapter 3. The role of the visualization tool can be viewed as being a vehicle for the case study. Although the tool itself can be of great use to others, it needs to contribute to knowledge in some way in order for it to be considered research. The case study is a scenario where we apply our proposed application to an actual problem and examine what happens. This will allow us do demonstrate the academic qualities of our implemented tool, in addition to the technical skills. \\
 
-\noindent Even though a goal of the case study is to see how the tool can help in the process of creating artificial neural networks, another part is the actual outcome of the case study. We want to investigate if adding expression data to a network will improve its performance, and find the best method for doing this. This will be done by conducting experiments. \\
+\noindent Even though a goal of the case study is to see how the tool can help in the process of creating artificial neural networks, another part is the actual outcome of the case study. We want to investigate if we can improve the performance of a network by exploiting expression data, and find the best method for doing this. This will be done by conducting experiments. \\
 
 \noindent The experimental process will be to (1) observe the results of the baseline network; (2) make changes to the network; (3) re-observe the results of the new network. Step 2 and 3 will be repeated for each of our proposed networks as well as adjustments to a specific network. The performance of a network is measured by its verification accuracy. By comparing the performance of the different approaches, we should be able to discover which network, and thus method, is preferred.
 
 \subsection{Data Generation Methods}
 
-The data that will be used in this project will be mainly qualitative data in the form of documents. For the design and creation phase, existing documents will be used to gain a better understanding of the context in which the tool will be used, namely the process of creating and training artificial neural networks. In addition, researcher-generated documents like architectural diagrams and user manuals will help to document the design and creation strategy. Documents will also be used in the case study, here in the form of existing multimedia documents. There exists many publicly available datasets created solely for the purpose of face recognition research, consisting of images of people with different facial expressions, photographed under various conditions. These will be used to both train the networks and to validate the performance afterwards.
+The data that will be used in this thesis will mainly be qualitative data in the form of documents. For the design and creation phase, existing documents will be used to gain a better understanding of the context in which the tool will be used, namely the process of creating and training artificial neural networks. In addition, researcher-generated documents like architectural diagrams and user manuals will help to document the design and creation strategy. Documents will also be used in the case study, in the form of existing multimedia documents. There exist many publicly available datasets created solely for the purpose of face recognition research. The datasets consist of images of people with different facial expressions, photographed under various conditions, and these will be used to both train the networks and to validate their performance afterwards.
 
 \subsection{Data Analysis}
 
