@@ -38,47 +38,64 @@ The thesis is concerned with artificial neural networks and the use of visualiza
 
 The thesis introduces a visualization tool, implemented as a web interface, that can help researchers and engineers gain a better understanding of the behaviour of their artificial neural networks and how to improve them. The effort will be concentrated on generating visualizations for networks whose input data reside in the 2D-image domain. The tool should be easily extensible, in regard to adding new visualization techniques and customizing the tool to a different machine learning framework. \\
 
-\noindent The thesis also explores the face recognition field by investigating if the exploitation of facial expression data in face recognition systems could be beneficial. \\
+\noindent The thesis also explores the face recognition field by investigating if the exploitation of facial expression data in face recognition systems could be beneficial.
 
-\noindent\textit{List your contributions in a summary/short way. Purpose is to make the thesis easier to read. Should be repeated towards the end, e.g. conclusion.} \\
+\section{Research Questions}
 
-\noindent Our contributions to the field will be a new computer-based product, as well as a new method for facial recognition. The product is the visualization tool, that can help researchers and engineers gain a better understanding of the behaviour of their artificial neural networks and how to improve them. The tool should be easily extensible, in regard to adding new visualization techniques and customizing the tool to a different machine learning framework. The new method is the exploitation of facial expressions in face recognition systems. We propose an original method that currently can not not be found in any previous research.
+\textbf{RQ1:} How can we develop a tool to improve the understanding of the behaviour of an artificial neural network? \\
+\textbf{RQ2:} How can facial expression data be utilized to improve a face recognition system?
 
-\section{Methodology}
+\section{Research Methodology}
 
-Vaishnavi \& Kuechler proposes an iterative process for design science research. The process suggests a "learning through making" approach and involves five steps, followed in an iterative cycle:
-
-\begin{itemize}
-    \item \textbf{Awareness of problem:} The awareness of a problem may come from studying existing literature and research, and finding the need for something.
-    \item \textbf{Suggestion:} A creative step for developing a simple idea of how the problem could be solved.
-    \item \textbf{Development:} The implementation of the idea in the previous step.
-    \item \textbf{Evaluation:} Evaluate the implementation and explain possible deviations from the expectation.
-    \item \textbf{Conclusion:} The result is documented. Knowledge gained and any possible future work is identified.
-\end{itemize}
-
-\noindent To achieve the goals of our thesis, we will follow this process. First, we identify the gap by examining related work and proposing our own solution. The development follows as we implement the proposed solution. We evaluate the implementation, and if there are any deviations keeping the result from being satisfying, we repeat the cycle. Finally, the result should be satisfactory, and we can document the finished implemented solution.
-
-\section{Research Method}
-
-\textit{Explain how we will use the implemented tool to conduct our experiments in the case study, and how we will conduct the experiments.}
+This section will explain the research method used in our thesis. Note that this is not to be confused with the more specific system development method, which is the explanation and documentation of how the suggested systems are implemented. This will be further addressed in chapter 4. The research methodology is the combination of research strategies and data generation methods to be used in the thesis. Even though our research consists of two separate problems, we plan to address them simultaneously, and will employ similar methods for both. Thus, parts of this section discusses the research in general instead of separately for each research question.
 
 \subsection{Research Strategy}
 
-\noindent Oates proposed six different strategies for answering research questions. In our case, two of these approaches will be employed, namely design and creation for the development of the visualization tool, and experiments for the case study in facial recognition. \\
+Oates proposed six different strategies for answering research questions. Since both of our questions are concerned with the implementation of some kind of computer system, it is natural to employ the design and creation strategy, which focuses on developing new information technology (IT) products, or so called artefacts. March \& Smith defines four types of IT artefacts: constructs, models, methods and instantiations. Instantiations are working systems that demonstrates that constructs, models, methods, ideas or theories can be implemented in a computer-based system. The research output in our case will be two instantiations: the implemented visualization tool, and an implementation of a face recognition system incorporating a novel idea. \\
 
-\noindent The visualization tool will be developed by following an iterative process of defining the problem, suggesting a solution, implementing and evaluating the proposed solution, and finally documenting the results in a conclusion. The more specific system development method will be further addressed in chapter 3. The role of the visualization tool can be viewed as being a vehicle for the case study. Although the tool itself can be of great use to others, it needs to contribute to knowledge in some way in order for it to be considered research. The case study is a scenario where we apply our proposed application to an actual problem and examine what happens. This will allow us do demonstrate the academic qualities of our implemented tool, in addition to the technical skills. \\
+\noindent Vaishnavi \& Kuechler present an iterative process typical for design and creation illustrated in \textbf{Fig. \ref{dsr-cycle}}. The process suggests a "learning through making" approach and involves five steps, followed in an iterative cycle: awareness of problem, suggestion, development, evaluation and conclusion. The first step is to study existing literature and research to uncover the need for something. The second step provides a creative leap from the need to a simple idea of a solution. Then, the idea is implemented in the third step, followed by an evaluation of this implementation and an explanation of possible deviations from the expectation in the fourth step. Finally, in the fifth step, the result is documented, and the knowledge gained as well as any possible future work is identified. \\
 
-\noindent Even though a goal of the case study is to see how the tool can help in the process of creating artificial neural networks, another part is the actual outcome of the case study. We want to investigate if we can improve the performance of a network by exploiting expression data, and find the best method for doing this. This will be done by conducting experiments. \\
+\begin{figure}[h!]
+    \centering
+        \includegraphics[width=0.7\textwidth]{fig/dsr-cycle.pdf}
+        \caption{Design Science Research Process Model (DSR Cycle)}
+        \label{dsr-cycle}
+\end{figure}
 
-\noindent The experimental process will be to (1) observe the results of the baseline network; (2) make changes to the network; (3) re-observe the results of the new network. Step 2 and 3 will be repeated for each of our proposed networks as well as adjustments to a specific network. The performance of a network is measured by its verification accuracy. By comparing the performance of the different approaches, we should be able to discover which network, and thus method, is preferred.
+\noindent For the visualization tool, the first couple of iterations of this cycle has already been conducted in the Specialization Project. The result of this project included many pointers on future work, that will be addressed in this thesis. We will continue to repeat the process until we can conclude with an implementation that is satisfactory according to our research goals and questions. For the case study, however, no development was conducted in the Specialization Project. The focus was rather on the first two steps, namely to define the problem and suggest a solution. In this thesis, we will continue the process by implementing the suggested solution, and continue to evaluate and improve it until we reach a conclusion.\\
 
 \subsection{Data Generation Methods}
 
-The data that will be used in this thesis will mainly be qualitative data in the form of documents. For the design and creation phase, existing documents will be used to gain a better understanding of the context in which the tool will be used, namely the process of creating and training artificial neural networks. In addition, researcher-generated documents like architectural diagrams and user manuals will help to document the design and creation strategy. Documents will also be used in the case study, in the form of existing multimedia documents. There exist many publicly available datasets created solely for the purpose of face recognition research. The datasets consist of images of people with different facial expressions, photographed under various conditions, and these will be used to both train the networks and to validate their performance afterwards.
+The data that will be used in this thesis will mainly be qualitative data in the form of documents. For the implementation of the visualization tool, articles on various visualization techniques that can aid in understanding artificial neural networks will be essential. We will also make use of documentation of the frameworks and technologies used in implementation. To document the implemented tool and capture our research strategy, we will generate our own documents using architectural diagrams and user manuals. \\
+
+\noindent For the case study, we will need a large amount of images. Since our case study is concerned with the field of face recognition with expressions, we require images of people with different facial expressions, photographed under various conditions, labeled with identification and expression. There exist several datasets created solely for the purpose of face recognition, but the challenge will be to find one of appropriate size, with the right amount of metadata. The larger datasets examined have a tendency to be expensive or lack availability. The chosen dataset will be used to both train the networks and validate their performance afterwards.
 
 \subsection{Data Analysis}
 
-Both quantitative and qualitative data analysis will be performed on the results. A part of the results are performance measures of a network, for example its verification accuracy. These measures will naturally be examined using quantitative approaches. However, another part of the results are the actual visualizations produced. To interpret these visualizations, qualitative analysis needs to be applied in order to identify connections between the visualizations and the behaviour of the networks.
+To present the results of the visualization tool, we will make use of well known artificial neural networks, and show the visualizations produced at various stages of training. Since the results are images, we will need to perform quantitative data analysis on these images. The goal will be to identify connections between the visualizations and the behaviour of the networks, both in terms of why they may perform well and why they may struggle. \\
+
+\noindent Qualitative data analysis will be performed on the results of the case study. The prediction accuracy of an artificial neural network is defined as the percent of correctly classified inputs, in our case images. The accuracy of our implemented network incorporating the proposed will be measured against the accuracy of the baseline network. By comparing these, we should be able to determine whether exploiting expressions in such a way could be beneficial.
+
+
+\begin{itemize}
+    \item \textbf{Awareness of problem:} The awareness of a problem may come from studying existing literature and research, and discovering a need for something.
+    \item \textbf{Suggestion:} A creative step for developing a simple idea of how the problem could be solved.
+    \item \textbf{Development:} The implementation of the idea in the previous step.
+    \item \textbf{Evaluation:} Evaluating the implementation and explain possible deviations from the expectation.
+    \item \textbf{Conclusion:} The result is documented. Knowledge gained and any possible future work is identified.
+\end{itemize}
+
+\begin{itemize}
+    \item \textbf{Constructs:} Concepts or vocabulary used in a particular IT-related domain.
+    \item \textbf{Models:} Combination of constructs that represent a situation and are used to aid problem understanding and solution development.
+    \item \textbf{Methods:} Guidance on the models to be produced and process stages to be followed to solve problems using using IT.
+    \item \textbf{Instantiations:} Working system that demonstrates that constructs, models, methods, ideas, genres or theories can be implemented in a computer-based system.
+\end{itemize}
+
+
+\noindent To achieve the goals of our thesis, we will follow this process. First, we identify the gap by examining related work and proposing our own solution. The development follows as we implement the proposed solution. We evaluate the implementation, and if there are any deviations keeping the result from being satisfying, we repeat the cycle. Finally, the result should be satisfactory, and we can document the finished implemented solution.
+
+
 
 \section{Thesis Structure}
 
@@ -87,7 +104,7 @@ Both quantitative and qualitative data analysis will be performed on the results
 \begin{tabular}{ | l | p{8cm} |}
 \hline
 \textbf{Chapter/Appendix} & \textbf{Description} \\ \hline
-1. Introduction & Gives the reader an overview of the project and the thesis. \\ \hline
+1. Introduction & Provides an overview of the project and the thesis. \\ \hline
 2. Background Theory & Provides the theory relevant for the project. \\ \hline
 3. Related Work & ... \\ \hline
 4. Implementation & Describes the web interface in terms of architecture and technologies used. \\ \hline

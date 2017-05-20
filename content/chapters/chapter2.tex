@@ -171,20 +171,75 @@ What exactly is the convolutional operation? Convolutional layer (local connecti
     \item Pooling
 \end{itemize}
 
-A variation of the traditional ANN, convolutional neural networks (CNNs) are especially well suited for handling input data that can be arranged in a grid-like topology. These types of networks are commonly used in situations where the processing of 2D-images is required, but can be applied to input of any dimension. CNNs employ a mathematical operation called convolution, from which the name is derived. 
+A variation of the traditional ANN, convolutional neural networks (CNNs) are especially well suited for handling input data that can be arranged in a grid-like topology. These types of networks are commonly used in situations where the processing of 2D images is required, but can be applied to input of any dimension. We will, however, concentrate on the convolution of 2D input, as it is of most relevance to the thesis. \\
 
-Explain convnet structure, that it includes pooling layers and usually fully connected layers at top.
+\noindent A typical CNN architecture involves multiple convolutional layers as the main body of the network, interspersed with pooling layers, before ending with one or more fully connected layers. A convolutional layer employs a mathematical operation called convolution, from which the name of both the layer and the network type is derived. Before explaining the convolutional layer and the pooling layer, as well as a convolutional layer variant called the transposed convolutional layer, we review the convolution operation and its matrix multiplication counterpart.
 
-In addition to layers implementing this operation, CNNs typically contain pooling layers. Before these two layer types, as well as the transposed convolution layer, are explained further, we review the convolution operation.
+\subsection{Convolution Operation}
 
-\subsubsection{Convolution Operation}
+Generally, convolution can be defined as an operation on two functions, $x$ and $w$, of a real-valued argument, $t$:
+
 $$s(t) = \int x(a)w(t-a) da$$
+
+\noindent The operation is typically denoted $s(t) = (x*w)(t)$. While the above definition is for arguments in the continuous range, data in computer applications is usually discrete. If we assume that $x$ and $w$ are only defined on discrete values of $t$, the convolution operation can be discretized:
 
 $$s(t) = (x*w)(t) = \sum_{a=-\infty}^{\infty} x(a)w(t-a)$$
 
+\noindent In CNN terminology, $x$ and $w$ represents the input the convolution kernel, respectively. For a network, the input and kernel are usually multidimensional arrays, the first containing data and the second containing the network parameters, or weights. Because these arrays are finite, we can assume that the functions are zero for elements that reside outside the arrays' range. The infinite summation in the discrete convolution operation can then be reduced to a summation over a finite number of array elements. In addition, it is often desirable to perform convolutions over multiple axes at a time. The convolution operation for a 2D image input $I$, using a 2D kernel $K$, would then be defined:
+
+$$s(i, j) = (I*K)(i, j) = \sum_{m} \sum_{n} I(m, n) K(i-m, j-n)$$
+
+\noindent Since convolution is commutative, the following is equivalent:
+
+$$s(i, j) = (K*I)(i, j) = \sum_{m} \sum_{n} I(i-m, j-n) K(m, n)$$
+
+\noindent The commutative property is a result of the kernel being flipped relative to the input, such that the input index increases with $m$, while the kernel index decreases. This property is not essential in practice and many ANN libraries implement cross-correlation instead, calling it convolution. In reality, cross-correlation is equivalent to convolution without the kernel flipping:
+
+$$s(i, j) = (I*K)(i, j) = \sum_{m} \sum_{n} I(i+m, j+n) K(m, n)$$
+
+\noindent An example of an application of cross-correlation on 2D input can be seen in Fig. X Following convention, we will not differentiate between the two approaches any further and refer to both as convolution operations. 
+ 
+\subsection{Convolution as Matrix Multiplication}
+ 
+Discrete convolution can be represented by a matrix multiplication and there are multiple ways to define the operation. The definition presented here was chosen as it allows the differences between convolution and transposed convolution to be easily demonstrated in section X.
+
+\noindent To The input is simply reshaped into a vector, but the kernel must be turned into a Toeplitz matrix, meaning that each row is equal to the one above, except shifted by a single element. The dimensions of the kernel matrix should match the original input dimensions.
+
+\noindent Consider a 3x3 kernel used in a convolution on a 4x4 input matrix. If we unroll the matrix from left to right and top to bottom, the convolution can be represented by the matrix $C$, where \textit{$w_{ij}$} is the element at row \textit{i} and column \textit{j} in the kernel:
+
+\[
+    K = 
+    \left(
+    \begin{smallmatrix}
+    \textit{$w_{00}$} & \textit{$w_{01}$} & \textit{$w_{02}$} & 0 & 
+    \textit{$w_{10}$} & \textit{$w_{11}$} & \textit{$w_{12}$} & 0 & 
+    \textit{$w_{20}$} & \textit{$w_{21}$} & \textit{$w_{22}$} & 0 & 
+    0 & 0 & 0 & 0\\
+    0 & \textit{$w_{00}$} & \textit{$w_{01}$} & \textit{$w_{02}$} & 
+    0 & \textit{$w_{10}$} & \textit{$w_{11}$} & \textit{$w_{12}$} & 
+    0 & \textit{$w_{20}$} & \textit{$w_{21}$} & \textit{$w_{22}$} & 
+    0 & 0 & 0 & 0\\
+    0 & 0 & 0 & 0 & 
+    \textit{$w_{00}$} & \textit{$w_{01}$} & \textit{$w_{02}$} & 0 & 
+    \textit{$w_{10}$} & \textit{$w_{11}$} & \textit{$w_{12}$} & 0 & 
+    \textit{$w_{20}$} & \textit{$w_{21}$} & \textit{$w_{22}$} & 0\\
+    0 & 0 & 0 & 0 & 
+    0 & \textit{$w_{00}$} & \textit{$w_{01}$} & \textit{$w_{02}$} & 
+    0 & \textit{$w_{10}$} & \textit{$w_{11}$} & \textit{$w_{12}$} & 
+    0 & \textit{$w_{20}$} & \textit{$w_{21}$} & \textit{$w_{22}$}\\
+    \end{smallmatrix}
+    \right)
+\]
+
+\noindent Multiplying $C$ with the now 16-dimensional vector would produce a 4-dimensional vector, which could be reshaped into the 2x2 matrix we expect from the convolution. The operation is therefore equivalent to a convolution forward pass. To do a convolution backward pass, the transposed version of $C$, $C^T$, would be used. This transposed version of the convolution matrix allows the backward pass to receive a 4-dimensional vector as input and produce a 16-dimensional vector as output, which can be reshaped to the original 4x4 size. \\
+
+\noindent In a forward pass, a single entry in the output vector is only affected by a subset of the entries in the input vector and always the same ones. The backward pass has the same connectivity pattern between the entries in the input and output vector, only in the reverse order. These connectivity patterns are compatible since both passes are defined by $C$. In context of the example, the first entry (index 0) of the forward pass output vector would be connected to the input vector entries with index 0-2, 4-6, and 8-10. Subsequently, the backward pass output vector entries with index 0-2, 4-6, and 8-10 would be connected to the first entry in the input vector.\\
+
 \subsubsection{Convolution Layer}
 
+output is referred to as feature map
 
+what separates a CNN from an ANN
 
 usually used for 2D, but works for ND
 output shape is affected by input shape as well as kernel size
@@ -199,6 +254,7 @@ strides
 
 \subsubsection{Pooling Layer}
 
+used in almost all CNNs
 
 
 \noindent A transposed convolution layer (also known as a fractionally strided convolution layer) is used to reverse the convolution layer effects. Where as a convolution layer typically performs downsampling, i.e. it outputs matrices that have dimensions smaller than the ones it receives as input, a transposed convolution typically performs upsampling, i.e. it outputs matrices that have dimensions greater than the ones it receives as input. To achieve this, a transposed convolution swaps the forward and backward passes of a convolution, both of which can be defined by the kernel. Consider a 3x3 kernel used in a normal convolution on a 4x4 matrix. If we unroll the matrix from left to right and top to bottom, the convolution can be represented by the matrix $C$, where \textit{$w_{ij}$} is the element at row \textit{i} and column \textit{j} in the kernel:
