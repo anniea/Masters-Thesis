@@ -7,11 +7,15 @@
 
 \subsection{TensorBoard}
 
-Can create graphs, and view the structure of the network, histograms, 
+TensorBoard is a suite of visualization tools for TensorFlow programs. The purpose of TensorBoard is to make it easier to understand, debug, and optimize artificial neural networks. It can be used to visualize TensorFlow graphs, which is TensorFlow's way of representing computations. It can also be used to plot network metrics, such as how the learning rate varies over time, or how the loss function is changing. This is done by attaching summaries ...
 
 \subsection{DIGITS}
 
-DIGITS is a web application for training deep learning models created in Caffe, one of the leading libraries regarding convolutional neural networks. The drawback of Caffe is that you need to construct the architecture in plain text configuration files, which can be very tedious, especially for big networks. DIGITS provides Caffe users with an intuitive interface for doing many of the cumbersome tasks that usually requires manipulating the configuration files. In addition, DIGITS generate graphs, statistics and visualization of your network as it is training.
+The NVIDIA Deep Learning GPU Training System, also called DIGITS, is a web application developed for managing deep artificial neural networks created in Caffe, one of the leading programming frameworks for deep learning. A drawback of Caffe is that you need to construct the network architecture of a in plain text configuration files, which can be very tedious, especially for big networks. DIGITS provides Caffe users with an intuitive interface for doing many of the cumbersome tasks that usually requires manipulating the configuration files. At a later point, support for the scientific computing framework Torch was also added. The application helps users manage their datasets and models, and also makes pre-trained models such as AlexNet and GoogLeNet available for download. DIGITS allows user to schedule, monitor, and manage training jobs, as well as analyzing accuracy and loss in real time. In addition, it provides simple visualizations of the weights and activations for each layer when classifying an image using a finished trained network. \\
+
+\noindent It is worth to note that DIGITS has been developed simultaneously to our visualization tool, and its current version is a significant upgrade from the version available when we first started our Specialization Project. DIGITS was an inspirational source to the problem statement, due to it only supporting the use of Caffe and Torch. The developers of DIGITS have previously stated that they are not planning on adding any more frameworks, and as late as April confirmed that they will not support TensorFlow. However, recently they announced on their website that they will be releasing DIGITS with TensorFlow support in July. 
+
+% something more.. still does not support Keras, also does not employ advanced visualization techniques.
 
 \subsection{Yosinski Deep Vis Toolbox}
 
