@@ -2,22 +2,71 @@
 
 \chapter{Related Work}
 
+This chapter presents a selection of the work related to our research.
+
 \section{Visualization Tool}
 
+This section will present existing visualization tools for artificial neural networks. We will describe what makes them unique, what limits their use, and end the section with a comparison where why try to uncover the gap.
 
-\subsection{TensorBoard}
+\subsection{Description of Existing Visualization Tools}
 
-TensorBoard is a suite of visualization tools for TensorFlow programs. The purpose of TensorBoard is to make it easier to understand, debug, and optimize artificial neural networks. It can be used to visualize TensorFlow graphs, which is TensorFlow's way of representing computations. It can also be used to plot network metrics, such as how the learning rate varies over time, or how the loss function is changing. This is done by attaching summaries ...
+The following are the applications that in our opinion are the most prominent visualization tools for artificial neural networks. Other alternatives were found to be either too specific in what they provide, or not even in a working state of implementation. The three tools are very different in terms of functionality and the frameworks they support, but their main purpose is still the same: to aid in the creation and understanding of an artificial neural network.
 
-\subsection{DIGITS}
+\subsubsection{TensorBoard}
 
-The NVIDIA Deep Learning GPU Training System, also called DIGITS, is a web application developed for managing deep artificial neural networks created in Caffe, one of the leading programming frameworks for deep learning. A drawback of Caffe is that you need to construct the network architecture of a in plain text configuration files, which can be very tedious, especially for big networks. DIGITS provides Caffe users with an intuitive interface for doing many of the cumbersome tasks that usually requires manipulating the configuration files. At a later point, support for the scientific computing framework Torch was also added. The application helps users manage their datasets and models, and also makes pre-trained models such as AlexNet and GoogLeNet available for download. DIGITS allows user to schedule, monitor, and manage training jobs, as well as analyzing accuracy and loss in real time. In addition, it provides simple visualizations of the weights and activations for each layer when classifying an image using a finished trained network. \\
+TensorBoard is a suite of visualization tools for TensorFlow programs. The purpose of TensorBoard is to make it easier to understand, debug, and optimize artificial neural networks. It can be used to visualize TensorFlow graphs, which is TensorFlow's way of representing computations. It can also be used to plot network metrics, such as how the learning rate varies over time, or how the loss function is changing. This is done by annotating the nodes of the graph with so called summary operations, that writes summary data to a log. TensorBoard then reads this log, in order to generate real-time visualizations. The visualizations are mostly restricted to plots, histograms and visualizations of the network architecture. However, it can also visualize high-dimensional data like embeddings, with a very interactive user interface. Functionality for writing to the TensorBoard log is also included in Keras, but only for the basic visualizations, and with limited customizability.
 
-\noindent It is worth to note that DIGITS has been developed simultaneously to our visualization tool, and its current version is a significant upgrade from the version available when we first started our Specialization Project. DIGITS was an inspirational source to the problem statement, due to it only supporting the use of Caffe and Torch. The developers of DIGITS have previously stated that they are not planning on adding any more frameworks, and as late as April confirmed that they will not support TensorFlow. However, recently they announced on their website that they will be releasing DIGITS with TensorFlow support in July. 
+\begin{comment}
+Drawbacks:
+- No managing of networks.
+- No advanced visualizations.
+\end{comment}
+
+\subsubsection{DIGITS}
+
+The NVIDIA Deep Learning GPU Training System, also called DIGITS, is a web application developed for managing deep artificial neural networks created in Caffe, one of the leading programming frameworks for deep learning. A drawback of Caffe is that you need to construct the network architecture of a in plain text configuration files, which can be very tedious, especially for big networks. DIGITS provides Caffe users with an intuitive interface for doing many of the cumbersome tasks that usually requires manipulating the configuration files. At a later point, support for the scientific computing framework Torch was also added. The application allows user to upload and manage both datasets and models, and also makes pre-trained models such as AlexNet and GoogLeNet available for use. DIGITS allows user to schedule, monitor, and manage training jobs, as well as analyzing accuracy and loss in real time. In addition, DIGITS allows you to classify images using the fully trained networks, providing simple visualizations of the weights and activations for each layer of the result. \\
+
+\noindent It is worth to note that DIGITS has been developed simultaneously to our visualization tool, and its current version is a significant upgrade from the version available when we first started our Specialization Project. DIGITS was an inspirational source to the problem statement, due to it only supporting the use of Caffe and Torch. The developers of DIGITS have previously stated that they are not planning on adding any more frameworks, and as late as April confirmed that they will not support TensorFlow. However, recently they announced on their website that they will be releasing DIGITS with TensorFlow support in July.
 
 % something more.. still does not support Keras, also does not employ advanced visualization techniques.
 
-\subsection{Yosinski Deep Vis Toolbox}
+\begin{comment}
+Drawbacks:
+- Still does not support Keras.
+- No advanced visualizations.
+\end{comment}
+
+\subsubsection{Deep Visualization Toolbox}
+
+The Deep Visualization Toolbox \cite{yosinski-deepvis} is a software tool that provides an interactive visualization of a trained artificial convolutional neural network as the network responds to user-provided input, either an uploaded image or video from a live webcam feed. The toolbox is developed for networks created in Caffe. It comes with a default network, but also includes the possibility of adapting your own networks. Users can view the filters of a selected layer, either as actual activations or as images synthesized to produce high activations through deep visualization. A specific neuron can be selected to explore further. This will show deep visualizations, the top nine images from the training set that activates the filter the most, and the pixels from those images most responsible for the high activations, computed via the deconvolution technique. Note that these last three visualizations are pre-computed instead of computed in real time, since they are far too expensive to run live.
+
+% https://github.com/tensorflow/tensorflow/issues/842
+
+\subsection{Comparison of the Visualization Tools}
+
+%Looking away from the obvious difference in the frameworks they support, we start with comparing them in terms of functionality.
+
+As previously stated, all of the three visualization tools aim to facilitate the process of dealing with artificial neural networks, some of them to a greater extent than others. The Deep Visualization Toolbox only takes fully trained networks, and thus it rather focuses on the general knowledge learned from such networks instead of assisting in the training process. Both TensorBoard and DIGITS are intended to run while training, and DIGITS even goes as far as managing the whole creation and training process. Another distinction between the tools is that they employ various complexity of visualization techniques. TensorBoard focuses heavily on plotting graphs and histograms, while the Deep Visualization Toolbox presents significantly more advanced techniques such as deconvolution and deep visualization. DIGITS provides the very basics, which is plots of the loss and accuracy while training, and visualizations of layer activations and weights when classifying.
+
+%The visualization tools are of course also developed for different machine learning frameworks.
+
+\begin{comment}
+
+- tensorboard and digits are still being worked on. deepvis not so much
+- tensorboard --> tensorflow and some Keras
+- DIGITS and deepvis --> caffe (DIGITS torch as well)
+- DIGITS will soon support tensorflow
+- keyword is live
+
+
+- none of them specifically for keras, but tensorboard allows some support
+- maybe researchers would not use keras, because it is too high level?
+- tensorboard and digits: no advanced visualization. mostly plotting
+- digits: managing models and datasets
+- digits and tensorboard: while training
+- deepvis toolbox: only finished trained networks
+
+\end{comment}
 
 \section{Case Study in Face Recognition}
 

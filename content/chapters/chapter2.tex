@@ -2,6 +2,8 @@
 
 \chapter{Background Theory}
 
+Mention that the topics here are not exhaustively explained, and only the parts relevant to our thesis is covered. 
+
 To from fall project, "introducing" visualizations explanation:
 \noindent \textit{To gain a beneficial amount of information from our visualization website, we determined several different techniques to be researched. In this section, we present the techniques we have selected as appropriate for our purpose. Their advantages and relevance are discussed, and a brief description of how they function are given. For further explanations on implementation, we refer the reader to their respective articles.}
 
@@ -143,7 +145,7 @@ for i in range(epochs):
 \label{code:1}
 \end{listing}
 
-\noindent First, the algorithm evaluates the gradient of the loss function for the whole data set with respect to the current weights. This is done using an algorithm called backpropagation. Often, the term is used to refer to the complete process of repeatedly computing the gradient and updating the weights. Each iteration of computing the gradient involves two steps: forward propagation and backward propagation. The forward propagation is simply the propagation of an input through the network in order to generate an output. In the backward propagation, the loss, or error, between the generated output and the actual output is computed, and this error is propagated backwards to the previous layers. The error values are then used to calculate the gradient. The next step of gradient descent is to adjust the weights, based on the evaluated gradient and a learning rate. The learning rate controls the magnitude of the update, and is a crucial network hyperparameter setting. This process is repeated for a pre-defined number of epochs.
+\noindent First, the algorithm evaluates the gradient of the loss function for the whole data set with respect to the current weights. This is done using an algorithm called backpropagation. Often, the term is used to refer to the complete process of repeatedly computing the gradient and updating the weights. Each iteration of computing the gradient involves two steps: forward propagation and backward propagation. These steps are also known as forward pass and backward pass, respectively. The forward propagation is simply the propagation of an input through the network in order to generate an output. In the backward propagation, the loss, or error, between the generated output and the actual output is computed, and this error is propagated backwards to the previous layers. The error values are then used to calculate the gradient. The next step of gradient descent is to adjust the weights, based on the evaluated gradient and a learning rate. The learning rate controls the magnitude of the update, and is a crucial network hyperparameter setting. This process is repeated for a pre-defined number of epochs.
 
 \subsubsection{Stochastic Gradient Descent}
 
@@ -166,7 +168,7 @@ Adaptive learning rate methods are algorithms that automatically adapts the lear
 \textit{More in-depth than covered in the specialization project. \\
 What exactly is the convolutional operation? Convolutional layer (local connections and weight sharing) vs normal layer.}
 
-A variation of the traditional ANN, convolutional neural networks (CNNs) are especially well suited for handling input data that can be arranged in a grid-like topology. These types of networks are commonly used in situations where the processing of 2D images is required, but can be applied to input of any dimension. We will, however, concentrate on the convolution of 2D input, as it is of most relevance to the thesis. \\
+A variation of the traditional ANN, convolutional neural networks (CNNs) are especially well suited for handling input data that can be arranged in a grid-like topology. These types of networks are commonly used in situations where the processing of images is required, but can be applied to input of any dimension. We will, however, concentrate on the convolution of images, as it is of most relevance to the thesis. \\
 
 \noindent A typical CNN architecture involves multiple convolutional layers as the main body of the network, interspersed with pooling layers, before ending with one or more fully connected layers. A convolutional layer employs a mathematical operation called convolution, from which the name of both the layer and the network type is derived. Before explaining the convolutional layer and the pooling layer, as well as a convolutional layer variant called the transposed convolutional layer, we review the convolution operation and its matrix multiplication counterpart.
 
@@ -223,37 +225,60 @@ To reiterate, a convolutional layer employs convolution to compute its output, u
 
 \noindent Where each weight of a fully connected layer is only used once, each weight in a convolutional layer is used multiple times. When convolving, the kernel is applied at several different areas of the input, reusing the parameters of the kernel across the input. Every unit in the convolutional layer then uses the same kernel weights as the other units to connect to the layer below. In this situation, the weight are said to be shared among the units. Additionally, the parameter sharing characteristic means that the kernel parameters learned in training are location independent. \\
 
-\noindent The equivariance property of convolutional layers are caused by the particular form of parameter sharing. Specifically, convolutional layers have equivariance to translation. In short, this means that if the input of the layer experiences any translation changes, then the output changes in the same way. Consider a convolution with an image input, where the kernel parameter values are set to detect the edges of an object. The convolutional layer would then create a map of where the edges are located. 
+\noindent The equivariance property of convolutional layers are caused by the particular form of parameter sharing. Specifically, convolutional layers have equivariance to translation, which means that if the input of the layer experiences any translation changes, then the output changes in the same way. Consider a convolution with an image input, where the kernel parameter values are set to detect the edges of an object. The convolutional layer would then create a map of where the edges are located. Because of the equivariance property, if the object shifts to another location in the image, the edge mapping would shift accordingly. \\
 
-because of equivariance, if the object moves, the edge mapping moves accordingly
+\noindent Together, these concepts make convolutional layers a powerful addition to the ANN toolbox, especially for image input. As mentioned, the kernel parameters can be chosen so the convolutional layer detect edges. Since the same parameters are used across the input, the layer will be able to discover edges at any location in the image. Edges might not be the only thing of interest, and using a kernel with different parameter could provide a mapping of another feature, for example a corner. Consequently, convolutional layers often employ several different kernels, which differ in parameter values, but are equal in size. In truth, detecting edges with a single kernel would only allow the layer to identify edges of a specific orientation, for example horizontal of vertical. With several kernels, the layer can detect edges of any orientation, as well as many other simple features. Adding another convolutional layer enables the detection of features that are composed of the features that are pursued in the previous layer. With additional layers, the features can become even more complex, each building on the ones below. Stacking convolutional layers make CNNs able to perform remarkably well on image input, for example in face recognition. Then, lower layer kernels start by detecting simple features, like edges, which later kernels can use to detect more complex patterns, like eyes or mouths. Layers even deeper in the network can then use that output to identify complex structures like faces. While the sparse connectivity between layers might be thought to hinder such complexity, the connectivity of units in later layers take on a pyramid-shaped pattern, as throughout the layers they become indirectly connected to a increasingly larger portion of the units below and, ultimately, the input.
 
-\\
+FORTSETT HER
+
+If another convolutional layer is added, its kernel could 
+
+As mentioned, CNNs are commonly applied on image input
 
 The operation is therefore equivalent to a convolution forward pass. To do a convolution backward pass, the transposed version of $K$, $K^T$, would be used. This transposed version of the convolution matrix allows the backward pass to receive a 4-dimensional vector as input and produce a 16-dimensional vector as output, which can be reshaped to the original 4x4 size. \\
 
 \noindent In a forward pass, a single entry in the output vector is only affected by a subset of the entries in the input vector and always the same ones. The backward pass has the same connectivity pattern between the entries in the input and output vector, only in the reverse order. These connectivity patterns are compatible since both passes are defined by $K$. In context of the example, the first entry (index 0) of the forward pass output vector would be connected to the input vector entries with index 0-2, 4-6, and 8-10. Subsequently, the backward pass output vector entries with index 0-2, 4-6, and 8-10 would be connected to the first entry in the input vector.\\
 
 output is referred to as feature map
+has activation function, same as FC layer
 
-what separates a CNN from an ANN
+
+input is usually 3D, with channel dimension (colors or filters) -> sparse connectivity in spatial dimensions, but usually full in channel dimension
 
 lower layers -> simple features like edges
+
 higher layers -> more complex structures consisting of lower layer features
+
 "In a deep convolutional network,
 units in the deeper layers may indirectly interact with a larger portion of the input,
 as shown in figure 9.4. This allows the network to efficiently describe complicated
 interactions between many variables by constructing such interactions from simple
 building blocks that each describe only sparse interactions"
 
+usually uses several kernels to extract several features at once
 
-usually used for 2D, but works for ND
-input shape can vary
+input shape can vary (but not if FC layers on top, maybe with scaled pooling)
+
 output shape is affected by input shape as well as kernel size
+
 filter amount
 kernel size
-padding
+padding -> valid, same , full
 strides
-has activation function, same as FC layer
+
+strides and padding affect kernel matrix K
+"In some cases, multiple sizes of input to forward propagation can
+result in the same size of output map, so the transpose operation must be explicitly
+told what the size of the original input was."
+input flattened before FC layers
+
+IMPORTANT: training / learning
+
+on bias:
+For convolutional
+layers, it is typical to have one bias per channel of the output and share it across
+all locations within each convolution map. However, if the input is of known, fixed
+size, it is also possible to learn a separate bias at each location of the output map.
 
 
 \subsection{Transposed Convolution Layer}
@@ -262,6 +287,9 @@ has activation function, same as FC layer
 \subsection{Pooling Layer}
 
 used in almost all CNNs
+
+from cs231n:
+"Recall from the backpropagation chapter that the backward pass for a max(x, y) operation has a simple interpretation as only routing the gradient to the input that had the highest value in the forward pass. Hence, during the forward pass of a pooling layer it is common to keep track of the index of the max activation (sometimes also called the switches) so that gradient routing is efficient during backpropagation."
 
 
 \noindent A transposed convolution layer (also known as a fractionally strided convolution layer) is used to reverse the convolution layer effects. Where as a convolution layer typically performs downsampling, i.e. it outputs matrices that have dimensions smaller than the ones it receives as input, a transposed convolution typically performs upsampling, i.e. it outputs matrices that have dimensions greater than the ones it receives as input. To achieve this, a transposed convolution swaps the forward and backward passes of a convolution, both of which can be defined by the kernel. Consider a 3x3 kernel used in a normal convolution on a 4x4 matrix. If we unroll the matrix from left to right and top to bottom, the convolution can be represented by the matrix $K$, where \textit{$w_{ij}$} is the element at row \textit{i} and column \textit{j} in the kernel:
