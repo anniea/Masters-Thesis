@@ -2,6 +2,66 @@
 %===================================== APPENDIX A =================================
 \chapter{Installation/Setup}
 
+% mention and describe config file
+
 A step by step wizard for how to install and setup the interface. This was requested in the specialization project, should be very thoroughly explained.
+
+\section{Installation}
+
+\begin{listing}[ht]
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize,
+]
+{python}
+    pip3 install -r visualization/requirements.txt
+\end{minted}
+\end{listing}
+
+\section{Setup}
+
+\begin{listing}[ht]
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize,
+]
+{python}
+    source linux_macos/init_db.sh
+\end{minted}
+\end{listing}
+
+\section{Run}
+
+\begin{listing}[ht]
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize,
+]
+{python}
+    source linux_macos/start_flask.sh
+\end{minted}
+\end{listing}
+
+\begin{listing}[ht]
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize,
+]
+{python}
+    source linux_macos/start_bokeh.sh
+\end{minted}
+\end{listing}
 
 \cleardoublepage

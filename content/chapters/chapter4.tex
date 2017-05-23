@@ -2,26 +2,27 @@
 
 \chapter{Implementation}\label{implementation-chap}
 
-\textit{Detailed description of the web interface and its structure as well as case study, this was missing from the specialization project. \\
-\noindent Present the technology used (might have to reword the name of this chapter). \\
-\noindent Include several typical software development diagrams.}
+The chapter thoroughly described the implementation process and the implementation itself of both the visualization tool and the creation and training of the networks implemented for the case study.
 
 \section{Visualization Tool}
 
+In this section we will present the implementation details of the visualization tool created as a part of this thesis. We start with a summary of the related results from the Specialization Project, before explaining the system development methodology used in the implementation process. Then, we will present the two quality attributes that have been a focus through the design and implementation, and state our decisions regarding the technology used. Finally, we will showcase the implementation details for the main parts of the implemented visualization tool.
+
 \subsection{Prototype}
 
-This section will describe the prototype of the web interface to be improved as well as some pointers on what should be implemented in the next version.
+This section presents the results form the Specialization Project in terms of the already implemented prototype of the visualization tool, as well as some pointers on the planned improvements and extensions to be done for this thesis.
 
 \subsubsection{Description}
 
 % Should say something about what kind of application it is, e.g. desktop vs web and why.
-% Also explain why there us a user system.
+% --> desktop application, but runs in a web browser
+% Also explain why there is a user system?
 
 \noindent The prototype provides all the basic user functionality for creating a user, and logging in and out, including validation of user name and password. A user can upload Python scripts from their computer to the server, and tag them with various topics to make them easier to search for, using the search bar on the page showing all uploaded scripts. \\
 
 \noindent By selecting a specific script, the user can view the code, add tags to, delete, and of course run, the script. A separate menu tab for visualizations provides the user with visualizations of the data produced while running. The only visualization techniques implemented are the training progress and layer activations laid out after each other on a single page. The training progress includes two separate plots showing accuracy and loss over batch, while the layer activations are shown for each single layer of the network defined in the script.
 
-\subsubsection{Planned Improvements}
+\subsubsection{Planned Improvements and Extensions}
 
 The overall purpose will be to add more functionality with the goal of improving the user's understanding of the network. This may be new visualization techniques, training process statistics, better presentations of data, and more user controls. Another useful addition can be allowing the user more flexibility and make the visualizations more interactive.
 
@@ -31,11 +32,13 @@ The development of the visualization tool has been carried out by a team consist
 \begin{enumerate}
     \item Visualizing data using the selected visualization library and incorporating these into the user interface
     \item Implementing visualization techniques and creating networks to illustrate the use of the tool with the chosen deep learning library
-\end{enumerate}
+\end{enumerate} % maybe add a sentence explaining that these areas were just pointers, and that we both did work on both areas.
 
-\noindent The development process itself did not follow any strict guidelines, but included several elements from Agile methods. It has been an iterative and incremental process, starting with the existing prototype of the system that only implemented two of the visualization techniques in a very simple manner. Based on our own testing as well as feedback from the customer, which in this case is our supervisors, functionality were added and adjustments were made in order to obtain a new and improved prototype. This process was repeated until we reached a satisfactory system according to the initial requirements. An example of the iterative part of the process is when we decided to replace the old visualization library with a new one that better suited our needs. An example of the incremental part of the process is when our supervisors expressed the wish for a way for the user to be able to upload an image to be used in producing some of the visualizations. Other concepts from Agile development that were put into use are code review, pair programming, and the use of a backlog to get an overview of the requirements.
+\noindent The development process itself did not follow any strict guidelines, but included several elements from Agile methods. It has been an iterative and incremental process, starting with the existing prototype of the system that only implemented two of the visualization techniques in a very simple manner. Based on our own testing as well as feedback from our supervisors, functionality were added and adjustments were made in order to obtain a new and improved prototype. This process was repeated until we reached a satisfactory system according to the initial requirements. An example of the iterative part of the process is when we decided to replace the old visualization library with a new one that better suited our needs. An example of the incremental part of the process is when our supervisors expressed the wish for a way for the user to be able to upload an image to be used in producing some of the visualizations. Other concepts from Agile development that were put into use are code review, pair programming, and the use of a backlog to get an overview of the requirements.
 
 \subsection{Focus Quality Attributes}
+
+In addition to functional requirements, we wanted to incorporate some non-functional requirements as well. Thus we have selected two quality attributes that we consider to be of highest importance. Quality attributes are overall factors that represents areas of concern impacting the application as a whole. In our case, we have determined that the most important factors are as follows.
 
 \subsubsection{Modifiability}
 
@@ -47,33 +50,33 @@ Not only should the interface be simple and easy to navigate for the user, but t
 
 \subsection{Technology Decisions}
 
+This section presents the technology used in our implementation, as well as a justification of why they were selected and an identification of any potential drawbacks.
+
 \subsubsection{Flask}
 
 Flask is a web framework written in Python, used to build simple web applications. It is a micro-framework, meaning that it has very few dependencies to external libraries. It provides you with only the basic tools needed to create a web application, and is therefore very lightweight. There exists many plugins that can be added for an increased range of functionality. Since the focus of our visualization tool is not the web page itself, but rather its capabilities in terms of visualization techniques, Flask is the perfect choice. It allowed us to quickly set up an application and implement a basic user system and upload functionality.
 
 \subsubsection{SQLite}
 
-\textit{Very lightweight and easy to include in simple desktop apps that could make use of a database. Do not really need to store much data. Simple relational data. Not an important part of the application. Lightweight. Not a lot of connections.}
+SQLite is a simple and lightweight relational SQL database engine. In contrast to many other databases, it is embedded into the application. It is often used to provide local data storage for desktop applications. An embedded database improves application performance, reduces cost and complexity, and improves reliability. Since we do not require any advanced database functionality, nor do we need to store large amounts of data or have many database connections at the same time, SQLite is a perfect choice for out visualization tool. It is uncomplicated to set up, and can also be easily replaced with a more advanced database system at a later time if needed.
 
 \subsubsection{Keras}
 
-Keras is a high-level neural networks library that can run on top of either TensorFlow or Theano. Its purpose is to provide a way to quickly and easily create models and start experimenting. It is very minimalistic, providing only enough to achieve an outcome, while still allowing for extensibility by making it easy to add and use new modules within the framework. Keras provides the user with several callbacks, i.e. sets of functions to be applied at giving stages of the ANN training procedure. It also allows for creating your own custom callbacks, which is perfect for our use case, since we then can create callbacks that produces the data needed for each visualization technique.
-
-\subsubsection{TensorFlow}
-
-\textit{Not sure if we need this section. But mention in Keras section, and say whether we support both Theano and TensorFlow?}
+Keras is a high-level neural networks library that can run on top of either TensorFlow or Theano. Its purpose is to provide a way to quickly and easily create models and start experimenting. It is very minimalistic, providing only enough to achieve an outcome, while still allowing for extensibility by making it easy to add and use new modules within the framework. Keras provides the user with several callbacks, i.e. sets of functions to be applied at giving stages of the ANN training procedure. It also allows for creating your own custom callbacks, which is perfect for our use case, since we then can create callbacks that produces the data needed for each visualization technique. Consequently, we have chosen to adapt our visualization tool specifically to Keras. We have added support for both the TensorFlow and the Theano backend. Howeber, we have concentrated on TensorFlow, thus not all visualizations have been extensively tested for the Theano backend.
 
 \subsubsection{Bokeh}
 
-Bokeh is a Python interactive visualization library for modern web browsers. It can easily be embedded into a Flask application, as we will show in a later section. The library is easy to use, and has the flexibility of adding interactions and highly advanced customization. Another benefit is that it is easy to stream large data sets and plot them live. \textit{Something about the drawbacks because it is new.}
+Bokeh is a Python interactive visualization library for modern web browsers. It can easily be embedded into a Flask application, as we will demonstrate later in this chapter. The library is simple in use, and has the flexibility of adding interactions and highly advanced customization. Another benefit is that it allows for streaming large data sets and plot them live, an extremely useful feature for our purpose. However, Bokeh is still in an early state of development, which makes it more susceptible to bugs, and in some cases will limit the functionality.
 
-A lot of possibilities for adding interactions, easy to stream live plotting of data. Drawbacks are that it is fairly new and still under development. Also probably not the best for handling images.
+% kan skrive mer om bokehs sever og at det er veldig bra for modifiability
 
 \subsection{Overview of the Architecture}
 
 As seen in \textbf{Fig. \ref{architecture1}}, the system can be said to consist of five separate modules: Flask, the user storage, the database, Bokeh, and Keras. The Flask module is the very core of the application, and defines the routes (URLs), models and forms of the web page, tying the logic together with HTML templates, CSS and JavaScript into a simple functional web interface. The user storage is where all scripts and images uploaded through the Flask application are stored, as well as text files containing the produced data during training. The database contains metadata about the scripts that is used in the Flask application, such as the owner, when it was uploaded, and the path to the script. The Keras module includes the custom callbacks created for visualization that writes data to the files stored in the user storage. A user applied the wanted callbacks to his or her scripts. It is the Flask application that implements the logic of running these scripts. Finally, the Bokeh module uses the data stored in user storage to create live interactive visualizations, and the Flask application takes care of displaying these on the web page. \\
 
 \noindent \textit{Something about modular approach, that it is good for extensibility, etc.}
+
+% maybe another figure of the application in more detail, e.g. with folders etc. or we can show the top folder structure.
 
 % First, the overall architecture. Explain the different modules.
 % Then we can focus on some parts of the architecture that we want to "show off".
@@ -203,7 +206,6 @@ frame=lines,
 framesep=2mm,
 baselinestretch=1.2,
 fontsize=\footnotesize,
-linenos
 ]
 {python}
 with open(get_output_file(get_current_user(), basename(file_path)), 'w') as f:
@@ -270,7 +272,7 @@ The implementation of the \texttt{LayerActivations} callback can be seen in \tex
 
 \noindent The Keras callbacks provides various methods that are called at specified events, such as \texttt{on\_batch\_end} which is used in this example. Other methods used in the other callbacks are \texttt{on\_train\_begin} and \texttt{on\_epoch\_end}. The counter value is increased in line 25, and line 28 checks whether it is time to perform the computation of the visualization data. The specific functionality varies from the different visualization techniques, and will not be further explained. Finally, line 32 creates the correct file for storing the data, in this case in a pickle file, and the counter is reset. Note that some of the callbacks also takes use of a postprocess function, which would be applied to the result before saving it.
 
-\begin{listing}[ht]
+\begin{listing}[h!]
 \begin{minted}
 [
 frame=lines,
@@ -321,7 +323,51 @@ class LayerActivations(Callback):
 \label{code:5}
 \end{listing}
 
-\subsection{Visualizations}
+% can add more specifics here, either in a subsubsection or in a new subsection.
+
+\subsection{The Bokeh Server}
+
+The visualizations are displayed in the user interface utilizing the Bokeh visualization library. The most flexible approach of embedding these in Flask is to make use of the Bokeh Server. A Bokeh application is created for each visualization technique, and these are served by the server using the \texttt{bokeh serve [applications]} command, where applications is a list of paths to the various applications, separated by spaces. The server uses the application code to create sessions and documents. A document is Bokeh's organizing data structure containing all the models and data needed to render the application in the browser.\\
+
+\noindent The Bokeh Server is embedded into the code of the Flask application as seen in \textbf{Code \ref{code:6}}. This method is called whenever a user selects a tab that contains a visualization. \texttt{app\_path} is the corresponding relative path to the selected visualization, for instance 'training\_progress'. The full URL of the training progress Bokeh application is thus \texttt{BOKEH\_SERVER}, which is the URL of the server imported from the config file, joined together with \texttt{app\_path}. The server is loaded in line 3, returning a script tag that will replace itself with a Bokeh plot when placed in a HTML template. The Bokeh application will need to know the filename and the username in order to locate the correct visualization data file that should be visualized. Bokeh allows for passing HTTP request arguments to its applications, but has not yet implemented a way of passing these in \texttt{autoload\_server}. Therefore, we need to manually insert the filename and username into the script tag, as seen in line 5 through 11. Finally, the script can be returned and is further passed on to a HTML template. The complete process is also illustrated in a sequence diagram in \textbf{Fig. \ref{bokeh-server}}.
+
+
+\subsubsection{Bokeh Server}
+
+\begin{figure}[h!]
+    \centering
+        \includegraphics[width=0.7\textwidth]{fig/sequence-bokeh.pdf}
+        \caption{Sequence diagram of getting a visualization from Bokeh Server}
+        \label{bokeh-server}
+\end{figure}
+
+\begin{listing}[h!]
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize,
+linenos
+]
+{python}
+def get_bokeh_plot(filename, app_path):
+
+	script = autoload_server(model=None, url=urljoin(BOKEH_SERVER, app_path))
+
+	params = {'user': get_current_user(), 'file': get_wo_ext(filename)}
+	
+	script_list = script.split('\n')
+	script_list[2] = script_list[2][:-1]
+	script_list[2] += '&' + urlencode(params) + '"'
+	
+	return '\n'.join(script_list)
+\end{minted}
+\caption{Embedding the Bokeh server in Flask}
+\label{code:6}
+\end{listing}
+
+\subsection{Bokeh Application???}
 
 \section{Case Study in Face Recognition}
 

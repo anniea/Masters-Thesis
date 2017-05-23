@@ -44,28 +44,18 @@ The Deep Visualization Toolbox \cite{yosinski-deepvis} is a software tool that p
 
 \subsection{Comparison of the Visualization Tools}
 
-%Looking away from the obvious difference in the frameworks they support, we start with comparing them in terms of functionality.
+Looking away from the obvious difference in the frameworks they support, we start with comparing them in terms of functionality. \\
 
-As previously stated, all of the three visualization tools aim to facilitate the process of dealing with artificial neural networks, some of them to a greater extent than others. The Deep Visualization Toolbox only takes fully trained networks, and thus it rather focuses on the general knowledge learned from such networks instead of assisting in the training process. Both TensorBoard and DIGITS are intended to run while training, and DIGITS even goes as far as managing the whole creation and training process. Another distinction between the tools is that they employ various complexity of visualization techniques. TensorBoard focuses heavily on plotting graphs and histograms, while the Deep Visualization Toolbox presents significantly more advanced techniques such as deconvolution and deep visualization. DIGITS provides the very basics, which is plots of the loss and accuracy while training, and visualizations of layer activations and weights when classifying.
+\noindent As previously stated, all of the three visualization tools aim to facilitate the process of dealing with artificial neural networks, some of them to a greater extent than others. The Deep Visualization Toolbox only takes fully trained networks, and thus it rather focuses on the general knowledge learned from such networks instead of assisting in the training process. Both TensorBoard and DIGITS are intended to run while training, and DIGITS even goes as far as managing the whole creation and training process. We believe the management of the training process is an invaluable feature, and thus plan to incorporate this in our own visualization tool.\\
 
-%The visualization tools are of course also developed for different machine learning frameworks.
+\noindent Another distinction between the tools is that they employ various complexity of visualization techniques. TensorBoard focuses heavily on plotting graphs and histograms, while the Deep Visualization Toolbox presents significantly more advanced techniques such as deconvolution and deep visualization. DIGITS provides the very basics, which is plots of the loss and accuracy while training, and visualizations of layer activations and weights when classifying. Of course the basic visualizations for training also needs to be available in our tool, but we intend to go even further and include the advanced visualization techniques from the Deep Visualization Toolbox as well. \\
+
+\noindent Even though the described visualization tools combined covers a large area of the desired functionality, the problem is that they do not support a number of machine learning frameworks. Only TensorBoard provides some support for Keras, which is our framework of choice for working with artificial neural networks. TensorBoard does not offer any advanced visualization techniques, neither does it help you remarkably in managing your networks. It has been expressed a need for a tool similar to the Deep Visualization Toolbox for TensorFlow on the TensorFlow github, and thus we have solid reason to believe that there is a need to make advanced visualization techniques more easily available for Keras as well. We aspire to bridge the gap between the existing visualization tools in terms of functionality, and to improve the insufficient selection of visualization tools for those using Keras.
 
 \begin{comment}
-
+Things that could be added:
 - tensorboard and digits are still being worked on. deepvis not so much
-- tensorboard --> tensorflow and some Keras
-- DIGITS and deepvis --> caffe (DIGITS torch as well)
-- DIGITS will soon support tensorflow
-- keyword is live
-
-
-- none of them specifically for keras, but tensorboard allows some support
-- maybe researchers would not use keras, because it is too high level?
-- tensorboard and digits: no advanced visualization. mostly plotting
-- digits: managing models and datasets
-- digits and tensorboard: while training
-- deepvis toolbox: only finished trained networks
-
+- keyword is live / real-time
 \end{comment}
 
 \section{Case Study in Face Recognition}
