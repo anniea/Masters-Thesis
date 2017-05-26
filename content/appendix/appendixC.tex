@@ -58,7 +58,7 @@ fontsize=\footnotesize
 custom_keras.callbacks.NetworkSaver(file_folder)
 \end{minted}
 
-\noindent Saves the network after each epoch in a folder named 'networks' inside of the file\_folder.
+\noindent Saves the network after each epoch.
 
 \subsubsection*{Arguments}
 
@@ -66,6 +66,8 @@ custom_keras.callbacks.NetworkSaver(file_folder)
     \item \textbf{file\_folder:} The script's corresponding folder in user-storage. This should be \\
     \texttt{os.path.dirname(\_\_file\_\_)}, since the script is uploaded and placed in the user-storage itself.
 \end{itemize}
+
+\section*{Available Callbacks}
 
 \subsection*{TrainingProgress}
 
@@ -80,9 +82,7 @@ fontsize=\footnotesize
 custom_keras.callbacks.TrainingProgress(file_folder)
 \end{minted}
 
-\noindent At each determined interval, the callback writes accuracy and loss to a text file in a folder named 'results' inside of the file\_folder. At each interval, a new line is written to the file, containing three separate decimal numbers. The first number is the percentage of the training progress that the metrics occur at, for instance 0.1 is 10\% of the first epoch, 1.5 is halfway in the second epoch, and so on. The second and third number is the accuracy and loss respectively at that point. This callback assumes that accuracy is enabled as a metric when compiling the Keras model. \\
-
-\noindent If validation is enabled, the callback will also save the validation accuracy and validation loss at each epoch, in a separate text file. The files has the same structure as described above.
+\noindent Saves training accuracy and loss after each batch. If validation is enabled, the callback will also save the validation accuracy and loss after each epoch.
 
 \subsubsection*{Arguments}
 
@@ -107,7 +107,7 @@ custom_keras.callbacks.LayerActivations(file_folder,
                                         interval=10)
 \end{minted}
 
-\noindent Saves activation arrays for each layer of the network except the excluded layers to a pickle file on the form: \texttt{[(layer\_name, array), ...]}, in a folder named 'results' inside of the file\_folder.
+\noindent Produces the layer activation for each layer of the network, except the excluded layers.
 
 \subsubsection*{Arguments}
 
@@ -135,7 +135,7 @@ custom_keras.callbacks.SaliencyMaps(file_folder,
                                     interval=10)
 \end{minted}
 
-\noindent Saves Saliency maps.
+\noindent Produces the saliency map of the network, using the uploaded visualization image.
 
 \subsubsection*{Arguments}
 
@@ -167,7 +167,7 @@ custom_keras.callbacks.DeconvolutionNetwork(file_folder,
                                             interval=100)
 \end{minted}
 
-\noindent Easy, Chewie. Whoa! Whoa! Help! Chewie, you okay? Where is he? I'm okay, pal. Han! Chewie? 
+\noindent Produces ...
 
 \subsubsection*{Arguments}
 
@@ -208,7 +208,7 @@ custom_keras.callbacks.DeepVisualization(file_folder,
                                         interval=1000)
 \end{minted}
 
-\noindent Easy, Chewie. Whoa! Whoa! Help! Chewie, you okay? Where is he? I'm okay, pal. Han! Chewie? 
+\noindent Produces ... 
 
 \subsubsection*{Arguments}
 

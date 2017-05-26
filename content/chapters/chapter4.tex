@@ -68,33 +68,38 @@ Keras is a high-level neural networks library that can run on top of either Tens
 
 Bokeh is a Python interactive visualization library for modern web browsers. It can easily be embedded into a Flask application, as we will demonstrate later in this chapter. The library is simple in use, and has the flexibility of adding interactions and highly advanced customization. Another benefit is that it allows for streaming large data sets and plot them live, an extremely useful feature for our purpose. However, Bokeh is still in an early state of development, which makes it more susceptible to bugs, and in some cases will limit the functionality.
 
-% kan skrive mer om bokehs sever og at det er veldig bra for modifiability
-
 \subsection{Overview of the Architecture}
 
 As seen in \textbf{Fig. \ref{architecture1}}, the system can be said to consist of five separate modules: Flask, the user storage, the database, Bokeh, and Keras. The Flask module is the very core of the application, and defines the routes (URLs), models and forms of the web page, tying the logic together with HTML templates, CSS and JavaScript into a simple functional web interface. The user storage is where all scripts and images uploaded through the Flask application are stored, as well as text files containing the produced data during training. The database contains metadata about the scripts that is used in the Flask application, such as the owner, when it was uploaded, and the path to the script. The Keras module includes the custom callbacks created for visualization that writes data to the files stored in the user storage. A user applied the wanted callbacks to his or her scripts. It is the Flask application that implements the logic of running these scripts. Finally, the Bokeh module uses the data stored in user storage to create live interactive visualizations, and the Flask application takes care of displaying these on the web page. \\
 
-\noindent \textit{Something about modular approach, that it is good for extensibility, etc.}
+\noindent A package diagram in \textbf{Fig. \ref{architecture2}} shows a more low-level view of the architecture. There are three packages: \texttt{custom\_keras}, \texttt{custom\_bokeh} and \texttt{visualizer}, which correspond to the Keras, Bokeh and Flask modules respectively. In this case, a package corresponds to a folder inside of the main project folder. The folders and files of each folder is shown, as well as the dependencies between them. All packages will be explained in further details in the following sections.
 
-% maybe another figure of the application in more detail, e.g. with folders etc. or we can show the top folder structure.
+% Something about modular approach, that it is good for extensibility, etc.?
 
 % First, the overall architecture. Explain the different modules.
 % Then we can focus on some parts of the architecture that we want to "show off".
 
 \begin{figure}[h!]
     \centering
-        \includegraphics[width=0.7\textwidth]{fig/overall-architecture.pdf}
+        \includegraphics[width=0.8\textwidth]{fig/overall-architecture.pdf}
         \caption{Overall Architecture of the System}
         \label{architecture1}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+        \includegraphics[width=\textwidth]{fig/package-diagram.pdf}
+        \caption{Package Diagram}
+        \label{architecture2}
 \end{figure}
 
 % Examples here are the relation between bokeh and flask, flask and keras, flask and the user storage. etc.
 
 \subsection{The Flask Application}
 
-\textbf{Fig. \ref{struct}} shows a high-level overview of the structure of the files included in the Flask application. The static folder serves all the CSS and JavaScript files, while the templates folder contains Jinja2 templates that Flask can render to generate the HTML. The init file contains the instantiation of the Flask application as well as some setup for the database and log in system. The config file configures some parameters for the application, such as the command used to run a python script.\\
+\textbf{Fig. \ref{struct}} shows an overview of the structure of the files included in the Flask application. The static folder serves all the CSS and JavaScript files, while the templates folder contains Jinja2 templates that Flask can render to generate the HTML. The init file contains the instantiation of the Flask application as well as some setup for the database and log in system. The config file configures some parameters for the application, such as the command used to run a python script.\\
 
-\begin{figure}[ht]
+\begin{figure}[h!]
 \begin{verbatim}
 /visualizer
     /static
@@ -123,7 +128,7 @@ As seen in \textbf{Fig. \ref{architecture1}}, the system can be said to consist 
 
 \noindent An actual example of a view from views.py is shown in \textbf{Code \ref{code:2}}. Comments and irrelevant code are removed to simplify the example. Line 1 defines the route of the view, hence the complete URL of this view will be \texttt{localhost:5000/create\_user}. It also defines the HTTP requests to answer to, which is both GET and POST. GET is for just returning the page to register a user, while POST is when a user actually presses the button to register. The code illustrates the use of a form in line 3, in this case a form for creating a new user, which contains the chosen username and password of the new user. Line 5 checks if all fields are valid when a user has submitted (the POST request), while the next line makes sure to alert the user and break the process if the username is already taken. If everything this far is fine, line 9 creates a User model consisting of the username and password (the model also takes care of hashing the password) and adds it to the database. Line 13 redirects the user to another view, namely the log in view. If the user has not submitted their form, line 15 makes sure to render the correct template for the user registration page. \\
 
-\begin{listing}[ht]
+\begin{listing}[h!]
 \begin{minted}
 [
 frame=lines,
@@ -168,7 +173,7 @@ As mentioned earlier, the database is very simple, and does not play a huge role
 
 The user storage is where the scripts are uploaded to, and where the training data is stored. The structure of the user storage can be seen in \textbf{Fig. \ref{struct2}}. The top level holds the different users of the system. The second level contains the various scripts that a user has uploaded. At the next level, the script-file itself is stored, as well as a text file containing the output of a run of the script. There is a folder called 'images' that contains the image that the user has uploaded to be used in the visualizations. The 'networks' folder contains the most currently saved network created by the script. The folder called 'results' stores all the data produced by the various callbacks. The files are all given descriptive names so that it is self-evident which file corresponds to which visualization technique.
 
-\begin{figure}[ht]
+\begin{figure}[h!]
 \begin{verbatim}
 /user-storage
     /<user1>
@@ -199,7 +204,7 @@ The user storage is where the scripts are uploaded to, and where the training da
 
 The visualization tool allows a user to both start and stop the uploaded python scripts. Functionality for running a script is implemented as a helper function, and is done by executing \texttt{python [file\_path]} in a new subprocess, as seen in \textbf{Code \ref{code:3}}. The actual Python command is determined by a config variable, since it depends on the user's Python installations (e.g. some systems use \texttt{python3} for Python 3.6 and simply \texttt{python} for Python 2.7). The \texttt{stdout} argument specifies the standard output file handle, which is in this case a text file that will be displayed on the web page, so that the user is given easy access to the output of the script. Note that even though \textbf{Fig. \ref{architecture1}} shows a connection between Keras and Flask, the real connection is really between Python and Flask. A user could easily upload a Python script that uses the scikit-learn library or pure TensorFlow, running such a script would not cause any problems. However, if someone wanted to adapt the visualization tool to a whole different programming language, this section of the code would need to be replaced.
 
-\begin{listing}[ht]
+\begin{listing}[h!]
 \begin{minted}
 [
 frame=lines,
@@ -227,7 +232,7 @@ All of our custom callbacks require the path to the correct folder in the user s
 
 \noindent The excerpt also shows two of the register methods of the class. The first one named \texttt{register\_training\_progress} simply created a new instance of the \texttt{Training\-Progress} callback with the already defined file folder as a parameter, and adds it to the callback list. The second method named \texttt{register\_saliency\_maps} does exactly the same thing, except that it also takes the mentioned interval argument which is specific for the \texttt{SaliencyMaps} callback. If the user has not specified such an interval, the interval of the callback is set to the base interval previously defined. The pre- and post-process functions are also passed on to the callback.
 
-\begin{listing}[ht]
+\begin{listing}[h!]
 \begin{minted}
 [
 frame=lines,
@@ -323,23 +328,13 @@ class LayerActivations(Callback):
 \label{code:5}
 \end{listing}
 
-% can add more specifics here, either in a subsubsection or in a new subsection.
+% can add more specifics for the callbacks here, either in a subsubsection or in a new subsection???
 
 \subsection{The Bokeh Server}
 
 The visualizations are displayed in the user interface utilizing the Bokeh visualization library. The most flexible approach of embedding these in Flask is to make use of the Bokeh Server. A Bokeh application is created for each visualization technique, and these are served by the server using the \texttt{bokeh serve [applications]} command, where applications is a list of paths to the various applications, separated by spaces. The server uses the application code to create sessions and documents. A document is Bokeh's organizing data structure containing all the models and data needed to render the application in the browser.\\
 
-\noindent The Bokeh Server is embedded into the code of the Flask application as seen in \textbf{Code \ref{code:6}}. This method is called whenever a user selects a tab that contains a visualization. \texttt{app\_path} is the corresponding relative path to the selected visualization, for instance 'training\_progress'. The full URL of the training progress Bokeh application is thus \texttt{BOKEH\_SERVER}, which is the URL of the server imported from the config file, joined together with \texttt{app\_path}. The server is loaded in line 3, returning a script tag that will replace itself with a Bokeh plot when placed in a HTML template. The Bokeh application will need to know the filename and the username in order to locate the correct visualization data file that should be visualized. Bokeh allows for passing HTTP request arguments to its applications, but has not yet implemented a way of passing these in \texttt{autoload\_server}. Therefore, we need to manually insert the filename and username into the script tag, as seen in line 5 through 11. Finally, the script can be returned and is further passed on to a HTML template. The complete process is also illustrated in a sequence diagram in \textbf{Fig. \ref{bokeh-server}}.
-
-
-\subsubsection{Bokeh Server}
-
-\begin{figure}[h!]
-    \centering
-        \includegraphics[width=0.7\textwidth]{fig/sequence-bokeh.pdf}
-        \caption{Sequence diagram of getting a visualization from Bokeh Server}
-        \label{bokeh-server}
-\end{figure}
+\noindent The Bokeh Server is embedded into the code of the Flask application as seen in \textbf{Code \ref{code:6}}. This method is called whenever a user selects a tab that contains a visualization. \texttt{app\_path} is the corresponding relative path to the selected visualization, for instance 'training\_progress'. The full URL of the training progress Bokeh application is thus \texttt{BOKEH\_SERVER}, which is the URL of the server imported from the config file, joined together with \texttt{app\_path}. The server is loaded in line 3, returning a script tag that will replace itself with a Bokeh plot when placed in a HTML template. The Bokeh application will need to know the filename and the username in order to locate the correct visualization data file that should be visualized. Bokeh allows for passing HTTP request arguments to its applications, but has not yet implemented a way of passing these in \texttt{autoload\_server}. Therefore, we need to manually insert the filename and username into the script tag, as seen in line 5 through 11. Finally, the script can be returned and is further passed on to a HTML template. The complete process, starting from a user clicking on one of the visualization tabs, to the user actually viewing the visualization, is illustrated in a sequence diagram in \textbf{Fig. \ref{bokeh-server}}.
 
 \begin{listing}[h!]
 \begin{minted}
@@ -367,7 +362,68 @@ def get_bokeh_plot(filename, app_path):
 \label{code:6}
 \end{listing}
 
-\subsection{Bokeh Application???}
+
+\begin{figure}[h!]
+    \centering
+        \includegraphics[width=\textwidth]{fig/sequence-bokeh.pdf}
+        \caption{Sequence diagram of getting a visualization from Bokeh Server}
+        \label{bokeh-server}
+\end{figure}
+
+\subsection{Bokeh Applications}
+
+As mentioned, a Bokeh application is created for each visualization techniques, which gives the following five applications:
+
+\begin{itemize}
+    \item deconvolution\_network.py
+    \item deep\_visualization.py
+    \item layer\_activations.py
+    \item saliency\_maps.py
+    \item training\_progress.py
+\end{itemize}
+
+The implementation of the applications are quite different, and we will not describe them all in detail. Rather, we will present some of the most important concepts of the implementations. The resulting visualization can be seen in the results chapter.
+
+\subsubsection{Handling the Visualization Data}
+
+All of the Bokeh applications begins with the same lines of code, shown in \textbf{Code \ref{code:7}}. The document variable in line 1 holds the current Bokeh document that we are working on. In lines 2-5, we get the HTTP request arguments from the request from the Flask application. These arguments are used to find the path in the user storage corresponding to the file we are going to visualize data for, as in line 7. \texttt{UPLOAD\_FOLDER} is the path to the upload folder, imported from the config file. Some of the Bokeh applications also display the original image used in the visualization. This image is found using the same method as for the visualization files. \\
+
+\begin{listing}[h!]
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize,
+linenos
+]
+{python}
+document = curdoc()
+args = document.session_context.request.arguments
+
+file = args['file'][0].decode('ascii')
+user = args['user'][0].decode('ascii')
+
+results_path = join(UPLOAD_FOLDER, user, file, 'results')
+\end{minted}
+\caption{Getting the data from the visualization files}
+\label{code:7}
+\end{listing}
+
+\noindent The data loaded from the visualization file is processed to a format that it can be displayed in. The processing depends on the specific visualization technique. For instance, data for the training progress is transformed into separate sequences of x- and y-values. The other techniques mostly output images, and the image data needs to be converted into 2D arrays, since Bokeh does not handle 3D arrays for images. For layer activations, the results include several smaller images. These are stitched together into a grid of images for each layer. When the data is properly processed, it is stored in a ColumnDataSource, an object that stores data to be used in a Bokeh figure. In our case, its main purpose is to allow for simple streaming of data. When associating a ColumnDataSource with a figure, updating the data of the ColumnDataSource automatically triggers an update of the figure. This is much more effective than creating a new figure every time the data is updated.
+
+\subsubsection{The Bokeh Toolbar}
+
+
+
+\subsubsection{Callbacks}
+
+% first couple of lines of the code
+% figures
+% interactive tools
+% column data sources
+% callbacks
+
 
 \section{Case Study in Face Recognition}
 

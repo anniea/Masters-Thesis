@@ -1,67 +1,96 @@
 \appendix
 %===================================== APPENDIX A =================================
-\chapter{Installation/Setup}
+\chapter{Installation \& Setup}
 
 % mention and describe config file
 
-A step by step wizard for how to install and setup the interface. This was requested in the specialization project, should be very thoroughly explained.
+This explains how to install and set up the visualization tool ready for use. We assume that the user have Python 3.6 or a newer version installed.
 
-\section{Installation}
+\section*{Installation}
 
-\begin{listing}[ht]
+The first thing you need to do is download or clone the GitHub repository to your computer. Open a command line interface and navigate to the main directory of the repository. \\
+
+\noindent Install all required packages by running the following command in a terminal:
+
 \begin{minted}
 [
-frame=lines,
-framesep=2mm,
-baselinestretch=1.2,
-fontsize=\footnotesize,
+bgcolor=mygray
 ]
-{python}
-    pip3 install -r visualization/requirements.txt
+{text}
+pip install -r visualizer/requirements.txt
 \end{minted}
-\end{listing}
 
-\section{Setup}
+\noindent \textbf{Note:} If you already have an installation of the Python Imaging Library (PIL) package, you will get a failure when trying to install the Pillow package listed in the requirements file. The PIL package should be a sufficient replacement, and the error can be ignored.
 
-\begin{listing}[ht]
+\section*{Configuration and Setup}
+
+The visualizer folder of the project contains a configuration file that can be used to configure some settings for the application, most of which are not of importance for a typical user. However, if you are using a different command than \texttt{python3} to run Python programs, it is crucial that you change the \texttt{PYTHON} variable to the actual command you are using.\\
+
+\noindent After assuring that the application is properly configured, we can start performing the necessary setup. To make this process easier for the user, we have created bash scripts for Linux and MacOS, and batch scripts for Windows, containing the necessary commands.
+
+\subsection*{Linux and MacOS}
+
+For Linux and MacOS, the only thing we need to set up the visualization tool is initializing the database. The environment setup is included in the scripts for starting the application, which we will see in the following section. The command for initializing the database is as follows:
+
 \begin{minted}
 [
-frame=lines,
-framesep=2mm,
-baselinestretch=1.2,
-fontsize=\footnotesize,
+bgcolor=mygray
 ]
-{python}
-    source linux_macos/init_db.sh
+{text}
+source linux_macos/init_db.sh
 \end{minted}
-\end{listing}
 
-\section{Run}
+\subsection*{Windows}
 
-\begin{listing}[ht]
+For Windows, we need to both initialize the database and set up the environment. This is done by running these two batch files in the command line:
+
 \begin{minted}
 [
-frame=lines,
-framesep=2mm,
-baselinestretch=1.2,
-fontsize=\footnotesize,
+bgcolor=mygray
 ]
-{python}
-    source linux_macos/start_flask.sh
+{text}
+windows/init_db.bat
+windows/init_env.bat
 \end{minted}
-\end{listing}
 
-\begin{listing}[ht]
+\section{Starting the Visualization Tool}
+
+The applications consists of two separate processes in order to function correctly: a Flask application server, and a Bokeh visualization server. We will now show you how to start these servers.
+
+\subsection*{Linux and MacOS}
+
+In the same command line window that you executed the previous command, run the following in order to start the Flask application server:
+
 \begin{minted}
 [
-frame=lines,
-framesep=2mm,
-baselinestretch=1.2,
-fontsize=\footnotesize,
+bgcolor=mygray
 ]
-{python}
-    source linux_macos/start_bokeh.sh
+{text}
+source linux_macos/start_flask.sh
 \end{minted}
-\end{listing}
+
+\noindent Open a new command line window and run this command to start the Bokeh visualization server:
+
+\begin{minted}
+[
+bgcolor=mygray
+]
+{text}
+source linux_macos/start_bokeh.sh
+\end{minted}
+
+\subsection*{Windows}
+
+In the same command line window that you executed the previous commands, run the following batch file in order to start both the Flask application server and the Bokeh visualization server:
+
+\begin{minted}
+[
+bgcolor=mygray
+]
+{text}
+windows/start_servers.bat
+\end{minted}
+
+\noindent Navigate to \texttt{localhost:5000} in a web browser, and you are ready to use the visualization tool!
 
 \cleardoublepage

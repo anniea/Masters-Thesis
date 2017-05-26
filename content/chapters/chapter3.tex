@@ -6,11 +6,11 @@ This chapter presents a selection of the work related to our research.
 
 \section{Visualization Tool}
 
-This section will present existing visualization tools for artificial neural networks. We will describe what makes them unique, what limits their use, and end the section with a comparison where why try to uncover the gap.
+This section will present existing visualization tools for ANNs. We will describe their advantageous features, what limits their use, and end the section with a comparison where we try to uncover the gap.
 
 \subsection{Description of Existing Visualization Tools}
 
-The following are the applications that in our opinion are the most prominent visualization tools for artificial neural networks. Other alternatives were found to be either too specific in what they provide, or not even in a working state of implementation. The three tools are very different in terms of functionality and the frameworks they support, but their main purpose is still the same: to aid in the creation and understanding of an artificial neural network.
+The following are the most prominent visualization applications for ANNs. Other alternatives were found to be either too specific in what they provide, or not even in a working state of implementation. The three tools are very different in terms of functionality and the frameworks they support, but their main purpose is still the same: to aid in the creation and understanding of an artificial neural network.
 
 \subsubsection{TensorBoard}
 
@@ -24,11 +24,9 @@ Drawbacks:
 
 \subsubsection{DIGITS}
 
-The NVIDIA Deep Learning GPU Training System, also called DIGITS, is a web application developed for managing deep artificial neural networks created in Caffe, one of the leading programming frameworks for deep learning. A drawback of Caffe is that you need to construct the network architecture of a in plain text configuration files, which can be very tedious, especially for big networks. DIGITS provides Caffe users with an intuitive interface for doing many of the cumbersome tasks that usually requires manipulating the configuration files. At a later point, support for the scientific computing framework Torch was also added. The application allows user to upload and manage both datasets and models, and also makes pre-trained models such as AlexNet and GoogLeNet available for use. DIGITS allows user to schedule, monitor, and manage training jobs, as well as analyzing accuracy and loss in real time. In addition, DIGITS allows you to classify images using the fully trained networks, providing simple visualizations of the weights and activations for each layer of the result. \\
+The NVIDIA Deep Learning GPU Training System, also called DIGITS, is a web application developed for managing deep artificial neural networks created in Caffe, one of the leading programming frameworks for deep learning. A drawback of Caffe is that you need to construct the network architecture of a in plain text configuration files, which can be tedious, especially for large networks. DIGITS provides Caffe users with an intuitive interface for doing many of the cumbersome tasks that usually requires manipulating the configuration files. At a later point, support for the scientific computing framework Torch was also added. The application allows user to upload and manage both datasets and models, and also makes pre-trained models such as AlexNet and GoogLeNet available for use. DIGITS allows user to schedule, monitor, and manage training jobs, as well as analyzing accuracy and loss in real time. In addition, DIGITS allows you to classify images using the fully trained networks, providing simple visualizations of the weights and activations for each layer of the result. \\
 
-\noindent It is worth to note that DIGITS has been developed simultaneously to our visualization tool, and its current version is a significant upgrade from the version available when we first started our Specialization Project. DIGITS was an inspirational source to the problem statement, due to it only supporting the use of Caffe and Torch. The developers of DIGITS have previously stated that they are not planning on adding any more frameworks, and as late as April confirmed that they will not support TensorFlow. However, recently they announced on their website that they will be releasing DIGITS with TensorFlow support in July.
-
-% something more.. still does not support Keras, also does not employ advanced visualization techniques.
+\noindent It is worth noting that DIGITS has been developed simultaneously to our visualization tool, and its current version is a significant upgrade from the version available when we first started our Specialization Project. DIGITS was an inspirational source to the problem statement, due to it only supporting the use of Caffe and Torch. The developers of DIGITS have previously stated that they are not planning on adding any more frameworks, and as late as April confirmed that they will not support TensorFlow. However, recently they announced on their website that they will be releasing DIGITS with TensorFlow support in July.
 
 \begin{comment}
 Drawbacks:
@@ -38,7 +36,7 @@ Drawbacks:
 
 \subsubsection{Deep Visualization Toolbox}
 
-The Deep Visualization Toolbox \cite{yosinski-deepvis} is a software tool that provides an interactive visualization of a trained artificial convolutional neural network as the network responds to user-provided input, either an uploaded image or video from a live webcam feed. The toolbox is developed for networks created in Caffe. It comes with a default network, but also includes the possibility of adapting your own networks. Users can view the filters of a selected layer, either as actual activations or as images synthesized to produce high activations through deep visualization. A specific neuron can be selected to explore further. This will show deep visualizations, the top nine images from the training set that activates the filter the most, and the pixels from those images most responsible for the high activations, computed via the deconvolution technique. Note that these last three visualizations are pre-computed instead of computed in real time, since they are far too expensive to run live.
+The Deep Visualization Toolbox \cite{yosinski-deepvis} is a software tool that provides an interactive visualization of a trained artificial convolutional neural network as the network responds to user-provided input, either an uploaded image or video from a live webcam feed. The toolbox is developed for networks created in Caffe. It comes with a default network, but also includes the possibility of adapting your own networks. Users can view the filters of a selected layer, either as actual activations or as images synthesized to produce high activations through deep visualization. A specific neuron can be selected to explore further. This will show deep visualizations, the top nine images from the training set that activates the filter the most, and the pixels from those images most responsible for the high activations, computed via the deconvolution technique. Note that these last three visualizations are pre computed instead of computed in real time, since they are far too expensive to run live.
 
 % https://github.com/tensorflow/tensorflow/issues/842
 

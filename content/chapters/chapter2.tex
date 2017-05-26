@@ -13,7 +13,7 @@ To from fall project, "introducing" visualizations explanation:
 
 \subsection{Biological Background}
 
-The idea of an Artifical Neural Network (ANN) is that it can approximate any continuous function, and that it has the possibility of learning. ANNs are inspired by the structure and behavior of a biological brain and its ability to learn, but they are generally not intended to be realistic models. A neural network consists of interconnected nodes referred to as units. These correspond to a biological neuron, the basic computational unit of the brain, structured as illustrated in \textbf{Fig. \ref{fig1}}. The connections between the units corresponds to a biological neuron's dendrites, which provide input signals, and its single axon, which produces output signals and is connected to other neurons. \\
+The idea of an ANN is that it can approximate any continuous function, and that it has the possibility of learning. ANNs are inspired by the structure and behavior of a biological brain and its ability to learn, but they are generally not intended to be realistic models. A neural network consists of interconnected nodes referred to as units. These correspond to a biological neuron, the basic computational unit of the brain, structured as illustrated in \textbf{Fig. \ref{fig1}}. The connections between the units corresponds to a biological neuron's dendrites, which provide input signals, and its single axon, which produces output signals and is connected to other neurons. \\
 
 \begin{figure}
     \begin{minipage}{0.5\textwidth}
@@ -30,19 +30,19 @@ The idea of an Artifical Neural Network (ANN) is that it can approximate any con
     \end{minipage}
 \end{figure}
 
-\noindent To simulate these signals, an ANN uses a mathematical model as illustrated in \textbf{Fig. \ref{fig2}}, where the signal is multiplied by the weight of a connection. The weight of a specific connection control how much the unit on one end influences the unit on the other end. The sum of all input signals are computed at the cell body of the unit. If this sum is above a certain threshold, the unit fires an output signal determined by its activation function by performing a specific mathematical operation on the sum.
+\noindent To simulate these signals, an ANN uses a mathematical model as illustrated in \textbf{Fig. \ref{fig2}}, where the signal is multiplied by the weight of a connection. The weight of a specific connection controls how much the unit on one end influences the unit on the other end. The sum of all input signals are computed at the cell body of the unit, and a constant, \textit{b}, is added from a bias unit. A bias unit is another unit that influences the output without interacting with the actual data. The unit fires an output signal determined by its activation function by performing a specific mathematical operation on the result.
 
 \subsection{The Multi-Layer Perceptron}
 
-\noindent The simplest form of an ANN is the single layer perceptron, which consists of only one layer of output nodes. This network can only learn linearly separable patterns. To allow for learning complex patterns, more layers need to be added, and we obtain the multi-layer perceptron (MLP). As layers are added, the depth of the network increases. This is why we refer to the the use of MLPs as "deep learning". \\
+\noindent The simplest form of an ANN is the single layer perceptron, which consists of only one layer of output nodes. This network can only learn linearly separable patterns. To allow the learning of complex patterns, more layers need to be added, resulting in the multi-layer perceptron (MLP). As layers are added, the depth of the network increases. This is the reason why the use of MLPs is referred to as "deep learning".\\
 
-\noindent There are several different classes and types of ANNs. We will focus on the standard feed-forward neural network, and thus we will use the term ANN when referring to such a network. In this kind of network, all connections are directed from one layer to the next layer, and there are no cycles or connections between units in the same layer. \\
+\noindent There are several different classes and types of ANNs. We will focus on the standard feed-forward neural network, and thus we will use the term ANN when referring to such a network. In a feed-forward network, all connections are directed from one layer to the next layer, and there are no cycles or connections between units in the same layer. \\
 
-\noindent The first layer of an ANN is called the input layer. Similarly, the last layer is called the output layer. All layers in between are referred to as hidden layers, and are usually fully connected layers. This means that every node in a layer is connected to every node in the following layer. A hidden layer can also be a convolutional layer, or a pooling layer, but these cases will be covered in the section on convolutional networks.
+\noindent The first layer of an ANN is called the input layer. Similarly, the last layer is called the output layer. All layers in between are referred to as hidden layers, and are usually fully connected layers. This means that each layer node is connected to every node in the preceding layer. A layer can also be a convolutional layer or a pooling layer, but these cases will be covered later, in section 2.2.
 
 \subsection{Activation Functions}
 
-\noindent The common behaviour of all activation functions is that they define the output of a unit given a set of inputs. There are a great variety of activation functions in use, but we will only describe those most commonly used and thus considered in our implementation. The mathematical function of three of these are plotted in \textbf{Fig. \ref{activationfuncs}}. For further details, we refer the reader to the Stanford CS class on convolutional neural networks\cite{cs231n_part1}. \\
+\noindent The common behaviour of all activation functions is that they define the output of a unit given a set of inputs. There are a great variety of activation functions in use, but we will only describe those most commonly used and thus considered in our implementation. The mathematical function of three of these are plotted in \textbf{Fig. \ref{activationfuncs}}. \\
 \begin{figure}[H]
     \begin{minipage}{0.3\textwidth}
         \begin{tikzpicture}
@@ -101,33 +101,50 @@ The idea of an Artifical Neural Network (ANN) is that it can approximate any con
 
 \subsubsection{Sigmoid}
 
-The sigmoid activation function is mathematically defined as $\sigma(x) = 1/(1 + e^{-x})$. The function takes a number as input, and outputs a number within a continuous range from 0 to 1. It is commonly used as the activation function for the output node of a binary classification problem. Apart from this, the other activations functions tend to be preferred to the sigmoid function because of its drawbacks. The first drawback is that the outputs are not centered around zero, which can cause the network to display undesirable behaviour. A bigger drawback is that the activation saturates, meaning that the unit outputs mostly 0 and 1 instead of anything in between, and thus the gradient at these regions is very low. If the gradient falls to zero, the network will stop learning.
+The sigmoid activation function is mathematically defined as $\sigma(x) = 1/(1 + e^{-x})$. The function takes a number as input, and outputs a number within a continuous range from 0 to 1. It is commonly used as the activation function for the output node of a binary classification problem. Apart from this, the other activations functions tend to be preferred to the sigmoid function because of its drawbacks. The first drawback is that the outputs are not centered around zero, which can cause the network to display undesirable behaviour. A bigger drawback is that the activation saturates, meaning that the units output mostly 0 and 1 instead of anything in between, and thus the gradient at these regions is very low. If the gradient falls to zero, the network will stop learning.
 
 \subsubsection{Softmax}
 
-The softmax activation function is a variant of the sigmoid function in that instead of being used in binary classification, it is used for the output nodes of a multiclass classification problem, where the goal is to classify instances into one of more than two classes. The mathematical equation for the softmax function is $f(x) = e^x/\sum_{j=0}^k e^{x_j}$. It calculates the probability distribution of each target class over all possible target class. A convenient result of this is that the sum of all probabilities will be equal to one. Note that the softmax function is not used in middle nodes, but only as the activation function of output nodes.
+The softmax activation function is a variant of the sigmoid function. Instead of being used in binary classification, it is used for the output nodes of a multiclass classification problem, where the goal is to classify instances into one of more than two classes. The mathematical equation for the softmax function is $f(x) = e^x/\sum_{j=0}^k e^{x_j}$. It calculates the probability distribution of each target class over all possible target classes. A convenient result of this is that the sum of all probabilities will be equal to one. Note that the softmax function is not used in middle nodes, but only as the activation function of output nodes.
 
 \subsubsection{Tanh}
 
-The tanh activation function is a scaled version of the sigmoid function. Its mathematical function is $tanh(x) = 2\sigma(2x) - 1$. The scaling causes the tanh function to output numbers within the range of -1 and 1. This makes the output zero-centered, thus avoiding the first drawback of the sigmoid function. Even though the tanh function still stuffers from saturation, it is preferred to the sigmoid function.
+The tanh activation function is a scaled version of the sigmoid function. Its mathematical function is $tanh(x) = 2\sigma(2x) - 1$. The scaling causes the tanh function to output numbers within the range of -1 and 1. This makes the output zero-centered, thus avoiding the first drawback of the sigmoid function. Even though the tanh function still suffers from saturation, it is preferred to the sigmoid function.
 
 \subsubsection{ReLU}
 
-The Rectified Linear Unit (ReLU) activation has the mathematical function $f(x) = max(0,x)$. This means that it is very close to linear; thresholding the input at zero, but keeping any value above. It has become very popular, and is in general the activation function of choice. It is non-saturating, and has been found to speed up the convergence of the learning. The computation of the function is also very inexpensive compared to the sigmoid and tanh function. The only problem with the ReLU function is the possibility of "dead" units, meaning that they will never activate. Generally, adjusting the learning parameters can prevent this, but there have also been several attempts to fix this issue, for instance using so called PReLU or Maxout units.
+The Rectified Linear Unit (ReLU) activation has the mathematical function $f(x) = max(0,x)$. This means that it is very close to linear; thresholding the input at zero, but keeping any value above. It has become highly popular, and is in general the activation function of choice. It is non-saturating, and has been found to speed up the convergence of the learning. The computation of the function is also inexpensive compared to the sigmoid and tanh functions. The only problem with the ReLU function is the possibility of "dead" units, i.e. units that will never activate. Generally, adjusting the learning parameters can prevent this, but there have also been several attempts to fix this issue, for instance using so called PReLU or Maxout units.
 
-\subsection{Training a Network}
+\subsection{Training a Network} \label{training-sec}
 
-The weights of a model can be learned by training the model on a set of input and output values, a task which is called supervised learning. There are also other kinds of learning, but we will not cover these. The learning process runs for a number of epochs, meaning the number of times the learning algorithm will see the entire data set. Often, the data is split into so-called batches when passed to the algorithm. The number of training examples in a batch is referred to as the batch size.
+The weights of a model can be learned by training the model on a set of input and output values, a task which is called supervised learning. The weights are usually initialized to small, randomly generated numbers. The learning process runs for a number of epochs, i.e. the number of times the learning algorithm will see the entire training set. Often, the data is split into so called batches when passed to the algorithm. The number of training examples in a batch is referred to as the batch size.
+
+\subsubsection{Data Preprocessing} % usikker på hvor denne hører til
+
+A common form of data preprocessing that we will employ is mean subtraction. This involves zero-centering the data by subtracting the mean across each of its individual feature, to ensure that the features are in a similar range. For images, this would be the values of the R, G and B channels. Note that the mean should only be computed for the training data, but it still has to be applied to the test data.
+
+\subsubsection{Overfitting and Dropout}
+
+The training data of an ANN might often be noisy and incomplete. Overfitting is when the ANN learns the details and noise of the data too well, so that it impacts the performance of the ANN on new data in a negative manner. An effective and simple regularization technique to prevent overfitting is dropout, where randomly selected units are ignored during training. A node is dropped out with a given probability each weight update cycle. This makes the network less sensitive to the specific weights of the units, and results in a more generalized network that is less likely to overfit to the training data.
+
+% this section probably still needs a lot of fixing
+
+% X skrive om zero-centered data, mean-centered osv
+% X nevne weight initialization
+% X overfitting --> dropout
+% hyperparameters ??? mentions learning rate in gradient descent, and briefly describes it
 
 \subsubsection{Loss Function}
 
-\noindent The goal of an ANN is to find a function that solves a certain problem, more specifically that finds an optimal solution to the problem. The definition of this optimal solution is that given a loss function, there are no other solution with less of a loss. The loss function is in that sense a measure of how far away a solution is from an optimal solution. The goal of the learning process is thus to find a function with the smallest possible loss. The weights of a model can be learned by training the model on a set of input and output values, a task which is called supervised learning. There are also other kinds of learning, but we will not cover these. In supervised learning, the goal is to find the function that best maps the input to the output. The loss will then be the mismatch between such a mapping and the example data.
+\noindent The goal of an ANN is to find a function that solves a certain problem, or more specifically, finds an optimal solution to the problem. The definition of this optimal solution is that given a loss function, there are no other solution with a lower loss value. The loss function is in that sense a measure of how far away a solution is from an optimal solution. The goal of the learning process is thus to find a function with the smallest possible loss. There are several loss functions that can be used in an ANN, suited for different purposes. For classification tasks where you want to minimize the number of misclassified training pairs, cross-entropy is the natural choice.
 
-\subsubsection{Vanilla Gradient Descent and Backpropagation}
+%  Cross entropy cost is appropriate to classification where the goal is to minimize the number of mis-classified training samples by imposing an exponentially increasing error the closer an output comes to being "1" when it should be "0", and vice versa.
 
-\noindent To optimize the loss, we can use an algorithm called gradient descent, which minimizes any function iteratively. The process is a repeated loop of evaluating the gradient, and then updating the weights based on this gradient. The simplest form of this algorithm, also called its vanilla version, is shown in \textbf{Code \ref{code:1}}.
+\subsection{Gradient Descent and Backpropagation}
 
-\begin{listing}%[ht]
+\noindent To optimize the loss, we can use an algorithm called gradient descent, which minimizes any function iteratively. The algorithm makes the learning process a repeated loop of evaluating the gradient, and then updating the weights based on this gradient. The simplest form of this algorithm, also called the vanilla version, is shown in \textbf{Code \ref{code:1}}. \\
+
+\begin{listing}[h!]
 \begin{minted}
 [
 frame=lines,
@@ -145,29 +162,21 @@ for i in range(epochs):
 \label{code:1}
 \end{listing}
 
-\noindent First, the algorithm evaluates the gradient of the loss function for the whole data set with respect to the current weights. This is done using an algorithm called backpropagation. Often, the term is used to refer to the complete process of repeatedly computing the gradient and updating the weights. Each iteration of computing the gradient involves two steps: forward propagation and backward propagation. These steps are also known as forward pass and backward pass, respectively. The forward propagation is simply the propagation of an input through the network in order to generate an output. In the backward propagation, the loss, or error, between the generated output and the actual output is computed, and this error is propagated backwards to the previous layers. The error values are then used to calculate the gradient. The next step of gradient descent is to adjust the weights, based on the evaluated gradient and a learning rate. The learning rate controls the magnitude of the update, and is a crucial network hyperparameter setting. This process is repeated for a pre-defined number of epochs.
+\noindent First, the algorithm evaluates the gradient of the loss function for the whole training data set with respect to the current weights. This is done using an algorithm called backpropagation. Often, the term is used to refer to the complete process of repeatedly computing the gradient and updating the weights. Each iteration of computing the gradient involves two steps: forward propagation and backward propagation, also known as forward pass and backward pass, respectively. The forward propagation is simply the propagation of an input through the network in order to generate an output. In the backward propagation step, the loss between the generated output and the desired output is computed, and the error is propagated backwards to the previous layers. The error values are then used to calculate the gradient. The next step of gradient descent is to adjust the weights, based on the evaluated gradient and a chosen learning rate. The learning rate controls the magnitude of the update, and is a crucial network hyperparameter. This process is repeated for a pre defined number of epochs.
 
 \subsubsection{Stochastic Gradient Descent}
 
-The vanilla version of gradient descent is also called batch gradient descent. A batch of data is a portion of the training data, in this case the entire training data set. The gradient is computed over such a batch, which is very slow and expensive in terms of memory. There are a number of different ways to optimize gradient descent by extending its vanilla version. Stochastic gradient descent (SGD) is one of these methods. In this case, the gradient is computed over mini-batches consisting of only one training pair. This is a special case of the more general mini-batch gradient descent, which computes the gradient over batches of the training data, instead of the entire set. SGD refers to both mini-batch gradient descent, as well as the special case of stochastic gradient descent. Usually it is more efficient to compute the gradient over a number of examples instead of only one. Even though SGD is much more efficient than the vanilla version, it also has its drawbacks, and therefore a number of algorithms intended to improve this has been developed.
+The vanilla version of gradient descent is also called batch gradient descent. A batch of data is a portion of the training data, in this case the entire training data set. The gradient is computed over such a batch, which is slow and expensive in terms of memory. There are a number of different ways to optimize gradient descent by extending the vanilla version. Stochastic gradient descent (SGD) represent one of these optimizations. In this case, the gradient is computed over mini-batches consisting of only one training pair. This is a special case of the more general mini-batch gradient descent, which computes the gradient over batches of the training data, instead of the entire set. SGD refers to both mini-batch gradient descent, as well as the special case of stochastic gradient descent. Usually, it is more efficient to compute the gradient over a number of training pairs instead of just one. Even though SGD is much more efficient than the vanilla version, it also has its drawbacks. Therefore, a number of improved algorithms have been developed.
 
 \subsubsection{Adding Momentum}
 
-One way to improve SGD is to add momentum. SGD can get stuck in local optima, and adding momentum can help accelerating in the right direction. A further improvement is the Nesterov momentum, which adds some notion of where SGD is heading by approximating the next position.
+One way to improve SGD is to add momentum. SGD can get stuck in local optima, and adding momentum can help it accelerate in the right direction. A further improvement is the Nesterov momentum, which adds some notion of where SGD is heading by approximating the next position.
 
 \subsubsection{Adaptive Learning Rate Methods}
 
-Adaptive learning rate methods are algorithms that automatically adapts the learning rate to the parameters. They are quite similar, and perform thereafter. In general, SGD often finds a minimum, but these methods can help to achieve faster convergence, and you do not have to tune the learning rate. The algorithms are usually implemented with a good default starting value. Adagrad was the first adaptive learning rate method proposed, and the others are thus extensions to this. Its weakness is that the learning rate decreases and eventually becomes close to zero. Adadelta and RMSprop are methods that try to overcome this, and they are close to identical. Adam adds some form of momentum to the optimization, and therefore might be the best overall choice.
-
-\subsubsection{Regularization}
-
-\textit{Dropout, L2 regularization, etc.}
-
+Adaptive learning rate methods are algorithms that automatically adapts the learning rate to the parameters. They are all quite similar, and perform thereafter. In general, SGD often finds a minimum, but these methods can help to achieve convergence faster, and requires no tuning of the learning rate. The algorithms are usually implemented with a decent default starting value. Adagrad was the first adaptive learning rate method proposed, and the later additions are extensions of it. Its weakness is that the learning rate decreases and eventually becomes close to zero. AdaDelta and RMSprop are methods that try to overcome this flaw, and they are close to identical. Another option, Adam, adds some form of momentum to the optimization, and therefore might be the best overall choice.
 
 \section{Convolutional Neural Networks}
-
-\textit{More in-depth than covered in the specialization project. \\
-What exactly is the convolutional operation? Convolutional layer (local connections and weight sharing) vs normal layer.}
 
 A variation of the traditional ANN, convolutional neural networks (CNNs) are especially well suited for handling input data that can be arranged in a grid-like topology. These types of networks are commonly used in situations where the processing of images is required, but can be applied to input of any dimension. We will, however, concentrate on the convolution of images, as it is of most relevance to the thesis. \\
 
@@ -177,27 +186,27 @@ A variation of the traditional ANN, convolutional neural networks (CNNs) are esp
 
 Generally, convolution can be defined as an operation on two functions, $x$ and $w$, of a real-valued argument, $t$:
 
-$$s(t) = \int x(a)w(t-a) da$$
+\[ s(t) = \int x(a)w(t-a) da \]
 
 \noindent The operation is typically denoted $s(t) = (x*w)(t)$. While the above definition is for arguments in the continuous range, data in computer applications is usually discrete. If we assume that $x$ and $w$ are only defined on discrete values of $t$, the convolution operation can be discretized:
 
-$$s(t) = (x*w)(t) = \sum_{a=-\infty}^{\infty} x(a)w(t-a)$$
+\[ s(t) = (x*w)(t) = \sum_{a=-\infty}^{\infty} x(a)w(t-a) \]
 
 \noindent In CNN terminology, $x$ and $w$ represents the input the convolution kernel, respectively. For a network, the input and kernel are usually multidimensional arrays, the first containing data and the second containing the network parameters, or weights. Because these arrays are finite, we can assume that the functions are zero for elements that reside outside the arrays' range. The infinite summation in the discrete convolution operation can then be reduced to a summation over a finite number of array elements. In addition, it is often desirable to perform convolutions over multiple axes at a time. The convolution operation for a 2D image input $I$, using a 2D kernel $K$, would then be defined:
 
-$$S(i, j) = (I*K)(i, j) = \sum_{m} \sum_{n} I(m, n) K(i-m, j-n)$$
+\[ S(i, j) = (I*K)(i, j) = \sum_{m} \sum_{n} I(m, n) K(i-m, j-n) \]
 
 \noindent Since convolution is commutative, the following is equivalent:
 
-$$S(i, j) = (K*I)(i, j) = \sum_{m} \sum_{n} I(i-m, j-n) K(m, n)$$
+\[ S(i, j) = (K*I)(i, j) = \sum_{m} \sum_{n} I(i-m, j-n) K(m, n) \]
 
 \noindent The commutative property is a result of the kernel being flipped relative to the input, such that the input index increases with $m$, while the kernel index decreases. This property is not essential in practice and many ANN libraries implement cross-correlation instead, calling it convolution. In reality, cross-correlation is equivalent to convolution without the kernel flipping:
 
-$$S(i, j) = (I*K)(i, j) = \sum_{m} \sum_{n} I(i+m, j+n) K(m, n)$$
+\[ S(i, j) = (I*K)(i, j) = \sum_{m} \sum_{n} I(i+m, j+n) K(m, n) \]
 
 \noindent An example of an application of cross-correlation on 2D input can be seen in Fig. X Following convention, we will not differentiate between the two approaches any further and refer to both as convolution operations. 
  
-\subsection{Convolution as Matrix Multiplication}
+\subsection{Convolution as Matrix Multiplication} \label{conv-matrix}
  
 Discrete convolution can be represented by a matrix multiplication and there are multiple ways to define the operation. The definition presented here was chosen as it allows the differences between convolution and transposed convolution to be easily demonstrated in section X. \\
 
@@ -219,17 +228,17 @@ Discrete convolution can be represented by a matrix multiplication and there are
 
 \subsection{Convolutional Layer}
 
-To reiterate, a convolutional layer employs convolution to compute its output, unlike traditional fully connected layers. As a result, convolutional layers incorporates certain advantageous concepts, namely sparse connectivity, parameter sharing and equivariant representations.
+To reiterate, a convolutional layer employs convolution to compute its output, unlike traditional fully connected layers. As a result, convolutional layers incorporates certain advantageous concepts, namely sparse connectivity, parameter sharing and equivariance to translation.
 
 \subsubsection{Sparse Connectivity}
 
-As implicated by the name, every unit in a fully connected layer is connected to every unit in the previous layer. In convolutional layers, however, the convolution kernel is typically smaller than the input, causing sparse connectivity. Each unit in the layer is then only connected to a subset of the units in the previous layers, as dictated by the kernel. Consequently, the output of each unit can be computed using fewer mathematical operations. Sparse connectivity also results in a lower amount of weights compared to a fully connected layer, and even drastically so when combined with the effects of parameter sharing.
+As implied by the name, every unit in a fully connected layer is connected to every unit in the previous layer. In convolutional layers, however, the convolution kernel is typically smaller than the input, causing sparse connectivity. Each unit in the layer is then only connected to a subset of the units in the previous layers, as dictated by the kernel. Consequently, the output of each unit can be computed using fewer mathematical operations. Sparse connectivity also results in a lower amount of weights compared to a fully connected layer, and even drastically so when combined with the effects of parameter sharing.
 
 \subsubsection{Parameter Sharing}
 
 Where each weight of a fully connected layer is only used once, each weight in a convolutional layer is used multiple times. When convolving, the kernel is applied at several different areas of the input, reusing the parameters of the kernel across the input. Every unit in the convolutional layer then uses the same kernel weights as the other units to connect to the layer below. In this situation, the weight are said to be shared among the units. Additionally, the parameter sharing characteristic means that the kernel parameters learned in training are location independent.
 
-\subsubsection{Equivariant Representations}
+\subsubsection{Equivariance to Translation}
 
 The equivariance property of convolutional layers are caused by the particular form of parameter sharing. Specifically, convolutional layers have equivariance to translation, which means that if the input of the layer experiences any translation changes, then the output changes in the same way. Consider a convolution with an image input, where the kernel parameter values are set to detect the edges of an object. The convolutional layer would then create a map of where the edges are located. Because of the equivariance property, if the object shifts to another location in the image, the edge mapping would shift accordingly.
 
@@ -239,7 +248,7 @@ Together, the discussed concepts make convolutional layers a powerful addition t
 
 \noindent A second convolutional layer could be added, convolving the output of the previous layer with its own specialized kernels. This enables the detection of features that are composed of the features found in the preceding layer. With additional layers, the features can become even more complex, each building on the ones below. Stacking convolutional layers make CNNs able to perform remarkably well on image input, for example in face recognition. Then, lower layer kernels start by detecting simple features, like edges, which later kernels can use to detect more complex patterns, like eyes or mouths. Layers even deeper in the network can then use that output to identify complex structures like faces. While the sparse connectivity between layers might be thought to hinder such complexity, the connectivity of units in later layers take on a pyramid-shaped pattern, as throughout the layers they become indirectly connected to a increasingly larger portion of the units below and, ultimately, the input. Because of the feature detecting abilities of convolutional layers, their kernels and outputs are often referred to as filters and feature maps, respectively. \\
 
-\noindent When convolving with several kernels, the output of a convolutional network gains a new dimension. On a 2D image, a 2D kernel will produce a 2D output. With several kernels, the output assumes a 3D shape, with the kernel number following the depth axis. In reality, the image input is also usually 3-dimensional, on account of the color axis for RGB images. Thus, convolutional layers often operate with 3D input, either the original image or the feature map of the layer below. In these situations, kernels are also 3-dimensional, with sparse connectivity in the spatial dimensions, but full along the channel (color/kernel) axis. Used on feature maps, these kernels can then consider all the different features identified simultaneously, enabling the complex feature detection. The output will be 3-dimensional, as before.
+\noindent When convolving with several kernels, the output of a convolutional network gains a new dimension. On a 2D image, a 2D kernel will produce a 2D output. With several kernels, the output assumes a 3D shape, with the kernel number following the depth axis. In reality, the image input is also usually 3-dimensional, on account of the color axis for RGB images. Thus, convolutional layers often operate with 3D input, either the original image or the feature map of the layer below. In these situations, kernels are also 3-dimensional, with sparse connectivity in the spatial dimensions, but full along the channel (color/kernel) axis. Used on feature maps, these kernels can then consider all the different features identified simultaneously, enabling the complex feature detection. The output will be 3-dimensional, as before. If the next layer is fully connected, it is common to flatten the output. 
 
 \subsection{Hyperparameters in a Convolutional Layer}
 
@@ -255,128 +264,50 @@ Not suprisingly, the filter amount denotes how many different filters the layer 
 
 \subsubsection{Strides}
 
-The stride refers to the distance between filter applications in units. For image input, it applies in both spatial directions, meaning two separate strides must be specified. In a basic convolution, with single strides and no padding, the filter would be applied to every unique (spatial) neighborhood of units that matches the filter size. For a 4x3 input and a 2x2 filter, there exist six such neighborhoods, as implicated by Fig. X. Each filter region is then a single step away from any another, both vertically and horizontally. If we increase horizontal stride to two, the filter will only be applied to every second neighborhood in that direction. As a result, four regions of the input would be convolved, creating a 2x2 feature map. By increasing both strides to two, the feature map would be further reduced to 2x1, as there would not be enough units for two filter regions that were two steps apart in the vertical direction. The strides can be further increased, but they are rarely set to large values. The purpose of the strides is to downsample the input, reducing computational cost at the expense of finer feature extraction.
+The stride refers to the distance between filter applications in units. For image input, it applies in both spatial directions, meaning two separate strides must be specified. In a basic convolution, with single strides and no padding, the filter would be applied to every unique (spatial) neighborhood of units that matches the filter size. For a 4x3 input and a 2x2 filter, there exist six such neighborhoods, as implied by Fig. X. Each filter region is then a single step away from any another, both vertically and horizontally. If we increase horizontal stride to two, the filter will only be applied to every second neighborhood in that direction. As a result, four regions of the input would be convolved, creating a 2x2 feature map. By increasing both strides to two, the feature map would be further reduced to 2x1, as there would not be enough units for two filter regions that were two steps apart in the vertical direction. The strides can be further increased, but they are rarely set to large values. The purpose of the strides is to downsample the input, reducing computational cost at the expense of finer feature extraction. Although increasing the filter size would also diminish the feature map, it would limit the layer's feature detection capabilities, making larger strides the preferred approach.
 
 \subsubsection{Padding}
 
-Padding has the opposite effect of strides and is used to either retain the spatial size of the input or increase it. Even without strides, any input passed through a convolutional layer will decrease in height and width by one less than the filter height and width, respectively. This happens because the layer will only apply convolution where the filter fits and not at the border of the input, where parts of the filter fall outside. If the layers keeps diminishing the input, it puts a restriction on the amount convolutional layers a network can employ before the output becomes too small for any meaningful use. An alternative is to use smaller filters to reduce shrinkage, but this limits the expressive power of the network similar to the layer restriction. However, by zero padding the input before applying filters to it, the problem can be avoided. When padding is involved, convolution can be separated into three categories: valid, same and full. Valid convolution occurs in the aforementiond case, with no padding, where convolution is only applied at regions that fully contain the filter. In same convolution, padding is added to the layer input to make the layer output have the same spatial size as the unpadded input. However, the units at the border of the input will still be involved in less convolutions and therefore influence less layer units. This is taken into account in full convolution. Here, padding is added so that every input unit is involved in an equal amount of convolutions. Some layer units will then be a function of fewer input units, which can interfere with the learning of decent filters. Consequently, valid or same convolution is usually preferred over the full variant. \\
+Padding has the opposite effect of strides and is used to either retain the spatial size of the input or increase it. Even without strides, any input passed through a convolutional layer will decrease in height and width by one less than the filter height and width, respectively. This happens because the layer will only apply convolution where the filter fits and not at the border of the input, where parts of the filter fall outside. If the layers keeps diminishing the input, it puts a restriction on the amount convolutional layers a network can employ before the output becomes too small for any meaningful use. An alternative is to use smaller filters to reduce shrinkage, but this limits the expressive power of the network similar to the layer restriction. However, by zero padding the input before applying filters to it, the problem can be avoided. When padding is involved, convolution can be separated into three categories: valid, same and full. Valid convolution occurs in the aforementiond case, with no padding, where convolution is only applied at regions that fully contain the filter. In same convolution, padding is added to the layer input to make the layer output have the same spatial size as the unpadded input. However, the units at the border of the input will still be involved in less convolutions and therefore influence less layer units. This is taken into account in full convolution. Here, padding is added so that every input unit is involved in an equal amount of convolutions. Some layer units will then be a function of fewer input units, which can interfere with the learning of decent filters. Consequently, valid or same convolution is usually preferred over the full variant.
 
-*remember to specifically mention that filter size affects spatial size, but it isn't used to downsample by using larger filters
+\subsection{Training a Convolutional Layer}
 
+Training a convolutional layer is similar to training a fully connected one, as explained in section \ref{training-sec}. As discussed in section \ref{conv-matrix}, convolution can be thought of as a matrix multiplication. Following the example from that section, we use the kernel matrix K to define the backward pass for convolutional layers. While we have established that convolutional layers often handle input, output and kernels with three dimensions, we use 2D matrices here to simply illustrate the backward pass approach. To that effect, we also assume single strides and no padding. 
 
-Beyond
+\subsubsection{The Backward Pass}
 
-but the bigger impact
+The forward pass has already been established to be the matrix multiplication $KI$, using the 16-dimensional input vector I, which produces a 4-dimensional output vector. To do a backward pass, the transposed version of $K$, $K^T$, would be used. This transposed version of the convolution matrix allows the backward pass to receive a 4-dimensional vector as input and produce a 16-dimensional vector as output, which can be reshaped to the original 4x4 size. If the error is being backpropagated, the backward pass would use a loss vector, L, to compute $K^T L$. 
 
-filter amount
-kernel size
-padding -> valid, same , full
-strides
-activation function -> relu, adds non-linearity
+\subsubsection{Connectivity Pattern Conservation}
 
-input varies?
-output varies?
+In a forward pass, a single entry in the output vector is only affected by a subset of the entries in the input vector and always the same ones. The backward pass has the same connectivity pattern between the entries in the input and output vector, only in the reverse order. These connectivity patterns are compatible since both passes are defined by $K$. In context of the example, the first entry (index 0) of the forward pass output vector would be connected to the input vector entries with index 0-2, 4-6, and 8-10, as implied by the first row of $K$. Subsequently, the backward pass output vector entries with index 0-2, 4-6, and 8-10 would be connected to the first entry in the input vector, as implied by the first column of $K^T$. The conservation of this pattern affirms the validity of the backward pass approach.
 
+\subsubsection{Effects of Strides and Padding}
 
-The operation is therefore equivalent to a convolution forward pass. To do a convolution backward pass, the transposed version of $K$, $K^T$, would be used. This transposed version of the convolution matrix allows the backward pass to receive a 4-dimensional vector as input and produce a 16-dimensional vector as output, which can be reshaped to the original 4x4 size. \\
-
-\noindent In a forward pass, a single entry in the output vector is only affected by a subset of the entries in the input vector and always the same ones. The backward pass has the same connectivity pattern between the entries in the input and output vector, only in the reverse order. These connectivity patterns are compatible since both passes are defined by $K$. In context of the example, the first entry (index 0) of the forward pass output vector would be connected to the input vector entries with index 0-2, 4-6, and 8-10. Subsequently, the backward pass output vector entries with index 0-2, 4-6, and 8-10 would be connected to the first entry in the input vector.\\
-
-has activation function, same as FC layer
-
-input shape can vary (but not if FC layers on top, maybe with scaled pooling)
-
-output shape is affected by input shape as well as kernel size (viktig for transposed convolution, må vite orginalstørrelsen)
-
-filter amount
-kernel size
-padding -> valid, same , full
-strides
-
-on padding:
-Without this feature,
-the width of the representation shrinks by one pixel less than the kernel width
-at each layer.
-
-strides and padding affect kernel matrix K
-"In some cases, multiple sizes of input to forward propagation can
-result in the same size of output map, so the transpose operation must be explicitly
-told what the size of the original input was."
-input flattened before FC layers
-
-IMPORTANT: training / learning
-
-on bias:
-For convolutional
-layers, it is typical to have one bias per channel of the output and share it across
-all locations within each convolution map. However, if the input is of known, fixed
-size, it is also possible to learn a separate bias at each location of the output map.
-
-
-FERDIG:
-
-lower layers -> simple features like edges
-
-higher layers -> more complex structures consisting of lower layer features
-
-"In a deep convolutional network,
-units in the deeper layers may indirectly interact with a larger portion of the input,
-as shown in figure 9.4. This allows the network to efficiently describe complicated
-interactions between many variables by constructing such interactions from simple
-building blocks that each describe only sparse interactions"
-
-usually uses several kernels to extract several features at once
-
-output is referred to as feature map
-
-input is usually 3D, with channel dimension (colors or filters) -> sparse connectivity in spatial dimensions, but usually full in channel dimension
+Strides and padding have an effect on the output size of a layer, as previously explained. These two, in combination with input size and filter size, determine the spatial size of the feature maps. Using different stride and padding policies, forward passes for multiple inputs of varying size can produce feature maps of similar size. As a result, performing a backward pass transposed convolution will not necessarily be as straightforward as in the basic case, with single strides and no padding. The details on how transposed convolution can be performed with the various combinations of strides and padding is not of great importance to the thesis and will be described no further. It suffices to be aware of issue, which explain why some implementations require the desired output size to perform transposed convolution.
 
 \subsection{Transposed Convolutional Layer}
 
+A transposed convolutional layer (also known as a fractionally strided convolutional layer) is almost identical to a regular convolutional layer, with an important distinction: the forward and backward passes are swapped compared to a convolutional layer. Where a regular layer uses $K$ and $K^T$ for the forward and backward pass, respectively, the transposed convolutional layer would use $K^T$ and $K$ for the forward and backward pass, respectively. As $(K^T)^T=K$, the transposed convolutional layer is simply a regular convolutional layer using transposed convolution matrices, hence the name. Because both the passes are defined by $K$, the connectivity pattern found in regular layers also holds for transposed convolutional layers. \\
+
+\noindent Transposed convolutional layers can be implemented with the same hyperparameters as regular convolutional layers. In this case, the strides and the padding specified usually applies to the convolution operation in the backward pass, which then dictates how the transposed convolution in the forward pass will behave. These layers are typically found in networks used to reconstruct some input from the output of another CNN. An example is deconvolutional neural networks (DCNNs), which try to reconstruct an input image, with certain features highlighted, from a set of feature maps. DCNNs will be explored further in the section of this chapter covering visualization techniques.
 
 \subsection{Pooling Layer}
 
-used in almost all CNNs
+Pooling layers are a common occurrence in CNNs and they can employ multiple types of pooling functions. A pooling function is applied to various regions of the input and outputs a summary statistic of the units for each region. Popular ones include max pooling, average pooling, and weighted average based on distance from pooling center. Of these, only max pooling is relevant for the thesis and will be described in this section. \\
 
-from cs231n:
-"Recall from the backpropagation chapter that the backward pass for a max(x, y) operation has a simple interpretation as only routing the gradient to the input that had the highest value in the forward pass. Hence, during the forward pass of a pooling layer it is common to keep track of the index of the max activation (sometimes also called the switches) so that gradient routing is efficient during backpropagation."
+\noindent Max pooling layers are fairly straightforward. Given an input, a layer determines several pooling regions and outputs the maximum value for each region. Pooling regions are similar to convolutional filter regions, with the exception that they are usually singular in depth. The region spatial size is decided by a pooling size hyperparameter. Pooling is also typically restricted to full regions, e.g. a 3x3 pooling will not be applied to a 3x2 region at the border of the input. Like convolutional layers, however, pooling layers can employ strides and padding to influence how input is processed.
 
+\subsubsection{Translation Invariance}
 
-\noindent A transposed convolutional layer (also known as a fractionally strided convolutional layer) is used to reverse the convolutional layer effects. Where as a convolutional layer typically performs downsampling, i.e. it outputs matrices that have dimensions smaller than the ones it receives as input, a transposed convolution typically performs upsampling, i.e. it outputs matrices that have dimensions greater than the ones it receives as input. To achieve this, a transposed convolution swaps the forward and backward passes of a convolution, both of which can be defined by the kernel. Consider a 3x3 kernel used in a normal convolution on a 4x4 matrix. If we unroll the matrix from left to right and top to bottom, the convolution can be represented by the matrix $K$, where \textit{$w_{ij}$} is the element at row \textit{i} and column \textit{j} in the kernel:
+The benefit of pooling layers is that they make a network approximately invariant to small translations of the input. Remember that convolutional layers have equivariance to translations, so their output shifts similar to the input. In pooling layers, a small shift of the input will only affect the output of the regions that gain a new maximum value. This only happens in regions where the previous max unit is shifted out or if a unit with greater value is shifted in. In practice, most of the output will remain unchanged, providing approximate invariance. It is a useful property to have if it is important to detect whether a feature is present, but its exact location is less significant. Some times, the location of a feature is important, for example if we are looking for a corner defined by the connection of two edges, the edge locations must be preserved properly to examine whether they join or not.
 
-\[
-    C = 
-    \left(
-    \begin{smallmatrix}
-    \textit{$w_{00}$} & \textit{$w_{01}$} & \textit{$w_{02}$} & 0 & 
-    \textit{$w_{10}$} & \textit{$w_{11}$} & \textit{$w_{12}$} & 0 & 
-    \textit{$w_{20}$} & \textit{$w_{21}$} & \textit{$w_{22}$} & 0 & 
-    0 & 0 & 0 & 0\\
-    0 & \textit{$w_{00}$} & \textit{$w_{01}$} & \textit{$w_{02}$} & 
-    0 & \textit{$w_{10}$} & \textit{$w_{11}$} & \textit{$w_{12}$} & 
-    0 & \textit{$w_{20}$} & \textit{$w_{21}$} & \textit{$w_{22}$} & 
-    0 & 0 & 0 & 0\\
-    0 & 0 & 0 & 0 & 
-    \textit{$w_{00}$} & \textit{$w_{01}$} & \textit{$w_{02}$} & 0 & 
-    \textit{$w_{10}$} & \textit{$w_{11}$} & \textit{$w_{12}$} & 0 & 
-    \textit{$w_{20}$} & \textit{$w_{21}$} & \textit{$w_{22}$} & 0\\
-    0 & 0 & 0 & 0 & 
-    0 & \textit{$w_{00}$} & \textit{$w_{01}$} & \textit{$w_{02}$} & 
-    0 & \textit{$w_{10}$} & \textit{$w_{11}$} & \textit{$w_{12}$} & 
-    0 & \textit{$w_{20}$} & \textit{$w_{21}$} & \textit{$w_{22}$}\\
-    \end{smallmatrix}
-    \right)
-\]
+\subsubsection{Training}
 
-\noindent Multiplying $K$ with the now 16-dimensional vector would produce a 4-dimensional vector, which could be reshaped into the 2x2 matrix we expect from the convolution. The operation is therefore equivalent to a convolution forward pass. To do a convolution backward pass, the transposed version of $K$, $K^T$, would be used. This transposed version of the convolution matrix allows the backward pass to receive a 4-dimensional vector as input and produce a 16-dimensional vector as output, which can be reshaped to the original 4x4 size. \\
+CNNs with max pooling layers can still be trained with gradient descent and backpropagation. There does not exist an inverse to the max pooling function to use in a backward pass, but that problem can be solved using so called switches, which are routings between input and output units. In a forward pass, simply save which input units had a maximum value and which output unit they correspond to. These routings can then be used in backpropagation to pass the gradient back to the right unit. 
 
-\noindent In a forward pass, a single entry in the output vector is only affected by a subset of the entries in the input vector and always the same ones. The backward pass has the same connectivity pattern between the entries in the input and output vector, only in the reverse order. These connectivity patterns are compatible since both passes are defined by $K$. In context of the example, the first entry (index 0) of the forward pass output vector would be connected to the input vector entries with index 0-2, 4-6, and 8-10. Subsequently, the backward pass output vector entries with index 0-2, 4-6, and 8-10 would be connected to the first entry in the input vector.\\
-
-\noindent Where a normal convolution uses $K$ and $K^T$ for the forward and backward pass, respectively, the transposed convolution would use $K^T$ and $K$ for the forward and backward pass, respectively. As $(K^T)^T=K$, the transposed convolution is simply a convolution using transposed convolution matrices, hence the name. Because both the passes in transposed convolution are defined by $K$ as well, the connectivity pattern found in normal convolution also holds for transposed convolution. \\
 
 \section{Visualization}
-\textit{Describe all the different techniques, perhaps in more detail. \\
-Possibly even implementation level.}
 
 When using ANNs to solve complex problems the inner workings can be difficult to understand. It is not unlikely that the network is highly non-linear and requires millions of parameter values to obtain a desirable performance level. In these cases, it is hard to gain insight about the network's performance by examining the parameter values directly, both because of the unfeasible amount of values and each value's relative insignificance by itself. However, when applying ANNs to tasks in the image domain, there are several ways to help us understand the inner workings of the network by presenting information in the same readable format as the input. Aside from the fact that images more suited than numbers for human readability, there exists several techniques that utilizes the connections in the network to produce visualizations. These images can then provide insight into a larger part of the network, spanning several layers, possibly the whole network. Through the use of these visualization techniques, the network can improved by making informed decisions, instead of employing a trial and error approach. 
 
