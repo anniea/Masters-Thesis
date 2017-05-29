@@ -117,22 +117,15 @@ The softmax activation function is a variant of the sigmoid function. Instead of
 
 \subsection{Training a Network} \label{training-sec}
 
-The weights of a model can be learned by training the model on a set of input and output values, a task which is called supervised learning. The weights are usually initialized to small, randomly generated numbers. The learning process runs for a number of epochs, i.e. the number of times the learning algorithm will see the entire training set. Often, the data is split into so called batches when passed to the algorithm. The number of training examples in a batch is referred to as the batch size.
+The weights of an ANN, often referred to as the parameters, can be learned by training the network on a set of training data in a procedure called supervised learning. Typically, the weights are initialized to small, randomly generated numbers. The training data consists of training pairs of input and output data, with the output being the desired output of the ANN for the given input. In classification, for instance, the input could be an image, and the output could denote what the image represents, e.g. a cat. In training, the difference between the desired output and the network's actual output is used to update its weights. This process is elaborated upon in section \ref{backprop}. Often, it is useful to include a validation data set and a test data set in addition to the training set. Both of them should be representative of the training set. The validation set can be used during training to measure performance on data the network has not been explicitly trained on. The test set is used on fully trained networks to compare their performance. It is important that the different data sets consist of a substantial amount of diverse training pairs.
 
-\subsubsection{Data Preprocessing} % usikker på hvor denne hører til
+\subsubsection{Data Preprocessing}
 
-A common form of data preprocessing that we will employ is mean subtraction. This involves zero-centering the data by subtracting the mean across each individual feature, to ensure that the features are in a similar range. For images, this would be the values of the R, G and B channels. Note that the mean should only be computed from the training data, but it still has to be applied to the test data.
+A data set could be significantly improved by employing preprocessing methods. A common form of data preprocessing that we will employ is mean subtraction. It involves zero-centering the data by subtracting the mean across each individual feature, to ensure that the features are in a similar range. For images, this would be the values of the R, G and B channels. Note that the mean should only be computed from the training data, but it still has to be applied to the validation and test data.
 
-\subsubsection{Overfitting and Dropout}
+\subsubsection{Overfitting}
 
-The training data of an ANN might often be noisy and incomplete. Overfitting is when the ANN learns the details and noise of the data too well, so that it impacts the performance of the ANN on new data in a negative manner. An effective and simple regularization technique to prevent overfitting is dropout, where randomly selected units are ignored during training. A node is dropped out with a given probability each weight update cycle. This makes the network less sensitive to the specific weights of the units, and results in a more generalized network that is less likely to overfit to the training data.
-
-% this section probably still needs a lot of fixing
-
-% X skrive om zero-centered data, mean-centered osv
-% X nevne weight initialization
-% X overfitting --> dropout
-% hyperparameters ??? mentions learning rate in gradient descent, and briefly describes it
+The training data of an ANN can often be noisy and incomplete. Overfitting is when the ANN learns the details and noise of the data too well, making the network more specialized and negatively impacting its general performance. The phenomenon could be detected by examining the validation set during training. If the loss of the training set continues to decrease, but the loss of the validation set rises, this could suggest that the network is experiencing overfitting. An effective and simple regularization technique to prevent overfitting is dropout, where randomly selected units are ignored during training. A unit is "dropped out" with a given probability each weight update cycle. The technique makes the network less sensitive to specific weights, and results in a more generalized network that is less likely to overfit to the training data.
 
 \subsubsection{Loss Function}
 
@@ -140,7 +133,7 @@ The training data of an ANN might often be noisy and incomplete. Overfitting is 
 
 %  Cross entropy cost is appropriate to classification where the goal is to minimize the number of mis-classified training samples by imposing an exponentially increasing error the closer an output comes to being "1" when it should be "0", and vice versa.
 
-\subsection{Gradient Descent and Backpropagation}
+\subsection{Gradient Descent and Backpropagation} \label{backprop}
 
 \noindent To optimize the loss, we can use an algorithm called gradient descent, which minimizes any function iteratively. In short, the algorithm makes the learning process a repeated loop of evaluating the gradient, and then updating the weights based on this gradient. The simplest form of this algorithm, also called the vanilla version, is shown in \textbf{Code \ref{code:1}}. \\
 
@@ -150,8 +143,7 @@ The training data of an ANN might often be noisy and incomplete. Overfitting is 
 frame=lines,
 framesep=2mm,
 baselinestretch=1.2,
-fontsize=\footnotesize,
-linenos
+fontsize=\footnotesize
 ]
 {python}
 for i in range(epochs):
@@ -166,10 +158,7 @@ for i in range(epochs):
 
 \subsubsection{Stochastic Gradient Descent}
 
-In the vanilla version of gradient descent % skriv om dette
-
-
-The vanilla version of gradient descent is also called batch gradient descent. A batch of data is a portion of the training data, in this case the entire training data set. The gradient is computed over such a batch, which is slow and expensive in terms of memory. There are a number of different ways to optimize gradient descent by extending the vanilla version. Stochastic gradient descent (SGD) represent one of these optimizations. In this case, the gradient is computed over mini-batches consisting of only one training pair. This is a special case of the more general mini-batch gradient descent, which computes the gradient over batches of the training data, instead of the entire set. SGD refers to both mini-batch gradient descent, as well as the special case of stochastic gradient descent. Usually, it is more efficient to compute the gradient over a number of training pairs instead of just one. Even though SGD is much more efficient than the vanilla version, it also has its drawbacks and therefore, a number of improved algorithms have been developed.
+In the vanilla version of gradient descent, the gradient is computed over the entire training data set, which is slow and expensive in terms of memory. There exist a number of different ways to optimize gradient descent by extending the vanilla version. Stochastic gradient descent (SGD) represents one of these optimizations. In this case, the gradient is computed over batches of the training data instead of over the whole set. Even though SGD is much more efficient than the vanilla version, it also has its drawbacks and therefore a number of improved algorithms have been developed.
 
 \subsubsection{Adding Momentum}
 
@@ -329,11 +318,22 @@ it informative because all data flowing through the network can be visualized. T
 
 \noindent \textit{Additionally, in networks using ReLUs, a common activation function, the expectation of seeing sparse and localized activations can be confirmed, which is an indicator of the network learning properly. If some feature maps are entirely dark, with all pixel values zero, this can be a warning sign that the learning rate is too high. The particular filters are then rendered useless, and they have no possible way to recover \cite{cs231n_act}. }
 
-\subsection{Saliency Maps}
+\subsection{Saliency Maps} % MIKAL
 
-\textit{A salience map is typically a black-and-white image with the same size as the input, where important pixels have a high value, and insignificant pixels have a low value \cite{salience}. Thus, the important regions can be easily identified by their brightness. A map for classification is specific to an image and a class, and it allows us to observe which parts of an image influences the network classification score the most. In other words, we can view which parts of an image that the network deems more important when deciding upon the classification score chosen. Such a map can be produced by efficiently using the back-propagation gradient of the output score with respect to the input image.} \\
+A simple, yet useful, visualization technique for ANNs is to compute saliency maps. Saliency is defined to be "a pronounced feature or part", i.e. something that makes an item stand out. For images, a saliency map is thus a visualization that displays each pixel's saliency, or its unique quality. The notion of saliency is commonly used as a part of image segmentation. In relation to an ANN, however, this unique quality would be a specific pixel's influence on the output. Applying this to a classification problem, the output would be a specific class that the ANN believes that the input belongs to. A saliency map could then be computed for an input image and a class, to indicate to what degree each pixel in the input image influenced the specific class outcome. The produced image is typically black and white, with insignificant pixels having a darker color, and important pixels having a lighter color. Thus, the important regions can be easily identified by their brightness. In other words, we can view which parts of an image that the network deems more important when deciding upon the classification score chosen. \\
 
-\noindent \textit{In a face recognition case, the saliency would allow us to investigate what the network emphasizes, for example which facial regions are decisive in producing the identification output. We could also exploit salience maps for expression classification, creating maps to display which areas were the most influential for selecting the outputted expression results. By using the insight gained through salience maps, we would be able to confirm our beliefs that a network focuses on regions containing important feature information, and alert us to any peculiarities.}
+\noindent A saliency map would typically be computed for an input image and its resulting top classification. To obtain the saliency map, backpropagation must be employed to find the gradient of the loss of the selected class with respect to the image. This gradient will be a matrix with the same dimensions as the input image. The absolute value of the gradient matrix should then be calculated and the entries scaled to match standard pixel values. If the input is an RGB image, the matrix should be transformed into 2D by computing the maximum values across the color channels. The resulting matrix corresponds to a greyscale image that represents the saliency map of the input for the chosen class. The map and input have equal size in the spatial dimensions, and the map entry at \textit{(i,j)} shows the saliency of the input pixel at \textit{(i,j)}, RGB or otherwise. Note that it is also possible to compute the positive saliency, i.e. the pixels that are positively correlated with the output, by discarding the negative gradient values instead of computing their absolute. The negative saliency map can be acquired in a similar manner by discarding the positive gradient values. \\
+
+
+\begin{comment} % annie, gammelt
+\noindent A saliency map would typically be computed for an input image and its resulting top classification. To obtain the saliency map, first the gradient of the loss with respect to the image is found by backpropagation. The resulting gradient will be a 2D vector with the same dimensions as the input image. The absolute value of the gradient is calculated, and the entries are scaled to fit between 0 and 255. An entry in the \textit{i}-th row and \textit{j}-th column of the gradient vector corresponds to the pixel \textit{(i,j)} in the input image and thus pixel \textit{(i,j)} in the saliency map as well. If the image is an RGB image, the single saliency value for a pixel will be the maximum of the gradient across the color channels. The saliency map will be constructed using these values. Note that it is also possible to compute the positive saliency, i.e. the pixels that are positively correlated with the output, by discarding the negative gradient values instead of taking the absolute value. The negative saliency can be computed in a similar manner by discarding the positive gradient values. \\
+\end{comment}
+
+\begin{comment} % fra høstprosjektet (?)
+A salience map is typically a black-and-white image with the same size as the input, where important pixels have a high value, and insignificant pixels have a low value \cite{salience}. Thus, the important regions can be easily identified by their brightness. A map for classification is specific to an image and a class, and it allows us to observe which parts of an image influences the network classification score the most. In other words, we can view which parts of an image that the network deems more important when deciding upon the classification score chosen. Such a map can be produced by efficiently using the back-propagation gradient of the output score with respect to the input image. \\
+
+\noindent In a face recognition case, the saliency would allow us to investigate what the network emphasizes, for example which facial regions are decisive in producing the identification output. We could also exploit salience maps for expression classification, creating maps to display which areas were the most influential for selecting the outputted expression results. By using the insight gained through salience maps, we would be able to confirm our beliefs that a network focuses on regions containing important feature information, and alert us to any peculiarities.
+\end{comment}
 
 \subsection{Deconvolution Network}
 
@@ -358,7 +358,7 @@ Modern networks that receive images as inputs are likely to have convolutional l
 
 Whereas the previously discussed techniques (aside from plotting) are all dependent on a provided image to stimulate the network in order to create visualizations, deep visualization is not. Instead of examining the network's reaction to certain input, deep visualization aims to create images that represents what a selected part of the network is looking for. In order to achieve this, several steps are taken. \\
 
-\noindent At first, an individual unit in the network must be chosen. It is this particular unit that the visualization will offer insight into. Secondly, an initial image should be created by setting every pixel to a random value. The dimensions should match the network's expected input. The next step is to compute an update to the image using gradient ascent. By iteratively updating the pixel values with the gradient of the image with respect to the loss of the chosen unit, the technique is able to produce images that maximally activate the unit. The idea is that images that cause strong activation in the unit would resemble the object or type of input that the unit looks for, i.e. its learned features. However, images produced from gradient ascent alone are inclined to contain certain "hacks" to influence the activation. These hacks, like extreme pixel values and structured high frequency patterns, guide the process away from natural, interpretable images. Fortunately, this behaviour can be suppressed. By employing regularization techniques to deter the evolution of hacks in the image, deep visualization is able to produce visualizations that are able to reveal the learned features of the unit. By repeating these two steps, updating the image with the gradient and then regularizing it, the process will eventually result in a viable visualization. When updating the image with the gradient, there can also be a learning rate attached, to accelerate (or decelerate) learning. It is worth noting that the process is stochastic as a result of the the random initial images. Producing several visualizations for a single unit would therefore display certain variances. These variances in turn reveal the invariances learned by the unit. \\
+\noindent At first, an individual unit in the network must be chosen. It is this particular unit that the visualization will offer insight into. Secondly, an initial image should be created by setting every pixel to a random value. The dimensions should match the network's expected input. The next step is to compute an update to the image using gradient ascent. By iteratively updating the pixel values with the gradient of the loss of the chosen unit with respect to the image, the technique is able to produce images that maximally activate the unit. The idea is that images that cause strong activation in the unit would resemble the object or type of input that the unit looks for, i.e. its learned features. However, images produced from gradient ascent alone are inclined to contain certain "hacks" to influence the activation. These hacks, like extreme pixel values and structured high frequency patterns, guide the process away from natural, interpretable images. Fortunately, this behaviour can be suppressed. By employing regularization techniques to deter the evolution of hacks in the image, deep visualization is able to produce visualizations that are able to reveal the learned features of the unit. By repeating these two steps, updating the image with the gradient and then regularizing it, the process will eventually result in a viable visualization. When updating the image with the gradient, there can also be a learning rate attached, to accelerate (or decelerate) learning. It is worth noting that the process is stochastic as a result of the the random initial images. Producing several visualizations for a single unit would therefore display certain variances. These variances in turn reveal the invariances learned by the unit. \\
 
 \noindent As an example, consider a network trained on classifying certain objects from images. In its last layer, this network has a unit which activates to classify the object in the input image as a cat. If this unit is selected for deep visualization, the resulting images should display various catlike features, e.g. four legs, tail, furry texture, particularly shaped faces, etc. If the output unit visualizations contain the expected features, confidence in the network is reinforced. However, if the features portrayed are irrational or intangible, it signals potential issues with the network. Assuming the network is able to classify a cat, it most likely contains parts that look for eyes as well. As deep visualization can produce images for any units in any layer, a hidden unit which activates on eyes could also be visualized. In that case, eyelike features should gradually become discernable in the once random image. Visualizing for a wide selection of hidden units can be helpful to understand the scope of the network's feature learning abilities. Ultimately, deep visualization can aid in understanding the network and whether it is looking for sensible features. \\
 
@@ -403,15 +403,35 @@ Through a random hyperparameter search, \cite{deepvis} found several useful comb
 
 \noindent The four combinations produce visualizations that complement each other. The first one (at the first row) can be used to produce images that show a sparse set of important regions. The second tends to result in images with high frequency patterns. The third favors images with low frequency patterns. Finally, the fourth one generates visualizations with dense pixel data. Used separately, the most beneficial images can be developed from the third combination, although more insight can be gained by examining visualizations from all four combinations at once.
 
+\section{Transfer Learning} % MIKAL
 
-\section{Transfer Learning}
+The idea behind transfer learning is that knowledge learned from solving one problem can be used to solve a different, but related problem. Specifically related to image recognition, research has shown that CNNs trained on images learn generic features for the first couple of layers, and that these features can be used for several different datasets and tasks. Modern CNNs are usually large and can take a significantly long time to train, and therefore many researchers release the weights of their fully trained networks, allowing others to use them for their own purposes, for instance transfer learning. \\ 
 
-\section{Face Recognition}
+% something about how a small dataset could benefit from this
+% learning rate should be low -- where does this fit in?
 
-\textit{Can probably use a lot from the specialization project here.}
+% not sure if there should be subsections or just one large section.
+\begin{comment}
+\noindent There are two primary approaches for employing transfer learning:
+
+\begin{itemize}
+    \item Using the CNN as a fixed feature extractor
+    \item Fine-tuning the CNN
+\end{itemize}
+\end{comment}
+
+\subsection{Fixed Feature Extractor}
+
+The first strategy is to use a pretrained CNN as a fixed feature extractor for a new dataset. This is done by replacing the last layer of the network with a new fully-connected output layer of size corresponding to the new data. Train the CNN on the new training data keeping all layers fixed except for the new output layer. This approach works well if the new dataset is small and similar to the training set that the pretrained CNN has been trained on. If the new dataset is significantly different, it could be a good idea to replace more than just the last layer, since the top layers of a CNN contains more specific features than lower ones.
+
+\subsection{Fine-Tuning}
+
+Fine-tuning a pretrained CNN includes not only replacing the top layer, but to also fine-tune the weights of the network by continuing the backpropagation through the network. The fine-tuning can be done for the whole network, or only for the top part by keeping the lower layers fixed. If the new dataset is large, fine-tuning can be a good option as overfitting is likely not to be an issue.
+
+
 
 \section{Facial Expression}
 
-\textit{Here as well.}
+\textit{Use stuff from Specialization Project.}
 
 \cleardoublepage

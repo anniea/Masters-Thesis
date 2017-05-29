@@ -412,15 +412,10 @@ results_path = join(UPLOAD_FOLDER, user, file, 'results')
 
 \noindent The data loaded from the visualization file is processed to a format that it can be displayed in. The processing depends on the specific visualization technique. For instance, data for the training progress is transformed into separate sequences of x- and y-values. The other techniques mostly output images, and the image data needs to be converted into 2D arrays, since Bokeh does not handle 3D arrays for images. For layer activations, the results include several smaller images. These are stitched together into a grid of images for each layer. When the data is properly processed, it is stored in a ColumnDataSource, an object that stores data to be used in a Bokeh figure. In our case, its main purpose is to allow for simple streaming of data. When associating a ColumnDataSource with a figure, updating the data of the ColumnDataSource automatically triggers an update of the figure. This is much more effective than creating a new figure every time the data is updated.
 
-\subsubsection{The Bokeh Toolbar}
-
-
 
 \subsubsection{Callbacks}
 
 % first couple of lines of the code
-% figures
-% interactive tools
 % column data sources
 % callbacks
 
@@ -429,6 +424,41 @@ results_path = join(UPLOAD_FOLDER, user, file, 'results')
 
 \textit{Describe the case study (facial recognition with expression).
 Should already be presented, but here we can add specifics, and also possibly describe the structure of the network we have created, the dataset used, etc.}
+
+\subsection{Method}
+
+% probably should write something about how we have been working? corresponding to the system development method in the visualization tool section.
+
+
+\subsection{Pretrained Model}
+
+As described in section X.X, transfer learning is a convenient method for training an ANN without requiring long training periods or large amounts of training data. This can be done by using a pretrained model. Since our case study deals with face recognition, it is beneficial to use a CNN trained on images of faces. Such a network would already be able to detect specific features like eyes and mouths. A suitable model is the VGG-Face CNN described in section X.X. The original implementation is using Caffe, but luckily a Keras implementation converted from the original Caffe network can be found available for download. We plan to employ transfer learning using this network as the pretrained model.
+
+% CNN trained on faces
+% something that is available for Keras
+% https://github.com/rcmalli/keras-vggface
+
+\subsection{Dataset}
+
+Based on the restrictions regarding the dataset described in section X.X, as well as the exploration of potential datasets conducted in the Specialization Project, the Indian Movie Face database (IMFDB) was selected. This database consists of 34,512 images of 100 actors collected from Indian movies, captured in an unconstrained setting. All images are selected and labeled manually, including both of our required labels, namely identification and expression. The available expressions are the six basic expressions described in section X.X, in addition to a neutral expression, giving a total of seven possible values for the expression label. The dataset is structured so that it contains a folder for each of the actors. These folders again contain a folder for each movie the images of the actor is taken from. A movie folder contain and image folder, and a text file with all image names and their corresponding labels. \\
+
+\noindent After downloading the dataset, we received some errors while trying to process the text files. Thus, we created a script that traversed the text files of the dataset and alerted us of any peculiarities. Some of the entries were missing their expression labeling and these were removed entirely. Others were just improperly formatted, so that they were easily fixed. This process slightly reduced the size of the training set, resulting in a dataset with XX,XXX images of XX actors.
+
+% suitable in terms of size
+% similar to images vgg16-face is trained on?
+% available for download and free of charge
+% skrive at det ikke har dukket opp noen nye
+
+\subsection{Preprocessing of Data}
+
+% images were already cropped
+% padded and resized.
+
+\subsection{Architecture}
+
+% network architecture (for alle 2-3)
+% skrive om hvordan vi har brukt transfer learning
+
 
 
 \cleardoublepage
