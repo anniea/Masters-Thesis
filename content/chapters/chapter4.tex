@@ -10,7 +10,7 @@ In this section we will present the implementation details of the visualization 
 
 \subsection{Prototype}
 
-This section presents the results form the Specialization Project in terms of the already implemented prototype of the visualization tool, as well as some pointers on the planned improvements and extensions to be done for this thesis.
+This section presents the results from the Specialization Project in terms of the already implemented prototype of the visualization tool, as well as some pointers on the planned improvements and extensions to be done for this thesis.
 
 \subsubsection{Description}
 
@@ -62,7 +62,7 @@ SQLite is a simple and lightweight relational SQL database engine. In contrast t
 
 \subsubsection{Keras}
 
-Keras is a high-level neural networks library that can run on top of either TensorFlow or Theano. Its purpose is to provide a way to quickly and easily create models and start experimenting. It is very minimalistic, providing only enough to achieve an outcome, while still allowing for extensibility by making it easy to add and use new modules within the framework. Keras provides the user with several callbacks, i.e. sets of functions to be applied at giving stages of the ANN training procedure. It also allows for creating your own custom callbacks, which is perfect for our use case, since we then can create callbacks that produces the data needed for each visualization technique. Consequently, we have chosen to adapt our visualization tool specifically to Keras. We have added support for both the TensorFlow and the Theano backend. Howeber, we have concentrated on TensorFlow, thus not all visualizations have been extensively tested for the Theano backend.
+Keras is a high-level neural networks library that can run on top of either TensorFlow or Theano. Its purpose is to provide a way to quickly and easily create models and start experimenting. It is very minimalistic, providing only enough to achieve an outcome, while still allowing for extensibility by making it easy to add and use new modules within the framework. Keras provides the user with several callbacks, i.e. sets of functions to be applied at giving stages of the ANN training procedure. It also allows for creating your own custom callbacks, which is perfect for our use case, since we then can create callbacks that produces the data needed for each visualization technique. Consequently, we have chosen to adapt our visualization tool specifically to Keras. We have added support for both the TensorFlow and the Theano backend. However, we have concentrated on TensorFlow, thus not all visualizations have been extensively tested for the Theano backend.
 
 \subsubsection{Bokeh}
 
