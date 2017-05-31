@@ -91,15 +91,44 @@ Things that could be added:
 
 \section{Case Study in Face Recognition}
 
+Although we do not aspire to explicitly create a network that pushes the state of the art, we are interested in investigating a technique that might prove useful in future attempts to do so. This section therefore introduces a selection of state of the art systems for facial recognition. 
+
+advantageous 
+
+
+such networks are still of interest.  as they represent the networks we ultimately want to improve. 
+
+if the proposed approach proves advantageous, the goal would be to implement it in a similar manner in a state of the art network. 
+
+
+
+As mentioned, the proposed approach of exploiting facial expression in an face recognition network is a novel one. While this network will be experimental, we still need a baseline network to use as a starting point and to measure performance against. 
+
+we review such networks here as their structure
+
+brief review
+
+This section introduces 
+
 % fra høstprosjekt
 
 \begin{comment}
-In light of these potential advances, we are interested in helping facial recognition systems improve. The area of face recognition is widely researched, and the application of artificial neural networks has enjoyed great success in recent years. A popular benchmark dataset is Labeled Faces in the Wild (LFW) \cite{lfw}, and in 2015 a network called FaceNet achieved 99.63\% verification accuracy on it \cite{facenet}. While this performance is remarkable, even slight increases in accuracy are highly valued, as is evident when considering the previous state of the art, the neural network DeepID3, which achieved 99.53\% accuracy \cite{deepid3}. It is clear that the research area is in a state of diminishing returns, where considerable amounts of work is required to produce minor improvements. Evidence of this can also be found in earlier work, with the DeepFace network increasing state of the art accuracy from 96.33\% to 97.35\% \cite{deepface}, which was again improved by the GaussianFace model to 98.52\%, surpassing the verification accuracy measured for humans on the dataset (97.53\%) \cite{gaussianface}. 
+The area of face recognition is widely researched, and the application of ANNs has enjoyed great success in recent years. A popular benchmark dataset is Labeled Faces in the Wild (LFW) \cite{lfw}, and in 2015 a network called FaceNet achieved 99.63\% verification accuracy on it \cite{facenet}. While this performance is remarkable, even slight increases in accuracy are highly valued, as is evident when considering the previous state of the art, the neural network DeepID3, which achieved 99.53\% accuracy on LFW \cite{deepid3}. It is clear that the research area is in a state of diminishing returns, where considerable amounts of work is required to produce minor improvements. Further evidence of this can be found in earlier work, with the DeepFace network increasing state of the art accuracy from 96.33\% to 97.35\% \cite{deepface}. Consequently, if the incorporation of facial expression data in a network produces in even a slight rise in accuracy, the results are interesting. It is worth noting that not all of the promising results belong to ANNs, with the GaussianFace model obtaining 98.52\% accuracy on LFW, being the first system surpass the verification accuracy measured for humans on the dataset (97.53\%) \cite{gaussianface}. \\
 
+\noindent While all the aforementioned state of the art ANNs have their own distinct network architectures, common characteristics are that the networks are both convolutional and deep. This is also a distinction shared by several top performing networks entered in the ImageNet Large Scale Visual Recognition Challenge \cite{imagenet} over the years \cite{inception, vgg, googlenet}. These ImageNet networks are interesting because of their powerful feature extracting capabilities and performance on varied object recognition in unconstrained environments. These qualities make them excellent choices for transfer learning networks. The use of deep convolutional networks in the ImageNet challenge was initially inspired by the so-called "AlexNet" \cite{alexnet}, which won the object classification category with a 15.3\% test error rate against the 26.2\% error rate of the closest competitor. The victory triggered an interest in what such networks were capable of, leading to successful applications in multiple computer vision fields, including face recognition. \\
 
+something about vggface and how it uses vgg and transfer learning
 
-Of the four aforementioned state of the art approaches, three utilize artificial neural networks, including the one with the current best performance, FaceNet. While they all have their own distinct network architectures, common characteristics are that the networks are deep and that they employ convolutional layers in one form or another. This is also a distinction shared by many top performing networks entered in the ImageNet Large Scale Visual Recognition Challenge \cite{imagenet} over the years \cite{inception, vgg, googlenet}. The use of deep convolutional networks in the ImageNet challenge were initially inspired by the so-called "AlexNet" \cite{alexnet}, which won one of the categories with a 15.3\% test error rate against the 26.2\% error rate of the closest competitor. The victory triggered an interest in what such networks were capable of, and they were applied to several computer vision fields with success.
+meaning of deep has changed in recent years
 
+\end{comment}
+
+\begin{comment} % fra høstprosjekt, background
+\subsection{Exploiting Expression Information}
+
+The way facial expressions alter the facial geometry is predictable, both in a specific and general sense. If a specific person conveys the same facial expression several times, the expression will consistently affect a certain set of features and always in a similar manner. For instance, if an image of a happy person includes feature variations such as a widened mouth, narrower eyes, and dimples, another image of that person being happy will likely include the same variations. Some alterations can also be expected to appear generally. While dimples are not a universal trait, a smile, causing a wider mouth, can be anticipated to be commonplace in facial expressions conveying happiness. Knowing or recognizing the facial expression of a person would then reveal some information about how the facial features have transformed in relation to the person's neutral features. If a face recognition system could learn how these expressions affect facial geometry, then the system could be able to match the dissimilarities in the facial features with the changes it knows the facial expression produces. \\
+
+\noindent Instead of trying to exploit this predictability explicitly, like the formerly mentioned procedures do, we want to try to include it in the ANNs' ability to learn face representations. If we are able to make a network learn how expressions alter features implicitly, by using large, expression-varied datasets, the network could experience an improvement in performance. The gain would be possible due to the network using the new information to learn a single representation of a face and how it varies with expressions, rather than having to learn several representations of the same face, none of which have a clear relation to the others. This way, we can move away from trying to overcome the expression challenge through invariance, and instead utilize the data about facial expressions to increase network accuracy.
 \end{comment}
 
 \subsection{DeepFace}
