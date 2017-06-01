@@ -44,7 +44,7 @@ Drawbacks:
 
 The NVIDIA Deep Learning GPU Training System, also known as DIGITS, is a web application developed for managing deep ANNs with input in the image domain. Originally, it only supported networks created with Caffe, another programming framework for deep learning. A drawback with Caffe is that the network architecture needs to be constructed in plain text configuration files, which can be tedious, especially for larger networks. DIGITS simplifies this process by providing users with an intuitive interface for executing many of the cumbersome tasks that usually requires manipulating the configuration files directly. At a later point, the application expanded its support to include the scientific computing framework Torch. The application allows users to upload and manage both datasets and network models, and also makes pre-trained models, such as AlexNet and GoogLeNet, available for use. For their uploaded networks, users can schedule, monitor, and manage training jobs, and view real-time visualizations of the accuracy and loss. In addition, DIGITS is able to execute networks on uploaded input, providing an output result, as well as simple visualizations of the weights and activations of each layer. \\
 
-\noindent As previously mentioned, DIGITS is still being developed and its has been significantly upgraded since the start of our Specialization Project. The developers have previously stated that they had no plans towards adding support for more frameworks, including TensorFlow. However, in Q2 2017, the DIGITS website was updated with a message stating that TensorFlow support would be available in July 2017.
+\noindent As mentioned, DIGITS is still being developed and its has been significantly upgraded since the start of our Specialization Project. The developers have previously stated that they had no plans towards adding support for more frameworks, including TensorFlow. However, in Q2 2017, the DIGITS website was updated with a message stating that TensorFlow support would be available in July 2017.
 
 \begin{comment}
 Drawbacks:
@@ -89,39 +89,30 @@ Things that could be added:
 - keyword is live / real-time
 \end{comment}
 
+
 \section{Case Study in Face Recognition}
 
-Although we do not aspire to explicitly create a network that pushes the state of the art, we are interested in investigating a technique that might prove useful in future attempts to do so. This section therefore introduces a selection of state of the art systems for facial recognition. 
+The proposed approach of exploiting facial expression in an face recognition network is a novel one. As a consequence, the earlier work related to the case study is scarce. We will, however, present a few networks that provide some insight into the decisions made regarding the case study networks. \\
 
-advantageous 
+\noindent Although we do not aspire to explicitly create a network that pushes the state of the art, we are interested in investigating a technique that might prove useful in future attempts to do so. This section therefore offers a short look at a selection of state of the art systems for facial recognition and their performance. Furthermore, we introduce an object classification network that has been repurposed for face recognition, and review its relevance to our case study. \\
+
+\noindent The networks mentioned in this section are often described to be deep or even very deep. It is worth noting that notion of depth in ANNs has changed somewhat as the research into such networks has progressed. With the existence of ResNet-152, an accomplished 152-layer deep ANN, networks with less than 20 layers seem shallow in comparison. However, these smaller network are still commonly referred to as deep. For consistency, the practice is continued is this thesis. 
+
+\subsubsection{Improving Face Recognition}
+
+The area of face recognition is widely researched, and the application of ANNs has enjoyed great success in recent years. A popular benchmark dataset is Labeled Faces in the Wild (LFW) \cite{lfw}, and in 2015 a network called FaceNet achieved 99.63\% verification accuracy on it \cite{facenet}. While this performance is remarkable, even slight increases in accuracy are highly valued, as is evident when considering the previous state of the art, the neural network DeepID3, which achieved 99.53\% accuracy on LFW \cite{deepid3}. It is clear that the research area is in a state of diminishing returns, where considerable amounts of work is required to produce minor improvements. Further evidence of this can be found in earlier work, with the DeepFace network increasing state of the art accuracy from 96.33\% to 97.35\% \cite{deepface}. Consequently, if the incorporation of facial expression data in a network produces in even a slight rise in accuracy, the results are interesting. It is worth noting that not all of the promising results belong to ANNs, with the GaussianFace model obtaining 98.52\% accuracy on LFW, being the first system surpass the verification accuracy measured for humans on the dataset (97.53\%) \cite{gaussianface}.
+
+\subsubsection{Using ImageNet Networks for Face Recognition}
+
+While all the aforementioned state of the art ANNs have their own distinct network architectures, common characteristics are that the networks are both convolutional and deep. This is also a distinction shared by several top performing networks entered in the ImageNet Large Scale Visual Recognition Challenge (ILSVRC) \cite{imagenet} over the years \cite{inception, vgg, googlenet}. These ImageNet networks are interesting because of their powerful feature extracting capabilities and performance on varied object recognition in unconstrained environments. These qualities make them excellent choices for transfer learning networks. The use of deep convolutional networks in ILSVRC was initially inspired by the so-called "AlexNet" \cite{alexnet}, which won the object classification category with a 15.3\% test error rate against the 26.2\% error rate of the closest competitor. The victory triggered an interest in what such networks were capable of, leading to successful applications in multiple computer vision fields, including face recognition. \\
+
+\noindent In \textbf{ref-DFR}, several ANNs based on an ImageNet network are tested in the face recognition domain. More specifically, the networks are modelled after the VGG architecture, which was awarded second place in the classification task of ILSVRC 2014 \ref{vgg}. To train the face recognition networks, \textbf{ref-DFR} constructed a dataset of celebrity images, consisting of 2622 identities with 1000 images each. The networks were tested on LFW and YouTube Faces Dataset, where the best accuracies achieved are 98.95\% and 91.6\%, respectively. These scores are comparable to those achieved by the previously mentioned state of the art networks, DeepFace, DeepID3 and FaceNet.
+
+\subsubsection{Application to Case Study}
+
+For our case study network, we intend to employ the VGG architecture as a baseline. It has proven capabilities in both complex object classification and face recognition tasks, as well as a fairly straightforward architecture. The latter is beneficial as lower complexity makes reasoning about experimental choices less complicated and reduces the possibility of unforeseen effects. However, VGG networks are prohibitively slow to train. To circumvent this issue, we would like to apply transfer learning to an fully trained version of a VGG network. The networks from \textbf{ref-DFR} are prime candidates because of their related problem area and impressive performance. In particular, we adopt the 16-layer network from configuration D. The weight values of this configuration, as computed in \textbf{ref-DFR}, has been made available and converted to use with the Keras framework.
 
 
-such networks are still of interest.  as they represent the networks we ultimately want to improve. 
-
-if the proposed approach proves advantageous, the goal would be to implement it in a similar manner in a state of the art network. 
-
-
-
-As mentioned, the proposed approach of exploiting facial expression in an face recognition network is a novel one. While this network will be experimental, we still need a baseline network to use as a starting point and to measure performance against. 
-
-we review such networks here as their structure
-
-brief review
-
-This section introduces 
-
-% fra høstprosjekt
-
-\begin{comment}
-The area of face recognition is widely researched, and the application of ANNs has enjoyed great success in recent years. A popular benchmark dataset is Labeled Faces in the Wild (LFW) \cite{lfw}, and in 2015 a network called FaceNet achieved 99.63\% verification accuracy on it \cite{facenet}. While this performance is remarkable, even slight increases in accuracy are highly valued, as is evident when considering the previous state of the art, the neural network DeepID3, which achieved 99.53\% accuracy on LFW \cite{deepid3}. It is clear that the research area is in a state of diminishing returns, where considerable amounts of work is required to produce minor improvements. Further evidence of this can be found in earlier work, with the DeepFace network increasing state of the art accuracy from 96.33\% to 97.35\% \cite{deepface}. Consequently, if the incorporation of facial expression data in a network produces in even a slight rise in accuracy, the results are interesting. It is worth noting that not all of the promising results belong to ANNs, with the GaussianFace model obtaining 98.52\% accuracy on LFW, being the first system surpass the verification accuracy measured for humans on the dataset (97.53\%) \cite{gaussianface}. \\
-
-\noindent While all the aforementioned state of the art ANNs have their own distinct network architectures, common characteristics are that the networks are both convolutional and deep. This is also a distinction shared by several top performing networks entered in the ImageNet Large Scale Visual Recognition Challenge \cite{imagenet} over the years \cite{inception, vgg, googlenet}. These ImageNet networks are interesting because of their powerful feature extracting capabilities and performance on varied object recognition in unconstrained environments. These qualities make them excellent choices for transfer learning networks. The use of deep convolutional networks in the ImageNet challenge was initially inspired by the so-called "AlexNet" \cite{alexnet}, which won the object classification category with a 15.3\% test error rate against the 26.2\% error rate of the closest competitor. The victory triggered an interest in what such networks were capable of, leading to successful applications in multiple computer vision fields, including face recognition. \\
-
-something about vggface and how it uses vgg and transfer learning
-
-meaning of deep has changed in recent years
-
-\end{comment}
 
 \begin{comment} % fra høstprosjekt, background
 \subsection{Exploiting Expression Information}
@@ -131,10 +122,5 @@ The way facial expressions alter the facial geometry is predictable, both in a s
 \noindent Instead of trying to exploit this predictability explicitly, like the formerly mentioned procedures do, we want to try to include it in the ANNs' ability to learn face representations. If we are able to make a network learn how expressions alter features implicitly, by using large, expression-varied datasets, the network could experience an improvement in performance. The gain would be possible due to the network using the new information to learn a single representation of a face and how it varies with expressions, rather than having to learn several representations of the same face, none of which have a clear relation to the others. This way, we can move away from trying to overcome the expression challenge through invariance, and instead utilize the data about facial expressions to increase network accuracy.
 \end{comment}
 
-\subsection{DeepFace}
-
-\subsection{VGG-Face}
-
-\textit{If this is the baseline network used}
 
 \cleardoublepage

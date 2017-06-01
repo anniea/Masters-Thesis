@@ -1,9 +1,55 @@
 %===================================== APPENDIX C =================================
 \chapter{Callbacks API}
 
+This appendix will explain how to use the callbacks in your Keras code, and provide you with an API on the customizations available. For a presentation of the various visualization techniques explaining the underlying theory, see section X.X of the thesis.
+
 \section*{Usage of Callbacks}
 
-Oh! The garbage chute was a really wonderful idea. What an incredible smell you've discovered! Let's get out of here! Get away from there... No! wait! Will you forget it? I already tried it. It's magnetically sealed! Put that thing away! You're going to get us all killed. Absolutely, Your Worship. Look, I had everything under control until you led us down here. You know, it's not going to take them long to figure out what happened to us. It could be worst... It's worst. There's something alive in here! That's your imagination. Something just moves past my leg! Look! Did you see that? What? Help!
+The API includes a wrapper class that allows for adding and customizing the callbacks in a simple and straightforward way. The first thing you need to do is to import the wrapper class:
+
+\begin{minted}
+[
+bgcolor=mygray
+]
+{python}
+from custom_keras.callbacks import CustomCallbacks
+\end{minted}
+
+\noindent Then, you instantiate the wrapper class like this:
+
+\begin{minted}
+[
+bgcolor=mygray
+]
+{python}
+callbacks = CustomCallbacks(os.path.dirname(__file__))
+\end{minted}
+
+\noindent Note that to be able to use the \texttt{dirname} method you need to have the \texttt{os} package imported. The argument of the wrapper class should always be as shown above and is needed for the application to save the visualization results in the correct location. \\
+
+\noindent To wrapper class provides you with methods for adding each of the available callbacks. You can add as many of the callbacks as you wish. For instance:
+
+\begin{minted}
+[
+bgcolor=mygray
+]
+{python}
+callbacks.register_deconvolution_network(3, 16, interval=10)
+\end{minted}
+
+\noindent This shows the deconvolution network visualization technique being added. For an explanation of the arguments, we refer you to the corresponding visualization technique's detailed description below. \\
+
+\noindent When you are finished adding the callbacks that you wish to include, you can pass them to Keras' \texttt{.fit()} or \texttt{.fit\_generator()} as follows:
+
+\begin{minted}
+[
+bgcolor=mygray
+]
+{python}
+model.fit(x, y, callbacks=callbacks.get_list())
+\end{minted}
+
+\noindent You can also instantiate the callbacks separately, instead of using the wrapper class.
 
 \subsection*{CustomCallbacks}
 
@@ -21,28 +67,27 @@ custom_keras.callbacks.CustomCallbacks(file_folder,
                                         base_interval=10)
 \end{minted}
 
-\noindent A wrapper class for callbacks.
+\noindent A wrapper class for callbacks. The arguments are arguments that one or more of the callbacks have in common. They will be passed on to the applicable callbacks when adding them.
 
 \subsubsection*{Arguments}
 
 \begin{itemize}
-    \item \textbf{file\_folder:} The script's corresponding folder in user-storage. This should be \\
-    \texttt{os.path.dirname(\_\_file\_\_)}, since the script is uploaded and placed in the user-storage itself.
-    \item \textbf{custom\_preprocess:}
-    \item \textbf{custom\_postprocess:}
-    \item \textbf{base\_interval:}
+    \item \textbf{file\_folder:} Should always be \texttt{os.path.dirname(\_\_file\_\_)}.
+    \item \textbf{custom\_preprocess:} A preprocess function that will be applied to the visualization image before use.
+    \item \textbf{custom\_postprocess:} A postprocess function that will be applied to the visualization image after use.
+    \item \textbf{base\_interval:} The base interval that the visualizations will be computed at, unless specified otherwise. Many of the callbacks have their own interval argument that can be set individually.
 \end{itemize}
 
 \subsubsection*{Methods}
 
 \begin{itemize}
-    \item \textbf{get\_list:}
-    \item \textbf{register\_network\_saver:}
-    \item \textbf{register\_training\_progress:}
-    \item \textbf{register\_layer\_activations:}
-    \item \textbf{register\_saliency\_maps:}
-    \item \textbf{register\_deconvolution\_network:}
-    \item \textbf{register\_deep\_visualization:}
+    \item \textbf{get\_list:} Returns a list of all registered callbacks, to be passed to the Keras \texttt{.fit()} or \texttt{.fit\_generator()} methods.
+    \item \textbf{register\_network\_saver:} Registers the \texttt{NetworkSaver} callback.
+    \item \textbf{register\_training\_progress:} Registers the \texttt{TrainingProgress} calback.
+    \item \textbf{register\_layer\_activations:} Registers the \texttt{LayerActivations} callback.
+    \item \textbf{register\_saliency\_maps:} Registers the \texttt{SaliencyMaps} callback.
+    \item \textbf{register\_deconvolution\_network:} Registers the \texttt{DeconvolutionNetwork} callback.
+    \item \textbf{register\_deep\_visualization:} Registers the \texttt{DeepVisualization} callback.
 \end{itemize}
 
 \subsection*{NetworkSaver}
@@ -63,8 +108,7 @@ custom_keras.callbacks.NetworkSaver(file_folder)
 \subsubsection*{Arguments}
 
 \begin{itemize}
-    \item \textbf{file\_folder:} The script's corresponding folder in user-storage. This should be \\
-    \texttt{os.path.dirname(\_\_file\_\_)}, since the script is uploaded and placed in the user-storage itself.
+    \item \textbf{file\_folder:} Should always be \texttt{os.path.dirname(\_\_file\_\_)}.
 \end{itemize}
 
 \section*{Available Callbacks}
@@ -87,8 +131,7 @@ custom_keras.callbacks.TrainingProgress(file_folder)
 \subsubsection*{Arguments}
 
 \begin{itemize}
-    \item \textbf{file\_folder:} The script's corresponding folder in user-storage. This should be \\
-    \texttt{os.path.dirname(\_\_file\_\_)}, since the script is uploaded and placed in the user-storage itself.
+    \item \textbf{file\_folder:} Should always be \texttt{os.path.dirname(\_\_file\_\_)}.
 \end{itemize}
 
 \subsection*{LayerActivations}
@@ -112,11 +155,10 @@ custom_keras.callbacks.LayerActivations(file_folder,
 \subsubsection*{Arguments}
 
 \begin{itemize}
-    \item \textbf{file\_folder:} The script's corresponding folder in user-storage. This should be \\
-    \texttt{os.path.dirname(\_\_file\_\_)}, since the script is uploaded and placed in the user-storage itself.
+    \item \textbf{file\_folder:} Should always be \texttt{os.path.dirname(\_\_file\_\_)}.
     \item \textbf{exclude\_layers:} A tuple of Keras layers to exclude from visualization. The default value \texttt{EXCLUDE\_LAYERS} is a tuple containing \texttt{keras.layers.InputLayer}, \texttt{keras.layers.Dropout} and \texttt{keras.layers.Flatten}
-    \item \textbf{custom\_preprocess:}
-    \item \textbf{interval:}
+    \item \textbf{custom\_preprocess:} A preprocess function that will be applied to the visualization image before use.
+    \item \textbf{interval:} The interval that the visualization will be computed at. If not specified, the \texttt{base\_interval} will be used.
 \end{itemize}
 
 \subsection*{SaliencyMaps}
@@ -135,16 +177,15 @@ custom_keras.callbacks.SaliencyMaps(file_folder,
                                     interval=10)
 \end{minted}
 
-\noindent Produces the saliency map of the network, using the uploaded visualization image.
+\noindent Produces a saliency map of the uploaded visualization image showing to what degree the pixels of the image influenced the result.
 
 \subsubsection*{Arguments}
 
 \begin{itemize}
-    \item \textbf{file\_folder:} The script's corresponding folder in user-storage. This should be \\
-    \texttt{os.path.dirname(\_\_file\_\_)}, since the script is uploaded and placed in the user-storage itself.
-    \item \textbf{custom\_preprocess:}
-    \item \textbf{custom\_postprocess:}
-    \item \textbf{interval:}
+    \item \textbf{file\_folder:} Should always be \texttt{os.path.dirname(\_\_file\_\_)}.
+    \item \textbf{custom\_preprocess:} A preprocess function that will be applied to the visualization image before use.
+    \item \textbf{custom\_postprocess:} A postprocess function that will be applied to the visualization image after use.
+    \item \textbf{interval:} The interval that the visualization will be computed at. If not specified, the \texttt{base\_interval} will be used.
 \end{itemize}
 
 \subsection*{DeconvolutionNetwork}
@@ -167,20 +208,19 @@ custom_keras.callbacks.DeconvolutionNetwork(file_folder,
                                             interval=100)
 \end{minted}
 
-\noindent Produces ...
+\noindent A callback for producing visualizations of the provided layer and feature maps using a deconvolution network and the uploaded visualization image. The deconvolution model is autogenerated, but you can also create your own model and pass it to the callback.
 
 \subsubsection*{Arguments}
 
 \begin{itemize}
-    \item \textbf{file\_folder:} The script's corresponding folder in user-storage. This should be \\
-    \texttt{os.path.dirname(\_\_file\_\_)}, since the script is uploaded and placed in the user-storage itself.
-    \item \textbf{feat\_map\_layer\_no:}
-    \item \textbf{feat\_map\_amount:}
-    \item \textbf{feat\_map\_nos:}
-    \item \textbf{custom\_preprocess:}
-    \item \textbf{custom\_postprocess:}
-    \item \textbf{custom\_keras\_model\_info:}
-    \item \textbf{interval:}
+    \item \textbf{file\_folder:} Should always be \texttt{os.path.dirname(\_\_file\_\_)}.
+    \item \textbf{feat\_map\_layer\_no:} The layer number to visualize feature maps from.
+    \item \textbf{feat\_map\_amount:} The number of feature maps to visualize. The algorithm will chose the top \textit{n} maximally activated feature maps. Note that either this or the next argument always needs to be specified.
+    \item \textbf{feat\_map\_nos:} A list with the numbers of feature maps to visualize. Note that either this or the previous argument always needs to be specified.
+    \item \textbf{custom\_preprocess:} A preprocess function that will be applied to the visualization image before use.
+    \item \textbf{custom\_postprocess:} A postprocess function that will be applied to the visualization image after use.
+    \item \textbf{custom\_keras\_model\_info:} Can be used if you want to provide your own deconvolution model. Should be a tuple containing (ing respective order): a deconvolution Keras model based on your original model, a dictionary mapping from original model layer numbers to the corresponding deconv. model layer numbers, and an update method for the deconv. model which returns new deconv. model and layer map (if no update needed, input a method with pass).
+    \item \textbf{interval:} The interval that the visualization will be computed at. If not specified, the \texttt{base\_interval} will be used.
 \end{itemize}
 
 \subsection*{DeepVisualization}
@@ -194,7 +234,7 @@ fontsize=\footnotesize
 ]
 {python}
 custom_keras.callbacks.DeepVisualization(file_folder,
-                                        neurons_to_visualize,
+                                        units_to_visualize,
                                         learning_rate,
                                         no_of_iterations,
                                         l2_decay=0,
@@ -208,25 +248,24 @@ custom_keras.callbacks.DeepVisualization(file_folder,
                                         interval=1000)
 \end{minted}
 
-\noindent Produces ... 
+\noindent A callback for producing deep visualizations of the units selected. Involves a number of optional arguments for regularization values that can be set to employ various regularization techniques in order to produce interpretable visualizations. The regularization techniques availabla are $L_2$ decay, Gaussian blur and clipping based on specific attributes. Some useful combinations of the regularization values can be seen in table X.X.
 
 \subsubsection*{Arguments}
 
 \begin{itemize}
-    \item \textbf{file\_folder:} The script's corresponding folder in user-storage. This should be \\
-    \texttt{os.path.dirname(\_\_file\_\_)}, since the script is uploaded and placed in the user-storage itself.
-    \item \textbf{neurons\_to\_visualize:}
-    \item \textbf{learning\_rate:}
-    \item \textbf{no\_of\_iterations:}
-    \item \textbf{l2\_decay:}
-    \item \textbf{blur\_interval:}
-    \item \textbf{blur\_std:}
-    \item \textbf{value\_percentile:}
-    \item \textbf{norm\_percentile:}
-    \item \textbf{contribution\_percentile:}
-    \item \textbf{abs\_contribution\_percentile:}
-    \item \textbf{custom\_postprocess:}
-    \item \textbf{interval:}
+    \item \textbf{file\_folder:} Should always be \texttt{os.path.dirname(\_\_file\_\_)}.
+    \item \textbf{units\_to\_visualize:} A list of tuples describing which units to be visualized. The tuples are on the form \texttt{(layer\_no, unit\_index} where \texttt{unit\_index} is either a number or a 3D tuple specifying the index of a unit of a convolutional layer.
+    \item \textbf{learning\_rate:} The learning rate for updating the visualization image.
+    \item \textbf{no\_of\_iterations:} The number of iterations to perform gradient ascent update with regularization.
+    \item \textbf{l2\_decay:} [0.0, 1.0] The regularization strength of the $L_2$ decay regularization technique that prevents a small number of extreme pixel values from dominating the output image.
+    \item \textbf{blur\_interval:} [0, inf) An interval of which to employ the Gaussian blur regularization technique, used to penalize high frequency information in the output image. Note that both this and the next argument needs to be specified to enable Guassian blurring.
+    \item \textbf{blur\_std:} [0.0, inf) Standard deviation for the Gaussian blur kernel in the interval. Note that both this and the previous argument needs to be specified to enable Guassian blurring.
+    \item \textbf{value\_percentile:} [0, 100] The value percentile limit used in clipping regularization to induce sparsity by setting pixels with a small absolute value to zero.
+    \item \textbf{norm\_percentile:} [0, 100] The norm percentile limit used in clipping regularization to induce sparsity by setting pixels with small norm to zero.
+    \item \textbf{contribution\_percentile:} [0, 100] The contribution percentile limit used in clipping regularization to induce sparsity by setting pixels with small contribution to zero.
+    \item \textbf{abs\_contribution\_percentile:} [0, 100] The absolute contribution percentile limit used in clipping regularization to induce sparsity by setting pixels with small absolute contribution to zero.
+    \item \textbf{custom\_postprocess:} A postprocess function that will be applied to the visualization image after use.
+    \item \textbf{interval:} The interval that the visualization will be computed at. If not specified, the \texttt{base\_interval} will be used.
 \end{itemize}
 
 \cleardoublepage
