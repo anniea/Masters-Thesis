@@ -126,7 +126,7 @@ fontsize=\footnotesize
 custom_keras.callbacks.TrainingProgress(file_folder)
 \end{minted}
 
-\noindent Saves training accuracy and loss after each batch. If validation is enabled, the callback will also save the validation accuracy and loss after each epoch.
+\noindent Saves training accuracy and loss after each batch. If validation is enabled, the callback will also save the validation accuracy and loss after each epoch. This callback assumes that accuracy is enabled as a metric in your Keras model.
 
 \subsubsection*{Arguments}
 

@@ -2,15 +2,15 @@
 
 \chapter{Implementation}\label{implementation-chap}
 
-The chapter thoroughly described the implementation process and the implementation itself of both the visualization tool and the creation and training of the networks implemented for the case study.
+This chapter thoroughly describes the implementation process and the implementation itself, for both the visualization tool and the creation and training of the networks implemented for the case study.
 
 \section{Visualization Tool}
 
-In this section we will present the implementation details of the visualization tool created as a part of this thesis. We start with a summary of the related results from the Specialization Project, before explaining the system development methodology used in the implementation process. Then, we will present the two quality attributes that have been a focus through the design and implementation, and state our decisions regarding the technology used. Finally, we will showcase the implementation details for the main parts of the implemented visualization tool.
+In this section we will present the implementation details of the visualization tool created as part of this thesis. We start with a summary of the related results from the Specialization Project, before explaining the system development methodology used in the implementation process. Then, we present the two quality attributes that have been a focus throughout the design and implementation phase, and state our choices regarding the technology used. Finally, we showcase the implementation details for the main parts of the visualization tool.
 
 \subsection{Prototype}
 
-This section presents the results from the Specialization Project in terms of the already implemented prototype of the visualization tool, as well as some pointers on the planned improvements and extensions to be done for this thesis.
+This section presents the results from the Specialization Project in terms of the previously implemented prototype of the visualization tool, as well as some pointers on the planned improvements and extensions to be included for the thesis.
 
 \subsubsection{Description}
 
@@ -18,59 +18,69 @@ This section presents the results from the Specialization Project in terms of th
 % --> desktop application, but runs in a web browser
 % Also explain why there is a user system?
 
-\noindent The prototype provides all the basic user functionality for creating a user, and logging in and out, including validation of user name and password. A user can upload Python scripts from their computer to the server, and tag them with various topics to make them easier to search for, using the search bar on the page showing all uploaded scripts. \\
+\noindent The prototype provides all the basic user functionality for creating a user, and logging in and out, including validation of the user name and password. Once created, a user can upload Python scripts from their computer to the server, and tag them with various labels to make them easier to search for. The search bar is located on the file overview page, which shows all uploaded scripts. \\
 
-\noindent By selecting a specific script, the user can view the code, add tags to, delete, and of course run, the script. A separate menu tab for visualizations provides the user with visualizations of the data produced while running. The only visualization techniques implemented are the training progress and layer activations laid out after each other on a single page. The training progress includes two separate plots showing accuracy and loss over batch, while the layer activations are shown for each single layer of the network defined in the script.
+\noindent By selecting a specific script, the user can view its code, and add and delete tags associated with it. The user can also run the script, or delete it. A separate menu tab for the visualizations grants the user access to visualizations of the data produced during script execution. The visualization techniques implemented are the training progress and the layer activations, both presented on a single page. The training progress includes two separate plots showing the training accuracy and loss over the batches, while the layer activations are shown for each single layer of the script-defined network.
 
-\subsubsection{Planned Improvements and Extensions}
+\subsubsection{Planned Improvements and Extensions} % MIKAL
 
-The overall purpose will be to add more functionality with the goal of improving the user's understanding of the network. This may be new visualization techniques, training process statistics, better presentations of data, and more user controls. Another useful addition can be allowing the user more flexibility and make the visualizations more interactive.
+% tanken har gått fra web application til desktop application som kjøres i nettleseren.
+
+The Specialization Project resulted in a list of major and minor extensions that would be useful to implement in a second version of the visualization tool. Upon beginning the thesis work, it was decided that the visualization tool should be the main focus of the thesis over the face recognition case study. Instead of the tool being created for the purpose of our own work, the goal should be to release the code as open-source software for the benefit of other researchers. There was also a shift in the use of the tool, namely that instead of a web application running on a server, it should be a desktop application that the user run in a web browser from their own computer. This makes having a user system seem unsuited, but we decided to keep the user system as it still could be useful in some scenarios. For instance, if your lab provides a powerful computer used to train ANNs that several people have access to. \\
+
+The shift to a desktop application affected the relevance of the planned extensions, and we have therefore decided to disregard some of them. However, the two most important extensions were added: allowing a user to download a network, and implementing the saliency maps, deconvolution and deep visualization visualization techniques. In addition, we have added more user controls, like stopping the execution of a script, uploading an image to be used in the visualization, and viewing the output produced by the script. The presentation of the visualizations have also been improved, making them more interactive.
+
+% can also mention that security is now less of a concern, but as this was a minor extension it might not be that important?
+
+\begin{comment}
+The overall purpose will be to add more functionality with the goal of improving the user's understanding of the network. This may be new visualization techniques, training process statistics, better presentation of data, and more user controls. Another useful addition can be allowing the user more flexibility and make the visualizations more interactive.
+\end{comment}
 
 \subsection{System Development Methodology}
 
-The development of the visualization tool has been carried out by a team consisting of the two of us, with no specific set of roles. Because of the small team size, we did not see the need for a dedicated project manager. Both of us were involved in designing the architecture and interface, as well as implementing and testing the system, giving us great knowledge of the whole system. Still, we maintained an efficient workflow by dividing the programming task into two main responsibility areas, one for each of us:
+The development of the visualization tool has been carried out by a team of two, with no specific set of roles involved. On account of the small team size, a dedicated project manager was not deemed necessary. Both team members were involved in the design of the architecture and interface, as well as system implementation and testing, giving us great knowledge of the whole system. We maintained an efficient workflow by dividing the programming work into two main areas of responsibility:
 \begin{enumerate}
-    \item Visualizing data using the selected visualization library and incorporating these into the user interface
-    \item Implementing visualization techniques and creating networks to illustrate the use of the tool with the chosen deep learning library
+    \item Implementing visualization techniques and creating networks to produce example data.
+    \item Implementing visualization data processing and presenting result to user interface.
 \end{enumerate} % maybe add a sentence explaining that these areas were just pointers, and that we both did work on both areas.
 
-\noindent The development process itself did not follow any strict guidelines, but included several elements from Agile methods. It has been an iterative and incremental process, starting with the existing prototype of the system that only implemented two of the visualization techniques in a very simple manner. Based on our own testing as well as feedback from our supervisors, functionality were added and adjustments were made in order to obtain a new and improved prototype. This process was repeated until we reached a satisfactory system according to the initial requirements. An example of the iterative part of the process is when we decided to replace the old visualization library with a new one that better suited our needs. An example of the incremental part of the process is when our supervisors expressed the wish for a way for the user to be able to upload an image to be used in producing some of the visualizations. Other concepts from Agile development that were put into use are code review, pair programming, and the use of a backlog to get an overview of the requirements.
+\noindent The development process itself did not follow any strict guidelines, but included several elements from Agile methods. It has been an iterative and incremental process, starting with the existing prototype of the system that only implemented two of the visualization techniques. Based on our own testing, as well as feedback from our supervisors, functionality was added and adjustments were made in order to obtain a new and improved prototype. This process was repeated until we reached a satisfactory system according to the initial requirements. An example of the iterative part of the process is the replacement of the old visualization library in favor of a new one that was better suited our needs. An example of the incremental part of the process is the shift to user-uploaded images for usage in certain visualization techniques, which was added after supervisor feedback. Other concepts from Agile development that were applied are code review, pair programming, and the use of a backlog to get an overview of the requirements.
 
 \subsection{Focus Quality Attributes}
 
-In addition to functional requirements, we wanted to incorporate some non-functional requirements as well. Thus we have selected two quality attributes that we consider to be of highest importance. Quality attributes are overall factors that represents areas of concern impacting the application as a whole. In our case, we have determined that the most important factors are as follows.
+In addition to functional requirements, we wanted to incorporate some non-functional requirements as well. To that end, we have selected two quality attributes that we consider to be of high importance. Quality attributes are overall factors that represents areas of concern which impact the application as a whole. In our case, we have determined that the most important factors are modifiability and usability.
 
 \subsubsection{Modifiability}
 
-An important aspect of the system design of the visualization tool is to make sure that any part can be easily replaced. For instance, it should not be too difficult to alter the system to use a different deep learning library than the one employed in our implementation. This requires thorough consideration when designing the architecture, and typically calls for a module-based architecture with each module being loosely coupled, meaning that it should interact with as few of the other modules as possible.
+An important aspect of the visualization tool's system design was to ensure that any part could be easily replaced. For instance, it should not be too difficult to alter the system to use a different deep learning library than the one employed in our implementation. This requires thorough consideration when designing the architecture, and typically calls for a module-based architecture with loosely coupled modules, meaning that each module should interact with as few of the other modules as possible.
 
 \subsubsection{Usability}
 
-Not only should the interface be simple and easy to navigate for the user, but the actual installation of the program and the adaption of the user's deep learning scripts to the tool, should be without much trouble. A thorough user manual and documentation of the API is the key to obtaining this kind of usability. Preferably, we would want any ANN to run in our program without problems, but it is near to impossible to generalize this much. The main goal was thus to support the most commonly used networks, but at the same time, as the previous section mentions, easily allow for extending the system to work with different kinds of ANNs.
+Not only should the interface be simple and easy to navigate for the user, but the actual installation and setup of the visualization tool should be straightforward. In addition, the tool's requirements for the user scripts should be easy to fulfill. A comprehensive user manual and documentation of the API is the key to obtaining this kind of usability. Preferably, we would want any ANN to run in our program without issues, but the extensive variety of network architectures makes it incredibly difficult to acquire such generalization. Consequently, we prioritized supporting the most common architectures, but at the same time easily allow for extending the system to work with different kinds of ANNs.
 
 \subsection{Technology Decisions}
 
-This section presents the technology used in our implementation, as well as a justification of why they were selected and an identification of any potential drawbacks.
+This section presents the technology used in our implementation, as well as justification of why they were selected and identification of any potential drawbacks.
 
 \subsubsection{Flask}
 
-Flask is a web framework written in Python, used to build simple web applications. It is a micro-framework, meaning that it has very few dependencies to external libraries. It provides you with only the basic tools needed to create a web application, and is therefore very lightweight. There exists many plugins that can be added for an increased range of functionality. Since the focus of our visualization tool is not the web page itself, but rather its capabilities in terms of visualization techniques, Flask is the perfect choice. It allowed us to quickly set up an application and implement a basic user system and upload functionality.
+Flask is a web framework written in Python, used to build simple web applications. It is a micro-framework, meaning that it has a minimal amount of dependencies to external libraries. It provides only the basic tools needed to create a web application, and is therefore very lightweight. However, there exist many plugins that can be added for an increased range of functionality. Since the focus of our tool is not the web page itself, but rather its capabilities in terms of visualization techniques, Flask was the perfect choice. Together with a selection of plugins, it allowed us to quickly set up an application and implement a basic user system and upload functionality.
 
 \subsubsection{SQLite}
 
-SQLite is a simple and lightweight relational SQL database engine. In contrast to many other databases, it is embedded into the application. It is often used to provide local data storage for desktop applications. An embedded database improves application performance, reduces cost and complexity, and improves reliability. Since we do not require any advanced database functionality, nor do we need to store large amounts of data or have many database connections at the same time, SQLite is a perfect choice for out visualization tool. It is uncomplicated to set up, and can also be easily replaced with a more advanced database system at a later time if needed.
+SQLite is a simple and lightweight relational SQL database engine. In contrast to many other databases, it is embedded into the application. It is often used to provide local data storage for desktop applications. An embedded database improves application performance, reduces cost and complexity, and improves reliability. The visualization tool does not require any advanced database functionality, nor does it store large amounts of data or utilize many database connections simultaneously. The lightweight SQLite therefore represents a suitable choice. Additionally, it is uncomplicated to set up, and could be easily replaced with a more advanced database system at a later time, if needed.
 
 \subsubsection{Keras}
 
-Keras is a high-level neural networks library that can run on top of either TensorFlow or Theano. Its purpose is to provide a way to quickly and easily create models and start experimenting. It is very minimalistic, providing only enough to achieve an outcome, while still allowing for extensibility by making it easy to add and use new modules within the framework. Keras provides the user with several callbacks, i.e. sets of functions to be applied at giving stages of the ANN training procedure. It also allows for creating your own custom callbacks, which is perfect for our use case, since we then can create callbacks that produces the data needed for each visualization technique. Consequently, we have chosen to adapt our visualization tool specifically to Keras. We have added support for both the TensorFlow and the Theano backend. However, we have concentrated on TensorFlow, thus not all visualizations have been extensively tested for the Theano backend.
+Keras is a high-level neural networks library that can run on top of either TensorFlow or Theano. Its purpose is to facilitate quick and easy creation of networks and, by extension, rapid experimentation. Keras offers a wide range of network functionality, enveloped in a straightforward and well documented API. It also has a strong modifiability basis, making it easy for users to create functional extensions using custom modules. The library contains several callbacks, which are sets of functions to be applied at given stages of the ANN training procedure. It also allows for creating custom callbacks, which is advantageous when we want to apply various visualization techniques at certain points during training. Consequently, we chose to develop our visualization tool with support for Keras including both the TensorFlow and Theano backend.  
 
 \subsubsection{Bokeh}
 
-Bokeh is a Python interactive visualization library for modern web browsers. It can easily be embedded into a Flask application, as we will demonstrate later in this chapter. The library is simple in use, and has the flexibility of adding interactions and highly advanced customization. Another benefit is that it allows for streaming large data sets and plot them live, an extremely useful feature for our purpose. However, Bokeh is still in an early state of development, which makes it more susceptible to bugs, and in some cases will limit the functionality.
+Bokeh is a Python interactive visualization library for modern web browsers. It can be embedded into a Flask application without difficulty, as described later in the chapter. The library is simple in use, and has the flexibility of adding interactions and advanced customization without much effort. Another benefit is that it allows for streaming large data sets and plot them live, a highly useful feature for our application. However, Bokeh is still in an early state of development, which makes it more susceptible to bugs, and will in some cases limit the functionality.
 
 \subsection{Overview of the Architecture}
 
-As seen in \textbf{Fig. \ref{architecture1}}, the system can be said to consist of five separate modules: Flask, the user storage, the database, Bokeh, and Keras. The Flask module is the very core of the application, and defines the routes (URLs), models and forms of the web page, tying the logic together with HTML templates, CSS and JavaScript into a simple functional web interface. The user storage is where all scripts and images uploaded through the Flask application are stored, as well as text files containing the produced data during training. The database contains metadata about the scripts that is used in the Flask application, such as the owner, when it was uploaded, and the path to the script. The Keras module includes the custom callbacks created for visualization that writes data to the files stored in the user storage. A user applied the wanted callbacks to his or her scripts. It is the Flask application that implements the logic of running these scripts. Finally, the Bokeh module uses the data stored in user storage to create live interactive visualizations, and the Flask application takes care of displaying these on the web page. \\
+As seen in \textbf{Fig. \ref{architecture1}}, the system can be divided into five separate modules: Flask, the user storage, the database, Bokeh, and Keras. The Flask module represents the core of the application. It defines the routes (URLs), models and forms of the web pages, tying the logic together with HTML templates, CSS and JavaScript into a simple web interface. The user storage contains all the scripts and images that are uploaded through the Flask application, as well as the visualization data produced during network training. The database stores the metadata concerning the uploaded scripts, such as who the owner is, when it was uploaded, and the path to the script. The Keras module includes the custom callbacks created for the visualization techniques. These write data to the files saved in the user storage. To include a specific visualization technique, a user simply includes the corresponding callback in his or her script. It is the Flask application that implements the logic for executing these scripts. Finally, the Bokeh module uses the data located in the user storage to create interactive visualizations, and the Flask application handles how these are displayed in the web interface. \\
 
 \noindent A package diagram in \textbf{Fig. \ref{architecture2}} shows a more low-level view of the architecture. There are three packages: \texttt{custom\_keras}, \texttt{custom\_bokeh} and \texttt{visualizer}, which correspond to the Keras, Bokeh and Flask modules respectively. In this case, a package corresponds to a folder inside of the main project folder. The folders and files of each folder is shown, as well as the dependencies between them. All packages will be explained in further details in the following sections.
 
@@ -382,7 +392,7 @@ As mentioned, a Bokeh application is created for each visualization techniques, 
     \item training\_progress.py
 \end{itemize}
 
-The implementation of the applications are quite different, and we will not describe them all in detail. Rather, we will present some of the most important concepts of the implementations. The resulting visualization can be seen in the results chapter.
+\noindent The implementation of the applications are quite different, and we will not describe them all in detail. Rather, we will present some of the most important concepts of the implementations. The resulting visualization can be seen in chapter X.X.
 
 \subsubsection{Handling the Visualization Data}
 
@@ -410,14 +420,9 @@ results_path = join(UPLOAD_FOLDER, user, file, 'results')
 \label{code:7}
 \end{listing}
 
-\noindent The data loaded from the visualization file is processed to a format that it can be displayed in. The processing depends on the specific visualization technique. For instance, data for the training progress is transformed into separate sequences of x- and y-values. The other techniques mostly output images, and the image data needs to be converted into 2D arrays, since Bokeh does not handle 3D arrays for images. For layer activations, the results include several smaller images. These are stitched together into a grid of images for each layer. When the data is properly processed, it is stored in a ColumnDataSource, an object that stores data to be used in a Bokeh figure. In our case, its main purpose is to allow for simple streaming of data. When associating a ColumnDataSource with a figure, updating the data of the ColumnDataSource automatically triggers an update of the figure. This is much more effective than creating a new figure every time the data is updated.
+\noindent The data loaded from the visualization file is processed to a format that it can be displayed in. The processing depends on the specific visualization technique. For instance, data for the training progress is transformed into separate sequences of x- and y-values. The other techniques mostly output images, and the image data needs to be converted into 2D arrays, since Bokeh does not handle 3D arrays for images. For layer activations, the results include several smaller images. These are stitched together into a grid of images for each layer. When the data is properly processed, it is stored in a ColumnDataSource, a Bokeh object that stores data to be used in a figure. In our case, its main purpose is to allow for simple streaming of data. When associating a ColumnDataSource with a figure, updating the data of the ColumnDataSource automatically triggers an update of the figure. This approach is much more effective than creating a new figure every time the data is updated. The update is done by adding a periodic callback to a function that reads the visualization file and updates the data of the ColumnDataSource.
 
-
-\subsubsection{Callbacks}
-
-% first couple of lines of the code
-% column data sources
-% callbacks
+% Anything else we should include here?
 
 
 \section{Case Study in Face Recognition}
@@ -432,7 +437,9 @@ Should already be presented, but here we can add specifics, and also possibly de
 
 \subsection{Pretrained Model}
 
-As described in section X.X, transfer learning is a convenient method for training an ANN without requiring long training periods or large amounts of training data. This can be done by using a pretrained model. Since our case study deals with face recognition, it is beneficial to use a CNN trained on images of faces. Such a network would already be able to detect specific features like eyes and mouths. A suitable model is the VGG-Face CNN described in section X.X. The original implementation is using Caffe, but luckily a Keras implementation converted from the original Caffe network can be found available for download. We plan to employ transfer learning using this network as the pretrained model.
+% overlap with Application to Case Study in the last chapter. Need to find out what goes where.
+
+As described in section X.X, transfer learning is a convenient method for training an ANN without requiring long training periods or large amounts of training data. To employ transfer learning, a suitable pretrained model is needed. Since our case study deals with face recognition, it is beneficial to use a CNN trained to recognize images of faces. Such a network would already be able to detect specific features like eyes and mouths. A suitable model is the VGG-Face CNN described in section X.X. The original implementation is using Caffe, but luckily a Keras implementation converted from the original Caffe network can be found available for download. We plan to employ transfer learning using this network as the pretrained model.
 
 % CNN trained on faces
 % something that is available for Keras
@@ -440,7 +447,7 @@ As described in section X.X, transfer learning is a convenient method for traini
 
 \subsection{Dataset}
 
-Based on the restrictions regarding the dataset described in section X.X, as well as the exploration of potential datasets conducted in the Specialization Project, the Indian Movie Face database (IMFDB) was selected. This database consists of 34,512 images of 100 actors collected from Indian movies, captured in an unconstrained setting. All images are selected and labeled manually, including both of our required labels, namely identification and expression. The available expressions are the six basic expressions described in section X.X, in addition to a neutral expression, giving a total of seven possible values for the expression label. The dataset is structured so that it contains a folder for each of the actors. These folders again contain a folder for each movie the images of the actor is taken from. A movie folder contain and image folder, and a text file with all image names and their corresponding labels. \\
+Based on the restrictions regarding the dataset described in section X.X, as well as the exploration of potential datasets conducted in the Specialization Project, the Indian Movie Face database (IMFDB) was selected to be used. The database consists of 34,512 images of 100 actors collected from Indian movies, captured in an unconstrained setting. All images are selected and labeled manually, and the labels include both identification and expression. The available expressions are the six basic expressions described in section X.X, in addition to a neutral expression, giving a total of seven possible values for the expression label. The dataset is structured so that it contains a folder for each of the actors. These folders again contain a folder for each movie the images of the actor is taken from. A movie folder contain and image folder, and a text file with all image names and their corresponding labels. \\
 
 \noindent After downloading the dataset, we received some errors while trying to process the text files. Thus, we created a script that traversed the text files of the dataset and alerted us of any peculiarities. Some of the entries were missing their expression labeling and these were removed entirely. Others were just improperly formatted, so that they were easily fixed. This process slightly reduced the size of the training set, resulting in a dataset with XX,XXX images of XX actors.
 
@@ -454,7 +461,7 @@ Based on the restrictions regarding the dataset described in section X.X, as wel
 % images were already cropped
 % padded and resized.
 
-\subsection{Architecture}
+\subsection{Architecture} % evt baseline network
 
 % network architecture (for alle 2-3)
 % skrive om hvordan vi har brukt transfer learning

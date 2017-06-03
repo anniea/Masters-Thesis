@@ -409,6 +409,8 @@ The idea behind transfer learning is that knowledge learned from solving one pro
 \end{itemize}
 \end{comment}
 
+
+% dobbeltsjekke at skillet kommer ordentlig fram her (regne ut gradient=
 \subsection{Fixed Feature Extractor}
 
 The first strategy is to use a pretrained CNN as a fixed feature extractor for a new dataset. This is done by replacing the last layer of the network with a new fully-connected output layer of size corresponding to the new data. Train the CNN on the new training data keeping all layers fixed except for the new output layer. This approach works well if the new dataset is small and similar to the training set that the pretrained CNN has been trained on. If the new dataset is significantly different, it could be a good idea to replace more than just the last layer, since the top layers of a CNN contains more specific features than lower ones. 

@@ -1,45 +1,142 @@
 %===================================== APPENDIX D =================================
 \chapter{Visualization Files}
 
+This appendix presents the format of the visualization files produced from the callbacks. The information can be useful for developers that want to extend the application or work directly with the visualization files instead of through the provided interface. \\
+
+\noindent All examples shown are generated using a greyscale input image of shape (28, 28, 1).
+
 \section{Training Progress}
 
-At each determined interval, the callback writes accuracy and loss to a text file in a folder named 'results' inside of the file\_folder. At each interval, a new line is written to the file, containing three separate decimal numbers. The first number is the percentage of the training progress that the metrics occur at, for instance 0.1 is 10\% of the first epoch, 1.5 is halfway in the second epoch, and so on. The second and third number is the accuracy and loss respectively at that point. This callback assumes that accuracy is enabled as a metric when compiling the Keras model. \\
-
-\noindent If validation is enabled, the callback will also save the validation accuracy and validation loss at each epoch, in a separate text file. The files has the same structure as described above.
+\begin{itemize}
+    \item \textbf{Filename:} training\_progress.txt
+    \item \textbf{Format:} \texttt{progress loss accuracy}
+    \item \textbf{Example:}
+\end{itemize}
 
 \begin{minted}
 [
-bgcolor=mygray
+bgcolor=mygray,
+fontsize=\footnotesize
 ]
 {text}
-0.0 0.1015625 2.319106101989746
-0.0021321961620469083 0.1328125 2.2872941493988037
-0.0042643923240938165 0.140625 2.2560575008392334
-0.006396588486140725 0.140625 2.238542079925537
-0.008528784648187633 0.203125 2.237393856048584
-0.010660980810234541 0.1171875 2.2239365577697754
-0.01279317697228145 0.2421875 2.181536912918091
-0.014925373134328358 0.21875 2.1378798484802246
-0.017057569296375266 0.265625 2.142360210418701
-0.019189765458422176 0.3046875 2.082974672317505
-0.021321961620469083 0.4453125 1.9676364660263062
-0.023454157782515993 0.4921875 1.8923771381378174
+0.0 0.109375 2.315384864807129
+0.0021321961620469083 0.140625 2.287837028503418
+0.0042643923240938165 0.234375 2.2661919593811035
+0.006396588486140725 0.1875 2.2656376361846924
+0.008528784648187633 0.2890625 2.199150562286377
+0.010660980810234541 0.25 2.2080719470977783
+\end{minted}
+
+\noindent If validation is enabled, a separate text file for validation is created:
+
+\begin{itemize}
+    \item \textbf{Filename:} training\_progress\_val.txt
+    \item \textbf{Format:} \texttt{progress val\_loss val\_accuracy}
+    \item \textbf{Example:}
+\end{itemize}
+
+\begin{minted}
+[
+bgcolor=mygray,
+fontsize=\footnotesize
+]
+{text}
+1 0.97000 0.09730
+2 0.97850 0.06922
 \end{minted}
 
 
 \section{Layer Activations}
 
-Saves activation arrays for each layer of the network except the excluded layers to a pickle file on the form: \texttt{[(layer\_name, array), ...]}, in a folder named 'results' inside of the file\_folder.
-
-
-\section{Saliency Maps}
+\begin{itemize}
+    \item \textbf{Filename:} layer\_activations.pickle
+    \item \textbf{Format:} \texttt{[(layer\_name, array), ...]}
+    \item \textbf{Example:}
+\end{itemize}
 
 \begin{minted}
 [
-bgcolor=mygray
+bgcolor=mygray,
+fontsize=\footnotesize
 ]
 {text}
-array([[[1], ..., [0]], ..., [[113], ..., [15]]], dtype=uint8)
+[('Layer 1: conv2d_1', array(shape=(32, 26, 26), dtype=uint8), 
+ ('Layer 2: conv2d_2', array(shape=(32, 24, 24), dtype=uint8),
+ ('Layer 3: max_pooling2d_1', array(shape=(32, 12, 12), dtype=uint8),
+ ('Layer 6: dense_1', array(shape=(128,), dtype=uint8),
+ ('Layer 8: dense_2', array(shape=(64,), dtype=uint8),
+ ('Layer 9: dense_3', array(shape=(10,), dtype=uint8)]
 \end{minted}
 
+\section{Saliency Maps}
 
+\begin{itemize}
+    \item \textbf{Filename:} saliency\_maps.pickle
+    \item \textbf{Format:} \texttt{array}
+    \item \textbf{Example:}
+\end{itemize}
+
+\begin{minted}
+[
+bgcolor=mygray,
+fontsize=\footnotesize
+]
+{text}
+array(shape=(28, 28, 1), dtype=uint8)
+\end{minted}
+
+\section{Deconvolution Network}
+
+\begin{itemize}
+    \item \textbf{Filename:} deconvolution\_network.pickle
+    \item \textbf{Format:} \texttt{[(array, layer\_name, feat\_map\_no), ...]}
+    \item \textbf{Example:}
+\end{itemize}
+
+\begin{minted}
+[
+bgcolor=mygray,
+fontsize=\footnotesize
+]
+{text}
+[(array(shape=(28, 28, 1), dtype=uint8), 'max_pooling2d_1', 0),
+ (array(shape=(28, 28, 1), dtype=uint8), 'max_pooling2d_1', 10),
+ (array(shape=(28, 28, 1), dtype=uint8), 'max_pooling2d_1', 22),
+ (array(shape=(28, 28, 1), dtype=uint8), 'max_pooling2d_1', 3)]
+
+\end{minted}
+
+\section{Deep Visualization}
+
+\begin{itemize}
+    \item \textbf{Filename:} deep\_visualization.pickle
+    \item \textbf{Format:} \texttt{[(array, layer\_name, unit\_index, loss\_value), ...]}
+    \item \textbf{Example:}
+\end{itemize}
+
+\begin{minted}
+[
+bgcolor=mygray,
+fontsize=\footnotesize
+]
+{text}
+[(array(shape=(28, 28, 1), dtype=uint8), 'dense_3', 8, 11761.4814453125),
+ (array(shape=(28, 28, 1), dtype=uint8), 'dense_3', 9, 7111.62060546875),
+ (array(shape=(28, 28, 1), dtype=uint8), 'dense_2', 8, 3238.24609375),
+ (array(shape=(28, 28, 1), dtype=uint8), 'dense_1', 112, 0.0),
+ (array(shape=(28, 28, 1), dtype=uint8), 'conv2d_2', (12, 12, 0), 0.0),
+ (array(shape=(28, 28, 1), dtype=uint8), 'conv2d_2', (12, 12, 8), 0.0)]
+\end{minted}
+
+\begin{comment}
+
+At each determined interval, the callback writes accuracy and loss to a text file in a folder named 'results' inside of the file\_folder. At each interval, a new line is written to the file, containing three separate decimal numbers. The first number is the percentage of the training progress that the metrics occur at, for instance 0.1 is 10\% of the first epoch, 1.5 is halfway in the second epoch, and so on. The second and third number is the accuracy and loss respectively at that point. This callback assumes that accuracy is enabled as a metric when compiling the Keras model.
+
+
+\noindent If validation is enabled, the callback will also save the validation accuracy and validation loss at each epoch, in a separate text file. The files has the same structure as described above.
+
+
+% layer activation
+Saves activation arrays for each layer of the network except the excluded layers to a pickle file on the form: \texttt{[(layer\_name, array), ...]}, in a folder named 'results' inside of the file\_folder.
+
+\end{comment}
