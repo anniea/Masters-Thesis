@@ -6,7 +6,7 @@ This chapter thoroughly describes the implementation process and the implementat
 
 \section{Visualization Tool}
 
-In this section we will present the implementation details of the visualization tool created as part of this thesis. We start with a summary of the related results from the Specialization Project, before explaining the system development methodology used in the implementation process. Then, we present the two quality attributes that have been a focus throughout the design and implementation phase, and state our choices regarding the technology used. Finally, we showcase the implementation details for the main parts of the visualization tool.
+In this section we will present the implementation details of the visualization tool created as part of this thesis. We start with a summary of the related results from the Specialization Project, before explaining the system development methodology used in the implementation process. Then, we present the two quality attributes that have been a focal point throughout the design and implementation phase, and state our choices regarding the technology used. Finally, we showcase the implementation details for the main parts of the visualization tool.
 
 \subsection{Prototype}
 
@@ -20,7 +20,7 @@ This section presents the results from the Specialization Project in terms of th
 
 \noindent The prototype provides all the basic user functionality for creating a user, and logging in and out, including validation of the user name and password. Once created, a user can upload Python scripts from their computer to the server, and tag them with various labels to make them easier to search for. The search bar is located on the file overview page, which shows all uploaded scripts. \\
 
-\noindent By selecting a specific script, the user can view its code, and add and delete tags associated with it. The user can also run the script, or delete it. A separate menu tab for the visualizations grants the user access to visualizations of the data produced during script execution. The visualization techniques implemented are the training progress and the layer activations, both presented on a single page. The training progress includes two separate plots showing the training accuracy and loss over the batches, while the layer activations are shown for each single layer of the script-defined network.
+\noindent By selecting a specific script, the user can view its code, and add and delete tags associated with it. The user can also run the script, or delete it. A separate menu tab for the visualizations grants the user access to visualizations of the data produced during script execution. The visualizations available are the training progress and the layer activations, both presented on a single page. The training progress includes two separate plots showing the training accuracy and loss over the batches, while the layer activations are shown for each single layer of the script-defined network.
 
 \subsubsection{Planned Improvements and Extensions} % MIKAL
 
@@ -28,7 +28,7 @@ This section presents the results from the Specialization Project in terms of th
 
 The Specialization Project resulted in a list of major and minor extensions that would be useful to implement in a second version of the visualization tool. Upon beginning the thesis work, it was decided that the visualization tool should be the main focus of the thesis over the face recognition case study. Instead of the tool being created for the purpose of our own work, the goal should be to release the code as open-source software for the benefit of other researchers. There was also a shift in the use of the tool, namely that instead of a web application running on a server, it should be a desktop application that the user run in a web browser from their own computer. This makes having a user system seem unsuited, but we decided to keep the user system as it still could be useful in some scenarios. For instance, if your lab provides a powerful computer used to train ANNs that several people have access to. \\
 
-The shift to a desktop application affected the relevance of the planned extensions, and we have therefore decided to disregard some of them. However, the two most important extensions were added: allowing a user to download a network, and implementing the saliency maps, deconvolution and deep visualization visualization techniques. In addition, we have added more user controls, like stopping the execution of a script, uploading an image to be used in the visualization, and viewing the output produced by the script. The presentation of the visualizations have also been improved, making them more interactive.
+\noindent The shift to a desktop application affected the relevance of the planned extensions, and we have therefore decided to disregard some of them. However, the two most important extensions were added: allowing a user to download a network, and implementing the saliency maps, deconvolutional network and deep visualization visualization techniques. In addition, we have added more user controls, like stopping the execution of a script, uploading an image to be used in the visualization, and viewing the output produced by the script. The presentation of the visualizations have also been improved, making them more interactive.
 
 % can also mention that security is now less of a concern, but as this was a minor extension it might not be that important?
 
@@ -64,7 +64,7 @@ This section presents the technology used in our implementation, as well as just
 
 \subsubsection{Flask}
 
-Flask is a web framework written in Python, used to build simple web applications. It is a micro-framework, meaning that it has a minimal amount of dependencies to external libraries. It provides only the basic tools needed to create a web application, and is therefore very lightweight. However, there exist many plugins that can be added for an increased range of functionality. Since the focus of our tool is not the web page itself, but rather its capabilities in terms of visualization techniques, Flask was the perfect choice. Together with a selection of plugins, it allowed us to quickly set up an application and implement a basic user system and upload functionality.
+Flask is a web framework written in Python, used to build simple web applications. It is a micro-framework, meaning that it has a minimal amount of dependencies on external libraries. It provides only the basic tools needed to create a web application, and is therefore very lightweight. However, there exist many plugins that can be added for an increased range of functionality. Since the focus of our application is not the web page itself, but rather its capabilities in terms of visualization techniques, Flask was the perfect choice. Together with a selection of plugins, it allowed us to quickly set up an application and implement a basic user system and upload functionality.
 
 \subsubsection{SQLite}
 
@@ -72,7 +72,7 @@ SQLite is a simple and lightweight relational SQL database engine. In contrast t
 
 \subsubsection{Keras}
 
-Keras is a high-level neural networks library that can run on top of either TensorFlow or Theano. Its purpose is to facilitate quick and easy creation of networks and, by extension, rapid experimentation. Keras offers a wide range of network functionality, enveloped in a straightforward and well documented API. It also has a strong modifiability basis, making it easy for users to create functional extensions using custom modules. The library contains several callbacks, which are sets of functions to be applied at given stages of the ANN training procedure. It also allows for creating custom callbacks, which is advantageous when we want to apply various visualization techniques at certain points during training. Consequently, we chose to develop our visualization tool with support for Keras including both the TensorFlow and Theano backend.  
+Keras is a high-level neural networks library that can run on top of either TensorFlow or Theano. Its purpose is to facilitate quick and easy creation of networks and, by extension, rapid experimentation. Keras offers a wide range of network functionality, enveloped in a straightforward and well documented API. It also has a strong modifiability basis, making it easy for users to create functional extensions using custom modules. The library contains several callbacks, which are sets of functions to be applied at given stages of the ANN training procedure. It also allows for creating custom callbacks, which is advantageous when we want to apply various visualization techniques at certain points during training. Consequently, we chose to develop our visualization tool with support for Keras including both the TensorFlow and Theano backend. To use Keras is strictly limited to the callbacks, to ease a potential substitution of the deep learning library.
 
 \subsubsection{Bokeh}
 
@@ -80,9 +80,9 @@ Bokeh is a Python interactive visualization library for modern web browsers. It 
 
 \subsection{Overview of the Architecture}
 
-As seen in \textbf{Fig. \ref{architecture1}}, the system can be divided into five separate modules: Flask, the user storage, the database, Bokeh, and Keras. The Flask module represents the core of the application. It defines the routes (URLs), models and forms of the web pages, tying the logic together with HTML templates, CSS and JavaScript into a simple web interface. The user storage contains all the scripts and images that are uploaded through the Flask application, as well as the visualization data produced during network training. The database stores the metadata concerning the uploaded scripts, such as who the owner is, when it was uploaded, and the path to the script. The Keras module includes the custom callbacks created for the visualization techniques. These write data to the files saved in the user storage. To include a specific visualization technique, a user simply includes the corresponding callback in his or her script. It is the Flask application that implements the logic for executing these scripts. Finally, the Bokeh module uses the data located in the user storage to create interactive visualizations, and the Flask application handles how these are displayed in the web interface. \\
+As seen in \textbf{Fig. \ref{architecture1}}, the system can be divided into five separate modules: Flask, the user storage, the database, Bokeh, and Keras. The Flask module represents the core of the application. It defines the routes (URLs), models and forms of the web pages, tying the logic together with HTML templates, CSS and JavaScript into a simple web interface. The user storage contains all the scripts and images that are uploaded through the Flask application, as well as the visualization data produced during network training. The database stores the metadata concerning the uploaded scripts, such as who the owner is, when it was uploaded, and the file path to its user storage location. The Keras module includes the custom callbacks created for the visualization techniques. These write data to the files saved in the user storage. To include a specific visualization technique, a user simply includes the corresponding callback in his or her script. It is the Flask application that implements the logic for executing these scripts. Finally, the Bokeh module uses the data located in the user storage to create interactive visualizations, and the Flask application handles how these are displayed in the web interface. \\
 
-\noindent A package diagram in \textbf{Fig. \ref{architecture2}} shows a more low-level view of the architecture. There are three packages: \texttt{custom\_keras}, \texttt{custom\_bokeh} and \texttt{visualizer}, which correspond to the Keras, Bokeh and Flask modules respectively. In this case, a package corresponds to a folder inside of the main project folder. The folders and files of each folder is shown, as well as the dependencies between them. All packages will be explained in further details in the following sections.
+\noindent A package diagram in \textbf{Fig. \ref{architecture2}} shows a more low-level view of the architecture. There are three packages: \texttt{custom\_keras}, \texttt{custom\_bokeh} and \texttt{visualizer}, which correspond to the Keras, Bokeh and Flask modules, respectively. In this case, a package corresponds to a folder inside of the main project folder. The folders and the files they contain are displayed, as well as the dependencies between them. The packages will be explained in further detail in the following sections.
 
 % Something about modular approach, that it is good for extensibility, etc.?
 
@@ -107,7 +107,7 @@ As seen in \textbf{Fig. \ref{architecture1}}, the system can be divided into fiv
 
 \subsection{The Flask Application}
 
-\textbf{Fig. \ref{struct}} shows an overview of the structure of the files included in the Flask application. The static folder serves all the CSS and JavaScript files, while the templates folder contains Jinja2 templates that Flask can render to generate the HTML. The init file contains the instantiation of the Flask application as well as some setup for the database and log in system. The config file configures some parameters for the application, such as the command used to run a Python script.\\
+\textbf{Fig. \ref{struct}} shows an overview of the structure of the files that are included in the Flask application. The static folder serves all the CSS and JavaScript files, while the templates folder contains Jinja2 templates that Flask can render to generate the HTML. The \texttt{\_\_init\_\_.py} file contains the instantiation of the Flask application, as well as partial setup for the database and login system. The \texttt{config.py} file configures certain application parameters, such as setting the system commands necessary for running Python scripts.\\
 
 \begin{figure}[h!]
 \begin{verbatim}
@@ -134,9 +134,9 @@ As seen in \textbf{Fig. \ref{architecture1}}, the system can be divided into fiv
 \label{struct}
 \end{figure}
 
-\noindent There are three main files implementing the logic: forms.py, models.py and views.py. They define all the forms, models and views, respectively, of the web page. A form is used to collect user input, for instance while registering a new user, or uploading a script. Models are used to create database objects. Finally, a view defines a URL endpoint, or a route, as well as what HTTP requests it answers to, and determines what should happen when a user arrives at that URL. There is also a helpers file that contains various helper methods. \\
+\noindent There are three main files implementing the logic: \texttt{forms.py}, \texttt{models.py} and \texttt{views.py}. They define all the forms, models and views, respectively, of the web interface. A form is used to collect user input, for instance when registering a new user, or uploading a script. Models are used to create database objects, which are explained in the next section. Lastly, a view defines a URL endpoint, or a route, as well as what HTTP requests it answers to, and determines what the system should do when a user arrives at that URL. There also exists a \texttt{helpers.py} file that contains various helper methods. \\
 
-\noindent An actual example of a view from views.py is shown in \textbf{Code \ref{code:2}}. Comments and irrelevant code are removed to simplify the example. Line 1 defines the route of the view, hence the complete URL of this view will be \texttt{localhost:5000/create\_user}. It also defines the HTTP requests to answer to, which is both GET and POST. GET is for just returning the page to register a user, while POST is when a user actually presses the button to register. The code illustrates the use of a form in line 3, in this case a form for creating a new user, which contains the chosen username and password of the new user. Line 5 checks if all fields are valid when a user has submitted (the POST request), while the next line makes sure to alert the user and break the process if the username is already taken. If everything this far is fine, line 9 creates a User model consisting of the username and password (the model also takes care of hashing the password) and adds it to the database. Line 13 redirects the user to another view, namely the log in view. If the user has not submitted their form, line 15 makes sure to render the correct template for the user registration page. \\
+\noindent An example of a view from \texttt{views.py} is shown in \textbf{Code \ref{code:2}}. Comments and irrelevant code are removed to simplify the example. Line 1 defines the route of the view, hence the complete URL of this view will be \texttt{localhost:5000/create\_user}. It also defines the HTTP requests to answer to, which is GET and POST. GET is used for returning the user register page, while POST is used when the register button is actually pressed. The code illustrates the use of a form in line 3, in this case for creating a new user, which will contain the chosen username and password of the new user. Line 5 checks if all the form fields are valid when a user has submitted a POST request, while the next line alerts the user and halts the process if the username is already taken. If not, line 9 creates a User database entry consisting of the username and password and adds it to the database. Note that the password is salted upon entry creation. Line 13 redirects the user to another view, namely the login view. If the user has not submitted a form, or the submission was unsuccessful, line 15 ensures that the correct template for the user registration page is rendered. \\
 
 \begin{listing}[h!]
 \begin{minted}
@@ -170,7 +170,7 @@ def create_user():
 
 \subsection{Database}
 
-As mentioned earlier, the database is very simple, and does not play a huge role in the implemented application. Its purpose is to handle the user system and store useful meta data about the uploaded scripts. It consists of three models, with attributes and connections as seen in \textbf{Fig. \ref{database}}. The \texttt{User} model contains necessary information of a user. The \texttt{FileMeta} model contains the meta data of the scripts, as well as a connection to its owner. There is also a separate \texttt{Tag} model, that can be associated to zero, one, or several scripts.
+As mentioned earlier, the database is quite simple, and does not play a huge part in the implemented application. Its purpose is to handle the user system and store useful meta data about the uploaded scripts. It consists of three models, with attributes and connections as seen in \textbf{Fig. \ref{database}}. The \texttt{User} model contains necessary information of a user. The \texttt{FileMeta} model contains the meta data of the scripts, as well as a connection to its owner. There is also a separate \texttt{Tag} model, that can be associated to zero, one, or several scripts.
 
 \begin{figure}[h!]
     \centering
@@ -181,7 +181,7 @@ As mentioned earlier, the database is very simple, and does not play a huge role
 
 \subsection{User Storage}
 
-The user storage is where the scripts are uploaded to, and where the training data is stored. The structure of the user storage can be seen in \textbf{Fig. \ref{struct2}}. The top level holds the different users of the system. The second level contains the various scripts that a user has uploaded. At the next level, the script-file itself is stored, as well as a text file containing the output of a run of the script. There is a folder called 'images' that contains the image that the user has uploaded to be used in the visualizations. The 'networks' folder contains the most currently saved network created by the script. The folder called 'results' stores all the data produced by the various callbacks. The files are all given descriptive names so that it is self-evident which file corresponds to which visualization technique.
+The user storage is where the scripts are uploaded to, and where the visualization data is stored. The structure of the user storage can be seen in \textbf{Fig. \ref{struct2}}. The top level holds the different users of the system. The second level contains the various scripts that a user has uploaded. At the next level, the script file itself is stored, as well as a text file containing the console output of a run of the script. There is a folder called \texttt{images} that contains the image that the user has uploaded to be used in the visualizations. The \texttt{networks} folder contains the most currently saved network created by the script. The folder called \texttt{results} stores all the data produced by the various callbacks. The files are all given descriptive names so that it is self-evident which file corresponds to which visualization technique. The format of the visualization files are presented in appendix \ref{visualization-files}.
 
 \begin{figure}[h!]
 \begin{verbatim}
@@ -193,7 +193,7 @@ The user storage is where the scripts are uploaded to, and where the training da
             /networks
                 /<network>
             /results
-                /deconvolution_network.pickle
+                /deconvolutional_network.pickle
                 /deep_visualization.pickle
                 /layer_activations.pickle
                 /saliency_maps.pickle
@@ -212,7 +212,7 @@ The user storage is where the scripts are uploaded to, and where the training da
 
 \subsection{Running a Python Script}
 
-The visualization tool allows a user to both start and stop the uploaded python scripts. Functionality for running a script is implemented as a helper function, and is done by executing \texttt{python [file\_path]} in a new subprocess, as seen in \textbf{Code \ref{code:3}}. The actual Python command is determined by a config variable, since it depends on the user's Python installations (e.g. some systems use \texttt{python3} for Python 3.6 and simply \texttt{python} for Python 2.7). The \texttt{stdout} argument specifies the standard output file handle, which is in this case a text file that will be displayed on the web page, so that the user is given easy access to the output of the script. Note that even though \textbf{Fig. \ref{architecture1}} shows a connection between Keras and Flask, the real connection is really between Python and Flask. A user could easily upload a Python script that uses the scikit-learn library or pure TensorFlow, running such a script would not cause any problems. However, if someone wanted to adapt the visualization tool to a whole different programming language, this section of the code would need to be replaced.
+The visualization tool allows a user to both start and stop the uploaded Python scripts. Functionality for running a script is implemented as a helper function, and is done by executing \texttt{python [file\_path]} in a new subprocess, as seen in \textbf{Code \ref{code:3}}. The actual Python command is determined by a configuration variable, since it depends on the user's Python installations (some systems use \texttt{python3} for Python 3.x and simply \texttt{python} for Python 2.x). The \texttt{stdout} argument specifies the standard output file handle, which is in this case a text file that will be displayed in the web interface, so that the user is given easy access to the console output of the script. Note that even though \textbf{Fig. \ref{architecture1}} shows a connection between Keras and Flask, the real connection is really between Python and Flask. A user could easily upload a Python script that uses the scikit-learn library or pure TensorFlow, and running such a script would not cause any issues. However, if someone wanted to adapt the visualization tool to a whole different programming language, this section of the code would need to be replaced.
 
 \begin{listing}[h!]
 \begin{minted}
@@ -232,15 +232,15 @@ with open(get_output_file(get_current_user(), basename(file_path)), 'w') as f:
 
 \subsection{Custom Keras Callbacks}
 
-The custom callbacks are the only part of the visualization tool that are specific to Keras. As mentioned, a callback is a set of functions to be applied at given stages of the ANN training procedure, and Keras provides the user with many of these including the possibility of creating your own callbacks. We have taken advantage of this functionality, and created a callback for each visualization technique, as well as some other useful functionality to be utilized on the web page. An overview of all of them, and how to adapt them to your script, is thoroughly explained in the appendix. In addition, we we will also showcase some of the implementation in this section.
+The custom callbacks are the only part of the visualization tool that are specific to Keras. As mentioned, a callback is a set of functions to be applied at given stages of the ANN training procedure. Keras provides several predefined callbacks, but also includes the possibility of creating custom variations. We have taken advantage of this functionality, and have created a callback for each visualization technique, as well as for other useful functionality. An overview of the custom callbacks, and how to adapt them to your script, is thoroughly explained in appendix \ref{callbacks-api}. In addition, we will also showcase certain parts of their implementation in this section. The implementation of the visualization functionality in the callbacks follows the processes explained in section \ref{visualization-theory} rather straightforwardly. Consequently, these parts will not be examined any further here. We will, however, explain the implementation details that are not covered by the background theory. 
 
-\subsubsection{CustomCallbacks - A Wrapper Class for the Callbacks}
+\subsubsection{CustomCallbacks - A Wrapper Class for the Custom Callbacks}
 
-All of our custom callbacks require the path to the correct folder in the user storage where all of the training data needed should be written. There are also some optional arguments that all callbacks can take, and some of the callbacks require and provide their own optional or non-optional arguments, such as a list of neurons to be visualized, or a list of layers to be excluded from the visualization. To simplify the user's process of adding callbacks to their code, we created a wrapper class that takes all the common arguments on its instantiation. The wrapper class also provides methods for registering each callback with their associated arguments, and a method for getting the list of registered callbacks. A user can apply their selected calbacks by passing this list to the \texttt{.fit()} method of a Keras model.\\
+Every custom callback requires the system path to the folder containing the script they are to be used in. In addition, a subset of the callbacks share similar, optional arguments. To simplify the user's process of adding callbacks to their code, we have created a wrapper class that takes all the common arguments on its instantiation. The wrapper class also provides methods for registering each callback with their associated arguments, excluding the shared ones, and a method for getting the list of registered callbacks. A user can apply their selected callbacks by passing this list to the \texttt{callbacks} argument of the \texttt{.fit()} method of a Keras model.\\
 
-\noindent An excerpt of the implementation of the wrapper class is shown in \textbf{Code \ref{code:4}}. There you can see the initialization of an instance of the class, which instantiates the necessary and optional variables. The argument named \texttt{file\_folder} is the path to the folder of the script the callbacks are applied to, noted as \texttt{<script1>} and \texttt{<script2>} in \textbf{Fig. \ref{struct2}}. This is needed to know where the callbacks should store their produced data. The arguments \texttt{custom\_preprocess} and \texttt{custom\_postprocess} are functions that can be defined by the user to pre- and post-process images to be used in visualization. The argument named \texttt{base\_interval} is the interval that the callbacks are called at unless other is specified. The callbacks are of various computational size, and some of them take significantly longer to finish than others. These have their own interval argument that overrides the base interval.\\
+\noindent An excerpt of the implementation of the wrapper class is shown in \textbf{Code \ref{code:4}}. There you can see the initialization of an instance of the class, which instantiates the necessary and optional variables. The argument named \texttt{file\_folder} is the path to the folder of the script the callbacks are applied to, denoted as \texttt{<script1>} and \texttt{<script2>} in \textbf{Fig. \ref{struct2}}. This is needed to know where the callbacks should store their produced data. The arguments \texttt{custom\_preprocess} and \texttt{custom\_postprocess} are functions that can be defined by the user to pre- and post-process images to be used in visualization. The argument named \texttt{base\_interval} is the batch interval that each callback are applied at, unless overridden at callback registering. The callbacks vary in their computational complexity, and some of them take significantly longer to execute than others. These have their own interval argument that supersedes the base interval. \\
 
-\noindent The excerpt also shows two of the register methods of the class. The first one named \texttt{register\_training\_progress} simply created a new instance of the \texttt{Training\-Progress} callback with the already defined file folder as a parameter, and adds it to the callback list. The second method named \texttt{register\_saliency\_maps} does exactly the same thing, except that it also takes the mentioned interval argument which is specific for the \texttt{SaliencyMaps} callback. If the user has not specified such an interval, the interval of the callback is set to the base interval previously defined. The pre- and post-process functions are also passed on to the callback.
+\noindent The excerpt also shows two of the register methods of the wrapper. The first one, named \texttt{register\_training\_progress}, simply creates a new instance of the \texttt{TrainingProgress} callback, using the previously defined file folder as a parameter, and adds it to the callback list. The second method, named \texttt{register\_saliency\_maps}, does the exact same thing, except that it also uses the aforementioned interval argument. If the user does not specify an alternate interval upon registering, the interval of the callback is set to the base interval. The pre- and postprocess functions, if specified, are also passed to the callback.
 
 \begin{listing}[h!]
 \begin{minted}
@@ -283,11 +283,11 @@ class CustomCallbacks:
 
 \subsubsection{Example Implementation of a Callback}
 
-The implementation of the \texttt{LayerActivations} callback can be seen in \textbf{Code \ref{code:5}}. Specific functionality is removed, as the purpose is to showcase the general approach. The callback is an extension of the base abstract class \texttt{keras.callbacks.Callback} as you can see in line 1. The initialization takes all necessary and optional arguments, and set the attributes accordingly. The folder to save the data is obtained by taking the \texttt{file\_folder} argument and adding 'results' to it. Line 13 starts the process of getting the visualization image and converting it to the correct format. In line 18, the preprocess function is applied if the user has specified one. \\
+The implementation of the \texttt{LayerActivations} callback can be seen in \textbf{Code \ref{code:5}}. Specific functionality is omitted, as the purpose is to showcase the general approach. As all the custom callbacks, it is an extension of the base abstract class \texttt{keras.callbacks.Callback} as see in line 1. The initialization takes all necessary and optional arguments, and set the attributes accordingly. The folder to save the data is obtained by adding 'results' to the \texttt{file\_folder} argument. The counter variable is set to one less than the interval so that an initial visualization will be produced. Line 13 starts the process of getting the visualization image and converting it to the correct format. In line 18, the preprocess function is applied if the user has specified one. \\
 
-\noindent The Keras callbacks provides various methods that are called at specified events, such as \texttt{on\_batch\_end} which is used in this example. Other methods used in the other callbacks are \texttt{on\_train\_begin} and \texttt{on\_epoch\_end}. The counter value is increased in line 25, and line 28 checks whether it is time to perform the computation of the visualization data. The specific functionality varies from the different visualization techniques, and will not be further explained. Finally, line 32 creates the correct file for storing the data, in this case in a pickle file, and the counter is reset. Note that some of the callbacks also takes use of a postprocess function, which would be applied to the result before saving it.
+\noindent The Keras callbacks provides various methods that are called at specified events, such as \texttt{on\_batch\_end} and \texttt{on\_train\_begin}, that are used in this example. In other custom callbacks, \texttt{on\_epoch\_end} is also used. In line 24, at the beginning of the training process, we call \texttt{on\_batch\_end} with the batch number 0 to produce the initial visualization. The counter value is increased in line 28, and line 31 checks whether it is time to perform the computation of the visualization data. The specific functionality varies from the different visualization techniques. Finally, line 35 creates the correct file for storing the data, in this case in a pickle file, and the counter is reset in line 39. Note that some of the callbacks also make use of a postprocess function, which would be applied to the visualization output before saving it. 
 
-\begin{listing}[h!]
+\begin{listing}[p]
 \begin{minted}
 [
 frame=lines,
@@ -305,10 +305,10 @@ class LayerActivations(Callback):
 		super(LayerActivations, self).__init__()
 		self.results_folder = join(file_folder, 'results')
 		self.interval = interval
-		self.counter = 0
+		self.counter = interval - 1
 
 		self.exclude_layers = exclude_layers
-
+		
 		images_folder = join(file_folder, 'images')
 		img_name = listdir(images_folder)[-1]
 		img = Image.open(join(images_folder, img_name))
@@ -318,6 +318,9 @@ class LayerActivations(Callback):
 			self.img_array = custom_preprocess(self.img_array)
 		
 		self.img_array = np.expand_dims(self.img_array, 0)
+
+	def on_train_begin(self, logs=None):
+		self.on_batch_end(0)
 
 	def on_batch_end(self, batch, logs={}):
 
@@ -338,13 +341,36 @@ class LayerActivations(Callback):
 \label{code:5}
 \end{listing}
 
-% can add more specifics for the callbacks here, either in a subsubsection or in a new subsection???
+\subsubsection{Deconvolutional Network Implementation Details}
+
+\textit{This section is under progress and will be added later}
+
+\subsubsection{Deep Visualiztion Implementation Details}
+
+\textit{This section is under progress and will be added later}
+
+\begin{comment}
+for deconv:
+- only one layer
+- either max feature maps or specific feature maps
+- can automatically create deconv models for simple conv models, alternatively the user must create a deconv model an input (also requires layer map and update function)
+- code contained in own model, to keep callback file simple (mention?)
+- auto deconv model is image specific, because of pooling layers (important?)
+- deconv is only for conv part
+- maxunpooling2d layer
+- mention unused code (rec. from top images) and why it hasn't been used
+- preproccesing of feature maps (all but max act. is set to zero)
+
+for deep vis:
+- se gjennom koden
+
+\end{comment}
 
 \subsection{The Bokeh Server}
 
-The visualizations are displayed in the user interface utilizing the Bokeh visualization library. The most flexible approach of embedding these in Flask is to make use of the Bokeh Server. A Bokeh application is created for each visualization technique, and these are served by the server using the \texttt{bokeh serve [applications]} command, where applications is a list of paths to the various applications, separated by spaces. The server uses the application code to create sessions and documents. A document is Bokeh's organizing data structure containing all the models and data needed to render the application in the browser.\\
+The visualizations are displayed in the user interface using the Bokeh visualization library. The most flexible approach of embedding these into the Flask application is to make use of the Bokeh Server. A Bokeh application is created for each visualization technique, and these are served by the server using the \texttt{bokeh serve [applications]} command. The 'applications' argument is a list of paths to the various applications, separated by spaces. The server uses the application code to create sessions and documents. A document is Bokeh's organizing data structure, containing all the models and data needed to render the application in the browser.\\
 
-\noindent The Bokeh Server is embedded into the code of the Flask application as seen in \textbf{Code \ref{code:6}}. This method is called whenever a user selects a tab that contains a visualization. \texttt{app\_path} is the corresponding relative path to the selected visualization, for instance 'training\_progress'. The full URL of the training progress Bokeh application is thus \texttt{BOKEH\_SERVER}, which is the URL of the server imported from the config file, joined together with \texttt{app\_path}. The server is loaded in line 3, returning a script tag that will replace itself with a Bokeh plot when placed in a HTML template. The Bokeh application will need to know the filename and the username in order to locate the correct visualization data file that should be visualized. Bokeh allows for passing HTTP request arguments to its applications, but has not yet implemented a way of passing these in \texttt{autoload\_server}. Therefore, we need to manually insert the filename and username into the script tag, as seen in line 5 through 11. Finally, the script can be returned and is further passed on to a HTML template. The complete process, starting from a user clicking on one of the visualization tabs, to the user actually viewing the visualization, is illustrated in a sequence diagram in \textbf{Fig. \ref{bokeh-server}}.
+\noindent The Bokeh Server is embedded into the code of the Flask application as seen in \textbf{Code \ref{code:6}}. This method is called whenever a user selects a tab that contains a visualization. \texttt{app\_path} is the corresponding relative path to the selected visualization, for instance 'training\_progress'. The full URL of the training progress Bokeh application is thus \texttt{BOKEH\_SERVER}, which is the URL of the server imported from the config file, joined together with \texttt{app\_path}. The server is loaded in line 3, returning a script tag that will replace itself with a Bokeh plot when placed in a HTML template. The Bokeh application will need to know the filename and the username in order to locate the correct data file to visualize. Bokeh allows for passing HTTP request arguments to its applications, but has not yet implemented a way of passing these in \texttt{autoload\_server}. Therefore, we need to manually insert the filename and username into the script tag, as seen in line 5 through 11. Finally, the script can be returned and is further passed on to a HTML template. The complete process, starting from a user clicking on one of the visualization tabs, to the user actually viewing the visualization, is illustrated in the sequence diagram in \textbf{Fig. \ref{bokeh-server}}.
 
 \begin{listing}[h!]
 \begin{minted}
@@ -382,21 +408,21 @@ def get_bokeh_plot(filename, app_path):
 
 \subsection{Bokeh Applications}
 
-As mentioned, a Bokeh application is created for each visualization techniques, which gives the following five applications:
+As mentioned, a Bokeh application is created for each visualization technique, resulting in the following five applications:
 
 \begin{itemize}
-    \item deconvolution\_network.py
-    \item deep\_visualization.py
-    \item layer\_activations.py
-    \item saliency\_maps.py
-    \item training\_progress.py
+    \item \texttt{deconvolutional\_network.py}
+    \item \texttt{deep\_visualization.py}
+    \item \texttt{layer\_activations.py}
+    \item \texttt{saliency\_maps.py}
+    \item \texttt{training\_progress.py}
 \end{itemize}
 
-\noindent The implementation of the applications are quite different, and we will not describe them all in detail. Rather, we will present some of the most important concepts of the implementations. The resulting visualization can be seen in chapter X.X.
+\noindent We will not describe the implementation of the applications in detail. Most parts of the code deals with the creation and updating of figures using functions provided by Bokeh, which is not particularly interesting for the thesis. Rather, we will present some of the most important concepts of the implementations. The resulting visualization can be seen in chapter \ref{results-chapter}.
 
 \subsubsection{Handling the Visualization Data}
 
-All of the Bokeh applications begins with the same lines of code, shown in \textbf{Code \ref{code:7}}. The document variable in line 1 holds the current Bokeh document that we are working on. In lines 2-5, we get the HTTP request arguments from the request from the Flask application. These arguments are used to find the path in the user storage corresponding to the file we are going to visualize data for, as in line 7. \texttt{UPLOAD\_FOLDER} is the path to the upload folder, imported from the config file. Some of the Bokeh applications also display the original image used in the visualization. This image is found using the same method as for the visualization files. \\
+All of the Bokeh applications begin with the same lines of code, shown in \textbf{Code \ref{code:7}}. The document variable in line 1 holds the current Bokeh document that we are working on. In lines 2-5, we get the HTTP request arguments from the request from the Flask application. These arguments are used to find the path in the user storage corresponding to the file we are going to visualize data for, as seen in line 7. \texttt{UPLOAD\_FOLDER} is the path to the user storage folder, imported from the configuration file. Some of the Bokeh applications also display the original image used in the visualization. This image is found using a similar method as for the visualization files. \\
 
 \begin{listing}[h!]
 \begin{minted}
@@ -420,16 +446,16 @@ results_path = join(UPLOAD_FOLDER, user, file, 'results')
 \label{code:7}
 \end{listing}
 
-\noindent The data loaded from the visualization file is processed to a format that it can be displayed in. The processing depends on the specific visualization technique. For instance, data for the training progress is transformed into separate sequences of x- and y-values. The other techniques mostly output images, and the image data needs to be converted into 2D arrays, since Bokeh does not handle 3D arrays for images. For layer activations, the results include several smaller images. These are stitched together into a grid of images for each layer. When the data is properly processed, it is stored in a ColumnDataSource, a Bokeh object that stores data to be used in a figure. In our case, its main purpose is to allow for simple streaming of data. When associating a ColumnDataSource with a figure, updating the data of the ColumnDataSource automatically triggers an update of the figure. This approach is much more effective than creating a new figure every time the data is updated. The update is done by adding a periodic callback to a function that reads the visualization file and updates the data of the ColumnDataSource.
+\noindent The data loaded from the visualization file is processed to a format that is beneficial for presentation. The processing depends on the specific visualization technique. For instance, data for the training progress is transformed into separate sequences of x- and y-values. The other techniques mostly output image data, which needs to be converted into 2D arrays, since Bokeh does not handle 3D arrays for images. For layer activations, the results include a large amount of images for the convolutional layers. These are stitched together into a grid of images for each layer. When the data has been properly processed, it is stored in a ColumnDataSource, a Bokeh object that stores data to be used in a figure. In our case, its main purpose is to allow for simple streaming of data. When associating a ColumnDataSource with a figure, updating the data of the ColumnDataSource automatically triggers an update of the figure. This approach is much more efficient than creating a new figure every time the data is updated. The update is performed by adding a periodic callback to a function that reads the visualization file and updates the data of the ColumnDataSource.
 
 % Anything else we should include here?
 
 
 \section{Case Study in Face Recognition}
 
-\textit{Describe the case study (facial recognition with expression).
-Should already be presented, but here we can add specifics, and also possibly describe the structure of the network we have created, the dataset used, etc.}
+\textit{This section is under progress and will be added later}
 
+\begin{comment}
 \subsection{Method}
 
 % probably should write something about how we have been working? corresponding to the system development method in the visualization tool section.
@@ -466,6 +492,6 @@ Based on the restrictions regarding the dataset described in section X.X, as wel
 % network architecture (for alle 2-3)
 % skrive om hvordan vi har brukt transfer learning
 
-
+\end{comment}
 
 \cleardoublepage

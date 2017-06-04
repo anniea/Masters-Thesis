@@ -1,7 +1,7 @@
 %===================================== APPENDIX B =================================
 \chapter{User Manual}
 
-% is missing some of the visualizations and what happens when clicking the 'Visualizer' link.
+% is missing what happens when clicking the 'Visualizer' link.
 
 \textbf{Note:} This appendix explains how to user the web interface of the visualization tool. Remember that some of the functionality require that you have added the available callbacks to your Keras code. We will not explain how to do this in this appendix, instead we refer the user to the appendix C for the callbacks API as well as an explanation of how to add them to your code. \\
 
@@ -88,7 +88,7 @@
 \begin{figure}[h!]
     \centering
         \frame{\includegraphics[width=0.8\textwidth]{fig/screenshots/training_prog_val.png}}
-        \caption{The training progress of a file}
+        \caption{Training progress}
         \label{trainingprog-tab}
 \end{figure}
 
@@ -125,16 +125,14 @@
 
 \noindent We can view the saliency map of the uploaded visualization image on the next tab, as in \textbf{Fig. \ref{saliency-tab}}. The left figure shows the original image, while the right figure shows the computed saliency map. The tools are linked so that if you zoom in on a region of the original image, the same zoomed in region will be displayed in the saliency map. The saliency map indicates to what degree each pixel in the visualization image influences the specific class outcome. The important regions are easily identified by their brightness. The saliency map can help you to see which parts of the visualization image that your network deems more important when deciding upon the classification score chosen.  \\
 
-% explain saliency maps, deconvolution network and deep visualization
-
 \begin{figure}[h!]
     \centering
         \frame{\includegraphics[width=0.8\textwidth]{fig/screenshots/deconv.png}}
-        \caption{Deconvolution}
+        \caption{Deconvolutional network}
         \label{deconv-tab}
 \end{figure}
 
-\noindent The next tab shows the deconvolution visualization technique, seen in \textbf{Fig. \ref{deconv-tab}}. The top figure shows the uploaded visualization image. Below the original image, there is a grid of figures showing the feature maps selected for visualization. The visualizations show the pattern in the visualization image that was responsible for eliciting activations produced in a selected layer of the network. This pattern can reveal what a certain part of the network finds important and what it is looking for in an image. The tools of the figures are linked together as with the saliency map. Also, if you click the save tool, all of the deconvolution visualizations will be downloaded.\\
+\noindent The next tab shows the deconvolutional network visualization technique, seen in \textbf{Fig. \ref{deconv-tab}}. The top figure shows the uploaded visualization image. Below the original image, there is a grid of figures showing the feature maps selected for visualization. The visualizations show the pattern in the visualization image that was responsible for eliciting activations produced in a selected layer of the network. This pattern can reveal what a certain part of the network finds important and what it is looking for in an image. The tools of the figures are linked together as with the saliency map. Also, if you click the save tool, all of the deconvolutional visualizations will be downloaded.\\
 
 \begin{figure}[!h]
     \centering

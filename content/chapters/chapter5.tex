@@ -1,19 +1,51 @@
 %===================================== CHAP 5 =================================
 
-\chapter{Results}
+\chapter{Results} \label{results-chapter}
 
+\textit{This chapter is under progress and will be added later}
+
+\begin{comment}
 \section{Visualization Tool}
 
-\subsection{Training Progress}
+\subsection{Example Networks}
 
-\subsection{Layer Activations}
+The visualization results were generated using two separate example ANNs. The first network is a simple CNN trained on the MNIST dataset, commonly used as a toy problem. This network is quickly trained from scratch to near to perfect accuracy, which allowed us to show how the visualizations evolve throughout the training progress. The second network is the more advanced VGG16 model. In this case, we used a fully trained model with weights pretrained on ImageNet. Some of the visualizations, for instance deconvolution, need a larger network with several convolutional layers to demonstrate their full capabilities. Using the fully trained VGG16 model, we could present a second set of visualizations that showcase more complex features and also deals with RGB images instead of grayscale, as in the MNIST network. Both networks follow examples provided by Keras, and we will describe the implementations and training process in detail in the following sections. \\
 
-\subsection{Saliency Maps}
+\noindent Note that there are several ways to count the number of layers in a network. Some do not include pooling or flatten layers, or even the input and output layers. To ensure consistency when describing the network architectures, we will define the number of layers as the number of Keras layers, as listed in their documentation.
 
-\subsection{Deconvolution Network}
 
-\subsection{Deep Visualization}
+\subsubsection{The MNIST Network}
+
+% something about grayscale images and that the size of input is only 28, 28
+
+The MNIST network is a simple CNN with three convolutional layers including the max pooling layer. The architecture can be seen in \textbf{Fig. X.X}, following an example implementation by Keras. The network consists of 10 layers, where three of these are convolutional layers and two of them fully-connected layers, noted as dense layers in Keras. In addition to an input layer, there are also two dropout layers to prevent overfitting, and a flatten layer to convert the 2D output from the convolutional part to 1D input for the fully-connected part. The Keras model is compiled using the Adadelta optimizer and categorical crossentropy loss. \\
+
+\noindent To generate examples, the MNIST network was trained for two epochs with a batch size of 128 and the data shuffled at each epoch. 10 images were extracted from the test data, one for each class (0-9), to be used as visualization images. Thus, the training process was repeated using each of the visualization images as input for the visualizations. \\
+
+\noindent The visualizations were produced five times during each epoch, in addition to at the very beginning of the training, giving a total of 11 different sets of visualization results for each of the 10 digits. For deconvolution, all 32 feature maps of the max pooling layer were visualized. For deep visualization, all units in the output layer as well as a sample of units from the remaining layers, except the dropout and flatten layers, were included. The deep visualization was produced with a learning rate of 200 for 50 iterations. The $L_2$ decay, blur interval and blur standard deviation was set to 0.0001, 4 and 1 respectively, matching one of the useful combinations in \textbf{Table \ref{tab:reg_hyperparams}}.
+
+\subsubsection{The VGG16 Network}
+
+The VGG16 network is a significantly deeper CNN consisting of five blocks of 3-4 convolutional layers each, including the max pooling layers, followed by a flatten layer and three fully-connected layers, giving a total of 23 layers. The full architecture can be seen in \textbf{Fig. X.X}. We have used a VGG16 model with weights pretrained on ImageNet available in the Keras Applications module, compiled using the RMSprop optimizer and categorical crossentropy loss. This way, we can produce interesting visualizations results without having to spend a large amount of time training the network. Thus, the results using the VGG16 model will only show visualizations produced at the very end of the training process, unlike the MNIST model that will also show visualization created alongside the training process. \\
+
+% something more about the settings of the callbacks.
+
+% has been specified previously to have 16 layers. this only counts layers with parameters/weights. (23 in keras)
+
+\subsection{Visualization Results}
+
+\subsubsection{Training Progress}
+
+\subsubsection{Layer Activations}
+
+\subsubsection{Saliency Maps}
+
+\subsubsection{Deconvolution Network}
+
+\subsubsection{Deep Visualization}
 
 \section{Case Study in Face Recognition}
+
+\end{comment}
 
 \cleardoublepage
