@@ -22,11 +22,40 @@ The MNIST network is a simple CNN with three convolutional layers including the 
 
 \noindent To generate the results, the MNIST network was trained for two epochs with a batch size of 128 and the data shuffled at each epoch. 10 images were extracted from the test data, one for each class (0-9), to be used as visualization images. Then, the training process was repeated using each of the visualization images as input for the visualizations. The visualizations were produced five times during each epoch, in addition to at the very beginning of the training, giving a total of 11 different sets of visualization results for each of the 10 digits. For the deconvolutional network technique, all 32 feature maps of the \texttt{pool} layer were visualized. For deep visualization, all units in \texttt{output} as well as a sample of units from the remaining layers, except the dropout and flatten layers, were included. The deep visualizations were produced with a learning rate of 200 and 50 iterations. The $L_2$ decay, blur interval and blur standard deviation were set to 0.0001, 4 and 1 respectively, matching one of the useful combinations in \textbf{Table \ref{tab:reg_hyperparams}}. The produced visualizations were manually processed, and a representative selection of the resulting visualizations were extracted, presented in section \ref{mnist-vis-results}.
 
+\begin{figure}
+\begin{center}
+\begin{tabular}{ccccc}
+\subfloat{\includegraphics[width = 0.5in]{fig/results/input_mnist/test0.png}} & 
+\subfloat{\includegraphics[width = 0.5in]{fig/results/input_mnist/test1.png}} & 
+\subfloat{\includegraphics[width = 0.5in]{fig/results/input_mnist/test2.png}} &
+\subfloat{\includegraphics[width = 0.5in]{fig/results/input_mnist/test3.png}} & 
+\subfloat{\includegraphics[width = 0.5in]{fig/results/input_mnist/test4.png}} \\
+\subfloat{\includegraphics[width = 0.5in]{fig/results/input_mnist/test5.png}} &
+\subfloat{\includegraphics[width = 0.5in]{fig/results/input_mnist/test6.png}} & 
+\subfloat{\includegraphics[width = 0.5in]{fig/results/input_mnist/test7.png}} & 
+\subfloat{\includegraphics[width = 0.5in]{fig/results/input_mnist/test8.png}} &
+\subfloat{\includegraphics[width = 0.5in]{fig/results/input_mnist/test9.png}} \\
+\end{tabular}
+\caption[Visualization images for MNIST]{The images to be used as visualization images for the MNIST network.}
+\end{center}
+\end{figure}
+
 \subsubsection{The VGG16 Network}
 
 The VGG16 network is a significantly deeper CNN consisting of five blocks of 3-4 convolutional layers each, including the max pooling layers, followed by a flatten layer and three fully-connected layers, giving a total of 23 layers. The full architecture can be seen in \textbf{Fig. \ref{vgg-architecture}}. The adopted VGG16 model has weights pretrained on ImageNet and is available through the Keras Applications module. The model was compiled using the RMSprop optimizer and categorical crossentropy loss. \\
 
-As mentioned, the VGG16 network employed was an already fully trained model, thus the results presented using this network only consist of visualizations produced at the very end of the training process. Consequently, there was no training involved in generating the results. For the deconvolutional network technique, the top 20 maximally activated feature maps of \texttt{block5\_pool}, \texttt{block3\_pool} and \texttt{block1\_pool} were visualized using image A. Additionally, the same feature maps of \texttt{block5\_pool} and \texttt{block3\_pool} were visualized using image B and image C. These two images were selected because they are both related to image A in some way. Specifically, image B contains a bicycle similar to the tricycle in image A, and image C contains a woman similar to the girl in image A. For deep visualization, 20 classes were selected in \texttt{output}, as well as a sample of units from \texttt{fc1}, \texttt{fc2} and each of the pooling layers. The deep visualizations were produced with a learning rate of 2500 and 500 iterations. The $L_2$ decay, blur interval and blur standard deviation were set to 0.0001, 4 and 1 respectively, matching one of the useful combinations in \textbf{Table \ref{tab:reg_hyperparams}}. The produced visualizations were manually processed, and a representative selection of the resulting visualizations were extracted, presented in section \ref{vgg-vis-results}.
+\noindent As mentioned, the VGG16 network employed was an already fully trained model, thus the results presented using this network only consist of visualizations produced at the very end of the training process. Consequently, there was no training involved in generating the results. For the deconvolutional network technique, the top 20 maximally activated feature maps of \texttt{block5\_pool}, \texttt{block3\_pool} and \texttt{block1\_pool} were visualized using image A. Additionally, the same feature maps of \texttt{block5\_pool} and \texttt{block3\_pool} were visualized using image B and image C. These two images were selected because they are both related to image A in some way. Specifically, image B contains a bicycle similar to the tricycle in image A, and image C contains a woman similar to the girl in image A. For deep visualization, 20 classes were selected in \texttt{output}, as well as a sample of units from \texttt{fc1}, \texttt{fc2} and each of the pooling layers. The deep visualizations were produced with a learning rate of 2500 and 500 iterations. The $L_2$ decay, blur interval and blur standard deviation were set to 0.0001, 4 and 1 respectively, matching one of the useful combinations in \textbf{Table \ref{tab:reg_hyperparams}}. The produced visualizations were manually processed, and a representative selection of the resulting visualizations were extracted, presented in section \ref{vgg-vis-results}.
+
+\begin{figure}
+\begin{center}
+\begin{tabular}{c}
+\subfloat{\includegraphics[width=0.5\textwidth]{fig/results/input_vgg/girlonbike.JPEG}} \\
+\subfloat{\includegraphics[width=0.5\textwidth]{fig/results/input_vgg/biking.JPEG}} \\
+\subfloat{\includegraphics[width=0.5\textwidth]{fig/results/input_vgg/girl.JPEG}} \\
+\end{tabular}
+\caption[Visualization images for VGG16]{The images to be used as visualization images for the VGG16 network.}
+\end{center}
+\end{figure}
 
 \begin{figure}
     \begin{minipage}{0.5\textwidth}
@@ -69,12 +98,11 @@ As mentioned, the VGG16 network employed was an already fully trained model, thu
 \begin{figure}
 \begin{center}
 \begin{tabular}{c}
-\begingroup
-\captionsetup[subfigure]{width=1in}
 \subfloat[0]{\frame{\includegraphics[width=0.6\textwidth]{fig/results/layeract_mnist/layer_act_mnist_0_0_conv2d_2.png}}} \\
-\subfloat[5]{\frame{\includegraphics[width=0.6\textwidth]{fig/results/layeract_mnist/all_layers/layer_act_mnist_0_10_conv2d_2.png}}} \\
+\subfloat[5]{\frame{\includegraphics[width=0.6\textwidth]{fig/results/layeract_mnist/layer_act_mnist_0_5_conv2d_2.png}}} \\
+\subfloat[10]{\frame{\includegraphics[width=0.6\textwidth]{fig/results/layeract_mnist/layer_act_mnist_0_10_conv2d_2.png}}} \\
 \end{tabular}
-\caption[Layer activations for all MNIST layers]{Layer activations for all layers of the MNIST network, excluding flatten and dropout layers, for input 0.}
+\caption[Layer activations for all MNIST layers]{Caption.}
 \end{center}
 \end{figure}
 
@@ -160,6 +188,19 @@ As mentioned, the VGG16 network employed was an already fully trained model, thu
 \end{figure}
 
 \subsubsection{Deconvolutional Network}
+
+\begin{figure}
+\begin{center}
+\begin{tabular}{ccccc}
+\subfloat[Input image]{\includegraphics[width = 0.5in]{fig/results/input_mnist/test0.png}} & 
+\subfloat[Feature map 1]{\includegraphics[width = 0.5in]{fig/results/deconv_mnist/deconvolution_mnist_0_10_max_pooling2d_1_1.png}} & 
+\subfloat[Feature map 22]{\includegraphics[width = 0.5in]{fig/results/deconv_mnist/deconvolution_mnist_0_10_max_pooling2d_1_22.png}} &
+\subfloat[Feature map 25]{\includegraphics[width = 0.5in]{fig/results/deconv_mnist/deconvolution_mnist_0_10_max_pooling2d_1_25.png}} & 
+\subfloat[Feature map 28]{\includegraphics[width = 0.5in]{fig/results/deconv_mnist/deconvolution_mnist_0_10_max_pooling2d_1_28.png}} \\
+\end{tabular}
+\caption[Deconv MNIST]{Caption.}
+\end{center}
+\end{figure}
 
 \subsubsection{Deep Visualization}
 
@@ -252,7 +293,31 @@ As mentioned, the VGG16 network employed was an already fully trained model, thu
 
 \subsubsection{Layer Activations}
 
+\begin{figure}
+\begin{center}
+\begin{tabular}{c}
+\subfloat{\frame{\includegraphics[width=0.7\textwidth]{fig/results/layeract_vgg/layer_act_keras_rest_of_vis_1_block1_conv2.png}}} \\
+\end{tabular}
+\caption[Layer activations for VGG16]{Caption.}
+\end{center}
+\end{figure}
+
 \subsubsection{Saliency Maps}
+
+\begin{figure}
+\begin{center}
+\begin{tabular}{cc}
+\textbf{Input image} & \textbf{Saliency map} \\
+\subfloat{\includegraphics[width = 1.5in]{fig/results/input_vgg/girlonbike_resized.JPEG}} &
+\subfloat{\includegraphics[width = 1.5in]{fig/results/saliency_vgg/saliency_keras_rest_of_vis_0.png}} \\
+\subfloat{\includegraphics[width = 1.5in]{fig/results/input_vgg/biking_resized.JPEG}} &
+\subfloat{\includegraphics[width = 1.5in]{fig/results/saliency_vgg/saliency_keras_rest_of_vis_1.png}} \\
+\subfloat{\includegraphics[width = 1.5in]{fig/results/input_vgg/girl_resized.JPEG}} &
+\subfloat{\includegraphics[width = 1.5in]{fig/results/saliency_vgg/saliency_keras_rest_of_vis_2.png}} \\
+\end{tabular}
+\caption{Caption}
+\end{center}
+\end{figure}
 
 \subsubsection{Deconvolutional Network}
 
@@ -328,7 +393,7 @@ As mentioned, the VGG16 network employed was an already fully trained model, thu
 \subfloat[57]{\frame{\includegraphics[width = 0.3in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_57.png}}} &
 \subfloat[59]{\frame{\includegraphics[width = 0.3in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_59.png}}} \\
 \end{tabular}
-\caption{Saliency maps for MNIST network}
+\caption{Caption}
 \end{center}
 \end{figure}
 
@@ -363,14 +428,22 @@ As mentioned, the VGG16 network employed was an already fully trained model, thu
 
 \begin{figure}
 \begin{center}
-\begin{tabular}{cc}
-\textbf{fc1} & \textbf{fc2} \\
-\subfloat[Unit 2048]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/fc1-2/deepvis_keras_deepvis_lower_1_fc1_2048.png}} &
-\subfloat[Unit 2048]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/fc1-2/deepvis_keras_deepvis_lower_0_fc2_2048.png}} \\
-\subfloat[Unit 3072]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/fc1-2/deepvis_keras_deepvis_lower_0_fc1_3072.png}} &
-\subfloat[Unit 2048]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/fc1-2/deepvis_keras_deepvis_lower_0_fc2_2048.png}} \\
+\begin{tabular}{cccc}
+\subfloat[Unit 2176]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/fc1-2/deepvis_keras_deepvis_fc2_0_fc2_2176.png}} &
+\subfloat[Unit 2816]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/fc1-2/deepvis_keras_deepvis_fc2_0_fc2_2816.png}} &
+\subfloat[Unit 3840]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/fc1-2/deepvis_keras_deepvis_fc2_0_fc2_3840.png}} &
 \end{tabular}
-\caption{Caption.}
+\caption{Fc2}
+\end{center}
+\end{figure} % ta med en til???
+
+\begin{figure}
+\begin{center}
+\begin{tabular}{cc}
+\subfloat[Unit 2048]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/fc1-2/deepvis_keras_deepvis_lower_1_fc1_2048.png}} &
+\subfloat[Unit 3072]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/fc1-2/deepvis_keras_deepvis_lower_0_fc1_3072.png}} \\
+\end{tabular}
+\caption{Fc1}
 \end{center}
 \end{figure}
 
