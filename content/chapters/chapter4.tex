@@ -454,9 +454,10 @@ results_path = join(UPLOAD_FOLDER, user, file, 'results')
 
 For the case study, we wanted to examine if the performance of a face recognition network could be improved by incorporating facial expression data. To examine this idea, we considered three different neural network approaches for facial recognition. The first network was used as a standard to be measured up against, with no utilization of expression data. It simply receives an input image and emits an identity classification result as output, determining who the individual in the image is. The second network will receive the facial expression of the person in the image as input, in addition to the input image. The output will be similar to the standard network. The third network will output both the identification classification result and a facial expression classification for the input image person, without receiving any extra input. The performance of each network is measured by its total classification accuracy. \\
 
+% skriv om til riktig tidsform
 \noindent Without a foolproof approach for a network to learn how to take advantage of facial expression data, we resorted to experimentation. Of the three previously described networks, the first acted as a baseline, including no expression data. The second network, however, can utilize the extra facial expression input to learn how expressions affect facial features.
 
-The third, which has an additional facial expression output, must learn how to recognize faces and expressions simultaneously. This may  as well as how they affect each other. By comparing the results of the different approaches, we hope to discover which method should be preferred. 
+The third, which has an additional facial expression output, must learn how to recognize faces and expressions simultaneously. By forcing the network to learn both at the same time, we hope that the network is able to implicitly learn how they affect each other. By comparing the results of the different approaches, we hope to discover which method should be preferred. 
 
 
 
@@ -490,7 +491,7 @@ As described in section \ref{transfer-learning}, transfer learning is a appropri
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
 \hline
-\multicolumn{4}{|c|}{Configuration} \\ \hline
+\multicolumn{4}{|c|}{Pretrained Architecture Configuration} \\ \hline
 \textbf{Layer#} & \textbf{Name} & \textbf{Layer Type} & \textbf{Units} \\ \hline
 0 & input & InputLayer & 224x224x3  \\ \hline
 1 & conv1\_1 & \multirow{2}{*}{Conv2D} & \multirow{2}{*}{224x224x64} \\ \cline{1-2}
@@ -546,22 +547,29 @@ Based on the restrictions regarding the dataset described in section X.X, as wel
 
 \begin{table}[!h]
 \begin{center}
-\begin{tabular}{|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|}
 \hline
-\multicolumn{6}{|c|}{Configurations} \\ \hline
-A & B & C & D & E & F \\ \hline
-\multicolumn{2}{|c|}{Baseline} & \multicolumn{2}{|c|}{Extra Input} & \multicolumn{2}{|c|}{Extra Output} \\ \hline
-Dropout(0.5)& Dropout(0.5)  & Dropout(0.5)  & Dropout(0.5) & Dropout(0.5) & \\
-            & Dense-1024    & Dense(1024)   & Dense-1024 & Dense-1024 & \\
-            & Dense-1024    & Dropout(0.5)  & Dense-1024 & Dense-1024 & \\
-            & Dense(98)     & ConcatInput   & Dense(98)   & Dense-1024 & \\
-Dense(98)   & Dense(98)     & Dense(1024)   & Dense(98)   & Dense-1024 & \\
-            &               & Dropout(0.5)  &            &             & \\
-            &               & Dense(98)     &            &             & \\ \hline
+\multicolumn{5}{|c|}{Baseline Architecture Configurations} \\ \hline
+\textbf{Config.} & \textbf{Layer#} & \textbf{Name} & \textbf{Layer Type} & \textbf{Units} \\ \hline
+\multirow{5}{*}{A} & 0 & input & InputLayer & 4096 \\ \cline{2-5}
+ & 1 & & & \\ \cline{2-5}
+ & 2 & & & \\ \cline{2-5}
+ & 3 & & & \\ \cline{2-5}
+ & 4 & & & \\ \hline
+\multirow{5}{*}{B} & 0 & input & InputLayer & 4096 \\ \cline{2-5}
+ & 1 & & & \\ \cline{2-5}
+ & 2 & & & \\ \cline{2-5}
+ & 3 & & & \\ \cline{2-5}
+ & 4 & & & \\ \hline
+\multirow{5}{*}{C} & 0 & input & InputLayer & 4096 \\ \cline{2-5}
+ & 1 & & & \\ \cline{2-5}
+ & 2 & & & \\ \cline{2-5}
+ & 3 & & & \\ \cline{2-5}
+ & 4 & & & \\ \hline
 \end{tabular}
 \end{center}
 \caption[Network architectures]{}
-\label{tab:net-arch}
+\label{tab:base-arch}
 \end{table}
 
 % network architecture (for alle 2-3)
