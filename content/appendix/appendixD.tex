@@ -3,9 +3,11 @@
 
 This appendix presents the format of the visualization files produced from the callbacks. The information can be useful for developers that want to extend the application or work directly with the visualization files instead of through the provided interface. \\
 
-\noindent All examples shown are generated using a greyscale input image of shape (28, 28, 1).
+\noindent All examples shown are generated using a grayscale input image of shape (28, 28, 1). All arrays must be NumPy arrays.
 
 \section{Training Progress}
+
+\textbf{Note:} \texttt{progress} refers to the percentage of the training progress that the metrics occur at, for instance 0.1 is 10\% of the first epoch, 1.5 is halfway in the second epoch, and so on.
 
 \begin{itemize}
     \item \textbf{Filename:} training\_progress.txt
@@ -127,16 +129,3 @@ fontsize=\footnotesize
  (array(shape=(28, 28, 1), dtype=uint8), 'conv2d_2', (12, 12, 0), 0.0),
  (array(shape=(28, 28, 1), dtype=uint8), 'conv2d_2', (12, 12, 8), 0.0)]
 \end{minted}
-
-\begin{comment}
-
-At each determined interval, the callback writes accuracy and loss to a text file in a folder named 'results' inside of the file\_folder. At each interval, a new line is written to the file, containing three separate decimal numbers. The first number is the percentage of the training progress that the metrics occur at, for instance 0.1 is 10\% of the first epoch, 1.5 is halfway in the second epoch, and so on. The second and third number is the accuracy and loss respectively at that point. This callback assumes that accuracy is enabled as a metric when compiling the Keras model.
-
-
-\noindent If validation is enabled, the callback will also save the validation accuracy and validation loss at each epoch, in a separate text file. The files has the same structure as described above.
-
-
-% layer activation
-Saves activation arrays for each layer of the network except the excluded layers to a pickle file on the form: \texttt{[(layer\_name, array), ...]}, in a folder named 'results' inside of the file\_folder.
-
-\end{comment}
