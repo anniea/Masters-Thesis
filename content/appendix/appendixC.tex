@@ -73,7 +73,7 @@ custom_keras.callbacks.CustomCallbacks(file_folder,
 
 \begin{itemize}
     \item \textbf{file\_folder:} Should always be \texttt{os.path.dirname(\_\_file\_\_)}.
-    \item \textbf{custom\_preprocess:} A preprocess function that will be applied to the network input image before use.
+    \item \textbf{custom\_preprocess:} A preprocess function that will be applied to the visualization input image before use.
     \item \textbf{custom\_postprocess:} A postprocess function that will be applied to the visualization output image before save.
     \item \textbf{base\_interval:} The base interval that the visualizations will be computed at, unless specified otherwise. Many of the callbacks have their own interval argument that can be set individually.
 \end{itemize}
@@ -159,7 +159,7 @@ custom_keras.callbacks.LayerActivations(file_folder,
 \begin{itemize}
     \item \textbf{file\_folder:} Should always be \texttt{os.path.dirname(\_\_file\_\_)}.
     \item \textbf{exclude\_layers:} A tuple of Keras layers to exclude from visualization. The default value \texttt{EXCLUDE\_LAYERS} is a tuple containing \texttt{keras.layers.InputLayer}, \texttt{keras.layers.Dropout} and \texttt{keras.layers.Flatten}
-    \item \textbf{custom\_preprocess:} A preprocess function that will be applied to the network input image before use.
+    \item \textbf{custom\_preprocess:} A preprocess function that will be applied to the visualization input image before use.
     \item \textbf{interval:} The interval that the visualization will be computed at.
 \end{itemize}
 
@@ -185,7 +185,7 @@ custom_keras.callbacks.SaliencyMaps(file_folder,
 
 \begin{itemize}
     \item \textbf{file\_folder:} Should always be \texttt{os.path.dirname(\_\_file\_\_)}.
-    \item \textbf{custom\_preprocess:} A preprocess function that will be applied to the network input image before use.
+    \item \textbf{custom\_preprocess:} A preprocess function that will be applied to the visualization input image before use.
     \item \textbf{custom\_postprocess:} A postprocess function that will be applied to the visualization output image before save.
     \item \textbf{interval:} The interval that the visualization will be computed at.
 \end{itemize}
@@ -219,7 +219,7 @@ custom_keras.callbacks.DeconvolutionalNetwork(file_folder,
     \item \textbf{feat\_map\_layer\_no:} The number of the layer whose feature maps should be visualized.
     \item \textbf{feat\_map\_amount:} The number of feature maps to visualize. The algorithm will choose the top \textit{N} maximally activated feature maps. If the argument is set to -1, all feature maps will be visualized. Note that either this or the \texttt{feat\_map\_nos} argument always needs to be specified.
     \item \textbf{feat\_map\_nos:} A list of numbers denoting which specific feature maps to visualize. Note that either this or the  \texttt{feat\_map\_amount} argument always needs to be specified.
-    \item \textbf{custom\_preprocess:} A preprocess function that will be applied to the network input image before use.
+    \item \textbf{custom\_preprocess:} A preprocess function that will be applied to the visualization input image before use.
     \item \textbf{custom\_postprocess:} A postprocess function that will be applied to the visualization output image before save.
     \item \textbf{custom\_keras\_model\_info:} Used to provide a deconvolutional model. Should be a tuple containing, in respective order, a deconvolutional Keras model based on your original model, a dictionary mapping from original model layer numbers to the corresponding deconvolutional model layer numbers, and an update method for the deconvolutional model which returns the updated deconvolutional model and layer map. If no update is needed, input an empty method.
     \item \textbf{interval:} The interval that the visualization will be computed at.

@@ -448,28 +448,25 @@ results_path = join(UPLOAD_FOLDER, user, file, 'results')
 % skrive en kort intro om hva seksjonen tar for seg. SKRIV TIL SLUTT.
 
 % mention keras and tensorflow
-% use pretrained model as feature extractor
+% nevne struktur av modellene:
+% - use pretrained model as feature extractor
+% - self made network are only top
+% 3x3 network architectures
+% how they were trained, including precomputed feature extraction (bottleneck?)
 
-\subsection{Exploiting Facial Expression Data}
-
-For the case study, we wanted to examine if the performance of a face recognition network could be improved by incorporating facial expression data. To examine this idea, we considered three different neural network approaches for facial recognition. The first network was used as a standard to be measured up against, with no utilization of expression data. It simply receives an input image and emits an identity classification result as output, determining who the individual in the image is. The second network will receive the facial expression of the person in the image as input, in addition to the input image. The output will be similar to the standard network. The third network will output both the identification classification result and a facial expression classification for the input image person, without receiving any extra input. The performance of each network is measured by its total classification accuracy. \\
-
-% skriv om til riktig tidsform
-\noindent Without a foolproof approach for a network to learn how to take advantage of facial expression data, we resorted to experimentation. Of the three previously described networks, the first acted as a baseline, including no expression data. The second network, however, can utilize the extra facial expression input to learn how expressions affect facial features.
-
-The third, which has an additional facial expression output, must learn how to recognize faces and expressions simultaneously. By forcing the network to learn both at the same time, we hope that the network is able to implicitly learn how they affect each other. By comparing the results of the different approaches, we hope to discover which method should be preferred. 
-
-
-
-\begin{comment} % fra høstprosjekt, background
 \subsection{Exploiting Expression Information}
 
-The way facial expressions alter the facial geometry is predictable, both in a specific and general sense. If a specific person conveys the same facial expression several times, the expression will consistently affect a certain set of features and always in a similar manner. For instance, if an image of a happy person includes feature variations such as a widened mouth, narrower eyes, and dimples, another image of that person being happy will likely include the same variations. Some alterations can also be expected to appear generally. While dimples are not a universal trait, a smile, causing a wider mouth, can be anticipated to be commonplace in facial expressions conveying happiness. Knowing or recognizing the facial expression of a person would then reveal some information about how the facial features have transformed in relation to the person's neutral features. If a face recognition system could learn how these expressions affect facial geometry, then the system could be able to match the dissimilarities in the facial features with the changes it knows the facial expression produces. \\
+The way facial expressions alter the facial geometry is predictable, both in a specific and general sense. If a specific person conveys the same facial expression several times, the expression will consistently affect a certain set of features and always in a similar manner. For instance, if an image of a happy person includes feature variations such as a widened mouth, narrower eyes, and dimples, another image of that person being happy will likely include the same variations. Some alterations can also be expected to appear generally. While dimples are not a universal trait, a smile, causing a wider mouth, can be anticipated to be commonplace in facial expressions conveying happiness. Knowing or recognizing the facial expression of a person would then reveal some information about how the facial features have transformed in relation to the person's neutral features. This case study examines how to exploit this predictability by including facial expression data in the ANN training procedure. If a face recognition system could learn how these expressions affect facial geometry, then the system could be able to match the dissimilarities in the facial features with the changes it knows the facial expression produces. This way, we can move away from trying to overcome the expression challenge through invariance, and instead utilize the data about facial expressions to increase network performance.
 
-\noindent Instead of trying to exploit this predictability explicitly, like the formerly mentioned procedures do, we want to try to include it in the ANNs' ability to learn face representations. If we are able to make a network learn how expressions alter features implicitly, by using large, expression-varied datasets, the network could experience an improvement in performance. The gain would be possible due to the network using the new information to learn a single representation of a face and how it varies with expressions, rather than having to learn several representations of the same face, none of which have a clear relation to the others. This way, we can move away from trying to overcome the expression challenge through invariance, and instead utilize the data about facial expressions to increase network accuracy.
-\end{comment}
+\subsection{Experimental Network Idea}
+
+For the case study, we wanted to examine if the performance of a face recognition network could be improved by incorporating facial expression data. To examine this idea, we considered three different neural network approaches for facial recognition. The first network was used as a standard to be measured up against, with no utilization of expression data. It simply receives an input image and emits an identity classification result as output, determining who the individual in the image is. The second network receives the facial expression of the person in the image as input, in addition to the input image. The output will be similar to the standard network. This network has the potential to use the expression data explicitly, to learn how the expressions alters which facial features matches the various identities. The third network outputs both the identification classification result and a facial expression classification for the input image person, without receiving any extra input. By trying to classify both identification and expression simultaneously, the network has the potential to learn how the facial features and expressions relate to each other. The network would then implicitly learn how the expression input alters the facial features, which could improve identification classification. The performance of each network is measured by its total classification loss.
 
 \subsection{Method}
+
+% probably should write something about how we have been working? corresponding to the system development method in the visualization tool section.
+
+% mention that baseline got 100 % training here
 
 % incremental improvements
 % first start with simple baseline
@@ -477,7 +474,8 @@ The way facial expressions alter the facial geometry is predictable, both in a s
 % if improvements, alter baseline accordingly and look for improvements
 % repeat
 
-% probably should write something about how we have been working? corresponding to the system development method in the visualization tool section.
+% fra case study networks. må skrives litt om
+\noindent It is worth noticing that every architecture has a dropout layer right after the input layer. This was added as a basic baseline, where only an output layer was added, quickly achieved 100\% training accuracy and a very low loss value. The validation accuracy and loss, however, were stuck at less beneficial values. Naturally, overfitting was suspected, and while it became apparent in the later stages of training, the main issue was the lack of progress. By utilizing dropout on the feature input, the network had a harder time fitting perfectly to the data, and it showed a slight improvement in the validation metrics. 
 
 \subsection{Pretrained Model}
 
@@ -487,12 +485,13 @@ As described in section \ref{transfer-learning}, transfer learning is a appropri
 
 \noindent An overview of the pretrained network architecture is shown in \textbf{Table \ref{tab:vggface-arch}}. Here, the network has 25 layers, including the input layer. However, only 15 of the layers have weights associated with them. If we add the excluded classification output layer, the number rises to 16. This architecture is based on the network that is popularly called VGG-16 \cite{vgg}, which was originally applied to ILSVRC \cite{imagenet}. The architecture as demonstrated praiseworthy performance in face recognition and ILSVRC object classification, which both require excellent feature extraction capabilities. The feature extraction proficiency is made possible by the stacked convolutional layers, with max pooling layers to obtain some spatial invariance. All the convolutional filters are of size 3x3, which for the first layer is enough to capture small, simple features. The complexity of the features grows with the depth of the layers, each layer capturing features made up of lower level features. Depth also increases the effective receptive fields of the layer units, as they become indirectly connected to a larger number of input units. The fully connected layers are indirectly connected to every input unit, and are used to combine the extracted features of the convolutional layers to create even more complex and invariant feature representations. \\
 
-\begin{table}[!h]
+
+\begin{table}[h!]
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
 \hline
 \multicolumn{4}{|c|}{Pretrained Architecture Configuration} \\ \hline
-\textbf{Layer#} & \textbf{Name} & \textbf{Layer Type} & \textbf{Units} \\ \hline
+\textbf{Layer \#} & \textbf{Name} & \textbf{Layer Type} & \textbf{Units} \\ \hline
 0 & input & InputLayer & 224x224x3  \\ \hline
 1 & conv1\_1 & \multirow{2}{*}{Conv2D} & \multirow{2}{*}{224x224x64} \\ \cline{1-2}
 2 & conv1\_2 & & \\ \hline
@@ -519,7 +518,7 @@ As described in section \ref{transfer-learning}, transfer learning is a appropri
 24 & fc7/relu & Activation & \\ \hline
 \end{tabular}
 \end{center}
-\caption[Pretraining network architecture]{All Conv2D layers use 3x3 filters, with single strides, same convolution padding, and ReLU activation functions. All MaxPooling2D layers use 2x2 pooling regions, with double strides and no padding. Flatten layer simply flattens input. Both Dense (fully connected) layers have linear activation functions, but are followed by an Activation layer using ReLU activation functions. The last two layers of the original model have been excluded, as these form the classification output and are therefore irrelevant. Note that the layer type refers to the Keras 2 API.}
+\caption[Pretrained network architecture]{Pretrained network architecture. The last two layers of the original model have been excluded, as these form the classification output and are therefore irrelevant. Note that the layer type refers to the Keras 2 API. All Conv2D layers use 3x3 filters, with single strides, same convolution padding, and ReLU activation functions. All MaxPooling2D layers use 2x2 pooling regions, with double strides and no padding. Flatten layer simply flattens input. Both Dense (fully connected) layers have linear activation functions, but are followed by an Activation layer using ReLU activation functions.}
 \label{tab:vggface-arch}
 \end{table}
 
@@ -543,34 +542,155 @@ Based on the restrictions regarding the dataset described in section X.X, as wel
 % images were already cropped
 % padded and resized.
 
-\subsection{Architecture} % evt baseline network
+\subsection{Case Study Networks}
 
-\begin{table}[!h]
+% litt generelt om nettverkene?
+
+All of the case study networks use the pretrained network as a fixed base. Hence, they can be viewed as separate networks whose input is shaped similarly to the pretrained network's output. We therefore describe the different architectures for the case study networks with no explicit connection to the pretrained network and consider the input to be a feature vector of size 4096. Should any of the architectures defined here be applied to images, they would need to be combined with the pretrained model. For each of the three approaches, we have included three architectures. For every approach, the three architectures consist of a minimal architecture, the architecture with the best performance, and an interesting alternative to the preferred architecture. All the minimal architectures includes a single dropout layer, due to its simple, yet effective prevention of 100\% training accuracy. Generally, the architectures are heavily regularized with dropout due to overfitting concerns, as it had a tendency to arise in architectures with less utilization of the dropout technique. 
+
+\subsubsection{Baseline Network}
+
+% how architecture looks
+% why heavy regularized (100% training accuracy without reg.)
+% small dataset might lead to easy overfitting
+
+% adding more layers than best made performance worse, may have trouble combating overfitting
+
+The three baseline architecture configurations A, B and C are shown in \textbf{Table \ref{tab:base-arch}}. A is the minimal architecture, with only a dropout layer between the input and output layers. B is the preferred baseline architecture. It includes a couple of fully connected layers, each followed by a dropout layer. This extra depth offers an improvement over the minimal approach, suggesting that the model benefits from a more complex classifier, which allows for better tuning towards images in the IMFDB dataset. The alternative architecture, C, is one fully connected and one dropout layer deeper than B. Although having the potential of an even more complex classifier, this architecture performed worse than B. Most likely, it is caused by overfitting as a result of the increased number of parameters. Without a rise in validation loss, The overfitting might have occurred rapdily, as indicated by the lack of a rise in the validation loss. It remains stable, even after many epochs, implying that the network was somewhat overfitted before it was able to achieve a loss on par with configuration B.
+
+\begin{table}[h!]
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 \multicolumn{5}{|c|}{Baseline Architecture Configurations} \\ \hline
-\textbf{Config.} & \textbf{Layer#} & \textbf{Name} & \textbf{Layer Type} & \textbf{Units} \\ \hline
-\multirow{5}{*}{A} & 0 & input & InputLayer & 4096 \\ \cline{2-5}
- & 1 & & & \\ \cline{2-5}
- & 2 & & & \\ \cline{2-5}
- & 3 & & & \\ \cline{2-5}
- & 4 & & & \\ \hline
-\multirow{5}{*}{B} & 0 & input & InputLayer & 4096 \\ \cline{2-5}
- & 1 & & & \\ \cline{2-5}
- & 2 & & & \\ \cline{2-5}
- & 3 & & & \\ \cline{2-5}
- & 4 & & & \\ \hline
-\multirow{5}{*}{C} & 0 & input & InputLayer & 4096 \\ \cline{2-5}
- & 1 & & & \\ \cline{2-5}
- & 2 & & & \\ \cline{2-5}
- & 3 & & & \\ \cline{2-5}
- & 4 & & & \\ \hline
+\textbf{Config.} & \textbf{Layer \#} & \textbf{Name} & \textbf{Layer Type} & \textbf{Units} \\ \hline
+\multirow{3}{*}{A} & 0 & input & InputLayer & \multirow{2}{*}{4096} \\ \cline{2-4}
+ & 1 & drop & Dropout & \\ \cline{2-5}
+ & 2 & output & Dense & 98 \\ \hline
+\multirow{7}{*}{B} & 0 & input & InputLayer & \multirow{2}{*}{4096} \\ \cline{2-4}
+ & 1 & drop1 & Dropout & \\ \cline{2-5}
+ & 2 & fc1 & Dense & \multirow{4}{*}{1024} \\ \cline{2-4}
+ & 3 & drop2 & Dropout & \\ \cline{2-4}
+ & 4 & fc2 & Dense & \\ \cline{2-4}
+ & 5 & drop3 & Dropout & \\ \cline{2-5}
+ & 6 & output & Dense & 98 \\ \hline
+\multirow{9}{*}{C} & 0 & input & InputLayer & \multirow{2}{*}{4096} \\ \cline{2-4}
+ & 1 & drop1 & Dropout & \\ \cline{2-5}
+ & 2 & fc1 & Dense & \multirow{6}{*}{1024} \\ \cline{2-4}
+ & 3 & drop2 & Dropout & \\ \cline{2-4}
+ & 4 & fc2 & Dense & \\ \cline{2-4}
+ & 5 & drop3 & Dropout & \\ \cline{2-4}
+ & 6 & fc3 & Dense & \\ \cline{2-4}
+ & 7 & drop4 & Dropout & \\ \cline{2-5}
+ & 8 & output & Dense & 98 \\ \hline
 \end{tabular}
 \end{center}
-\caption[Network architectures]{}
+\caption[Baseline architectures]{Baseline network architectures. Note that the layer type refers to the Keras 2 API. All Dense (fully connected) layers use ReLU activation functions, except the output layer of every configuration, which use softmax. All Dropout layers use a 0.5 dropout rate.}
 \label{tab:base-arch}
 \end{table}
+
+\subsubsection{Extra Input Network}
+
+% reasons why it might work
+
+The three architectures with an additional expression input, with configurations D, E and F, are shown in \textbf{Table \ref{tab:base-arch}}. These architectures have multiple inputs and therefore the layers do not follow a fully consecutive order. Rather, they each have two branches which merge together at some point. The layer numbering X-Y suggests this, where X denotes the consecutive order and Y denotes the branch it belongs to. The branches are merged in the concatenate layer by, unsurprisingly, concatenating the output of the preceding layer branches. For every configuration, the concatenate layer is where the expression input is incorporated, without any layers in between. The feature input layer, however, has a varying degree layers between it and the concatenate layer, allowing the network to do some computation on the feature input alone before employing the expression data. \\
+
+\noindent Of these configurations, D is the minimal, E is the preferred, and F is the alternate. Compared to the baseline configurations, D is similar to A, while E and F are similar to B. In D, the extra input is added right after the dropout layer. Networks with this architecture can then only use a single layer, the output, to make sense of the combined inputs. E allows a little more leeway, with an additional fully connected and dropout layer pair both before and after the facial expression input is injected. This architecture is preferred, not only among the architectures with extra input, but of all the described architectures, as it consistently outperforms both the best baseline and the best extra output architecture. Its only difference to the baseline configuration B, is the additional input. The first fully connected layer allows for some processing of the feature input alone, before its output is processed in combination with the expression input in the following fully connected layers, the last of them outputting an identification. This approach solidifies the interpretation of B's improvement over A, that the added layers allow for increased complexity and potential tuning to our particular input. However, in E, the more complex system has access to more information, and, as implied by the advance in performance, finds a meaningful use of it. As with B, however, deepening the network produced no further improvement, with networks not achieving similar performance and rather showing slight signs of overfitting.
+
+% maybe write something more about E
+% write something about F
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\multicolumn{5}{|c|}{Extra Input Architecture Configurations} \\ \hline
+\textbf{Config.} & \textbf{Layer \#} & \textbf{Name} & \textbf{Layer Type} & \textbf{Units} \\ \hline
+\multirow{5}{*}{D} & 0-1 & exp\_input & \multirow{2}{*}{InputLayer} & 7 \\ \cline{2-3} \cline{5-5}
+ & 0-2 & feat\_input & & \multirow{2}{*}{4096} \\ \cline{2-4}
+ & 1-2 & drop & Dropout & \\ \cline{2-5}
+ & 2 & concat & Concatenate & 4103 \\ \cline{2-5}
+ & 3 & output & Dense & 98 \\ \hline
+\multirow{9}{*}{E} & 0-0 & exp\_input & \multirow{2}{*}{InputLayer} & 7 \\ \cline{2-3} \cline{5-5}
+ & 0-2 & feat\_input & & \multirow{2}{*}{4096} \\ \cline{2-4}
+ & 1-2 & drop1 & Dropout & \\ \cline{2-5}
+ & 2-2 & fc1 & Dense & \multirow{2}{*}{1024} \\ \cline{2-4}
+ & 3-2 & drop2 & Dropout & \\ \cline{2-5}
+ & 4 & concat & Concatenate & 1031 \\ \cline{2-5}
+ & 5 & fc2 & Dense & \multirow{2}{*}{1024} \\ \cline{2-4}
+ & 6 & drop3 & Dropout & \\ \cline{2-5}
+ & 7 & output & Dense & 98 \\ \hline
+\multirow{9}{*}{F} & 0-1 & exp\_input & \multirow{2}{*}{InputLayer} & 7 \\ \cline{2-3} \cline{5-5}
+ & 0-2 & feat\_input & & \multirow{2}{*}{4096} \\ \cline{2-4}
+ & 1-2 & drop1 & Dropout & \\ \cline{2-5}
+ & 2 & concat & Concatenate & 4103 \\ \cline{2-5}
+ & 3 & fc1 & Dense & \multirow{4}{*}{1024} \\ \cline{2-4}
+ & 4 & drop2 & Dropout & \\ \cline{2-4}
+ & 5 & fc2 & Dense & \\ \cline{2-4}
+ & 6 & drop3 & Dropout & \\ \cline{2-5}
+ & 7 & output & Dense & 98 \\ \hline 
+\end{tabular}
+\end{center}
+\caption[Extra Input architectures]{Extra Input network architectures. Note that the layer type refers to the Keras 2 API. All Dense (fully connected) layers use ReLU activation functions, except the output layer of every configuration, which use softmax. All Dropout layers use a 0.5 dropout rate. The Concatenate layer is used to add the additional input, by concatenating the output from the previous layer with the expression input vector.}
+\label{tab:ex-in-arch}
+\end{table}
+
+
+\subsubsection{Extra Output Network}
+
+% why bad
+% sometimes uses extra heavy LR
+
+\subsubsection{Training}
+
+% all networks trained on same hardware (list hardware)
+% list training times
+% training hyperparameters
+% describe use of features over images, why and how
+
+
+
+
+
+
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\multicolumn{5}{|c|}{Extra Output Architecture Configurations} \\ \hline
+\textbf{Config.} & \textbf{Layer \#} & \textbf{Name} & \textbf{Layer Type} & \textbf{Units} \\ \hline
+\multirow{5}{*}{G} & 0 & input & InputLayer & \multirow{2}{*}{4096} \\ \cline{2-4}
+& 1 & drop & Dropout & \\ \cline{2-5}
+& 2-1 & id\_output & \multirow{2}{*}{Dense} & 98 \\ \cline{2-3} \cline{5-5}
+& 2-2 & exp\_output & & 7 \\ \cline{2-5}
+& 3 & concat & Concatenate & 105 \\ \hline
+\multirow{9}{*}{H} & 0 & input & InputLayer & \multirow{2}{*}{4096} \\ \cline{2-4}
+& 1 & drop1 & Dropout & \\ \cline{2-5}
+& 2 & fc1 & Dense & \multirow{4}{*}{1024} \\ \cline{2-4}
+& 3 & drop2 & Dropout & \\ \cline{2-4}
+& 4 & fc2 & Dense & \\ \cline{2-4}
+& 5 & drop3 & Dropout & \\ \cline{2-5}
+& 6-1 & id\_output & \multirow{2}{*}{Dense} & 98 \\ \cline{2-3} \cline{5-5}
+& 6-2 & exp\_output &  & 7 \\ \cline{2-5}
+& 7 & concat & Concatenate & 105 \\ \hline
+\multirow{11}{*}{I} & 0 & input & InputLayer & \multirow{2}{*}{4096} \\ \cline{2-4}
+& 1 & drop1 & Dropout & \\ \cline{2-5}
+& 2 & fc1 & Dense & \multirow{4}{*}{1024} \\ \cline{2-4}
+& 3 & drop2 & Dropout & \\ \cline{2-4}
+& 4 & fc2 & Dense & \\ \cline{2-4}
+& 5 & drop3 & Dropout & \\ \cline{2-5}
+& 6-1 & id\_output & \multirow{2}{*}{Dense} & 98 \\ \cline{2-3} \cline{5-5}
+& 6-2 & fc2 & & \multirow{2}{*}{1024} \\ \cline{2-4}
+& 7-2 & drop2 & Dropout & \\ \cline{2-5}
+ & 8-2 & exp\_output & Dense & 7 \\ \cline{2-5}
+ & 9 & concat & Concatenate & 105 \\ \hline
+\end{tabular}
+\end{center}
+\caption[Extra Output architectures]{Extra Output network architectures. Note that the layer type refers to the Keras 2 API. All Dense (fully connected) layers use ReLU activation functions, except the output layer of every configuration, which use softmax. All Dropout layers use a 0.5 dropout rate. The Concatenate layer is used to add the addition input, by concatenating the output from the previous layer with the expression input vector.}
+\label{tab:ex-out-arch}
+\end{table}
+
 
 % network architecture (for alle 2-3)
 % skrive om hvordan vi har brukt transfer learning
