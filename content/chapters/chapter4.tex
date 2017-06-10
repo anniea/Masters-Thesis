@@ -460,7 +460,7 @@ The way facial expressions alter the facial geometry is predictable, both in a s
 
 \subsection{Experimental Network Idea}
 
-For the case study, we wanted to examine if the performance of a face recognition network could be improved by incorporating facial expression data. To examine this idea, we considered three different neural network approaches for facial recognition. The first network was used as a standard to be measured up against, with no utilization of expression data. It simply receives an input image and emits an identity classification result as output, determining who the individual in the image is. The second network receives the facial expression of the person in the image as input, in addition to the input image. The output will be similar to the standard network. This network has the potential to use the expression data explicitly, to learn how the expressions alters which facial features matches the various identities. The third network outputs both the identification classification result and a facial expression classification for the input image person, without receiving any extra input. By trying to classify both identification and expression simultaneously, the network has the potential to learn how the facial features and expressions relate to each other. The network would then implicitly learn how the expression input alters the facial features, which could improve identification classification. The performance of each network is measured by its total classification loss.
+For the case study, we wanted to examine if the performance of a face recognition network could be improved by incorporating facial expression data. To examine this idea, we considered three different neural network approaches for facial recognition. The first network was used as a standard to be measured up against, with no utilization of expression data. It simply receives an input image and emits an identity classification result as output, determining who the individual in the image is. The second network receives the facial expression of the person in the image as input, in addition to the input image. The output will be similar to the standard network. This network has the potential to use the expression data explicitly, to learn how the expressions alters which facial features matches the various identities. The third network outputs both the identification classification result and a facial expression classification for the input image person, without receiving any extra input. By trying to classify both identification and expression simultaneously, the network has the potential to learn how the facial features and expressions relate to each other. The network would then implicitly learn how the expression input alters the facial features, which could improve identification classification. The performance of each network is measured by its total classification loss and accuracy.
 
 \subsection{Method}
 
@@ -593,12 +593,9 @@ The three baseline architecture configurations A, B and C are shown in \textbf{T
 
 % reasons why it might work
 
-The three architectures with an additional expression input, with configurations D, E and F, are shown in \textbf{Table \ref{tab:base-arch}}. These architectures have multiple inputs and therefore the layers do not follow a fully consecutive order. Rather, they each have two branches which merge together at some point. The layer numbering X-Y suggests this, where X denotes the consecutive order and Y denotes the branch it belongs to. The branches are merged in the concatenate layer by, unsurprisingly, concatenating the output of the preceding layer branches. For every configuration, the concatenate layer is where the expression input is incorporated, without any layers in between. The feature input layer, however, has a varying degree layers between it and the concatenate layer, allowing the network to do some computation on the feature input alone before employing the expression data. \\
+The three architectures with an additional expression input, with configurations D, E and F, are shown in \textbf{Table \ref{tab:ex-in-arch}}. These architectures have multiple inputs and therefore the layers do not follow a fully consecutive order. Rather, they each have two branches which merge together at some point. The layer numbering X-Y suggests this, where X denotes the consecutive order and Y denotes the branch it belongs to. The branches are merged in the concatenate layer by, unsurprisingly, concatenating the output of the preceding layer branches. For every configuration, the concatenate layer is where the expression input is incorporated, without any layers in between. The feature input layer, however, has a varying degree layers between it and the concatenate layer, allowing the network to do some computation on the feature input alone before employing the expression data. \\
 
-\noindent Of these configurations, D is the minimal, E is the preferred, and F is the alternate. Compared to the baseline configurations, D is similar to A, while E and F are similar to B. In D, the extra input is added right after the dropout layer. Networks with this architecture can then only use a single layer, the output, to make sense of the combined inputs. E allows a little more leeway, with an additional fully connected and dropout layer pair both before and after the facial expression input is injected. This architecture is preferred, not only among the architectures with extra input, but of all the described architectures, as it consistently outperforms both the best baseline and the best extra output architecture. Its only difference to the baseline configuration B, is the additional input. The first fully connected layer allows for some processing of the feature input alone, before its output is processed in combination with the expression input in the following fully connected layers, the last of them outputting an identification. This approach solidifies the interpretation of B's improvement over A, that the added layers allow for increased complexity and potential tuning to our particular input. However, in E, the more complex system has access to more information, and, as implied by the advance in performance, finds a meaningful use of it. As with B, however, deepening the network produced no further improvement, with networks not achieving similar performance and rather showing slight signs of overfitting.
-
-% maybe write something more about E
-% write something about F
+\noindent Of these configurations, D is the minimal, E is the preferred, and F is the alternate. Compared to the baseline configurations, D is similar to A, while E and F are similar to B. In D, the extra input is added right after the dropout layer. Networks with this architecture can then only use a single layer, the output, to make sense of the combined inputs. E allows a little more leeway, with an additional fully connected and dropout layer pair both before and after the facial expression input is injected. This architecture is preferred, not only among the architectures with extra input, but of all the described architectures, as it consistently outperforms both the best baseline and the best extra output architecture. Its only difference to the baseline configuration B, is the additional input. The first fully connected layer allows for some processing of the feature input alone, before its output is processed in combination with the expression input in the following fully connected layers, the last of them outputting an identification. This approach solidifies the interpretation of B's improvement over A, that the added layers allow for increased complexity and potential tuning to our particular input. However, in E, the more complex system has access to more information, and, as implied by the advance in performance, finds a meaningful use of it. As with B, however, deepening the network produced no further improvement, with networks not achieving similar performance and rather showing slight signs of overfitting. Lastly, F inserts the expression input right after the initial dropout layer. This leaves no fully connected layer to consider the the feature input by itself, and forces the network to process the inputs simultaneously from the start. A network with this configuration does perform better than D, but never reaches the performance levels of E, once again supporting the benefit of additional processing of the feature input. 
 
 \begin{table}[h!]
 \begin{center}
@@ -631,15 +628,57 @@ The three architectures with an additional expression input, with configurations
  & 7 & output & Dense & 98 \\ \hline 
 \end{tabular}
 \end{center}
-\caption[Extra Input architectures]{Extra Input network architectures. Note that the layer type refers to the Keras 2 API. All Dense (fully connected) layers use ReLU activation functions, except the output layer of every configuration, which use softmax. All Dropout layers use a 0.5 dropout rate. The Concatenate layer is used to add the additional input, by concatenating the output from the previous layer with the expression input vector.}
+\caption[Extra input architectures]{Extra input network architectures. Note that the layer type refers to the Keras 2 API. Layers are not fully consecutive, with some layer only appearing in certain branches. Layers in branches have X-Y layer numbers, with X referring to layer number and Y referring to branch number. All Dense (fully connected) layers use ReLU activation functions, except the output layer of every configuration, which use softmax. All Dropout layers use a 0.5 dropout rate. The Concatenate layer is used to merge branches, by concatenating the output from the branches in the preceding layers.}
 \label{tab:ex-in-arch}
 \end{table}
 
 
 \subsubsection{Extra Output Network}
 
-% why bad
 % sometimes uses extra heavy LR
+
+The architecture configurations having an extra expression output are named G, H and I, and are shown in \textbf{Table \ref{tab:ex-out-arch}}. Similarly to the extra input architectures, these architectures have branches which are merged together. The layer numbering for branches is identical. Unlike the extra input case however, G, H and I all merge the branches at the same point, namely just before the final output. Although Keras has no difficulty in outputting several vector, we concatenate in order to utilize the visualization tool's training progression visualization, which only supports models with single loss value. Thus, the identification output and expression output are always concatenated to one vector before finally being outputted from the model, resulting in a combined loss metric. The same is true for accuracy. Although it is the face recognition part of the network we are truly interested in, it is unlikely that a network would gain an identification classification advantage from the enforced simultaneous classification if the expression results are underwhelming. Consequently, we consider the performance of the extra output architectures using the combined metrics. The networks are then supposed to do more than both the previous approaches, with no additional information. \\
+
+\noindent G is the minimal approach, H is the preferred and I is the alternate. G resembles baseline configuration A, with the distinction that the Dropout layer forwards its values to two layers, and the aforementioned output concatenation. In this configuration, the input to the identification output layer and the expression output layer is not processed by any common layers that employ weights. As a result, they have no effect on each other throughout the learning procedure. In H, however, the feature input is passed through several common weight layers before being presented to the separate output layers. 
+
+\noindent In test architectures that tried to classify only the facial expression, validation accuracy did not rise far above 50\%, suggesting that the networks had difficulty using the feature input to classify expressions. This may very well be a result of the chosen pretrained model, which was trained to recognize faces and thus has learned to prioritize features which help with identification, not expression classification. It seems that there might be some overlap between the features used to classify identification and expression, but not enough to use the pretrained model as a feature extractor in a proper expression classifier. Naturally, this lack of focus on important expression features inhibits the extra output architectures, which are tasked with classifying both the identification and expression.
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\multicolumn{5}{|c|}{Extra Output Architecture Configurations} \\ \hline
+\textbf{Config.} & \textbf{Layer \#} & \textbf{Name} & \textbf{Layer Type} & \textbf{Units} \\ \hline
+\multirow{5}{*}{G} & 0 & input & InputLayer & \multirow{2}{*}{4096} \\ \cline{2-4}
+& 1 & drop & Dropout & \\ \cline{2-5}
+& 2-1 & id\_output & \multirow{2}{*}{Dense} & 98 \\ \cline{2-3} \cline{5-5}
+& 2-2 & exp\_output & & 7 \\ \cline{2-5}
+& 3 & concat & Concatenate & 105 \\ \hline
+\multirow{11}{*}{H} & 0 & input & InputLayer & \multirow{2}{*}{4096} \\ \cline{2-4}
+& 1 & drop1 & Dropout & \\ \cline{2-5}
+& 2 & fc1 & Dense & \multirow{4}{*}{1024} \\ \cline{2-4}
+& 3 & drop2 & Dropout & \\ \cline{2-4}
+& 4 & fc2 & Dense & \\ \cline{2-4}
+& 5 & drop3 & Dropout & \\ \cline{2-5}
+& 6-1 & id\_output & \multirow{2}{*}{Dense} & 98 \\ \cline{2-3} \cline{5-5}
+& 6-2 & fc2 & & \multirow{2}{*}{1024} \\ \cline{2-4}
+& 7-2 & drop2 & Dropout & \\ \cline{2-5}
+ & 8-2 & exp\_output & Dense & 7 \\ \cline{2-5}
+ & 9 & concat & Concatenate & 105 \\ \hline
+\multirow{9}{*}{I} & 0 & input & InputLayer & \multirow{2}{*}{4096} \\ \cline{2-4}
+& 1 & drop1 & Dropout & \\ \cline{2-5}
+& 2 & fc1 & Dense & \multirow{4}{*}{1024} \\ \cline{2-4}
+& 3 & drop2 & Dropout & \\ \cline{2-4}
+& 4 & fc2 & Dense & \\ \cline{2-4}
+& 5 & drop3 & Dropout & \\ \cline{2-5}
+& 6-1 & id\_output & \multirow{2}{*}{Dense} & 98 \\ \cline{2-3} \cline{5-5}
+& 6-2 & exp\_output &  & 7 \\ \cline{2-5}
+& 7 & concat & Concatenate & 105 \\ \hline
+\end{tabular}
+\end{center}
+\caption[Extra output architectures]{Extra output network architectures. Note that the layer type refers to the Keras 2 API. Layers are not fully consecutive, with some layer only appearing in certain branches. Layers in branches have X-Y layer numbers, with X referring to layer number and Y referring to branch number. All Dense (fully connected) layers use ReLU activation functions, except the output layers of every configuration, which use softmax. All Dropout layers use a 0.5 dropout rate. The Concatenate layer is used to merge branches, by concatenating the output from the branches in the preceding layers. The output of each configuration come from the Concatenate layer.}
+\label{tab:ex-out-arch}
+\end{table}
 
 \subsubsection{Training}
 
@@ -653,43 +692,6 @@ The three architectures with an additional expression input, with configurations
 
 
 
-
-\begin{table}[h!]
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|}
-\hline
-\multicolumn{5}{|c|}{Extra Output Architecture Configurations} \\ \hline
-\textbf{Config.} & \textbf{Layer \#} & \textbf{Name} & \textbf{Layer Type} & \textbf{Units} \\ \hline
-\multirow{5}{*}{G} & 0 & input & InputLayer & \multirow{2}{*}{4096} \\ \cline{2-4}
-& 1 & drop & Dropout & \\ \cline{2-5}
-& 2-1 & id\_output & \multirow{2}{*}{Dense} & 98 \\ \cline{2-3} \cline{5-5}
-& 2-2 & exp\_output & & 7 \\ \cline{2-5}
-& 3 & concat & Concatenate & 105 \\ \hline
-\multirow{9}{*}{H} & 0 & input & InputLayer & \multirow{2}{*}{4096} \\ \cline{2-4}
-& 1 & drop1 & Dropout & \\ \cline{2-5}
-& 2 & fc1 & Dense & \multirow{4}{*}{1024} \\ \cline{2-4}
-& 3 & drop2 & Dropout & \\ \cline{2-4}
-& 4 & fc2 & Dense & \\ \cline{2-4}
-& 5 & drop3 & Dropout & \\ \cline{2-5}
-& 6-1 & id\_output & \multirow{2}{*}{Dense} & 98 \\ \cline{2-3} \cline{5-5}
-& 6-2 & exp\_output &  & 7 \\ \cline{2-5}
-& 7 & concat & Concatenate & 105 \\ \hline
-\multirow{11}{*}{I} & 0 & input & InputLayer & \multirow{2}{*}{4096} \\ \cline{2-4}
-& 1 & drop1 & Dropout & \\ \cline{2-5}
-& 2 & fc1 & Dense & \multirow{4}{*}{1024} \\ \cline{2-4}
-& 3 & drop2 & Dropout & \\ \cline{2-4}
-& 4 & fc2 & Dense & \\ \cline{2-4}
-& 5 & drop3 & Dropout & \\ \cline{2-5}
-& 6-1 & id\_output & \multirow{2}{*}{Dense} & 98 \\ \cline{2-3} \cline{5-5}
-& 6-2 & fc2 & & \multirow{2}{*}{1024} \\ \cline{2-4}
-& 7-2 & drop2 & Dropout & \\ \cline{2-5}
- & 8-2 & exp\_output & Dense & 7 \\ \cline{2-5}
- & 9 & concat & Concatenate & 105 \\ \hline
-\end{tabular}
-\end{center}
-\caption[Extra Output architectures]{Extra Output network architectures. Note that the layer type refers to the Keras 2 API. All Dense (fully connected) layers use ReLU activation functions, except the output layer of every configuration, which use softmax. All Dropout layers use a 0.5 dropout rate. The Concatenate layer is used to add the addition input, by concatenating the output from the previous layer with the expression input vector.}
-\label{tab:ex-out-arch}
-\end{table}
 
 
 % network architecture (for alle 2-3)
