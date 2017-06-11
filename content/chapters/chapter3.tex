@@ -100,4 +100,68 @@ While all the aforementioned state of the art ANNs have their own distinct netwo
 For our case study network, we intend to employ the VGG architecture as a feature extractor. It has proven capabilities in both complex object classification and face recognition tasks, as well as a fairly straightforward architecture. The latter is beneficial as lower complexity makes reasoning about experimental choices less complicated and reduces the possibility of unforeseen effects. However, VGG networks are prohibitively slow to train. To circumvent this issue, we would like to apply transfer learning to an fully trained version of a VGG network. The networks from \textbf{ref-DFR} are prime candidates because of their related problem area and impressive performance. In particular, we adopt the 16 weight layer network from configuration D. The weight values of this configuration, as computed in \textbf{ref-DFR}, has been made available and converted to use with the Keras framework.
 
 
+
+% alt under her skal i kap. 4:
+
+
+
+\subsubsection{Deconvolutional Network Implementation Details}
+
+Using the deconvolutional network visualization technique requires a deconvolutional network which can reverse the mapping from input to features that the convolutional part of the original network performs. In the implemented callback for this technique, the deconvolutional network can be automatically generated for simple models. The generation process is restricted to building a model corresponding to a continuously convolutional part that represents the first component of the original network. For example, if a fully connected layer separates two convolutional parts, only the first part is considered when constructing the deconvolutional network. The generation is also limited to convolutional parts which contain layers using convolution or max pooling. Before the process can start, the convolutional part is identified by examining the original network. This part is examined from top to bottom, while the deconvolutional network is being built from the bottom up. For every convolutional layer in the original, the appropriate deconvolutional substitute is added. Concurrently, a map concerning corresponding original and deconvolutional layers is being created. If a deconvolutional model cannot be created, the user must build the model and pass it to the callback. \\
+
+\noindent To approximately reverse the effects of max pooling layers, the auto-generated deconvolutional networks use a custom Keras layer called MaxUnpooling2D. These layers are image specific, which in turn makes deconvolutional models using them image specific. These layers compute the pooling regions used in the original max pooling based on the region size, strides, padding, as well as the shape of the input and output. These regions are computed differently for Theano and TensorFlow, depending on the aforementioned values. \\
+
+WITHIN A GIVEN LAYER
+
+\noindent When visualizing via the web interface, the deconvolutional network will either identify and visualize the feature maps that maximally activate the user uploaded image, or visualize the feature maps directly specified by the user. 
+
+Which of these options are chosen are based on the arguments passed when instantiating the callback. The arguments are explained further in appendix C.
+
+In addition to these alternatives, we have also implemented functionality that produces visualizations for a set of images that maximally activates certain feature maps. The feature maps can either be specified directly or a given amount can be randomly sampled. A large set of images will then be examined for each of these feature maps, computing the activation from each one. Currently, the image set is based on the 2011 ILSVRC object classification set. Both the amount of images to process and select can be specified
+
+This functionality is not available in the tool, however, as it was found to be prohibitively slow in its current state. A faster or less extensive version could 
+
+\subsubsection{Deep Visualization Implementation Details}
+
+\textit{This section is under progress and will be added later}
+
+\begin{comment}
+for deconv:
+- only visualizes for one layer
+- either max feature maps or specific feature maps
+- can automatically create deconv models for simple conv models, alternatively the user must create a deconv model an input (also requires layer map and update function)
+- code contained in own model, to keep callback file simple (mention?)
+- auto deconv model is image specific, because of pooling layers (important?)
+- deconv is only for conv part
+- maxunpooling2d layer
+- mention unused code (rec. from top images) and why it hasn't been used
+- preproccesing of feature maps (all but max act. is set to zero)
+
+for deep vis:
+- se gjennom koden
+
+\end{comment}
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\multicolumn{5}{|c|}{Case Study Network Results} \\ \hline
+\multirow{2}{*}{\textbf{Config.}} & \multicolumn{2}{|c|}{\textbf{Accuracy}} &  \multicolumn{2}{|c|}{\textbf{Loss}} \\ \cline{2-5}
+ & \textbf{Validation} & \textbf{Test} & \textbf{Validation} & \textbf{Test} \\ \hline
+A & & & & \\ \hline
+B & & & & \\ \hline
+C & & & & \\ \hline
+D & & & & \\ \hline
+E & & & & \\ \hline
+F & & & & \\ \hline
+G & & & & \\ \hline
+H & & & & \\ \hline
+I & & & & \\ \hline
+\end{tabular}
+\end{center}
+\caption[Case study network results]{Describe results a bit}
+\label{tab:case-results}
+\end{table}
+
 \cleardoublepage
