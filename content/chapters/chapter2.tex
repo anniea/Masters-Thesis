@@ -19,13 +19,13 @@ The idea of an ANN is that it can approximate any continuous function, and that 
     \begin{minipage}{0.5\textwidth}
         \centering
             \includegraphics[width=1\textwidth]{fig/neuron}
-            \caption{Biological neuron \cite{cs231n_part1}}
+            \caption{Biological neuron \cite{cs231n-part1}}
             \label{fig1}
     \end{minipage}
     \begin{minipage}{0.4\textwidth}
         \centering
             \includegraphics[width=1\textwidth]{fig/neuron_model}
-            \caption{Mathematical model of a neuron\cite{cs231n_part1}}
+            \caption{Mathematical model of a neuron \cite{cs231n-part1}}
             \label{fig2}
     \end{minipage}
 \end{figure}
@@ -137,6 +137,8 @@ The training data of an ANN can often be noisy and incomplete. Overfitting is wh
 
 \noindent To optimize the loss, we can use an algorithm called gradient descent, which minimizes any function iteratively. In short, the algorithm makes the learning process a repeated loop of evaluating the gradient, and then updating the weights based on this gradient. The simplest form of this algorithm, also called the vanilla version, is shown in \textbf{Code \ref{code:1}}. \\
 
+
+\begin{comment}
 \begin{listing}[h!]
 \begin{minted}
 [
@@ -153,6 +155,7 @@ for i in range(epochs):
 \caption{Vanilla gradient descent}
 \label{code:1}
 \end{listing}
+\end{comment}
 
 \noindent First, the algorithm evaluates the gradient of the loss function for the whole training data set with respect to the current weights. This is done using an algorithm called backpropagation. Often, the term is used to refer to the complete process of repeatedly computing the gradient and updating the weights. Each iteration of computing the gradient involves two steps: forward propagation and backward propagation, also known as forward pass and backward pass, respectively. The forward propagation is simply the propagation of an input through the network in order to generate an output. In the backward propagation step, the loss between the generated output and the desired output is computed, and the error is propagated backwards to the preceding layer. This layer then similarly computes its loss and error and propagates it backwards. The procedure is repeated in every layer to obtain an error value for each. The error values are then used to calculate the weight gradients. The next step of gradient descent is to adjust the weights, based on the evaluated gradient and a chosen learning rate. The learning rate controls the magnitude of the update, and is a crucial network hyperparameter. This process is repeated for a predefined number of epochs.
 
@@ -349,10 +352,10 @@ A simple, yet useful, visualization technique for ANNs is to compute saliency ma
 
 \subsection{Deconvolutional Network} \label{deconv-net}
 
-Modern ANNs that receive images as inputs are likely to have convolutional layers form the initial part of the network. This part is aimed at detecting certain features in the image, with the complexity of the features rising as the depth of the convolutional part increases. In such cases, we can utilize a visualization technique that employs a deconvolutional network, which can be thought of as a reverse convolutional network \cite{deconv_net}. The visualizations are used to interpret the feature activity in the intermediate layers of the original network. To obtain a visualization, an image is first fed to the original network to produce activations in its various layers. The activations of the convolutional part can then be processed and passed to the deconvolutional network to create a visualization of the pattern in the input image that was responsible for eliciting the given activations. This pattern can then reveal what a certain part of the original network finds important and what it is looking for in an image. 
+Modern ANNs that receive images as inputs are likely to have convolutional layers form the initial part of the network. This part is aimed at detecting certain features in the image, with the complexity of the features rising as the depth of the convolutional part increases. In such cases, we can utilize a visualization technique that employs a deconvolutional network, which can be thought of as a reverse convolutional network \cite{deconv-net-article}. The visualizations are used to interpret the feature activity in the intermediate layers of the original network. To obtain a visualization, an image is first fed to the original network to produce activations in its various layers. The activations of the convolutional part can then be processed and passed to the deconvolutional network to create a visualization of the pattern in the input image that was responsible for eliciting the given activations. This pattern can then reveal what a certain part of the original network finds important and what it is looking for in an image. 
 \subsubsection{Constructing a Deconvolutional Network}
 
-To build such a deconvolutional network, it is necessary to examine the original network we want to produce visualizations for. Only the feature extracting part is of interest, and we can regard this part as a network on its own. The purpose of the deconvolutional network is to map the feature activity present in this convolutional network back to the input pixel space \cite{deconv_vis}. For a convolutional network consisting of convolution and max pooling layers, the corresponding deconvolutional network would consist of transposed convolution and unpooling layers in the opposite order of the original layers. In addition, where a ReLU activation function commonly follow each convolutional layer, they would precede transposed convolutional layers. In other words, a top-down examination the convolutional network would enable a bottom-up creation of the deconvolutional network. 
+To build such a deconvolutional network, it is necessary to examine the original network we want to produce visualizations for. Only the feature extracting part is of interest, and we can regard this part as a network on its own. The purpose of the deconvolutional network is to map the feature activity present in this convolutional network back to the input pixel space \cite{deconv-vis-article}. For a convolutional network consisting of convolution and max pooling layers, the corresponding deconvolutional network would consist of transposed convolution and unpooling layers in the opposite order of the original layers. In addition, where a ReLU activation function commonly follow each convolutional layer, they would precede transposed convolutional layers. In other words, a top-down examination the convolutional network would enable a bottom-up creation of the deconvolutional network. 
 
 \subsubsection{Mapping Features to Input}
 
@@ -403,9 +406,9 @@ Another characteristic of images produced using deep visualization is an abundan
 
 \subsubsection{Regularization Hyperparameter Values}
 
-Through a random hyperparameter search, \cite{deepvis} found several useful combinations that create visualizations with certain desirable characteristics. Not all of the previously described regularization techniques are included, however. Both clipping based on value and clipping based on contribution are included in \cite{deepvis_web}, but not in \cite{deepvis} (the latter is briefly mentioned). As a result, they are not included in the hyperparameter suggestions, but have been explained for the sake of diversity. \\
+Through a random hyperparameter search, \cite{deepvis} found several useful combinations that create visualizations with certain desirable characteristics. Not all of the previously described regularization techniques are included, however. Both clipping based on value and clipping based on contribution are included in \cite{deepvis-web-article}, but not in \cite{deepvis} (the latter is briefly mentioned). As a result, they are not included in the hyperparameter suggestions, but have been explained for the sake of diversity. \\
 
-\noindent Denoting $L_2$ decay rate as $\theta_{decay}$, blur interval as $\theta_{b\_interval}$, blur kernel standard deviation as $\theta_{b\_std}$, norm percentile threshold as $\theta_{norm}$ and absolute contribution percentile threshold as $\theta_{abs\_contr}$, the hyperparameter combinations are shown in \textbf{Table \ref{tab:reg_hyperparams}}.
+\noindent Denoting $L_2$ decay rate as $\theta_{decay}$, blur interval as $\theta_{b\_interval}$, blur kernel standard deviation as $\theta_{b\_std}$, norm percentile threshold as $\theta_{norm}$ and absolute contribution percentile threshold as $\theta_{abs\_contr}$, the hyperparameter combinations are shown in \textbf{Table \ref{tab:reg-hyperparams}}.
 
 \begin{table}[!h]
 \begin{center}
@@ -419,7 +422,7 @@ Through a random hyperparameter search, \cite{deepvis} found several useful comb
 \end{tabular}
 \end{center}
 \caption[Hyperparameters found in random search.]{Hyperparameters found in random search, with useful combinations located in rows}
-\label{tab:reg_hyperparams}
+\label{tab:reg-hyperparams}
 \end{table}
 
 \noindent The four combinations produce visualizations that complement each other. The first one can be used to produce images that show a sparse set of important regions. The second tends to result in images with high frequency patterns. The third favors images with low frequency patterns. Finally, the fourth one generates visualizations with dense pixel data. Used separately, the most beneficial images can be developed from the third combination, although more insight can be gained by examining visualizations from all four combinations at once.
@@ -444,7 +447,7 @@ Fine-tuning a pretrained CNN includes not only replacing the top layer of the ne
 
 \section{Facial Expressions} % theo syns denne er tynn. legge på det som ikke har kilder?
 
-Face recognition in unconstrained environments remains difficult for several reasons. Among the challenges are facial expressions, pose, illumination, aging effects, and poor image quality. A facial expression can be described as the combination of a number of variations in a person's facial features. These variations are caused by the contraction or extension of facial muscles, and effort has been made to categorize the effects of muscle activity on facial features into a Facial Action Coding System (FACS) \cite{facs}. FACS encodes facial displays into action units (AU), which specify the muscles involved and how they affect the facial expression. The system is widely employed in expression research and has, among other things, been used to create a facial expression database \cite{exp_db}, to further fuel the progress of facial expression analysis. The intricacy and extent of human emotional expressions have also inspired attempts at creating a confined and discrete set of human facial expressions. A popular such set is Ekman's six basic expressions: happiness, surprise, sadness, anger, disgust and fear \cite{ekman}.
+Face recognition in unconstrained environments remains difficult for several reasons. Among the challenges are facial expressions, pose, illumination, aging effects, and poor image quality. A facial expression can be described as the combination of a number of variations in a person's facial features. These variations are caused by the contraction or extension of facial muscles, and effort has been made to categorize the effects of muscle activity on facial features into a Facial Action Coding System (FACS) \cite{facs}. FACS encodes facial displays into action units (AU), which specify the muscles involved and how they affect the facial expression. The system is widely employed in expression research and has, among other things, been used to create a facial expression database \cite{exp-db}, to further fuel the progress of facial expression analysis. The intricacy and extent of human emotional expressions have also inspired attempts at creating a confined and discrete set of human facial expressions. A popular such set is Ekman's six basic expressions: happiness, surprise, sadness, anger, disgust and fear \cite{ekman}.
 
 \subsection{CNNs for Expression Recognition}
 
@@ -454,7 +457,7 @@ There exists a long history of research into analyzing facial expressions in hum
 
 \subsection{Overcoming Expressions in Face Recognition}
 
-To construct face recognition systems that are invariant to facial expressions, some procedures try to explicitly exploit the changes made to face geometry by expressions \cite{exp_inv_1, exp_inv_2, exp_inv_3}. With state of the art ANNs, however, it is common to overcome the challenges of expressions by training on large, varied datasets \cite{facenet, deepface, deepid3}. By exposing the networks to images with a wide variety of expressions, they learn how a face can have variations in its features, but still represent the same identity. The face representations learned by such training are robust \cite{robust}, which helps explain how neural networks can achieve high performance without directly tackling issues like facial expressions, pose, and illumination. We believe that it could be possible to combine the ideas of these two approaches and apply them to a neural network to enhance performance. 
+To construct face recognition systems that are invariant to facial expressions, some procedures try to explicitly exploit the changes made to face geometry by expressions \cite{exp-inv-1, exp-inv-2, exp-inv-3}. With state of the art ANNs, however, it is common to overcome the challenges of expressions by training on large, varied datasets \cite{facenet, deepface, deepid3}. By exposing the networks to images with a wide variety of expressions, they learn how a face can have variations in its features, but still represent the same identity. The face representations learned by such training are robust \cite{robust}, which helps explain how neural networks can achieve high performance without directly tackling issues like facial expressions, pose, and illumination. We believe that it could be possible to combine the ideas of these two approaches and apply them to a neural network to enhance performance. 
 
 
 \cleardoublepage

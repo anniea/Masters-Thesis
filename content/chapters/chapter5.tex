@@ -28,16 +28,16 @@ The MNIST network is a simple CNN with three convolutional layers including the 
 \begin{figure}
 \begin{center}
 \begin{tabular}{ccccc}
-\subfloat['0': 100\%]{\includegraphics[width = 0.5in]{fig/results/input_mnist/test0.png}} & 
-\subfloat['1': 100\%]{\includegraphics[width = 0.5in]{fig/results/input_mnist/test1.png}} & 
-\subfloat['2': 100\%]{\includegraphics[width = 0.5in]{fig/results/input_mnist/test2.png}} &
-\subfloat['3': 100\%]{\includegraphics[width = 0.5in]{fig/results/input_mnist/test3.png}} & 
-\subfloat['4': 100\%]{\includegraphics[width = 0.5in]{fig/results/input_mnist/test4.png}} \\
-\subfloat['2': 100\%]{\includegraphics[width = 0.5in]{fig/results/input_mnist/test5.png}} &
-\subfloat['6': 100\%]{\includegraphics[width = 0.5in]{fig/results/input_mnist/test6.png}} & 
-\subfloat['7': 100\%]{\includegraphics[width = 0.5in]{fig/results/input_mnist/test7.png}} & 
-\subfloat['8': 100\%]{\includegraphics[width = 0.5in]{fig/results/input_mnist/test8.png}} &
-\subfloat['9': 100\%]{\includegraphics[width = 0.5in]{fig/results/input_mnist/test9.png}} \\
+\subfloat['0': 100\%]{\includegraphics[width = 0.61in]{fig/results/input_mnist/test0.png}} & 
+\subfloat['1': 100\%]{\includegraphics[width = 0.61in]{fig/results/input_mnist/test1.png}} & 
+\subfloat['2': 100\%]{\includegraphics[width = 0.61in]{fig/results/input_mnist/test2.png}} &
+\subfloat['3': 100\%]{\includegraphics[width = 0.61in]{fig/results/input_mnist/test3.png}} & 
+\subfloat['4': 100\%]{\includegraphics[width = 0.61in]{fig/results/input_mnist/test4.png}} \\
+\subfloat['2': 100\%]{\includegraphics[width = 0.61in]{fig/results/input_mnist/test5.png}} &
+\subfloat['6': 100\%]{\includegraphics[width = 0.61in]{fig/results/input_mnist/test6.png}} & 
+\subfloat['7': 100\%]{\includegraphics[width = 0.61in]{fig/results/input_mnist/test7.png}} & 
+\subfloat['8': 100\%]{\includegraphics[width = 0.61in]{fig/results/input_mnist/test8.png}} &
+\subfloat['9': 100\%]{\includegraphics[width = 0.61in]{fig/results/input_mnist/test9.png}} \\
 \end{tabular}
 \caption[Visualization input images for MNIST]{The images to be used as visualization input for the MNIST network, captioned with their corresponding classification results at stage 1 of training. Note that \textbf{f} was incorrectly classified as '2'. At stage 2, all images were correctly classified with 100\% certainty.}
 \label{mnist:input-images}
@@ -54,7 +54,7 @@ The VGG16 network is a significantly deeper CNN consisting of five blocks of 3-4
 \begin{center}
 \begin{tabular}{c}
 \subfloat['tricycle, trike, velocipede': 99.95\%]{\includegraphics[width=0.5\textwidth]{fig/results/input_vgg/girlonbike.JPEG}} \\
-\subfloat['cliff, drop, drop-off':64.35\%]{\includegraphics[width=0.5\textwidth]{fig/results/input_vgg/biking.JPEG}} \\
+\subfloat['cliff, drop, drop-off': 64.35\%]{\includegraphics[width=0.5\textwidth]{fig/results/input_vgg/biking.JPEG}} \\
 \subfloat['sombrero': 50.91\%]{\includegraphics[width=0.5\textwidth]{fig/results/input_vgg/girl.JPEG}} \\
 \end{tabular}
 \caption[Visualization input images for VGG16]{The images to be used as visualization input for the VGG16 network, captioned with their corresponding classification results.}
@@ -246,7 +246,7 @@ For the deconvolutional network technique, visualizations of all 32 feature maps
 \subsubsection{Deep Visualization}
 %For deep visualization, all units in \texttt{output} as well as a sample of units from the remaining layers, except the dropout and flatten layers, were included. 
 
-The deep visualizations were produced with a learning rate of 200 for 50 iterations. The $L_2$ decay, blur interval and blur standard deviation were set to 0.0001, 4 and 1 respectively, matching one of the useful combinations in \textbf{Table \ref{tab:reg_hyperparams}}. The deep visualizations of the output layer are shown in \textbf{Fig. \ref{mnist:deepvis-output}}. The visualizations are shown at stages 1, 5 and 10, to show how they evolve throughout the training.
+The deep visualizations were produced with a learning rate of 200 for 50 iterations. The $L_2$ decay, blur interval and blur standard deviation were set to 0.0001, 4 and 1 respectively, matching one of the useful combinations in \textbf{Table \ref{tab:reg_hyperparams}}. The deep visualizations of the output layer are shown in \textbf{Fig. \ref{mnist:deepvis-output}}. The visualizations are presented at stages 1, 5 and 10, to show how they evolve throughout the training. Deep visualizations of some of the lower layers, specifically \texttt{fc2} and \texttt{fc1}, are presented in \textbf{Fig. \ref{mnist:deepvis-fc2}} and \textbf{Fig. \ref{mnist:deepvis-fc2}}, respectively, showing a selection of visualizations produced at the final stage of training.
 
 \begin{figure}
 \begin{center}
@@ -339,6 +339,8 @@ The deep visualizations were produced with a learning rate of 200 for 50 iterati
 This section presents the visualization results for the various visualization techniques using the VGG16 network.
 
 \subsubsection{Training Progress}
+
+Since the VGG16 network is a fully trained model, and no training was completed while generating visualizations, naturally there was no training progress to visualize.
 
 \subsubsection{Layer Activations}
 
@@ -467,7 +469,7 @@ This section presents the visualization results for the various visualization te
 \subfloat[Class 953 - pineapple, ananas]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_1_predictions_953.png}} &
 \subfloat[Class 971 - bubble]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_0_predictions_971.png}} \\
 \end{tabular}
-\caption[Deep visualization of VGG16 output]{Deep visualization of the output layer for a selection of 8 output classes of the VGG16 network. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \textbf{Table \ref{tab:reg_hyperparams}}.}
+\caption[Deep visualization of VGG16 output]{Deep visualization of the output layer for a selection of 8 output classes of the VGG16 network. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \textbf{Table \ref{tab:reg-hyperparams}}.}
 \label{vgg:deepvis-output}
 \end{center}
 \end{figure}
