@@ -1,8 +1,10 @@
 %===================================== CHAP 6 =================================
 
-\chapter{Discussion}
+\chapter{Discussion} \label{discussion-chapter}
 
-This chapter will discuss the results presented in the previous chapter in order to answer the research questions presented in chapter X.X.
+This chapter will discuss and examine the results presented in chapter \ref{results-chapter}, in order to answer the research questions posed in section \ref{research-questions}.
+
+% ta med research questions på nytt her?
 
 \begin{comment}
 
@@ -16,10 +18,12 @@ RO 1.3: Develop a tool that incorporates the techniques found in 1.2 and address
 
 \section{Visualization Tool}
 
+In this section we start with interpreting and explaining each of the visualizations presented in sections \ref{mnist-vis-results} and \ref{vgg-vis-results}. We end the section with a justification of how our approach answers RQ1:
+
 In this section we will interpret and explain each of the visualizations presented in the previous chapter, before ending with a justification of how our approach answers RQ1 defined in chapter X.X.
 
 % bedre skille mellom denne introen og intro på første subsection.
-% skriv hele denne introen på nytt egentlig
+% skriv hele denne introen på nytt egentlig, mot slutten
 
 % examination?
 
@@ -40,25 +44,17 @@ The only produced visualizations of the training progress were the batch accurac
 
 \subsubsection{Layer Activations}
 
-In \textbf{Fig. \ref{mnist:layer-act-all}}, we see the layer activations of most layers of the MNIST network. The first convolutional layer does not seem to detect...
+In \textbf{Fig. \ref{mnist:layer-act-all}}, we see the layer activations for most layers of the MNIST network. The first convolutional layer does not seem to detect particularly interesting features, but the second convolutional layer detects edges in various locations, which is typical for the first couple of layers of a CNN. The black feature maps indicate that they activate on something that is not found in the selected visualization input image, perhaps edges in the middle of the image. The rest of the layer activations do not provide any specifically insights, but overall they give an impression of the network behavior resulting in a correct classification of the image with 100\% certainty, seen as a single bright activation in the output layer. \\
 
-\begin{comment}
-FIG. 1.5:
-- We see that the first convolutional layer do not find any specific features
-- It is not until the second convolutional layer that we see features in terms of edges.
-- Fc 3: the network is 100\% certain that it is class 0.
+\noindent \textbf{Fig. \ref{mnist:layer-act-conv2}} shows how the layer activations develop as the training progresses. At stage 1, the convolutional layer has not yet learned the features. We see a significant improvement in stage 5, where the edges in the input image emerge. From stage 5 to stage 10, there are no considerable improvements, as the network has stabilized. \\
 
-FIG. 1.6:
-- Shows conv2 at 1, 5 and 10.
+\noindent In \textbf{Fig. \ref{vgg:layer-act}}, we see the activations in the second convolutional layer of the VGG16 network. Studying the feature maps and comparing them to the visualization input image, tells us that they do not only detect edges, but also color. For instance, the feature map at position (3,3) seems to activate greatly on the color pink. The feature map at (4,4) activates on light gray/blue, as both the sweater and some parts of the concrete wall is activated. Several of the maps detect the green color of the grass, and so on. 
 
-Each square in the montage of activations is the output of a channel in the conv1 layer. White pixels represent strong positive activations and black pixels represent strong negative activations. A channel that is mostly gray does not activate as strongly on the input image. The position of a pixel in the activation of a channel corresponds to the same position in the original image. A white pixel at some location in a channel indicates that the channel is strongly activated at that position.
+%The later layers will combine these features to detect more complex features.
 
-This technique can be used to determine what kinds of features a convolutional network learns at each layer of the network. 
 
-One dangerous pitfall that can be easily noticed with this visualization is that some activation maps may be all zero for many different inputs, which can indicate dead filters, and can be a symptom of high learning rates.
---> ikke mulig å se flere inputs samtidig
-
-\end{comment}
+%One dangerous pitfall that can be easily noticed with this visualization is that some activation maps may be all zero for many different inputs, which can indicate dead filters, and can be a symptom of high learning rates.
+%--> ikke mulig å se flere inputs samtidig
 
 \subsubsection{Saliency Maps}
 
@@ -73,7 +69,9 @@ The evolution of the saliency maps throughout training for the MNIST network is 
 
 \noindent Another interesting observation is that for many of the input images, the first couple of stages resembles the input image the most. For instance, for digit 3, the saliency map of stage 1 tracks the input image fairly well, while stage 10 presents a significantly more noisy and confusing saliency map. As the training progresses, the network sees more and more images and thus it generalizes to these images. The final saliency maps show us that the network could be looking mostly for certain characteristics instead of the whole picture when classifying the numbers. This is especially evident for digits 1, 4 and 7. For digit 1, we see that its last couple of saliency maps does not highlight the digit from the very bottom to the top. It focuses on the middle part of the line. This could be because the 1s that the network has seen all are of various length and thus the common and most important part influencing the classification is the middle. Similarly, the final saliency maps of digit 4 focus on the two vertical top lines, while the final saliency maps of digit 7 focus on the top horizontal line and practically ignores the diagonal line. \\
 
-\noindent In addition to the saliency maps for the MNIST network, three saliency maps were also presented for the VGG16 network in \textbf{Fig. \ref{vgg:saliency}}. The input images of VGG16 are far more complex than those of MNIST, which is also evident in their saliency maps. It is hard to see any obvious shapes in the saliency maps, but they still indicate what areas of the image were most important. Note that the network was uncertain in its classification of the last two images, which can also explain why the saliency maps seem confusing. However, the top image was classified as a tricycle with 99.95\% certainty. Its saliency map shows us that the focus was definitely on the little girl and especially on how her legs and arms are positioned. This may tell us that the network % mener at et barn som sitter 
+\noindent In addition to the saliency maps for the MNIST network, three saliency maps were also presented for the VGG16 network in \textbf{Fig. \ref{vgg:saliency}}. The input images of VGG16 are far more complex than those of MNIST, which is also evident in their saliency maps. It is hard to see any obvious shapes in the saliency maps, but they still indicate what areas of the image were most important. Note that the network was uncertain in its classification of the last two images, which can also explain why the saliency maps are not too clear. However, the top image was classified as a tricycle with 99.95\% certainty. Its saliency map shows us that the focus was definitely on the little girl and especially on how her legs are positioned. This may tell us that the network recognizes ...
+
+% mener at et barn som sitter 
 
 % noe om at nettverket tenker at et barn som sitter på denne måten betyr at det er en tricycle. kan også ta med noe om den streken, at det er ved en gatekant eller noe.
 
@@ -103,9 +101,21 @@ The visualizations show the pattern in the visualization image that was responsi
 
 \subsubsection{Deep Visualization}
 
-% utvikler seg mer i starten enn mot slutten
-% variasjoner i siste steg - viser hva som går igjen.
-% ser litt av det samme som i saliency maps - f.eks. for 4 er det toppen som er viktigst. blir også mer generaliserte etterhvert.
+\textbf{Fig. \ref{mnist:deepvis-output}} shows the evolution of the deep visualizations for the various visualization input images of the MNIST network. The same trend is evident here as in the other techniques described: the biggest changes happen during the first stages. We also see that as the training progresses and the network sees more examples, the deep visualizations actually seem to look less like the actual number. For instance, digits 1 and 5 start looking kind of weird at stage 10. This may be because the network is getting more specialized and learns that the digits can be written with larges variations. The digit 1 might be written straight from top to bottom, or slightly tilted from right to left, which many right-handed commonly do. Another detail worth noting is that the right line of digit 4 is much more noticeable on the upper half than the bottom half. We saw this trend in the saliency maps as well, where the network deemed some regions of the digits more important than others. It is evident that the bottom of the line is not a critical factor for classifying a digit as 4, perhaps because it is present in a number of other digits as well, such as 7 and 9.\\
+
+\noindent Deep visualizations of units in lower layers of the MNIST network are shown in \textbf{Fig. \ref{mnist:deepvis-fc2}} and \textbf{Fig. \ref{mnist:deepvis-fc1}}. We can see patterns in these visualizations that resemble parts of the visualizations in the output layer, but none of them look like complete digits. \\
+
+% something about the black unit??
+
+\noindent The deep visualizations of units in the output layer of the VGG16 network, seen in \textbf{Fig. \ref{vgg:deepvis-output}}, are ...
+
+% tarantula: shape, furry legs
+% starfish: shape, texture
+% bowtie: different patterns, e.g. circles, checkers
+% fur coat: fur texture, neck and chin
+% umbrella: shape, raindrops, faces beneath
+% volleyball: circles, net, hand in the air at bottom
+% bubble: circle, faces in the background
 
 
 \begin{comment}
@@ -127,11 +137,78 @@ The page presents a grid of figures, with a synthesized image for each network u
 
 \section{Case Study in Face Recognition}
 
+\begin{comment}
+RQ 2: How can facial expression data be utilized to improve a face recognition system?
 
-% for extra output: loss is high, but accuracy isnt THAT bad
+RO 2.1:Investigate what happens when incorporating expression data in a face recognition system.
 
-% The combined metrics of the extra output architecture make it harder to compare to the baseline and extra input architecture.
+order of performance, from best to worst: E, F, B, D, C, A, H, G, I
+avvik i orden: test acc. er litt høyere i C enn D
+avvik i orden: test og val. loss er litt lavere i A enn C
+avvik i orden: test og val. loss er litt lavere i I enn G
+avvik i orden: test ID acc. er litt høyere i I enn G
+avvik i orden: test og val. exp. acc. er litt høyere i I enn G
+avvik i orden: test og val. exp. loss er litt lavere i I enn G
+avvik i orden: I har faktisk høyest exp. test acc.
 
-% The extra output architecture underperforms in comparison with the other two, but still manages an impressive accuracy considering it is tackling two problems simultaneously.
+for extra output: loss is high, but accuracy isnt THAT bad
+
+The combined metrics of the extra output architecture make it harder to compare to the baseline and extra input architecture.
+
+The extra output architecture underperforms in comparison with the other two, but still manages an impressive accuracy considering it is tackling two problems simultaneously.
+
+comment on separated performance metrics for extra output networks
+\end{comment}
+
+The case study networks included in section \ref{sec:case-results} does not all represent the most promising architectures. We have three architecture types: the baseline, the architecture with extra input, and the architecture with extra output. For each of these, three configurations were included: a minimal, a preferred, and an interesting alternative. The minimal configurations were A, D and G, while the preferred were B, E and H, and lastly, the alternate ones were C, F, and I. Before comparing the three architecture approaches, we first compare the chosen configurations within each approach.
+
+\subsection{Baseline Networks}
+
+The baseline networks were created using configurations A, B and C. The difference between these networks is their depth, where B is deeper than A, and C is deeper than B. As can be seen in \textbf{Table \ref{tab:case-results}}, the accuracy achieved by the minimal network A is relatively high. This, combined with the fact that this network only has a single weight layer, demonstrates the network's ability to easily discern valuable information from the features outputted from the pretrained network. By extension, it confirms the pretrained network's suitability as a feature extractor. To improve the performance, B adds depth, resulting in a more complex classifier. The increased complexity allows the network to interpret the feature input more thoroughly and better tune itself towards images in the IMFDB dataset. The result is a rise in accuracy and a decline in loss compared to A. C, however, which is the deepest baseline network, achieve poorer results than B in general, and has higher loss values than A. A reasonable explanation is that the added parameters enable the network to overfit to the small dataset. The improved accuracy over A is likely caused by outlier examples being correctly classified with low confidence.
+
+\subsection{Extra Input Networks}
+
+Configurations D, E and F were used to create the extra input networks. These differ not only in depth, but also in where the additional input is supplied. E and F have the equally deep, with D being shallower than both. Using a minimal configuration, D has no other option than to inject the extra input right at the start of the network. E and F introduce the expression input at different depths, which marks the main distinction between their architectures. From \textbf{Table \ref{tab:case-results}}, we can see that the complexity gained by adding more layers has a beneficial effect on performance, as both the deeper networks outperform the shallow one, in all aspects. The network from configuration D has inferior performance due to its sole weight layer, the output, which needs to make sense of the combined inputs without any additional processing. E and F does have extra processing, but distinct kinds of processing. In F, the expression input is provided early on in the network, forcing every weighted layer in the model process the information from the feature and expression inputs simultaneously. E, however, injects the expression input later, leaving earlier layers free to exclusively process the feature input. With the performance of E being unequivocally better than F's, the processing of feature input in isolation appear to have advantageous effects. A possibility is that the computations on the feature input alone refines the features, which then eases the subsequent simultaneous processing. 
+
+\subsection{Extra Output Networks}
+
+The extra output network were based on architecture configurations G, H and I. They have varying depth, and different specialized processing parts. H and I are equally deep, both having more layers than G. These two are also similar in the early parts of the networks, with two weighted layers that are used for classifying both identification and expression. However, H utilizes additional specialized processing for the expression output, while I uses the equivalent for the identificiation output. G has no such component. The overall results is shown in \textbf{Table \ref{tab:case-results}}, while the identification and expression specific results can be found in \textbf{Table \ref{tab:case-results-id}} and \textbf{Table \ref{tab:case-results-exp}}, respectively. Together, these results reveal how the architectural decisions affect performance. 
+
+
+H stands out as the top performer, with the combined metrics for both loss and accuracy showing superior values. Looking at the separate metrics, it also outperforms the others when classifying identification, and has the lowest expression output loss. Despite this, its accuracy in expression classification is similar to I's. As mentioned before, this could be caused by the higher loss network, in this case I, correctly classifying outlier examples with low confidence.
+
+
+skriv om til å være mer sikker, det neste kort avsnittet kan brukes
+% \noindent Another interesting observation is that configuration G produces networks with better accuracy rates than I, but with a higher loss. The performance degradation in I can be attributed to the additional common layers, compared to G, which may distort the feature input. However, since H does not experience the same issues, it is likely the expression classification that suffers in I, which can be remedied by the specialized expression processing in H. It seems likely that the larger output layer, for identification, would have a greater influence on the common layers than the smaller output layer, resulting in a dominating focus on identification in the shared layers. Thus, the extra depth in I might be beneficial for the identification classification, but overall it worsens performance. 
+
+
+The identification output represents a larger part of the concatenated output, i.e. it has a bigger impact on the combined accuracy measurement.
+
+% if id performance is also worse, it may be because feat input is slightly distorted by expression layer updates
+
+
+% from impl:
+
+\noindent G is the minimal approach, H is the preferred and I is the alternate. G resembles baseline configuration A, with the distinction that the dropout layer forwards its values to two layers, and the aforementioned output concatenation. In this configuration, the input to the identification output layer and the expression output layer is not processed by any common layers that employ weights.
+
+% In this configuration, the input to the identification output layer and the expression output layer is not processed by any common layers that employ weights. As a result, they have no effect on each other throughout the learning procedure. In H, however, the feature input is passed through two common weight layers before being presented to the separate output layers. 
+
+H shares similarities with B, having two fully connected layers, separated by dropout layers, before the identification output layer. An additional fully connected layer, followed by dropout, is employed prior to the expression output layer. The two first fully connected layers are shared by the output layers and are influenced by both during training. 
+
+% The two first fully connected layers are shared by the output layers and are influenced by both during training. These layers are then forced to produce information that is valuable to both classification tasks simultaneously. It is here the use of expression data has the possibility to influence the performance of the network, by potentially revealing a pattern in how the variations in facial features that map to the same identity coincide with the variations in the expected expression outcome. The \texttt{fc3} layer is only affected by the backpropagation updates from the expression output layer, allowing for some processing specialized towards expression classification. 
+
+The final configuration, I, is similar to H, but has identification specific processing instead of expression specific processing. The change leads to poorer performance compared to H, and, interestingly, I can be improved by removing the specialized layer. The situation is likely similar to the baseline configuration C, where the additional parameters enable overfitting. Doing the equivalent to H, on the other hand, would result in a performance decrease. This demonstrates the need for further and more specialized processing of the features to gain a satisfactory expression classification. This is somewhat unsurprising, regarding the lack of focus on expressions in the pretrained model, as previously mentioned. The performance of a network with specialized processing for both classifications lies right between that of I and H. This aligns with the previous observations that specific identification processing causes harm, while specific expression processing is beneficial. \\
+
+\subsection{Comparing Approaches}
+
+% E: This architecture is preferred, not only among the architectures with extra input, but of all the described architectures, as it consistently outperforms both the best baseline and the best extra output architecture. 
+
+% E and F: This approach solidifies the interpretation of B's improvement over A, that the added layers allow for increased complexity and potential tuning to our particular input. However, in E, the more complex system has access to more information, and, as implied by the advance in performance, finds a meaningful use of it. 
+
+Overall, the increase in performance is modest, but not negligible.
+
+All extra input networks perform better than their baseline equivalent.
+
+In the extra output networks, there is a noticable drop in performance when considering the combined metrics. Examining the separate metrics results, however, reveals that it is mostly caused by the poor performance of the expression classifier. 
 
 \cleardoublepage

@@ -2,28 +2,28 @@
 
 \chapter{Results} \label{results-chapter}
 
-This chapter presents the results of the thesis work relevant for answering the research questions defined in section X.X, for both the visualization tool and the case study. We will explain the process of generating the results and elaborate on their quality and reliability, but will save the discussion of their implications for the next chapter.
+This chapter presents the results of the thesis work relevant for answering the research questions defined in section \ref{research-questions}, for both the visualization tool and the case study. We will explain the process of generating the results and elaborate on their quality and reliability, but will save the discussion of their implications for chapter \ref{discussion-chapter}.
 
 \section{Visualization Tool}
 
-This section will focus on presenting a representative selection of visualizations generated using the various visualization techniques implemented in the visualization tool. The visualizations were produced using the visualization tool, but we will display them as independent images instead of incorporated into the web interface. We refer the reader to appendix \ref{user-manual} and appendix \ref{callbacks-api} for an overview of the implemented visualization tool.
+This section will focus on showcasing a representative selection of visualizations generated using the various visualization techniques implemented in the visualization tool. The visualizations were produced using the tool, but we will display them as independent images instead of incorporated into the web interface. We refer the reader to appendix \ref{user-manual} and appendix \ref{callbacks-api} for an overview of the implemented visualization tool. Note that the visualizations are best viewed electronically.
 
 % kan skrive noe om at vi gjør det slik fordi vi vil ha visualiseringen i fokus?
 % lettere å sammenlikne visualiseringer
 
 \subsection{Example Networks}
 
-The visualization results were generated using two separate example ANNs. The first network is a simple CNN trained on the MNIST dataset, commonly used as a toy problem. This network is quickly trained from scratch to near to perfect accuracy, which allowed us to show how the visualizations evolve throughout the training progress. The second network is the more advanced VGG16 network. In this case, we used a fully trained model with weights pretrained on ImageNet. Some of the visualizations, for instance the deconvolutional network technique, require a large network with many convolutional layers to demonstrate their full capabilities. Using a fully trained VGG16 model, we could present a second set of visualizations that showcase more complex features, without having to spend a large amount of time training the network. The VGG16 network also allows us to display how the visualizations handle RGB images, compared to the grayscale images of the MNIST dataset. Both networks were implemented following examples provided by Keras, and in the following sections we describe their implementations and training processes in detail.\\
+The visualization results were produced using two separate example ANNs. The first network is a simple CNN trained on the MNIST dataset, commonly used as a toy problem. This network is quickly trained from scratch to near to perfect accuracy, which allowed us to show how the visualizations evolve throughout the training progress. The second network is the more advanced VGG16 network. In this case, we used a fully trained model with weights pretrained on ImageNet. Some of the visualizations, such as the deconvolutional network technique, require a large network with many convolutional layers to demonstrate their full capabilities. Using a fully trained VGG16 model, we were able to present a second set of visualizations illustrating more complex features, without having to spend a large amount of time training the network. The VGG16 network also allowed us to display how the visualizations handle RGB images, compared to the grayscale images of the MNIST dataset. Both networks were implemented following examples provided by Keras, and in the following sections we describe their implementations and training processes in detail.\\
 
-\noindent Note that there are several ways to count the number of layers in a network. Some conventions do not include pooling or flatten layers, or even the input and output layers. To ensure consistency when describing the network architectures, we will define the number of layers as the number of Keras layers, as listed in their documentation, and in the illustrations of the network architectures.
+\noindent Note that there are several ways to count the number of layers in an ANN. Some conventions do not include pooling or flatten layers, or even the input and output layers. To ensure consistency when describing the network architectures, we will define the number of layers as the number of Keras layers, as listed in their documentation, and in the illustrations of the network architectures.
 
 \subsubsection{The MNIST Network}
 
 % something about grayscale images and that the size of input is only 28, 28
 
-The MNIST network is a simple CNN with three convolutional layers including the max pooling layer. The architecture can be seen in \textbf{Fig. \ref{mnist:architecture}}, and was created following an example implementation by Keras. The network consists of 10 layers, where three of these are convolutional layers and two of them fully connected layers, noted as Dense layers in Keras. In addition to an input layer, there are also two dropout layers to prevent overfitting, and a flatten layer to convert the 2D output from the convolutional part to 1D input for the fully connected part. The Keras model is compiled using the Adadelta optimizer and categorical crossentropy loss. \\
+The MNIST network is a simple CNN with three convolutional layers including the max pooling layer, trained on the MNIST dataset, which contains 60,000 28x28 grayscale images of handwritten digits. The network architecture can be seen in \textbf{Fig. \ref{mnist:architecture}}, and was created following an example implementation by Keras. The network consists of 10 layers, where three of these are convolutional layers and two of them fully connected layers, noted as Dense layers in Keras. In addition to an input layer, there are also two dropout layers to prevent overfitting, and a flatten layer to convert the 2D output from the convolutional part to 1D input for the fully connected part. The Keras model is compiled using the Adadelta optimizer and categorical crossentropy loss. \\
 
-\noindent To generate the results, the MNIST network was trained for two epochs with a batch size of 128 and the data shuffled at each epoch. 10 images were extracted from the test data, one for each class (0-9), to be used as visualization images. Then, the training process was repeated using each of the visualization images as input for the visualizations. The visualizations were produced five times during each epoch, in addition to at the very beginning of the training, giving a total of 11 different sets of visualization results for each of the 10 digits. The produced visualizations were manually processed, and a representative selection of the resulting visualizations were extracted, presented in section \ref{mnist-vis-results}.
+\noindent To generate the results, the network was trained for two epochs with a batch size of 128, shuffling the data at each epoch. In addition to the 60,000 training images, 10,000 images were used as validation data. The 10 images in \textbf{Fig. \ref{mnist:input-images}} were extracted from the validation dataset to be used as visualization input images. The training process was repeated using each of these images as input for the visualizations. The visualizations were produced five times during each epoch, in addition to at the very beginning of the training, giving a total of 11 different sets of visualization results for each of the 10 digits. The produced visualizations were manually processed, and a representative selection of the resulting visualizations were extracted, presented in section \ref{mnist-vis-results}.
 
 \begin{figure}
 \begin{center}
@@ -46,9 +46,9 @@ The MNIST network is a simple CNN with three convolutional layers including the 
 
 \subsubsection{The VGG16 Network}
 
-The VGG16 network is a significantly deeper CNN consisting of five blocks of 3-4 convolutional layers each, including the max pooling layers, followed by a flatten layer and three fully-connected layers, giving a total of 23 layers. The full architecture can be seen in \textbf{Fig. \ref{vgg:architecture}}. The adopted VGG16 model has weights pretrained on ImageNet and is available through the Keras Applications module. The model was compiled using the RMSprop optimizer and categorical crossentropy loss. \\
+The VGG16 network is a significantly deeper CNN consisting of five blocks of 3-4 convolutional layers each, including the max pooling layers, followed by a flatten layer and three fully connected layers, giving a total of 23 layers. The full architecture can be seen in \textbf{Fig. \ref{vgg:architecture}}. The adopted VGG16 model has weights pretrained on ImageNet and is available through the Keras Applications module. The model was compiled using the RMSprop optimizer and categorical crossentropy loss. \\
 
-\noindent As mentioned, the VGG16 network employed was an already fully trained model, thus the results presented using this network only consist of visualizations produced at the very end of the training process. Consequently, there was no training involved in generating the results. For the deconvolutional network technique, the top 20 maximally activated feature maps of \texttt{block5\_pool}, \texttt{block3\_pool} and \texttt{block1\_pool} were visualized using image A. Additionally, the same feature maps of \texttt{block5\_pool} and \texttt{block3\_pool} were visualized using image B and image C. These two images were selected because they are both related to image A in some way. Specifically, image B contains a bicycle similar to the tricycle in image A, and image C contains a woman similar to the girl in image A. For deep visualization, 20 classes were selected in \texttt{output}, as well as a sample of units from \texttt{fc1}, \texttt{fc2} and each of the pooling layers. The deep visualizations were produced with a learning rate of 2500 and 500 iterations. The $L_2$ decay, blur interval and blur standard deviation were set to 0.0001, 4 and 1 respectively, matching one of the useful combinations in \textbf{Table \ref{tab:reg-hyperparams}}. The produced visualizations were manually processed, and a representative selection of the resulting visualizations were extracted, presented in section \ref{vgg-vis-results}.
+\noindent As mentioned, the VGG16 network employed is a fully trained model, thus the results presented using this network only consist of visualizations produced at the very end of the training process. Consequently, there was no training involved in generating the results. The three visualization input images seen in \textbf{Fig. \ref{vgg:input-images}} were used to produce visualizations, with the image in \textbf{Fig. \ref{vgg:input-image1}} being the main visualization input image. The other two images were used in cases where comparison was proven useful. They were selected as they are both related to the main image in some way. Specifically, one of them contains a bicycle similar to the tricycle in the main image, and the other contains a woman similar to the girl in the main image. The visualization techniques were repeated a number of time with various arguments and the different visualization input images. The resulting visualizations were manually processed, and a representative selection are presented in section \ref{vgg-vis-results}.
 
 \begin{figure}
 \begin{center}
@@ -139,9 +139,7 @@ The visualizations of the training progress can be seen in \textbf{Fig. \ref{mni
 
 \subsubsection{Saliency Maps}
 
-\textbf{Fig. \ref{mnist:saliency}} shows saliency maps at various stages of the training process for each of the visualization input images classified as in \textbf{Fig. \ref{mnist:input-images}}. Note that stage 0 is an initial stage before the training has started. The illustration includes more of the earlier stages than later stages because most of the changes to the saliency map occur at the beginning of the training process. When the network has stabilized, the changes in saliency will be minimal.
-
-% 5 was predicted to be 2 at stage 1. all the other input images were correctly classified.
+\textbf{Fig. \ref{mnist:saliency}} shows saliency maps at various stages of the training process for each of the visualization input images classified as in \textbf{Fig. \ref{mnist:input-images}}. Note that stage 0 is an initial stage before the training has started. The illustration includes more of the earlier stages than later stages because most of the changes to the saliency map occur at the beginning of the training process.
 
 \begin{figure}
 \begin{center}
@@ -238,13 +236,12 @@ For the deconvolutional network technique, visualizations of all 32 feature maps
 \subfloat[F.m. 25]{\includegraphics[width = 0.5in]{fig/results/deconv_mnist/deconvolution_mnist_0_10_max_pooling2d_1_25.png}} & 
 \subfloat[F.m. 28]{\includegraphics[width = 0.5in]{fig/results/deconv_mnist/deconvolution_mnist_0_10_max_pooling2d_1_28.png}} \\
 \end{tabular}
-\caption[Deconvolution for MNIST pool layer]{Visualizations produced using a deconvolutional network for the visualization input image in \textbf{a}. A selection of four different feature maps (F.m.) from the pool layer are displayed.}
+\caption[Deconvolution for MNIST pool layer]{Visualizations produced using a deconvolutional network for the visualization input image in \textbf{a}. A selection of four different feature maps (F.m.) from the pool layer is displayed.}
 \label{mnist:deconv}
 \end{center}
 \end{figure}
 
 \subsubsection{Deep Visualization}
-%For deep visualization, all units in \texttt{output} as well as a sample of units from the remaining layers, except the dropout and flatten layers, were included. 
 
 The deep visualizations were produced with a learning rate of 200 for 50 iterations. The $L_2$ decay, blur interval and blur standard deviation were set to 0.0001, 4 and 1 respectively, matching one of the useful combinations in \textbf{Table \ref{tab:reg-hyperparams}}. The deep visualizations of the output layer are shown in \textbf{Fig. \ref{mnist:deepvis-output}}. The visualizations are presented at stages 1, 5 and 10, to show how they evolve throughout the training. Deep visualizations of some of the lower layers, specifically \texttt{fc2} and \texttt{fc1}, are presented in \textbf{Fig. \ref{mnist:deepvis-fc2}} and \textbf{Fig. \ref{mnist:deepvis-fc2}}, respectively, showing a selection of visualizations produced at the final stage of training.
 
@@ -344,7 +341,7 @@ Since the VGG16 network is a fully trained model, and no training was completed 
 
 \subsubsection{Layer Activations}
 
-\textbf{Fig. \ref{vgg:layer-act}} show the layer activations for the \texttt{block1\_conv2} layer of the VGG16 network. We only display one example, since the network consists of too many layers to show them all. We display the \texttt{block1\_conv2} layer, as it includes a relatively small number of filters, that detect low-level features such as edges.
+\textbf{Fig. \ref{vgg:layer-act}} show the layer activations for the \texttt{block1\_conv2} layer of the VGG16 network. We only display one example, since the network consists of too many layers to show them all. We display the \texttt{block1\_conv2} layer, as it includes a relatively small number of filters, compared to the succeeding convolutional layers.
 
 \begin{figure}
 \begin{center}
@@ -358,7 +355,7 @@ Since the VGG16 network is a fully trained model, and no training was completed 
 
 \subsubsection{Saliency Maps}
 
-\textbf{Fig. \ref{vgg:saliency}} shows the saliency maps for the three visualization input images as classified in \textbf{Fig. \ref{vgg:input-images}}. 
+\textbf{Fig. \ref{vgg:saliency}} shows the saliency maps of the three visualization input images as classified in \textbf{Fig. \ref{vgg:input-images}}. 
 
 \begin{figure}
 \begin{center}
@@ -523,7 +520,7 @@ The deep visualization technique requires a number of hyperparameters that impac
 \caption[Deep visualization of VGG16 fc2 layer]{Deep visualization of a selection of 3 units in the fc2 layer of the VGG16 network. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \textbf{Table \ref{tab:reg-hyperparams}}.}
 \label{vgg:deepvis-fc2}
 \end{center}
-\end{figure} % ta med en til???
+\end{figure}
 
 \begin{figure}
 \begin{center}
@@ -578,14 +575,13 @@ The deep visualization technique requires a number of hyperparameters that impac
 \end{figure}
 
 
-\section{Case Study in Face Recognition}
+\section{Case Study in Face Recognition} \label{sec:case-results}
 
-Here we will present the performance of several case study networks, based on the architectures described in section \ref{case-networks}. We also explain how these networks were obtained, by detailing their training scheme. 
+Here we will present the performance of multiple case study networks, based on the architectures described in section \ref{case-networks}. We also explain how these networks were obtained, by detailing their training scheme. 
 
 \subsection{Network Performance}
 
-% liten intro
-% kanskje beskrive hvordan testing fungerer - helt enkelt
+For every architecture configuration described in section \ref{case-networks}, a network was created, trained and tested. The performance results of each network is displayed in \textbf{Table \ref{tab:case-results}}, with loss and accuracy for the validation and test sets. The values represent the average result each network achieved on the respective sets. For the extra output architectures, these performance measures show the combined metric results, i.e. the performance based on the concatenated output. For discrete metric results, with identification and expression classification performance separately, see \textbf{Table \ref{tab:case-results-id}} and \textbf{Table \ref{tab:case-results-exp}}.
 
 \begin{table}[h!]
 \begin{center}
@@ -593,36 +589,53 @@ Here we will present the performance of several case study networks, based on th
 \hline
 \multirow{2}{*}{\textbf{Config.}} & \multicolumn{2}{|c|}{\textbf{Accuracy}} & \multicolumn{2}{|c|}{\textbf{Loss}} \\ \cline{2-5}
  & \textbf{Validation} & \textbf{Test} & \textbf{Validation} & \textbf{Test} \\ \hline
-A & 0.77235 & 0. & 0.90662 & 0. \\ \hline
-B & 0.78332 & 0. & 0.84432 & 0. \\ \hline
-C & 0.77401 & 0. & 0.91538 & 0. \\ \hline
-D & 0.78082 & 0. & 0.87629 & 0. \\ \hline
-E & 0.80243 & 0. & 0.77779 & 0. \\ \hline
-F & 0.79495 & 0. & 0.81953 & 0. \\ \hline
-G & 0. & 0. & 0. & 0. \\ \hline
-H & 0. & 0. & 0. & 0. \\ \hline
-I & 0. & 0. & 0. & 0. \\ \hline
+A & 0.77235 & 0.75607 & 0.90662 & 0.94242 \\ \hline
+B & 0.78332 & 0.77866 & 0.84432 & 0.89128 \\ \hline
+C & 0.77401 & 0.76803 & 0.91538 & 0.96147 \\ \hline
+D & 0.78082 & 0.76703 & 0.87629 & 0.91768 \\ \hline
+E & 0.80243 & 0.79030 & 0.77779 & 0.83946 \\ \hline
+F & 0.79030 & 0.78232 & 0.82492 & 0.86545 \\ \hline
+G & 0.72233 & 0.70622 & 3.69950 & 3.73781 \\ \hline
+H & 0.73064 & 0.71220 & 3.54001 & 3.56324 \\ \hline
+I & 0.69890 & 0.68927 & 3.65174 & 3.65291 \\ \hline
 \end{tabular}
 \end{center}
-\caption[Performance of case study networks]{Performance of case study networks. Describe results a bit. Networks were trained as described in \ref{case-training}}
+\caption[Performance of case study networks]{Performance of case study networks. Describe results a bit. Networks were trained as described in section \ref{case-training}}
 \label{tab:case-results}
 \end{table}
 
 
 \begin{table}[h!]
 \begin{center}
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|}
 \hline
-\multirow{3}{*}{\textbf{Config.}} & \multicolumn{4}{|c|}{\textbf{Identification}} & \multicolumn{4}{|c|}{\textbf{Expression}} \\ \cline{2-9}
-& \multicolumn{2}{|c|}{\textbf{Accuracy}} & \multicolumn{2}{|c|}{\textbf{Loss}} & \multicolumn{2}{|c|}{\textbf{Accuracy}} & \multicolumn{2}{|c|}{\textbf{Loss}} \\ \cline{2-9}
-& \textbf{Validation} & \textbf{Test} & \textbf{Validation} & \textbf{Test} & \textbf{Validation} & \textbf{Test} & \textbf{Validation} & \textbf{Test} \\ \hline
-G & 0. & 0. & 0. & 0. & 0. & 0. & 0. & 0. \\ \hline
-H & 0. & 0. & 0. & 0. & 0. & 0. & 0. & 0. \\ \hline
-I & 0. & 0. & 0. & 0. & 0. & 0. & 0. & 0. \\ \hline
+\multirow{3}{*}{\textbf{Config.}} & \multicolumn{4}{|c|}{\textbf{Identification Performance}} \\ \cline{2-5}
+& \multicolumn{2}{|c|}{\textbf{Accuracy}} & \multicolumn{2}{|c|}{\textbf{Loss}} \\ \cline{2-5}
+& \textbf{Validation} & \textbf{Test} & \textbf{Validation} & \textbf{Test} \\ \hline
+G & 0.77252 & 0.75939 & 0.90573 & 0.94598 \\ \hline
+H & 0.78780 & 0.77966 & 0.84904 & 0.89195 \\ \hline
+I & 0.77052 & 0.76338 & 0.94080 & 0.96959 \\ \hline
 \end{tabular}
 \end{center}
-\caption[Separate metric performance of extra output case study networks]{Separate metric performance of extra output case study networks. Describe a bit more. Combined metric performance can be seen in \textbf{Table \ref{tab:case-results}}}
-\label{tab:case-sep-results}
+\caption[Identification performance of extra output case study networks]{Identification performance of extra output case study networks. Describe a bit more. Combined metric performance can be seen in \textbf{Table \ref{tab:case-results}}}
+\label{tab:case-results-id}
+\end{table}
+
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\multirow{3}{*}{\textbf{Config.}} & \multicolumn{4}{|c|}{\textbf{Expression Performance}} \\ \cline{2-5}
+& \multicolumn{2}{|c|}{\textbf{Accuracy}} & \multicolumn{2}{|c|}{\textbf{Loss}} \\ \cline{2-5}
+& \textbf{Validation} & \textbf{Test} & \textbf{Validation} & \textbf{Test} \\ \hline
+G & 0.48272 & 0.48455 & 1.40757 & 1.40566 \\ \hline
+H & 0.52509 & 0.53407 & 1.30467 & 1.28520 \\ \hline
+I & 0.52210 & 0.53938 & 1.32465 & 1.29725 \\ \hline
+\end{tabular}
+\end{center}
+\caption[Expression performance of extra output case study networks]{Expression performance of extra output case study networks. Describe a bit more. Combined metric performance can be seen in \textbf{Table \ref{tab:case-results}}}
+\label{tab:case-results-exp}
 \end{table}
 
 % også legg til id acc og loss + exp acc og loss for extra output nettverk
@@ -632,7 +645,9 @@ I & 0. & 0. & 0. & 0. & 0. & 0. & 0. & 0. \\ \hline
 % list training times
 
 
-The case study networks are regarded as separate from the pretrained network, as explained in section \ref{case-networks}. They are also trained accordingly, using feature input instead of image input. Because of small amount of weighted layers in these architectures, the training of each one is quickly completed. When training the different networks, we varied the amount of epochs used, while the batch size was fixed at 512. For the configuration A, D, and G, the networks were trained for 25, 30, and X epochs, respectively. The networks based on the other configurations were all trained for 50 epochs. Generally, the shorter epoch amounts were either chosen because of a lack of significant progress in the later epochs, or to prevent overfitting. The training times can be seen in \textbf{Table \ref{tab:train-times}}. Every network was trained using the adaptive learning algorithm Adam, with an initial learning rate 0.0005. The loss trying to be minimized by this learning algorithm was measured using categorical cross-entropy, and the weights were initialized using a Glorot uniform initializer, also known as a Xavier uniform initializer. All training occurred on the same hardware, an Intel\textregistered{} Core\texttrademark{} i7-6700 3.40 GHz CPU. 
+The case study networks are regarded as separate from the pretrained network, as explained in section \ref{case-networks}. They are also trained accordingly, using feature input instead of image input. The networks were implemented using Keras, with TensorFlow as the backend framework. Because of small amount of weighted layers in these architectures, the training of each one is completed quickly. When training the different networks, we varied the amount of epochs used, while the batch size was fixed at 512. For the configuration A, D, and G, the networks were trained for 25, 30, and 25 epochs, respectively. The networks based on the other configurations were all trained for 50 epochs. Generally, the shorter epoch amounts were either chosen because of a lack of significant progress in the later epochs, or to prevent overfitting. The training times can be seen in \textbf{Table \ref{tab:train-times}}. \\
+
+\noindent Every network was trained using the adaptive learning algorithm Adam, with an initial learning rate 0.0005. The loss trying to be minimized by this learning algorithm was measured using categorical cross-entropy, and the weights were initialized using a Glorot uniform initializer, also known as a Xavier uniform initializer. All training occurred on the same hardware, an Intel\textregistered{} Core\texttrademark{} i7-6700 3.40 GHz CPU. 
 
 % epochs vary (baseline: 25, 50, 50. exp1: 30, 50, 50. exp2: 0, 0, 0.)
 
@@ -647,7 +662,7 @@ The case study networks are regarded as separate from the pretrained network, as
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
 \hline
 \textbf{Config.} & A & B & C & D & E & F & G & H & I \\ \hline
-\textbf{Time} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+\textbf{Time} & 2 & 8 & 9 & 2 & 8 & 8 & 1 & 11 & 11 \\ \hline
 \end{tabular}
 \end{center}
 \caption[Configuration training times]{Configuration training times. Training time, given in minutes, of each configuration network used to produce results in \textbf{Table \ref{tab:case-results}}.}
