@@ -17,9 +17,13 @@
 % RQ 2: How can facial expression data be utilized to improve a face recognition system?
 % RO 2.1:Investigate what happens when incorporating expression data in a face recognition system.
 
-For the case study, we were interested in 
+\noindent For the case study, we were interested in how a face recognition system could be improved by utilizing facial expression data. To that end, we wanted to explore how face recognition networks behaved when expression data exploitation was incorporated into their architectures. We constructed experimental networks based on three architectural approaches: a baseline with no utilization of expression information, an architecture with an additional expression input, and an architecture with an additional expression output. Through incremental improvements of the experimental network architectures, we discovered nine interesting configurations, three of which represented the preferred architecture for each approach. Comparing the loss and accuracy of the nine allowed us to better understand how various architectural decisions affected their performance, as well as identify an approach that improved the face recognition system. \\
 
-have explored 
+\noindent The performance measures revealed that the extra input architectures were more successful in classifying identification than their baseline counterparts. The chosen configurations had a sole architectural distinction compared the the baseline architectures, namely the additional input. This implies that the enhanced performance came as a direct result of the inclusion of the expression data. Consequently, the case study has shown that employing facial expression data as an additional network input has the potential to improve a face recognition system. The extra output architectures had less promising results, performing mostly worse than the configurations from the other approaches. \\
+
+\noindent It is important to note that the performance gain of the extra input architectures was moderate, as was the performance differences in general. An explanation for this is the humble size of the various architectures and their similarity to each other. While these qualities make the current performance differences more significant, it also raises the question about how the experimental approaches would alter the behaviour of larger networks, if they would perform similarly or if the differences would grow or diminish. In our case study, the size of the dataset prevent us from examining this interesting question, as attempts at creating a larger architecture consistently resulted in overfitted networks, despite heavy regularization. The dataset also limits us to using a pretrained model, which did not have any training on expression data. \\
+
+% felles avsnitt her
 
 \how a face recognition system could be isection{Future Work}
 mproved using 
@@ -36,5 +40,8 @@ mproved using
 - Test with a larger dataset % and better dataset
 - Train a full model, instead of only the top layers
 - 
+
+% orginalt fra konklusjon:
+% With a more extensive dataset, a larger network could be trained with which the experimental approaches could be explored further. We would for instance have more options on where to input the expression data for the extra input architectures, which was shown to have an impact on performance in the smaller networks. Similarly, we could expand the amount of specialized processing for each output when using architectures with an additional expression output. The extra output networks could also benefit from using a feature extractor that had expression data included in its training.
 
 \cleardoublepage

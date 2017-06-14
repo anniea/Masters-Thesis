@@ -118,8 +118,17 @@ Finally, \textbf{Fig. \ref{vgg:deepvis-block1}} once again confirms that the low
 
 \subsection{Visualizations in the Visualization Tool}
 
-By interpreting the different visualizations, we have seen that there are definitely many insights to gain from using the presented visualization techniques. The visualizations provide us with hints on how the ANN is behaving as well as why it is behaving in such a way. The training progress mainly indicates how well the network is performing, while the other techniques all focus on uncovering what the various units and feature maps are actually looking for.
+By interpreting the different visualizations, we have seen that there are definitely many insights to gain from using the presented visualization techniques. The visualizations provide us with hints on how the ANN is behaving as well as why it is behaving in such a way. We have also seen that examining the visualizations as the training progresses give an understanding of both how the learning 
 
+The training progress mainly indicates how well the network is performing, while the other techniques all focus on uncovering what the various units and feature maps are actually looking for, only from different perspectives. The knowledge learned from studying each of the visualization techniques may overlap, but combining the various approaches allow for seeing the whole picture.
+
+
+% det er åpenbart at visualiseringene kan gi oss innsikt i hvordan et nettverk fungerer.
+% ser også at visualisering underveis i treningsprosessen gir innsikt i utviklingen
+% ofte er det nyttig å sammenlikne bilder, som vi ser i resultatene - ikke mulig. (future work)
+% kan også være nyttig å kunne fjerne og legge til visualisering for units/layers underveis (future work)
+% vanskelig (?) å konstruere et eksempelnettverk som ikke gjør det bra slik at man kan se dette i visualiseringene - vanskelig å peke på spesifikke ting som er dårlig.
+% fokuset har vært på å få en forståelse - denne forståelsen kan helt sikkert brukes til å forbedre et nettverk som ikke performer like bra som den kan.
 \begin{comment}
 
 RQ 1:How can we develop a visualization tool to improve the understanding of the behaviour of an artificial neural network?
@@ -138,17 +147,6 @@ RO 1.3: Develop a tool that incorporates the techniques found in 1.2 and address
 
 % deepvis: The synthesized images are optimized to maximally activate their corresponding unit. In other words, they show what the selected units are looking for in an image.
 
-
-% det er åpenbart at visualiseringene kan gi oss innsikt i hvordan et nettverk fungerer.
-% ser også at visualisering underveis i treningsprosessen gir innsikt i utviklingen
-% ofte er det nyttig å sammenlikne bilder, som vi ser i resultatene - ikke mulig. (future work)
-% kan også være nyttig å kunne fjerne og legge til visualisering for units/layers underveis (future work)
-% vanskelig (?) å konstruere et eksempelnettverk som ikke gjør det bra slik at man kan se dette i visualiseringene - vanskelig å peke på spesifikke ting som er dårlig.
-% fokuset har vært på å få en forståelse - denne forståelsen kan helt sikkert brukes til å forbedre et nettverk som ikke performer like bra som den kan.
-
-\subsection{Discussion} % kalle denne noe annet
-
-% lettere å se når du sammenlikner?
 
 \section{Case Study in Face Recognition}
 
