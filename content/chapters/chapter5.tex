@@ -581,7 +581,9 @@ Here we will present the performance of multiple case study networks, based on t
 
 \subsection{Network Performance}
 
-For every architecture configuration described in section \ref{case-networks}, a network was created, trained and tested. The performance results of each network is displayed in \textbf{Table \ref{tab:case-results}}, with loss and accuracy for the validation and test sets. The values represent the average result each network achieved on the respective sets. For the extra output architectures, these performance measures show the combined metric results, i.e. the performance based on the concatenated output. For discrete metric results, with identification and expression classification performance separately, see \textbf{Table \ref{tab:case-results-id}} and \textbf{Table \ref{tab:case-results-exp}}.
+For every architecture configuration described in section \ref{case-networks}, a network was created, trained and tested. The performance results of each network with a single output is displayed in \textbf{Table \ref{tab:case-results}}, with loss and accuracy for the validation and test sets. For the extra output architectures, the identification and expression classification performance are measured separately, and are similarly displayed in \textbf{Table \ref{tab:case-results-id}} and \textbf{Table \ref{tab:case-results-exp}}. The values represent the average result each network achieved on the respective sets. The differences found in the performance measurements may be modest, but considering how small the architectural differences are, they are not negligible.
+
+
 
 \begin{table}[h!]
 \begin{center}
@@ -595,12 +597,9 @@ C & 0.77401 & 0.76803 & 0.91538 & 0.96147 \\ \hline
 D & 0.78082 & 0.76703 & 0.87629 & 0.91768 \\ \hline
 E & 0.80243 & 0.79030 & 0.77779 & 0.83946 \\ \hline
 F & 0.79030 & 0.78232 & 0.82492 & 0.86545 \\ \hline
-G & 0.72233 & 0.70622 & 3.69950 & 3.73781 \\ \hline
-H & 0.73064 & 0.71220 & 3.54001 & 3.56324 \\ \hline
-I & 0.69890 & 0.68927 & 3.65174 & 3.65291 \\ \hline
 \end{tabular}
 \end{center}
-\caption[Performance of case study networks]{Performance of case study networks. Describe results a bit. Networks were trained as described in section \ref{case-training}}
+\caption[Performance of case study networks with a single output]{Performance of case study networks with a single output. Describe results a bit. Networks were trained as described in section \ref{case-training}}
 \label{tab:case-results}
 \end{table}
 
@@ -617,7 +616,7 @@ H & 0.78780 & 0.77966 & 0.84904 & 0.89195 \\ \hline
 I & 0.77052 & 0.76338 & 0.94080 & 0.96959 \\ \hline
 \end{tabular}
 \end{center}
-\caption[Identification performance of extra output case study networks]{Identification performance of extra output case study networks. Describe a bit more. Combined metric performance can be seen in \textbf{Table \ref{tab:case-results}}}
+\caption[Identification performance of extra output case study networks]{Identification performance of extra output case study networks. Describe a bit more. Combined metric performance can be seen in \textbf{Table \ref{tab:case-results}}. Networks were trained as described in section \ref{case-training}}
 \label{tab:case-results-id}
 \end{table}
 
@@ -634,7 +633,7 @@ H & 0.52509 & 0.53407 & 1.30467 & 1.28520 \\ \hline
 I & 0.52210 & 0.53938 & 1.32465 & 1.29725 \\ \hline
 \end{tabular}
 \end{center}
-\caption[Expression performance of extra output case study networks]{Expression performance of extra output case study networks. Describe a bit more. Combined metric performance can be seen in \textbf{Table \ref{tab:case-results}}}
+\caption[Expression performance of extra output case study networks]{Expression performance of extra output case study networks. Describe a bit more. Combined metric performance can be seen in \textbf{Table \ref{tab:case-results}}. Networks were trained as described in section \ref{case-training}}
 \label{tab:case-results-exp}
 \end{table}
 
