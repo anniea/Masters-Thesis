@@ -2,7 +2,7 @@
 
 \chapter{Conclusion and Future Work}
 
-\section{Conclusion}
+\section{Conclusion} % husk å ta med open source
 
 % do not introduce any new information
 % summarize what you have done
@@ -13,35 +13,52 @@
 
 % The thesis also explores the face recognition field by investigating if the exploitation of facial expression data in face recognition systems could be beneficial. The results of the case study will indicate whether the approach has initial merit and should be researched further.
 
+% RQ og RO for visualization tool:
+%RQ 1:How can we develop a visualization tool to improve the understanding of the behaviour of an artificial neural network?
+%RO 1.1: Examine existing tools in order to uncover shortcomings.
+%RO 1.2: Identify visualization techniques that can be used to improve the understanding of an artificial neural network.
+%RO 1.3: Develop a tool that incorporates the techniques found in 1.2 and addresses the shortcomings identified in 1.1.
+
 % RQ og RO for case:
 % RQ 2: How can facial expression data be utilized to improve a face recognition system?
 % RO 2.1:Investigate what happens when incorporating expression data in a face recognition system.
 
+The goal of the implemented visualization tool was to help researchers improve their understanding of ANNs. Several visualization techniques developed for monitoring performance and visualize behaviour were examined: training progress plots, layer activations, saliency maps, deconvolutional networks and deep visualization. By exploring existing tools for visualizing and facilitating the training process of an ANN, we were able to identify shortcomings in the selection. Our findings showed that although the complete selection provided valuable functionality, there existed a gap between them that we wanted to bridge. Specifically, none of the tools combined network management with advanced real-time visualizations. \\
+
+\noindent Consequently, we developed a visualization tool that addressed these issues. We chose to implement our tool using the Keras library, which allowed us to support both TensorFlow and Theano. The tool provides a simple web interface where users can upload and execute Keras network scripts, visualizing data produced during training with the aforementioned visualization techniques. Taking advantage of Keras' custom callbacks, we created an API that allows users to easily incorporate the visualization techniques into their scripts. The visualization tool is implemented in loosely coupled modules, enabling modifiability. By testing the visualization tool on two example networks and interpreting the visualizations produced, we have demonstrated the tool's ability to facilitate a deeper understanding of ANNs and their behaviour. \\
+
 \noindent For the case study, we were interested in how a face recognition system could be improved by utilizing facial expression data. To that end, we wanted to explore how face recognition networks behaved when expression data exploitation was incorporated into their architectures. We constructed experimental networks based on three architectural approaches: a baseline with no utilization of expression information, an architecture with an additional expression input, and an architecture with an additional expression output. Through incremental improvements of the experimental network architectures, we discovered nine interesting configurations, three of which represented the preferred architecture for each approach. Comparing the loss and accuracy of the nine allowed us to better understand how various architectural decisions affected their performance, as well as identify an approach that improved the face recognition system. \\
 
-\noindent The performance measures revealed that the extra input architectures were more successful in classifying identification than their baseline counterparts. The chosen configurations had a sole architectural distinction compared the the baseline architectures, namely the additional input. This implies that the enhanced performance came as a direct result of the inclusion of the expression data. Consequently, the case study has shown that employing facial expression data as an additional network input has the potential to improve a face recognition system. The extra output architectures had less promising results, performing mostly worse than the configurations from the other approaches. \\
+\noindent The performance measures revealed that the extra input architectures were more successful in classifying identification than their baseline counterparts. The chosen configurations had a sole architectural distinction compared the the baseline architectures, namely the additional input. This implies that the enhanced performance came as a direct result of the inclusion of the expression data. Consequently, the case study has shown that employing facial expression data as an additional network input has the potential to improve a face recognition system. The extra output architectures had less favorable results, performing mostly worse than the configurations from the other approaches. It would be beneficial to explore these results further, examining the effects of the experimental approaches with a larger dataset, with emphasis on the promising extra input architectures. \\
 
-\noindent It is important to note that the performance gain of the extra input architectures was moderate, as was the performance differences in general. An explanation for this is the humble size of the various architectures and their similarity to each other. While these qualities make the current performance differences more significant, it also raises the question about how the experimental approaches would alter the behaviour of larger networks, if they would perform similarly or if the differences would grow or diminish. In our case study, the size of the dataset prevent us from examining this interesting question, as attempts at creating a larger architecture consistently resulted in overfitted networks, despite heavy regularization. The dataset also limits us to using a pretrained model, which did not have any training on expression data. \\
 
 % felles avsnitt her
+how a face recognition system could be improved using
 
-\how a face recognition system could be isection{Future Work}
-mproved using 
+\section{Future Work} \label{future-work}
+
 \subsection{Visualization Tool}
+
+The visualization techniques described in this thesis are only a selection of those available. Adding even more options for visualizing could further improve the understanding of ANNs. Some examples are the visualization of weights, plots of learning rate, and an improved version of saliency maps using guided backpropagation. The tool could also be extended to work for a broader set of networks, for instance networks with several inputs. \\
+
+\noindent Examining the resulting visualizations showed that additional insights can be uncovered by comparing visualizations of different stages, or even of different visualization input images. A useful extension could thus be to incorporate the possibility of uploading several images at execution. The presentation of the visualizations could also be significantly approved to allow for better comparison. Another valuable feature that could be added is the option of visualizing a prediction using a fully trained network. The functionality for producing the visualizations is already implemented, but needs to be incorporated in a different way than through callbacks if they were to be used in prediction.\\
+
+\noindent Performance was not considered a serious concern while implementing the visualization tool. Some of the visualization techniques are computationally heavy and will therefore take some time to produce, regardless of the implementation. However, in cases where there are a large number of visualizations to be presented, the presentation should be done as smooth and quick as possible. In hindsight, Bokeh might not be the best visualization library in terms of efficiency. Since the tool was created with modifiability in mind, replacing Bokeh with another visualization library would be fairly uncomplicated. \\ 
 
 - Performance and efficiency
 - Prediction
 - Generalize even more
 - More metrics
 - Show architecture
+- Several input images
+- More comparison
+- Better presentation of visualizations
 
 \subsection{Case Study in Face Recognition}
 
-- Test with a larger dataset % and better dataset
-- Train a full model, instead of only the top layers
-- 
+The case study raised an interesting question concerning how the assessed experimental approaches would affect performance when applied to larger networks. This presents a compelling idea for future study, but requires a dataset of considerable size to investigate. It would be natural to focus further efforts on the approach that utilizes expression data as input. With an appropriately extensive dataset, it would also be interesting to train full networks, which provide more possibilities than the current separation of a network into a pretrained feature extractor and classifier. \\
 
-% orginalt fra konklusjon:
-% With a more extensive dataset, a larger network could be trained with which the experimental approaches could be explored further. We would for instance have more options on where to input the expression data for the extra input architectures, which was shown to have an impact on performance in the smaller networks. Similarly, we could expand the amount of specialized processing for each output when using architectures with an additional expression output. The extra output networks could also benefit from using a feature extractor that had expression data included in its training.
+\noindent Additionally, the effect of the expression range could be researched, as the size of the expression domain may influence how the networks use the expression data. To alter the domain size, expressions could be merged, for example by considering sadness and anger as a single expression. A wider array of expressions may allow the networks to better capture the fine feature variations and thereby offer greater precision, but it may also make them more difficult to learn. In contrast, a narrower range could present an easier learning task, but the coarser expression representations may restrict the performance increase by disregarding the subtle differences between the merged expressions.
+
 
 \cleardoublepage

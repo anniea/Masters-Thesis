@@ -4,26 +4,26 @@
 
 This chapter presents the results of the thesis work relevant for answering the research questions defined in section \ref{research-questions}, for both the visualization tool and the case study. We will explain the process of generating the results and elaborate on their quality and reliability, but will save the discussion of their implications for chapter \ref{discussion-chapter}.
 
-\section{Visualization Tool}
+\section{Visualization Tool} \label{results-chapter-vis}
 
-This section will focus on showcasing a representative selection of visualizations generated using the various visualization techniques implemented in the visualization tool. The visualizations were produced using the tool, but we will display them as independent images instead of incorporated into the web interface. We refer the reader to appendix \ref{user-manual} and appendix \ref{callbacks-api} for an overview of the implemented visualization tool. Note that the visualizations are best viewed electronically.
+This section will focus on showcasing a representative selection of visualizations generated using the various visualization techniques implemented in the visualization tool. The visualizations were produced using the tool, but we will display them as independent images instead of incorporated into the web interface. We refer the reader to appendix \ref{user-manual} and appendix \ref{callbacks-api} for an overview of the implemented visualization tool. Note that all visualizations are best viewed electronically.
 
 % kan skrive noe om at vi gjør det slik fordi vi vil ha visualiseringen i fokus?
 % lettere å sammenlikne visualiseringer
 
-\subsection{Example Networks}
+\subsection{Example Networks} \label{example-networks}
 
-The visualization results were produced using two separate example ANNs. The first network is a simple CNN trained on the MNIST dataset, commonly used as a toy problem. This network is quickly trained from scratch to near to perfect accuracy, which allowed us to show how the visualizations evolve throughout the training progress. The second network is the more advanced VGG16 network. In this case, we used a fully trained model with weights pretrained on ImageNet. Some of the visualizations, such as the deconvolutional network technique, require a large network with many convolutional layers to demonstrate their full capabilities. Using a fully trained VGG16 model, we were able to present a second set of visualizations illustrating more complex features, without having to spend a large amount of time training the network. The VGG16 network also allowed us to display how the visualizations handle RGB images, compared to the grayscale images of the MNIST dataset. Both networks were implemented following examples provided by Keras, and in the following sections we describe their implementations and training processes in detail.\\
+The visualization results were produced using two different example ANNs. The first network is a simple CNN trained on the MNIST dataset, which is commonly used as a toy problem. This network is quickly trained from scratch to near perfect accuracy, which allowed us to easily show how the visualizations evolve throughout the training progress. The second network is the more advanced VGG16 network. In this case, we used a model with weights pretrained on ImageNet. Some of the visualizations, such as those from the deconvolutional network technique, require a large network with many convolutional layers to demonstrate their full capabilities. Using a fully trained VGG16 model, we were able to present a second set of visualizations illustrating more complex features, without having to spend a large amount of time training the network. The VGG16 network also allowed us to display how the visualizations handle RGB images, compared to the grayscale images of the MNIST dataset. Both networks were implemented following examples provided by Keras, and in the following sections we describe their implementations and training processes in detail.\\
 
-\noindent Note that there are several ways to count the number of layers in an ANN. Some conventions do not include pooling or flatten layers, or even the input and output layers. To ensure consistency when describing the network architectures, we will define the number of layers as the number of Keras layers, as listed in their documentation, and in the illustrations of the network architectures.
+\noindent Note that there are several ways to count the number of layers in an ANN. Some conventions do not include pooling or flattening layers, or even the input and output layers. To ensure consistency when describing the network architectures, we will define the number of layers as the number of Keras layers, as listed in their documentation, and in the illustrations of the network architectures.
 
 \subsubsection{The MNIST Network}
 
 % something about grayscale images and that the size of input is only 28, 28
 
-The MNIST network is a simple CNN with three convolutional layers including the max pooling layer, trained on the MNIST dataset, which contains 60,000 28x28 grayscale images of handwritten digits. The network architecture can be seen in \textbf{Fig. \ref{mnist:architecture}}, and was created following an example implementation by Keras. The network consists of 10 layers, where three of these are convolutional layers and two of them fully connected layers, noted as Dense layers in Keras. In addition to an input layer, there are also two dropout layers to prevent overfitting, and a flatten layer to convert the 2D output from the convolutional part to 1D input for the fully connected part. The Keras model is compiled using the Adadelta optimizer and categorical crossentropy loss. \\
+The MNIST network is a simple CNN with three convolutional layers, including the max pooling layer. It is trained on the MNIST dataset, which contains 60,000 28x28 grayscale images of handwritten digits. The network architecture can be seen in \textbf{Fig. \ref{mnist:architecture}}, and was created following an example implementation from Keras. The network consists of 10 layers, where three are convolutional and two are fully connected, denoted as dense layers in Keras. In addition to an input layer, there are also two dropout layers to prevent overfitting, and a flattening layer to convert the 3D output from the convolutional part to 1D input for the fully connected part. The Keras model is trained using an AdaDelta optimizer to minimize the categorical cross-entropy loss. \\
 
-\noindent To generate the results, the network was trained for two epochs with a batch size of 128, shuffling the data at each epoch. In addition to the 60,000 training images, 10,000 images were used as validation data. The 10 images in \textbf{Fig. \ref{mnist:input-images}} were extracted from the validation dataset to be used as visualization input images. The training process was repeated using each of these images as input for the visualizations. The visualizations were produced five times during each epoch, in addition to at the very beginning of the training, giving a total of 11 different sets of visualization results for each of the 10 digits. The produced visualizations were manually processed, and a representative selection of the resulting visualizations were extracted, presented in section \ref{mnist-vis-results}.
+\noindent To generate the results, the network was trained for two epochs with a batch size of 128, shuffling the data at each epoch. In addition to the 60,000 training images, 10,000 images were used as validation data. The 10 images in \textbf{Fig. \ref{mnist:input-images}} were extracted from the validation dataset to be used as visualization input images. The training process was repeated using each of these images as input for the visualizations. The visualizations were produced five times during each epoch, in addition to once at the very beginning of the training, giving a total of 11 different sets of visualization results for each of the 10 digits. The produced visualizations were manually processed and a representative selection were extracted, presented in section \ref{mnist-vis-results}.
 
 \begin{figure}
 \begin{center}
@@ -39,16 +39,16 @@ The MNIST network is a simple CNN with three convolutional layers including the 
 \subfloat['8': 100\%]{\includegraphics[width = 0.61in]{fig/results/input_mnist/test8.png}} &
 \subfloat['9': 100\%]{\includegraphics[width = 0.61in]{fig/results/input_mnist/test9.png}} \\
 \end{tabular}
-\caption[Visualization input images for MNIST]{The images to be used as visualization input for the MNIST network, captioned with their corresponding classification results at stage 1 of training. Note that \textbf{f} was incorrectly classified as '2'. At stage 2, all images were correctly classified with 100\% certainty.}
+\caption[Visualization input images for MNIST]{The images used as visualization input for the MNIST network, captioned with their corresponding classification results at stage 1 of training. Note that \textbf{f} was incorrectly classified as '2'. At stage 2, all images were correctly classified with 100\% certainty.}
 \label{mnist:input-images}
 \end{center}
 \end{figure}
 
 \subsubsection{The VGG16 Network}
 
-The VGG16 network is a significantly deeper CNN consisting of five blocks of 3-4 convolutional layers each, including the max pooling layers, followed by a flatten layer and three fully connected layers, giving a total of 23 layers. The full architecture can be seen in \textbf{Fig. \ref{vgg:architecture}}. The adopted VGG16 model has weights pretrained on ImageNet and is available through the Keras Applications module. The model was compiled using the RMSprop optimizer and categorical crossentropy loss. \\
+The VGG16 network is a significantly deeper CNN than the first network. It consists of five blocks of 3-4 convolutional layers each, including the max pooling layers, followed by a flattening layer and three fully connected layers, for a total of 23 layers. The full architecture can be seen in \textbf{Fig. \ref{vgg:architecture}}. The VGG16 model used has weights trained on the ILSVRC image set and is available through the Keras Applications module. \\
 
-\noindent As mentioned, the VGG16 network employed is a fully trained model, thus the results presented using this network only consist of visualizations produced at the very end of the training process. Consequently, there was no training involved in generating the results. The three visualization input images seen in \textbf{Fig. \ref{vgg:input-images}} were used to produce visualizations, with the image in \textbf{Fig. \ref{vgg:input-image1}} being the main visualization input image. The other two images were used in cases where comparison was proven useful. They were selected as they are both related to the main image in some way. Specifically, one of them contains a bicycle similar to the tricycle in the main image, and the other contains a woman similar to the girl in the main image. The visualization techniques were repeated a number of time with various arguments and the different visualization input images. The resulting visualizations were manually processed, and a representative selection are presented in section \ref{vgg-vis-results}.
+\noindent As mentioned, the VGG16 network employed is a fully trained model, meaning that the results generated using this network only consist of visualizations produced at the very end of the training process. The three visualization input images seen in \textbf{Fig. \ref{vgg:input-images}} were used to produce visualizations, with the image in \textbf{Fig. \ref{vgg:input-image1}} being the main visualization input image. The other two images were used to produce visualizations to compare to. They were selected as they are both related to the main image in some way. Specifically, one contains a bicycle similar to the tricycle in the main image, and the other contains a woman with similar features to the girl in the main image. The visualization techniques were repeated a number of times with various configurations and the different input images. The resulting visualizations were manually processed, and a representative selection are presented in section \ref{vgg-vis-results}.
 
 \begin{figure}
 \begin{center}
@@ -57,7 +57,7 @@ The VGG16 network is a significantly deeper CNN consisting of five blocks of 3-4
 \subfloat['cliff, drop, drop-off': 64.35\%]{\includegraphics[width=0.5\textwidth]{fig/results/input_vgg/biking.JPEG}} \\
 \subfloat['sombrero': 50.91\%]{\includegraphics[width=0.5\textwidth]{fig/results/input_vgg/girl.JPEG}} \\
 \end{tabular}
-\caption[Visualization input images for VGG16]{The images to be used as visualization input for the VGG16 network, captioned with their corresponding classification results.}
+\caption[Visualization input images for VGG16]{The images used as visualization input for the VGG16 network, captioned with their corresponding classification result and confidence.}
 \label{vgg:input-images}
 \end{center}
 \end{figure}
@@ -66,44 +66,44 @@ The VGG16 network is a significantly deeper CNN consisting of five blocks of 3-4
     \begin{minipage}{0.5\textwidth}
         \centering
             \includegraphics[width=0.6\textwidth]{fig/mnist_keras.pdf}
-            \caption{Architecture of the MNIST network}
+            \caption{Architecture of the MNIST network with layer names and types. Note that the layer type refers to the Keras 2 API.}
             \label{mnist:architecture}
     \end{minipage}
     \begin{minipage}{0.4\textwidth}
         \centering
             \includegraphics[width=0.7\textwidth]{fig/vgg_keras.pdf}
-            \caption{Architecture of the VGG network}
+            \caption{Architecture of the VGG16 network with layer names and types. Note that the layers refer to the Keras 2 API.}
             \label{vgg:architecture}
     \end{minipage}
 \end{figure}
 
 \subsection{MNIST Visualization Results} \label{mnist-vis-results}
 
-This section presents the visualization results for the various visualization techniques using the MNIST network.
+This section presents the visualization results produced by the various visualization techniques for the MNIST network.
 
 \subsubsection{Training Progress}
 
-The visualizations of the training progress can be seen in \textbf{Fig. \ref{mnist:accuracy}} and \textbf{Fig. \ref{mnist:loss}}, showing batch accuracy and batch loss, respectively. To produce this visualization, the training was expanded from two epochs to six, to show a longer graph. The blue lines note the training accuracy and loss, while the green dots note the validation accuracy and loss.
+The visualizations of the training progress can be seen in \textbf{Fig. \ref{mnist:accuracy}} and \textbf{Fig. \ref{mnist:loss}}, showing the batch accuracy and batch loss, respectively. To produce these visualizations, the training was expanded from two epochs to six, to show a longer graph. The blue lines display the training accuracy and loss, while the green dots display the validation accuracy and loss.
 
 % noe om at det ikke er variasjon i training progress?
 
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{fig/results/training_progress/accuracy.png}
-    \caption{Batch acccuracy over epoch for the MNIST network}
+    \caption{Batch acccuracy over epoch for the MNIST network.}
     \label{mnist:accuracy}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{fig/results/training_progress/loss.png}
-    \caption{Batch loss over epoch for the MNIST network}
+    \caption{Batch loss over epoch for the MNIST network.}
     \label{mnist:loss}
 \end{figure}
 
 \subsubsection{Layer Activations}
 
-\textbf{Fig. \ref{mnist:layer-act-all}} shows the final layer activations for all layers of the MNIST network, except the flatten and dropout layers. Flatten layers are excluded because they do not provide any extra information, and are generally way too large to be presented in a readable manner. Dropout layers are excluded since they are identical to the preceding layer. The filters of the convolutional layers are displayed in a grid so that they can be viewed together all at once. The fully connected layers are displayed as pixels laid out horizontally, scaled to fit the width of the page. \\
+\textbf{Fig. \ref{mnist:layer-act-all}} shows the fully trained network's layer activations for all layers, except the flattening and dropout layers. Flattening layers are excluded because they do not provide any extra information, and are generally too large to be presented in a readable manner. Dropout layers are excluded since they are identical to the preceding layer. The feature maps of the convolutional layers are displayed in a grid so that they can be viewed together all at once. The fully connected layers are displayed as pixels laid out horizontally, scaled to fit the width of the page. \\
 
 \begin{figure}
 \begin{center}
@@ -118,12 +118,12 @@ The visualizations of the training progress can be seen in \textbf{Fig. \ref{mni
 \subfloat[fc2]{\frame{\includegraphics[width=\textwidth]{fig/results/layeract_mnist/all_layers/layer_act_mnist_0_10_dense_2.png}}} \\
 \subfloat[output]{\frame{\includegraphics[width=0.3\textwidth]{fig/results/layeract_mnist/all_layers/layer_act_mnist_0_10_dense_3.png}}} \\
 \end{tabular}
-\caption[Layer activations for all MNIST layers]{Layer activations for all layers of the MNIST network, excluding flatten and dropout layers, for visualization input image 0 after two epochs.}
+\caption[Layer activations for all MNIST layers]{Layer activations for all layers of the MNIST network, excluding flattening and dropout layers, for visualization input image 0 after two epochs.}
 \label{mnist:layer-act-all}
 \end{center}
 \end{figure}
 
-\noindent \textbf{Fig. \ref{mnist:layer-act-conv2}} illustrates the transition of the layer activations throughout the training process. Only the \texttt{conv2} layer is included for each stage, as this layer can be viewed as the layer containing the most useful information. The activations are shown at three stages: the first stage at the beginning of training, a middle stage halfway in the training, and a final stage at the end of training. % should add a stage 1 as well.
+\noindent \textbf{Fig. \ref{mnist:layer-act-conv2}} illustrates the transition of the layer activations throughout the training process. It is illustrated by the \texttt{conv2} layer activations, as they show a progression that is easy to understand and interpret. The activations are shown at three stages: the first stage at the beginning of training, a middle stage halfway in the training, and a final stage at the end of training.
 
 \begin{figure}
 \begin{center}
@@ -139,7 +139,7 @@ The visualizations of the training progress can be seen in \textbf{Fig. \ref{mni
 
 \subsubsection{Saliency Maps}
 
-\textbf{Fig. \ref{mnist:saliency}} shows saliency maps at various stages of the training process for each of the visualization input images classified as in \textbf{Fig. \ref{mnist:input-images}}. Note that stage 0 is an initial stage before the training has started. The illustration includes more of the earlier stages than later stages because most of the changes to the saliency map occur at the beginning of the training process.
+\textbf{Fig. \ref{mnist:saliency}} shows saliency maps at various stages of the training process for each of the visualization input images classified in \textbf{Fig. \ref{mnist:input-images}}. Note that stage 0 is an initial stage before the training has started. The illustration includes more of the earlier stages than later stages because most of the changes to the saliency map occur at the beginning of the training process.
 
 \begin{figure}
 \begin{center}
@@ -216,34 +216,34 @@ The visualizations of the training progress can be seen in \textbf{Fig. \ref{mni
 \subfloat{\includegraphics[width = 0.5in]{fig/results/saliency_mnist/saliency_mnist_9_7.png}} &
 \subfloat{\includegraphics[width = 0.5in]{fig/results/saliency_mnist/saliency_mnist_9_10.png}} \\
 \end{tabular}
-\caption[Saliency maps for MNIST]{Saliency maps for the MNIST network with visualization input images 0-9 classified as presented in \textbf{Fig. \ref{mnist:input-images}}. Input images are displayed in the first column, followed by samples taken over a period of two epochs. Note that stage 0 is produced even before the training has started.}
+\caption[Saliency maps for MNIST]{Saliency maps for the MNIST network with visualization input images 0-9 classified as presented in \textbf{Fig. \ref{mnist:input-images}}. Input images are displayed in the first column, followed by samples collected at certain stages of training. The two training epochs consisted of ten evenly distributed stages. Note that stage 0 is produced before the training has started.}
 \label{mnist:saliency}
 \end{center}
 \end{figure}
 
 \subsubsection{Deconvolutional Network}
 
-For the deconvolutional network technique, visualizations of all 32 feature maps in the \texttt{pool} layer were produced. Four feature maps that illustrate different behaviour were manually selected and these are displayed together with the visualization input image in \textbf{Fig. \ref{mnist:deconv}}. \\
+For the deconvolutional network technique, visualizations of all 32 feature maps in the \texttt{pool} layer were produced. Four feature maps that illustrate different behaviours were manually selected and are displayed together with the visualization input image in \textbf{Fig. \ref{mnist:deconv}}. \\
 
-\noindent As mentioned, the MNIST network is not optimal for demonstrating the deconvolutional network technique, since it consists of only two convolutional layers. The input images are composed of simple lines, and the features detected in the convolutional layers are mainly edges. The capabilities of a deconvolutional network will be better illustrated using the VGG16 network.
+\noindent As mentioned, the MNIST network is not optimal for demonstrating the deconvolutional network technique, since it consists of only two convolutional layers. The input images are composed of simple lines, and the features detected in the convolutional layers are mainly edges. The capabilities of a deconvolutional network is better illustrated using the VGG16 network.
 
 \begin{figure}
 \begin{center}
 \begin{tabular}{ccccc}
 \subfloat[Input]{\includegraphics[width = 0.5in]{fig/results/input_mnist/test0.png}} & 
-\subfloat[F.m. 1]{\includegraphics[width = 0.5in]{fig/results/deconv_mnist/deconvolution_mnist_0_10_max_pooling2d_1_1.png}} & 
-\subfloat[F.m. 22]{\includegraphics[width = 0.5in]{fig/results/deconv_mnist/deconvolution_mnist_0_10_max_pooling2d_1_22.png}} &
-\subfloat[F.m. 25]{\includegraphics[width = 0.5in]{fig/results/deconv_mnist/deconvolution_mnist_0_10_max_pooling2d_1_25.png}} & 
-\subfloat[F.m. 28]{\includegraphics[width = 0.5in]{fig/results/deconv_mnist/deconvolution_mnist_0_10_max_pooling2d_1_28.png}} \\
+\subfloat[Map #1]{\includegraphics[width = 0.5in]{fig/results/deconv_mnist/deconvolution_mnist_0_10_max_pooling2d_1_1.png}} & 
+\subfloat[Map #22]{\includegraphics[width = 0.5in]{fig/results/deconv_mnist/deconvolution_mnist_0_10_max_pooling2d_1_22.png}} &
+\subfloat[Map #25]{\includegraphics[width = 0.5in]{fig/results/deconv_mnist/deconvolution_mnist_0_10_max_pooling2d_1_25.png}} & 
+\subfloat[Map #28]{\includegraphics[width = 0.5in]{fig/results/deconv_mnist/deconvolution_mnist_0_10_max_pooling2d_1_28.png}} \\
 \end{tabular}
-\caption[Deconvolution for MNIST pool layer]{Visualizations produced using a deconvolutional network for the visualization input image in \textbf{a}. A selection of four different feature maps (F.m.) from the pool layer is displayed.}
+\caption[Deconvolutional results for MNIST pool layer]{Visualizations produced using a deconvolutional network for the visualization input image in \textbf{a}. A selection of four different feature maps (F.m.) from the \texttt{pool} layer is displayed.}
 \label{mnist:deconv}
 \end{center}
 \end{figure}
 
 \subsubsection{Deep Visualization}
 
-The deep visualizations were produced with a learning rate of 200 for 50 iterations. The $L_2$ decay, blur interval and blur standard deviation were set to 0.0001, 4 and 1 respectively, matching one of the useful combinations in \textbf{Table \ref{tab:reg-hyperparams}}. The deep visualizations of the output layer are shown in \textbf{Fig. \ref{mnist:deepvis-output}}. The visualizations are presented at stages 1, 5 and 10, to show how they evolve throughout the training. Deep visualizations of some of the lower layers, specifically \texttt{fc2} and \texttt{fc1}, are presented in \textbf{Fig. \ref{mnist:deepvis-fc2}} and \textbf{Fig. \ref{mnist:deepvis-fc2}}, respectively, showing a selection of visualizations produced at the final stage of training.
+The deep visualizations were produced with a learning rate of 200 for 50 iterations. The $L_2$ decay, blur interval and blur standard deviation were set to 0.0001, 4 and 1 respectively, matching one of the useful combinations in \textbf{Table \ref{tab:reg-hyperparams}}. The deep visualizations of the output layer are shown in \textbf{Fig. \ref{mnist:deepvis-output}}. The visualizations from stages 1, 5 and 10 are presented, to show how they evolve during training. Deep visualizations of some of the lower layers, specifically \texttt{fc2} and \texttt{fc1}, are presented in \textbf{Fig. \ref{mnist:deepvis-fc2}} and \textbf{Fig. \ref{mnist:deepvis-fc1}}, respectively. These show a selection of visualizations produced at the final stage of training.
 
 \begin{figure}
 \begin{center}
@@ -300,7 +300,7 @@ The deep visualizations were produced with a learning rate of 200 for 50 iterati
 \subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_1_10_dense_3_9.png}} &
 \subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_2_10_dense_3_9.png}} \\
 \end{tabular}
-\caption[Deep visualization of MNIST output]{Deep visualization of the output layer for all 10 possible output classes of the MNIST network. An example image from each class is shown in the first column. Column 2-4 shows samples taken over a period of two epochs. The last three columns show the variations in using the deep visualization technique.}
+\caption[Deep visualization from MNIST output units]{Deep visualization of the output layer for all 10 possible output classes of the MNIST network. An example image from each class is shown in the first column. Column 2-4 shows samples collected at certain stages of training. The two training epochs consisted of ten evenly distributed stages. The last three columns show the variations acquired from multiple deep visualization from the same unit.}
 \label{mnist:deepvis-output}
 \end{center}
 \end{figure}
@@ -314,7 +314,7 @@ The deep visualizations were produced with a learning rate of 200 for 50 iterati
 \subfloat[Unit 40]{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_dense/deepvis_mnist_0_10_dense_2_40}} & 
 \subfloat[Unit 56]{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_dense/deepvis_mnist_0_10_dense_2_56}} \\
 \end{tabular}
-\caption[Deep visualization of MNIST fc2]{Deep visualization of a selection of the units in the fc2 layer of the MNIST network.}
+\caption[Deep visualization of MNIST layer \texttt{fc2}]{Deep visualizations for a selection of the units in the \texttt{fc2} layer of the MNIST network.}
 \label{mnist:deepvis-fc2}
 \end{center}
 \end{figure}
@@ -326,7 +326,7 @@ The deep visualizations were produced with a learning rate of 200 for 50 iterati
 \subfloat[Unit 32]{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_dense/deepvis_mnist_0_10_dense_1_32}} &
 \subfloat[Unit 96]{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_dense/deepvis_mnist_0_10_dense_1_96}} \\ 
 \end{tabular}
-\caption[Deep visualization of MNIST fc1]{Deep visualization of a selection of the units in the fc1 layer of the MNIST network.}
+\caption[Deep visualization of MNIST layer\texttt{fc1}]{Deep visualizations for a selection of the units in the \texttt{fc1} layer of the MNIST network.}
 \label{mnist:deepvis-fc1}
 \end{center}
 \end{figure}
@@ -377,7 +377,7 @@ Since the VGG16 network is a fully trained model, and no training was completed 
 
 The deconvolutional network technique is illustrated in a number of different figures. \textbf{Fig. \ref{vgg:deconv-block5}} shows visualizations of six different feature maps of the \texttt{block5\_pool} layer produced using a deconvolutional network autogenerated for the VGG16 network. The feature maps are selected from the top 20 maximally activated feature maps, and are chosen as to show the activations of different regions of the visualization input image. In \textbf{Fig. \ref{vgg:deconv-block5-comparison}}, two of these feature maps are compared to the same feature maps visualized using two different visualization input images. \\
 
-\noindent To illustrate the deconvolutional technique employed on lower layers, \textbf{Fig. \ref{vgg:deconv-block3-comparison}} shows a comparison of feature maps in layer \texttt{block3\_pool}, for two separate visualization input images. \textbf{Fig. \ref{vgg:deconv-block1}} shows visualizations of feature maps in the even lower \texttt{block1\_pool} layer, using the image in \textbf{Fig. \ref{vgg:input-image1}} as input for the deconvolutional network.
+\noindent To illustrate the deconvolutional technique employed on lower layers, \textbf{Fig. \ref{vgg:deconv-block3-comparison}} shows a comparison of feature maps in layer \texttt{block3\_pool}, for two separate visualization input images. \textbf{Fig. \ref{vgg:deconv-block1}} shows visualizations of feature maps in the even lower \texttt{block1\_pool} layer, using the image in \textbf{Fig. \ref{vgg:input-image1}} as input for the deconvolutional network. Note that all visualizations of lower layers are cropped and zoomed to improve readability, and that they originally appeared at different parts of the image. 
 
 \begin{figure}
 \begin{center}
@@ -644,7 +644,7 @@ I & 0.52210 & 0.53938 & 1.32465 & 1.29725 \\ \hline
 % list training times
 
 
-The case study networks are regarded as separate from the pretrained network, as explained in section \ref{case-networks}. They are also trained accordingly, using feature input instead of image input. The networks were implemented using Keras, with TensorFlow as the backend framework. Because of small amount of weighted layers in these architectures, the training of each one is completed quickly. When training the different networks, we varied the amount of epochs used, while the batch size was fixed at 512. For the configuration A, D, and G, the networks were trained for 25, 30, and 25 epochs, respectively. The networks based on the other configurations were all trained for 50 epochs. Generally, the shorter epoch amounts were either chosen because of a lack of significant progress in the later epochs, or to prevent overfitting. The training times can be seen in \textbf{Table \ref{tab:train-times}}. \\
+The case study networks are regarded as separate from the pretrained network, as explained in section \ref{case-networks}. They are also trained accordingly, using feature input instead of image input. The networks were implemented using Keras, with TensorFlow as the backend framework. Because of small amount of weighted layers in these architectures, the training of each one is completed quickly. When training the different networks, we varied the amount of epochs used, while the batch size was fixed at 512. For the configuration A, D, and G, the networks were trained for 25, 30, and 25 epochs, respectively. The networks based on the other configurations were all trained for 50 epochs. Generally, the shorter epoch amounts were either chosen because of a lack of significant progress in the later epochs, or to prevent overfitting. The training times can be seen in \textbf{Table \ref{tab:train-times}}. To generate the features on which the networks were trained, the pretrained model processed all images in the chosen dataset. Upon processing, each image was resized to have a height and width of 224 pixels, and had the mean values of the original training set subtracted from its pixel values. For the training, validation and test sets, the feature extraction took a total of 181 minutes. \\
 
 \noindent Every network was trained using the adaptive learning algorithm Adam, with an initial learning rate 0.0005. The loss trying to be minimized by this learning algorithm was measured using categorical cross-entropy, and the weights were initialized using a Glorot uniform initializer, also known as a Xavier uniform initializer. All training occurred on the same hardware, an Intel\textregistered{} Core\texttrademark{} i7-6700 3.40 GHz CPU. 
 
