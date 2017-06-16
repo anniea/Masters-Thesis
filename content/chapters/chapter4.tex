@@ -1,6 +1,6 @@
 %===================================== CHAP 3 =================================
 
-\chapter{Implementation}\label{implementation-chap}
+\chapter{Implementation}\label{chap:implementation}
 
 This chapter thoroughly describes the implementation process and the implementation itself, for both the visualization tool and the creation and training of the networks implemented for the case study. To simplify, all code examples in this chapter have omitted comments and code irrelevant to the example.
 
@@ -173,7 +173,7 @@ As mentioned earlier, the database is quite simple, and does not play a huge par
 
 \subsection{User Storage}
 
-The user storage is where the scripts are uploaded to, and where the visualization data is stored. The structure of the user storage can be seen in \textbf{Fig. \ref{struct2}}. The top level holds the different users of the system. The second level contains the various scripts that a user has uploaded. At the next level, the script file itself is stored, as well as a text file containing the console output of a run of the script. There is a folder called \texttt{images} that contains the image that the user has uploaded to be used in the visualizations. The \texttt{networks} folder contains the most currently saved network created by the script. The folder called \texttt{results} stores all the data produced by the various callbacks. The files are all given descriptive names so that it is self-evident which file corresponds to which visualization technique. The format of the visualization files are presented in appendix \ref{visualization-files}.
+The user storage is where the scripts are uploaded to, and where the visualization data is stored. The structure of the user storage can be seen in \textbf{Fig. \ref{struct2}}. The top level holds the different users of the system. The second level contains the various scripts that a user has uploaded. At the next level, the script file itself is stored, as well as a text file containing the console output of a run of the script. There is a folder called \texttt{images} that contains the image that the user has uploaded to be used in the visualizations. The \texttt{networks} folder contains the most currently saved network created by the script. The folder called \texttt{results} stores all the data produced by the various callbacks. The files are all given descriptive names so that it is self-evident which file corresponds to which visualization technique. The format of the visualization files are presented in appendix \ref{app:visualization-files}.
 
 \begin{figure}[h!]
 \begin{verbatim}
@@ -224,7 +224,7 @@ with open(get_output_file(get_current_user(), basename(file_path)), 'w') as f:
 
 \subsection{Custom Keras Callbacks}
 
-The custom callbacks are the only part of the visualization tool that are specific to Keras. As mentioned, a callback is a set of functions to be applied at given stages of the ANN training procedure. Keras provides several predefined callbacks, but also includes the possibility of creating custom variations. We have taken advantage of this functionality, and have created a callback for each visualization technique, as well as for other useful functionality. An overview of the custom callbacks, and how to adapt them to your script, is thoroughly explained in appendix \ref{callbacks-api}. In addition, we will also showcase certain parts of their implementation in this section. The implementation of the visualization functionality in the callbacks follows the processes explained in section \ref{visualization-theory} rather straightforwardly. Consequently, these parts will not be examined any further here. We will, however, explain the implementation details that are not covered by the background theory. 
+The custom callbacks are the only part of the visualization tool that are specific to Keras. As mentioned, a callback is a set of functions to be applied at given stages of the ANN training procedure. Keras provides several predefined callbacks, but also includes the possibility of creating custom variations. We have taken advantage of this functionality, and have created a callback for each visualization technique, as well as for other useful functionality. An overview of the custom callbacks, and how to adapt them to your script, is thoroughly explained in appendix \ref{app:callbacks-api}. In addition, we will also showcase certain parts of their implementation in this section. The implementation of the visualization functionality in the callbacks follows the processes explained in section \ref{sec:visualization-theory} rather straightforwardly. Consequently, these parts will not be examined any further here. We will, however, explain the implementation details that are not covered by the background theory. 
 
 \subsubsection{CustomCallbacks - A Wrapper Class for the Custom Callbacks}
 
@@ -335,25 +335,13 @@ class LayerActivations(Callback):
 
 \subsubsection{Deconvolutional Network Implementation Details}
 
-\textit{This section is under progress and will be added later}
+Using the deconvolutional network visualization technique requires a deconvolutional network which can reverse the mapping from input to features that the convolutional part of the original network performs. In the implemented callback for this technique, the deconvolutional network can be automatically generated for simple models. The generation process is restricted to building a model corresponding to a continuously convolutional part that represents the first component of the original network. For example, if a fully connected layer separates two convolutional parts, only the first part is considered when constructing the deconvolutional network. The generation is also limited to convolutional parts which contain layers using convolution or max pooling. Before the process can start, the convolutional part is identified by examining the original network. This part is explored from top to bottom, while the deconvolutional network is being built from the bottom up. For every convolutional layer in the original, the appropriate deconvolutional substitute is added. Concurrently, a map concerning corresponding original and deconvolutional layers is being created. If a deconvolutional model cannot be created, the user must build the model and pass it to the callback. \\
 
-\begin{comment}
+\noindent To approximately reverse the effects of max pooling layers, the auto-generated deconvolutional networks use a custom Keras layer we have created called MaxUnpooling2D. These layers are used instead of the switch variables described in section \ref{sec:unpool-theory}, as this would require interfering with the uploaded networks, which could have unforeseen consequences. MaxUnpooling2D layers are image specific, which in turn make the deconvolutional models using them image specific. They compute the pooling regions used in the original max pooling based on the region size, strides, padding, as well as the shape of the input and output. These regions are computed differently for Theano and TensorFlow, depending on the aforementioned values. Then, for each region, the layer identifies which position the original max value was selected from by examining the original input and output. Subsequently, a zero matrix the size of the original input is created, and the max positions are filled with their corresponding values in the MaxUnpooling2D input. Thus, the functionality of the switch variables have been reproduced, without altering the original network.  \\
 
-Using the deconvolutional network visualization technique requires a deconvolutional network which can reverse the mapping from input to features that the convolutional part of the original network performs. In the implemented callback for this technique, the deconvolutional network can be automatically generated for simple models. The generation process is restricted to building a model corresponding to a continuously convolutional part that represents the first component of the original network. For example, if a fully connected layer separates two convolutional parts, only the first part is considered when constructing the deconvolutional network. The generation is also limited to convolutional parts which contain layers using convolution or max pooling. Before the process can start, the convolutional part is identified by examining the original network. This part is examined from top to bottom, while the deconvolutional network is being built from the bottom up. For every convolutional layer in the original, the appropriate deconvolutional substitute is added. Concurrently, a map concerning corresponding original and deconvolutional layers is being created. If a deconvolutional model cannot be created, the user must build the model and pass it to the callback. \\
+\noindent When visualizing via the web interface, the deconvolutional network will either identify and visualize the feature maps that maximally activate on the user uploaded image, or visualize the feature maps directly specified by the user. Which of these options are chosen are based on the arguments passed when instantiating the callback. The arguments are explained further in appendix C. The callback only allows visualization of feature maps from a single layer, but there is no limit on the amount of feature maps from the chosen layer. In addition to these alternatives, we have also implemented functionality that produces visualizations for a set of images that maximally activate certain feature maps. The feature maps can either be specified directly or a given amount can be randomly sampled. A large set of images will then be examined for each of these feature maps, computing the activation for each one. A predefined amount of images are selected for each chosen feature map, and their deconvolutional visualizations are produced. The max activation images represent samples that specifically contain the feature that the map's corresponding filter is looking for, and the visualizations of these images will highlight that feature. The image set from which the max activation images are sampled is based on the 2011 ILSVRC object classification image set. This functionality is not available in the tool, however, as it was found to be prohibitively slow in its current state. Although it was implemented with a user specified limit on how many images to process, it should be heavily optimized before being integrated into the web interface. \\
 
-\noindent To approximately reverse the effects of max pooling layers, the auto-generated deconvolutional networks use a custom Keras layer called MaxUnpooling2D. These layers are image specific, which in turn makes deconvolutional models using them image specific. These layers compute the pooling regions used in the original max pooling based on the region size, strides, padding, as well as the shape of the input and output. These regions are computed differently for Theano and TensorFlow, depending on the aforementioned values. \\
-
-WITHIN A GIVEN LAYER
-
-\noindent When visualizing via the web interface, the deconvolutional network will either identify and visualize the feature maps that maximally activate the user uploaded image, or visualize the feature maps directly specified by the user. 
-
-Which of these options are chosen are based on the arguments passed when instantiating the callback. The arguments are explained further in appendix C.
-
-In addition to these alternatives, we have also implemented functionality that produces visualizations for a set of images that maximally activates certain feature maps. The feature maps can either be specified directly or a given amount can be randomly sampled. A large set of images will then be examined for each of these feature maps, computing the activation from each one. Currently, the image set is based on the 2011 ILSVRC object classification set. Both the amount of images to process and select can be specified
-
-This functionality is not available in the tool, however, as it was found to be prohibitively slow in its current state. A faster or less extensive version could 
-
-\end{comment}
+\noindent Unfortunately, the deconvolutional network visualization technique is not available for Theano at the time of writing. This is due to an error within the Keras API regarding the use of transposed convolutional layers with Theano as a backend.
 
 \subsubsection{Deep Visualization Implementation Details}
 
@@ -361,18 +349,22 @@ This functionality is not available in the tool, however, as it was found to be 
 
 \begin{comment}
 for deconv:
-- only one layer
-- either max feature maps or specific feature maps
-- can automatically create deconv models for simple conv models, alternatively the user must create a deconv model an input (also requires layer map and update function)
-- code contained in own model, to keep callback file simple (mention?)
-- auto deconv model is image specific, because of pooling layers (important?)
-- deconv is only for conv part
-- maxunpooling2d layer
-- mention unused code (rec. from top images) and why it hasn't been used
-- preproccesing of feature maps (all but max act. is set to zero)
+X - only one layer 
+X - either max feature maps or specific feature maps
+X - can automatically create deconv models for simple conv models, alternatively the user must create a deconv model an input (also requires layer map and update function)
+X - auto deconv model is image specific, because of pooling layers (important?)
+X - deconv is only for conv part
+X - maxunpooling2d layer
+X - mention unused code (rec. from top images) and why it hasn't been used
 
 for deep vis:
-- se gjennom koden
+- LR and iterations effect on images
+- all reg. techniques have default values 0, which disables them
+- for blurring, both interval and std. must be specified, naturally
+- an unconstrained amount of units can be visualized
+- if last layer is softmax, make alternate model with linear activation
+- mention how random image is produced (special distribution? check what deepvis-toolbox says)
+- clipping using masks (mention that with expand for color, whole RGB pixels are clipped?)
 
 \end{comment}
 
@@ -428,7 +420,7 @@ As mentioned, a Bokeh application is created for each visualization technique, r
     \item \texttt{training\_progress.py}
 \end{itemize}
 
-\noindent We will not describe the implementation of the applications in detail. Most parts of the code deals with the creation and updating of figures using functions provided by Bokeh, which is not particularly interesting for the thesis. Rather, we will present some of the most important concepts of the implementations. The resulting visualization can be seen in chapter \ref{results-chapter}.
+\noindent We will not describe the implementation of the applications in detail. Most parts of the code deals with the creation and updating of figures using functions provided by Bokeh, which is not particularly interesting for the thesis. Rather, we will present some of the most important concepts of the implementations. The resulting visualization can be seen in chapter \ref{chap:results}.
 
 \subsubsection{Handling the Visualization Data}
 
@@ -485,7 +477,7 @@ When creating the case study networks, we started by identifying advantageous ba
 
 % overlap with Application to Case Study in the last chapter. Need to find out what goes where.
 
-As described in section \ref{transfer-learning}, transfer learning is an appropriate method for training an ANN without extensive training time nor large amounts of training data. To employ transfer learning, a suitable pretrained model is needed. Since our case study deals with face recognition, it would be beneficial to use a CNN that was previously trained for such a purpose. The network would then already be able to detect specific facial features, like mouths and eyes. A suitable model is the D configuration of the VGG-Face CNN \textbf{ref-DFR}, as mentioned in section \ref{vggface-application}. This particular configuration will be referred to as the VGG-Face network from now on. The original implementation used Caffe, but we will be using a Keras implementation converted from the original Caffe network. The Keras version allows us to utilize the visualization tool for managing the various networks created and visualizing certain data. We describe the architecture here, with the full implementation found at \cite{vggface-github}. \\
+As described in section \ref{sec:transfer-learning}, transfer learning is an appropriate method for training an ANN without extensive training time nor large amounts of training data. To employ transfer learning, a suitable pretrained model is needed. Since our case study deals with face recognition, it would be beneficial to use a CNN that was previously trained for such a purpose. The network would then already be able to detect specific facial features, like mouths and eyes. A suitable model is the D configuration of the VGG-Face CNN \textbf{ref-DFR}, as mentioned in section \ref{vggface-application}. This particular configuration will be referred to as the VGG-Face network from now on. The original implementation used Caffe, but we will be using a Keras implementation converted from the original Caffe network. The Keras version allows us to utilize the visualization tool for managing the various networks created and visualizing certain data. We describe the architecture here, with the full implementation found at \cite{vggface-github}. \\
 
 \noindent An overview of the pretrained network architecture is shown in \textbf{Table \ref{tab:vggface-arch}}. Here, the network has 25 layers, including the input layer. However, only 15 of the layers have weights associated with them. If we add the excluded classification output layer, the number rises to 16. This architecture is based on the network that is popularly called VGG-16 \cite{vgg}, which was originally applied to ILSVRC \cite{imagenet}. The architecture as demonstrated praiseworthy performance in face recognition and ILSVRC object classification, which both require excellent feature extraction capabilities. The feature extraction proficiency is made possible by the stacked convolutional layers, with max pooling layers to obtain some spatial invariance. All the convolutional filters are of size 3x3, which for the first layer is enough to capture small, simple features. The complexity of the features grows with the depth of the layers, each layer capturing features made up of lower level features. Depth also increases the effective receptive fields of the layer units, as they become indirectly connected to a larger number of input units. The fully connected layers are indirectly connected to every input unit, and are used to combine the extracted features of the convolutional layers to create even more complex and invariant feature representations. \\
 
@@ -527,7 +519,7 @@ As described in section \ref{transfer-learning}, transfer learning is an appropr
 
 \subsection{Dataset and Preprocessing}
 
-Based on the restrictions regarding the dataset described in section \ref{data-generation-methods}, as well as the review of potential datasets conducted in the Specialization Project, the Indian Movie Face database (IMFDB) \cite{imfdb} was selected to be used in the case study. The database consists of 34,512 images of 100 actors collected from Indian movies, captured in an unconstrained setting. All images have been selected and labeled manually, and the labels include both identification and expression. The available expressions are the six basic expressions described in section \ref{facial-expressions}, in addition to a neutral expression, giving a total of seven possible values for the expression label. The dataset is structured so that it contains a folder for each of the actors. These folders again contain a folder for every movie where actor images were extracted. A movie folder contain an image folder and a text file with all image names and their corresponding labels. \\
+Based on the restrictions regarding the dataset described in section \ref{sec:data-generation-methods}, as well as the review of potential datasets conducted in the Specialization Project, the Indian Movie Face database (IMFDB) \cite{imfdb} was selected to be used in the case study. The database consists of 34,512 images of 100 actors collected from Indian movies, captured in an unconstrained setting. All images have been selected and labeled manually, and the labels include both identification and expression. The available expressions are the six basic expressions described in section \ref{sec:facial-expressions}, in addition to a neutral expression, giving a total of seven possible values for the expression label. The dataset is structured so that it contains a folder for each of the actors. These folders again contain a folder for every movie where actor images were extracted. A movie folder contain an image folder and a text file with all image names and their corresponding labels. \\
 
 \noindent After downloading the dataset, we received some errors while trying to process the text files. Thus, we created a script that traversed the text files of the dataset and alerted us of any peculiarities. Some of the entries were missing their expression labeling and these were removed entirely. Others were just improperly formatted, which was easily fixed. This process reduced the size of the training set, resulting in a dataset with 30,091 images of 98 actors. The images were already cropped with a tight bounding box around the faces, thus the only preprocesssing needed to use the images with the VGG-Face network were scaling and padding. The images were padded to squares with black, and scaled to an appropriate size of 130x130 pixels. The size was selected on the background of the mean image width and height of the dataset, which was calculated to be 102 and 129, respectively. \\
 

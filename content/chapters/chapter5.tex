@@ -1,12 +1,12 @@
 %===================================== CHAP 5 =================================
 
-\chapter{Results} \label{results-chapter}
+\chapter{Results} \label{chap:results}
 
-This chapter presents the results of the thesis work relevant for answering the research questions defined in section \ref{research-questions}, for both the visualization tool and the case study. We will explain the process of generating the results and elaborate on their quality and reliability, but will save the discussion of their implications for chapter \ref{discussion-chapter}.
+This chapter presents the results of the thesis work relevant for answering the research questions defined in section \ref{sec:research-questions}, for both the visualization tool and the case study. We will explain the process of generating the results and elaborate on their quality and reliability, but will save the discussion of their implications for chapter \ref{chap:discussion}.
 
 \section{Visualization Tool} \label{results-chapter-vis}
 
-This section will focus on showcasing a representative selection of visualizations generated using the various visualization techniques implemented in the visualization tool. The visualizations were produced using the tool, but we will display them as independent images instead of incorporated into the web interface. We refer the reader to appendix \ref{user-manual} and appendix \ref{callbacks-api} for an overview of the implemented visualization tool. Note that all visualizations are best viewed electronically.
+This section will focus on showcasing a representative selection of visualizations generated using the various visualization techniques implemented in the visualization tool. The visualizations were produced using the tool, but we will display them as independent images instead of incorporated into the web interface. We refer the reader to appendix \ref{app:user-manual} and appendix \ref{app:callbacks-api} for an overview of the implemented visualization tool. Note that all visualizations are best viewed electronically.
 
 % kan skrive noe om at vi gjør det slik fordi vi vil ha visualiseringen i fokus?
 % lettere å sammenlikne visualiseringer
@@ -39,7 +39,7 @@ The MNIST network is a simple CNN with three convolutional layers, including the
 \subfloat['8': 100\%]{\includegraphics[width = 0.61in]{fig/results/input_mnist/test8.png}} &
 \subfloat['9': 100\%]{\includegraphics[width = 0.61in]{fig/results/input_mnist/test9.png}} \\
 \end{tabular}
-\caption[Visualization input images for MNIST]{The images used as visualization input for the MNIST network, captioned with their corresponding classification results at stage 1 of training. Note that \textbf{f} was incorrectly classified as '2'. At stage 2, all images were correctly classified with 100\% certainty.}
+\caption[Visualization input images for MNIST]{The images used as visualization input for the MNIST network, captioned with their corresponding classification result and confidence at stage 1 of training. Note that \textbf{f} was incorrectly classified as '2'. At stage 2, all images were correctly classified with 100\% certainty.}
 \label{mnist:input-images}
 \end{center}
 \end{figure}
@@ -50,7 +50,7 @@ The VGG16 network is a significantly deeper CNN than the first network. It consi
 
 \noindent As mentioned, the VGG16 network employed is a fully trained model, meaning that the results generated using this network only consist of visualizations produced at the very end of the training process. The three visualization input images seen in \textbf{Fig. \ref{vgg:input-images}} were used to produce visualizations, with the image in \textbf{Fig. \ref{vgg:input-image1}} being the main visualization input image. The other two images were used to produce visualizations to compare to. They were selected as they are both related to the main image in some way. Specifically, one contains a bicycle similar to the tricycle in the main image, and the other contains a woman with similar features to the girl in the main image. The visualization techniques were repeated a number of times with various configurations and the different input images. The resulting visualizations were manually processed, and a representative selection are presented in section \ref{vgg-vis-results}.
 
-\begin{figure}
+\begin{figure}[p]
 \begin{center}
 \begin{tabular}{c}
 \subfloat['tricycle, trike, velocipede': 99.95\%]{\includegraphics[width=0.5\textwidth]{fig/results/input_vgg/girlonbike.JPEG}\label{vgg:input-image1}} \\
@@ -83,29 +83,27 @@ This section presents the visualization results produced by the various visualiz
 
 \subsubsection{Training Progress}
 
-The visualizations of the training progress can be seen in \textbf{Fig. \ref{mnist:accuracy}} and \textbf{Fig. \ref{mnist:loss}}, showing the batch accuracy and batch loss, respectively. To produce these visualizations, the training was expanded from two epochs to six, to show a longer graph. The blue lines display the training accuracy and loss, while the green dots display the validation accuracy and loss.
+The visualizations of the training progress can be seen in \textbf{Fig. \ref{mnist:training-progress}}, showing the batch accuracy and batch loss. To produce these visualizations, the training was expanded from two epochs to six, to show a longer graph. The blue lines display the training accuracy and loss, while the green dots display the validation accuracy and loss at each epoch.
 
 % noe om at det ikke er variasjon i training progress?
 
-\begin{figure}
-    \centering
-    \includegraphics[width=1\textwidth]{fig/results/training_progress/accuracy.png}
-    \caption{Batch acccuracy over epoch for the MNIST network.}
-    \label{mnist:accuracy}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=1\textwidth]{fig/results/training_progress/loss.png}
-    \caption{Batch loss over epoch for the MNIST network.}
-    \label{mnist:loss}
+\begin{figure}[p]
+\begin{center}
+\begin{tabular}{c}
+\subfloat{\includegraphics[width=1\textwidth]{fig/results/training_progress/accuracy.png}} \\
+\subfloat{\includegraphics[width=1\textwidth]{fig/results/training_progress/loss.png}} \\
+\end{tabular}
+\caption[Batch accuracy and loss for MNIST network]{Batch accuracy and loss over epoch for the MNIST network. Validation accuracy and loss displayed as green dots at each epoch.}
+\label{mnist:training-progress}
+\end{center}
 \end{figure}
 
 \subsubsection{Layer Activations}
 
 \textbf{Fig. \ref{mnist:layer-act-all}} shows the fully trained network's layer activations for all layers, except the flattening and dropout layers. Flattening layers are excluded because they do not provide any extra information, and are generally too large to be presented in a readable manner. Dropout layers are excluded since they are identical to the preceding layer. The feature maps of the convolutional layers are displayed in a grid so that they can be viewed together all at once. The fully connected layers are displayed as pixels laid out horizontally, scaled to fit the width of the page. \\
 
-\begin{figure}
+\begin{figure}[p]
+\captionsetup[subfigure]{labelformat=empty}
 \begin{center}
 \begin{tabular}{c}
 \begingroup
@@ -125,14 +123,15 @@ The visualizations of the training progress can be seen in \textbf{Fig. \ref{mni
 
 \noindent \textbf{Fig. \ref{mnist:layer-act-conv2}} illustrates the transition of the layer activations throughout the training process. It is illustrated by the \texttt{conv2} layer activations, as they show a progression that is easy to understand and interpret. The activations are shown at three stages: the first stage at the beginning of training, a middle stage halfway in the training, and a final stage at the end of training.
 
-\begin{figure}
+\begin{figure}[p]
+\captionsetup[subfigure]{labelformat=empty}
 \begin{center}
 \begin{tabular}{c}
-\subfloat[Stage 1]{\frame{\includegraphics[width=0.6\textwidth]{fig/results/layeract_mnist/layer_act_mnist_0_1_conv2d_2.png}}} \\
-\subfloat[Stage 5]{\frame{\includegraphics[width=0.6\textwidth]{fig/results/layeract_mnist/layer_act_mnist_0_5_conv2d_2.png}}} \\
-\subfloat[Stage 10]{\frame{\includegraphics[width=0.6\textwidth]{fig/results/layeract_mnist/layer_act_mnist_0_10_conv2d_2.png}}} \\
+\subfloat[Stage 1]{\frame{\includegraphics[width=0.8\textwidth]{fig/results/layeract_mnist/layer_act_mnist_0_1_conv2d_2.png}}} \\
+\subfloat[Stage 5]{\frame{\includegraphics[width=0.8\textwidth]{fig/results/layeract_mnist/layer_act_mnist_0_5_conv2d_2.png}}} \\
+\subfloat[Stage 10]{\frame{\includegraphics[width=0.8\textwidth]{fig/results/layeract_mnist/layer_act_mnist_0_10_conv2d_2.png}}} \\
 \end{tabular}
-\caption[Change in activations in conv2 of MNIST]{Layer activations for the \texttt{conv2} layer of the MNIST network at various stages in the training process.}
+\caption[Change in activations in \texttt{conv2} of MNIST]{Layer activations for the \texttt{conv2} layer of the MNIST network at various stages in the training process.}
 \label{mnist:layer-act-conv2}
 \end{center}
 \end{figure}
@@ -228,15 +227,16 @@ For the deconvolutional network technique, visualizations of all 32 feature maps
 \noindent As mentioned, the MNIST network is not optimal for demonstrating the deconvolutional network technique, since it consists of only two convolutional layers. The input images are composed of simple lines, and the features detected in the convolutional layers are mainly edges. The capabilities of a deconvolutional network is better illustrated using the VGG16 network.
 
 \begin{figure}
+\captionsetup[subfigure]{labelformat=empty}
 \begin{center}
 \begin{tabular}{ccccc}
 \subfloat[Input]{\includegraphics[width = 0.5in]{fig/results/input_mnist/test0.png}} & 
-\subfloat[Map #1]{\includegraphics[width = 0.5in]{fig/results/deconv_mnist/deconvolution_mnist_0_10_max_pooling2d_1_1.png}} & 
-\subfloat[Map #22]{\includegraphics[width = 0.5in]{fig/results/deconv_mnist/deconvolution_mnist_0_10_max_pooling2d_1_22.png}} &
-\subfloat[Map #25]{\includegraphics[width = 0.5in]{fig/results/deconv_mnist/deconvolution_mnist_0_10_max_pooling2d_1_25.png}} & 
-\subfloat[Map #28]{\includegraphics[width = 0.5in]{fig/results/deconv_mnist/deconvolution_mnist_0_10_max_pooling2d_1_28.png}} \\
+\subfloat[Map \#1]{\includegraphics[width = 0.5in]{fig/results/deconv_mnist/deconvolution_mnist_0_10_max_pooling2d_1_1.png}} & 
+\subfloat[Map \#22]{\includegraphics[width = 0.5in]{fig/results/deconv_mnist/deconvolution_mnist_0_10_max_pooling2d_1_22.png}} &
+\subfloat[Map \#25]{\includegraphics[width = 0.5in]{fig/results/deconv_mnist/deconvolution_mnist_0_10_max_pooling2d_1_25.png}} & 
+\subfloat[Map \#28]{\includegraphics[width = 0.5in]{fig/results/deconv_mnist/deconvolution_mnist_0_10_max_pooling2d_1_28.png}} \\
 \end{tabular}
-\caption[Deconvolutional results for MNIST pool layer]{Visualizations produced using a deconvolutional network for the visualization input image in \textbf{a}. A selection of four different feature maps (F.m.) from the \texttt{pool} layer is displayed.}
+\caption[Deconvolutional results for MNIST pool layer]{Visualizations produced using a deconvolutional network for the visualization input image in \textbf{a}. A selection of four different feature maps from the \texttt{pool} layer is displayed.}
 \label{mnist:deconv}
 \end{center}
 \end{figure}
@@ -249,56 +249,57 @@ The deep visualizations were produced with a learning rate of 200 for 50 iterati
 \begin{center}
 \begin{tabular}{cccccc}
 \textbf{Example} & \textbf{1} & \textbf{5} & \textbf{10 v.1} & \textbf{10 v.2} & \textbf{10 v.3}\\
-\subfloat{\includegraphics[width = 0.5in]{fig/results/input_mnist/test0.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_1_dense_3_0.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_5_dense_3_0.png}} & \subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_10_dense_3_0.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_1_10_dense_3_0.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_2_10_dense_3_0.png}} \\
-\subfloat{\includegraphics[width = 0.5in]{fig/results/input_mnist/test1.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_1_dense_3_1.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_5_dense_3_1.png}} & \subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_10_dense_3_1.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_1_10_dense_3_1.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_2_10_dense_3_1.png}} \\
-\subfloat{\includegraphics[width = 0.5in]{fig/results/input_mnist/test2.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_1_dense_3_2.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_5_dense_3_2.png}} & \subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_10_dense_3_2.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_1_10_dense_3_2.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_2_10_dense_3_2.png}} \\
-\subfloat{\includegraphics[width = 0.5in]{fig/results/input_mnist/test3.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_1_dense_3_3.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_5_dense_3_3.png}} & \subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_10_dense_3_3.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_1_10_dense_3_3.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_2_10_dense_3_3.png}} \\
-\subfloat{\includegraphics[width = 0.5in]{fig/results/input_mnist/test4.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_1_dense_3_4.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_5_dense_3_4.png}} & \subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_10_dense_3_4.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_1_10_dense_3_4.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_2_10_dense_3_4.png}} \\
-\subfloat{\includegraphics[width = 0.5in]{fig/results/input_mnist/test5.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_1_dense_3_5.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_5_dense_3_5.png}} & \subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_10_dense_3_5.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_1_10_dense_3_5.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_2_10_dense_3_5.png}} \\
-\subfloat{\includegraphics[width = 0.5in]{fig/results/input_mnist/test6.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_1_dense_3_6.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_5_dense_3_6.png}} & \subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_10_dense_3_6.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_1_10_dense_3_6.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_2_10_dense_3_6.png}} \\
-\subfloat{\includegraphics[width = 0.5in]{fig/results/input_mnist/test7.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_1_dense_3_7.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_5_dense_3_7.png}} & \subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_10_dense_3_7.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_1_10_dense_3_7.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_2_10_dense_3_7.png}} \\
-\subfloat{\includegraphics[width = 0.5in]{fig/results/input_mnist/test8.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_1_dense_3_8.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_5_dense_3_8.png}} & \subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_10_dense_3_8.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_1_10_dense_3_8.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_2_10_dense_3_8.png}} \\
-\subfloat{\includegraphics[width = 0.5in]{fig/results/input_mnist/test9.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_1_dense_3_9.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_5_dense_3_9.png}} & \subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/deepvis_mnist_0_10_dense_3_9.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_1_10_dense_3_9.png}} &
-\subfloat{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_2_10_dense_3_9.png}} \\
+\subfloat{\includegraphics[width = 0.49in]{fig/results/input_mnist/test0.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_1_dense_3_0.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_5_dense_3_0.png}} & \subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_10_dense_3_0.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_1_10_dense_3_0.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_2_10_dense_3_0.png}} \\
+\subfloat{\includegraphics[width = 0.49in]{fig/results/input_mnist/test1.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_1_dense_3_1.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_5_dense_3_1.png}} & \subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_10_dense_3_1.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_1_10_dense_3_1.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_2_10_dense_3_1.png}} \\
+\subfloat{\includegraphics[width = 0.49in]{fig/results/input_mnist/test2.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_1_dense_3_2.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_5_dense_3_2.png}} & \subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_10_dense_3_2.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_1_10_dense_3_2.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_2_10_dense_3_2.png}} \\
+\subfloat{\includegraphics[width = 0.49in]{fig/results/input_mnist/test3.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_1_dense_3_3.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_5_dense_3_3.png}} & \subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_10_dense_3_3.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_1_10_dense_3_3.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_2_10_dense_3_3.png}} \\
+\subfloat{\includegraphics[width = 0.49in]{fig/results/input_mnist/test4.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_1_dense_3_4.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_5_dense_3_4.png}} & \subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_10_dense_3_4.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_1_10_dense_3_4.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_2_10_dense_3_4.png}} \\
+\subfloat{\includegraphics[width = 0.49in]{fig/results/input_mnist/test5.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_1_dense_3_5.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_5_dense_3_5.png}} & \subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_10_dense_3_5.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_1_10_dense_3_5.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_2_10_dense_3_5.png}} \\
+\subfloat{\includegraphics[width = 0.49in]{fig/results/input_mnist/test6.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_1_dense_3_6.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_5_dense_3_6.png}} & 
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_10_dense_3_6.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_1_10_dense_3_6.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_2_10_dense_3_6.png}} \\
+\subfloat{\includegraphics[width = 0.49in]{fig/results/input_mnist/test7.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_1_dense_3_7.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_5_dense_3_7.png}} & \subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_10_dense_3_7.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_1_10_dense_3_7.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_2_10_dense_3_7.png}} \\
+\subfloat{\includegraphics[width = 0.49in]{fig/results/input_mnist/test8.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_1_dense_3_8.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_5_dense_3_8.png}} & \subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_10_dense_3_8.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_1_10_dense_3_8.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_2_10_dense_3_8.png}} \\
+\subfloat{\includegraphics[width = 0.49in]{fig/results/input_mnist/test9.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_1_dense_3_9.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_5_dense_3_9.png}} & \subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/deepvis_mnist_0_10_dense_3_9.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_1_10_dense_3_9.png}} &
+\subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_2_10_dense_3_9.png}} \\
 \end{tabular}
 \caption[Deep visualization from MNIST output units]{Deep visualization of the output layer for all 10 possible output classes of the MNIST network. An example image from each class is shown in the first column. Column 2-4 shows samples collected at certain stages of training. The two training epochs consisted of ten evenly distributed stages. The last three columns show the variations acquired from multiple deep visualization from the same unit.}
 \label{mnist:deepvis-output}
@@ -306,6 +307,7 @@ The deep visualizations were produced with a learning rate of 200 for 50 iterati
 \end{figure}
 
 \begin{figure}
+\captionsetup[subfigure]{labelformat=empty}
 \begin{center}
 \begin{tabular}{ccccc}
 \subfloat[Unit 0]{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_dense/deepvis_mnist_0_10_dense_2_0}} & 
@@ -320,6 +322,7 @@ The deep visualizations were produced with a learning rate of 200 for 50 iterati
 \end{figure}
 
 \begin{figure}
+\captionsetup[subfigure]{labelformat=empty}
 \begin{center}
 \begin{tabular}{ccc}
 \subfloat[Unit 0]{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_dense/deepvis_mnist_0_10_dense_1_0}} & 
@@ -333,22 +336,18 @@ The deep visualizations were produced with a learning rate of 200 for 50 iterati
 
 \subsection{VGG16 Visualization Results} \label{vgg-vis-results}
 
-This section presents the visualization results for the various visualization techniques using the VGG16 network.
-
-\subsubsection{Training Progress}
-
-Since the VGG16 network is a fully trained model, and no training was completed while generating visualizations, naturally there was no training progress to visualize.
+This section presents the visualization results produced by the various visualization techniques for the VGG16 network. Note that as there were no training completed while generating the visualizations, naturally there are no training progress to visualize.
 
 \subsubsection{Layer Activations}
 
-\textbf{Fig. \ref{vgg:layer-act}} show the layer activations for the \texttt{block1\_conv2} layer of the VGG16 network. We only display one example, since the network consists of too many layers to show them all. We display the \texttt{block1\_conv2} layer, as it includes a relatively small number of filters, compared to the succeeding convolutional layers.
+\textbf{Fig. \ref{vgg:layer-act}} show the layer activations for the \texttt{block1\_conv2} layer of the VGG16 network. Although the network contains many layers, we only display the single example to avoid cluttering. The \texttt{block1\_conv2} was chosen because it has a varied set of feature maps. Additionally, the amount of feature maps is manageable.
 
 \begin{figure}
 \begin{center}
 \begin{tabular}{c}
-\subfloat{\frame{\includegraphics[width=0.7\textwidth]{fig/results/layeract_vgg/layer_act_keras_rest_of_vis_1_block1_conv2.png}}} \\
+\subfloat{\frame{\includegraphics[width=0.8\textwidth]{fig/results/layeract_vgg/layer_act_keras_rest_of_vis_1_block1_conv2.png}}} \\
 \end{tabular}
-\caption[Layer activations for VGG16 block1\_conv2 layer]{Layer activations for the block1\_conv2 layer of the VGG16 network.}
+\caption[Layer activations for VGG16 \texttt{block1\_conv2} layer]{Layer activations for the \texttt{block1\_conv2} layer of the VGG16 network.}
 \label{vgg:layer-act}
 \end{center}
 \end{figure}
@@ -361,12 +360,12 @@ Since the VGG16 network is a fully trained model, and no training was completed 
 \begin{center}
 \begin{tabular}{cc}
 \textbf{Input image} & \textbf{Saliency map} \\
-\subfloat{\includegraphics[width = 1.5in]{fig/results/input_vgg/girlonbike_resized.JPEG}} &
-\subfloat{\includegraphics[width = 1.5in]{fig/results/saliency_vgg/saliency_keras_rest_of_vis_0.png}} \\
-\subfloat{\includegraphics[width = 1.5in]{fig/results/input_vgg/biking_resized.JPEG}} &
-\subfloat{\includegraphics[width = 1.5in]{fig/results/saliency_vgg/saliency_keras_rest_of_vis_2.png}} \\
-\subfloat{\includegraphics[width = 1.5in]{fig/results/input_vgg/girl_resized.JPEG}} &
-\subfloat{\includegraphics[width = 1.5in]{fig/results/saliency_vgg/saliency_keras_rest_of_vis_1.png}} \\
+\subfloat{\includegraphics[width = 2.0in]{fig/results/input_vgg/girlonbike_resized.JPEG}} &
+\subfloat{\includegraphics[width = 2.0in]{fig/results/saliency_vgg/saliency_keras_rest_of_vis_0.png}} \\
+\subfloat{\includegraphics[width = 2.0in]{fig/results/input_vgg/biking_resized.JPEG}} &
+\subfloat{\includegraphics[width = 2.0in]{fig/results/saliency_vgg/saliency_keras_rest_of_vis_2.png}} \\
+\subfloat{\includegraphics[width = 2.0in]{fig/results/input_vgg/girl_resized.JPEG}} &
+\subfloat{\includegraphics[width = 2.0in]{fig/results/saliency_vgg/saliency_keras_rest_of_vis_1.png}} \\
 \end{tabular}
 \caption[Saliency maps for VGG16]{Saliency maps for the VGG16 network for three separate visualization input images classified as presented in \textbf{Fig. \ref{vgg:input-images}}.}
 \label{vgg:saliency}
@@ -380,34 +379,36 @@ The deconvolutional network technique is illustrated in a number of different fi
 \noindent To illustrate the deconvolutional technique employed on lower layers, \textbf{Fig. \ref{vgg:deconv-block3-comparison}} shows a comparison of feature maps in layer \texttt{block3\_pool}, for two separate visualization input images. \textbf{Fig. \ref{vgg:deconv-block1}} shows visualizations of feature maps in the even lower \texttt{block1\_pool} layer, using the image in \textbf{Fig. \ref{vgg:input-image1}} as input for the deconvolutional network. Note that all visualizations of lower layers are cropped and zoomed to improve readability, and that they originally appeared at different parts of the image. 
 
 \begin{figure}
+\captionsetup[subfigure]{labelformat=empty}
 \begin{center}
 
-\subfloat[Input image]{\includegraphics[width = 1.5in]{fig/results/input_vgg/girlonbike_resized.JPEG}\label{input-img1}}
+\subfloat[Input image]{\includegraphics[width = 2.1in]{fig/results/input_vgg/girlonbike_resized.JPEG}\label{input-img1}}
 
-\begin{tabular}{ccc}
-\subfloat[Feature map 108]{\includegraphics[width = 1.5in]{fig/results/deconv_vgg/block5/deconvolution_keras_deconv_0_block5_pool_108.png}} & 
-\subfloat[Feature map 348]{\includegraphics[width = 1.5in]{fig/results/deconv_vgg/block5/deconvolution_keras_deconv_0_block5_pool_348.png}} &
-\subfloat[Feature map 380]{\includegraphics[width = 1.5in]{fig/results/deconv_vgg/block5/deconvolution_keras_deconv_0_block5_pool_380.png}} \\
-\subfloat[Feature map 422]{\includegraphics[width = 1.5in]{fig/results/deconv_vgg/block5/deconvolution_keras_deconv_0_block5_pool_422.png}} &
-\subfloat[Feature map 450]{\includegraphics[width = 1.5in]{fig/results/deconv_vgg/block5/deconvolution_keras_deconv_0_block5_pool_450.png}} &
-\subfloat[Feature map 459]{\includegraphics[width = 1.5in]{fig/results/deconv_vgg/block5/deconvolution_keras_deconv_0_block5_pool_459.png}} \\
+\begin{tabular}{cc}
+\subfloat[Feature map 108]{\includegraphics[width = 2.1in]{fig/results/deconv_vgg/block5/deconvolution_keras_deconv_0_block5_pool_108.png}} & 
+\subfloat[Feature map 348]{\includegraphics[width = 2.1in]{fig/results/deconv_vgg/block5/deconvolution_keras_deconv_0_block5_pool_348.png}} \\
+\subfloat[Feature map 380]{\includegraphics[width = 2.1in]{fig/results/deconv_vgg/block5/deconvolution_keras_deconv_0_block5_pool_380.png}} &
+%\subfloat[Feature map 422]{\includegraphics[width = 1.5in]{fig/results/deconv_vgg/block5/deconvolution_keras_deconv_0_block5_pool_422.png}} \\
+\subfloat[Feature map 450]{\includegraphics[width = 2.1in]{fig/results/deconv_vgg/block5/deconvolution_keras_deconv_0_block5_pool_450.png}} \\
+%\subfloat[Feature map 459]{\includegraphics[width = 1.5in]{fig/results/deconv_vgg/block5/deconvolution_keras_deconv_0_block5_pool_459.png}} \\
 \end{tabular}
-\caption[Deconvolution for VGG16 block5\_pool layer]{Visualizations produced using a deconvolutional network for the visualization input image in \textbf{a}, for the \texttt{block5\_pool} layer. A selection of six different features from the top 20 maximally activated feature maps in the block5\_pool layer are displayed.}
+\caption[Deconvolution for VGG16 block5\_pool layer]{Visualizations produced using a deconvolutional network for the \texttt{block5\_pool} layer. A selection of four different features from the top 20 maximally activated feature maps in the block5\_pool layer are displayed.}
 \label{vgg:deconv-block5}
 \end{center}
 \end{figure}
 
 \begin{figure}
+\captionsetup[subfigure]{labelformat=empty}
 \begin{center}
-\begin{tabular}{ccc}
-\subfloat[Input image]{\includegraphics[width = 1.5in]{fig/results/input_vgg/biking_resized.JPEG}\label{input-img2}} &
-\subfloat[Feature map 348]{\includegraphics[width = 1.5in]{fig/results/deconv_vgg/other_block5/deconvolution_keras_deconv_0_block5_pool_348.png}} &
-\subfloat[Feature map 348 of \textbf{Fig. \ref{input-img1}}]{\includegraphics[width = 1.5in]{fig/results/deconv_vgg/block5/deconvolution_keras_deconv_0_block5_pool_348.png}} \\
-\subfloat[Input image]{\includegraphics[width = 1.5in]{fig/results/input_vgg/girl_resized.JPEG}} &
-\subfloat[Feature map 380]{\includegraphics[width = 1.5in]{fig/results/deconv_vgg/other_block5/deconvolution_keras_deconv2_0_block5_pool_380.png}} &
-\subfloat[Feature map 380 of \textbf{Fig. \ref{input-img1}}]{\includegraphics[width = 1.5in]{fig/results/deconv_vgg/block5/deconvolution_keras_deconv_0_block5_pool_380.png}} \\
+\begin{tabular}{cc}
+\subfloat[Input image]{\includegraphics[width = 2.0in]{fig/results/input_vgg/biking_resized.JPEG}\label{input-img2}} &
+\subfloat[Input image]{\includegraphics[width = 2.0in]{fig/results/input_vgg/girl_resized.JPEG}} \\
+\subfloat[Feature map 348]{\includegraphics[width = 2.0in]{fig/results/deconv_vgg/other_block5/deconvolution_keras_deconv_0_block5_pool_348.png}} &
+\subfloat[Feature map 380]{\includegraphics[width = 2.0in]{fig/results/deconv_vgg/other_block5/deconvolution_keras_deconv2_0_block5_pool_380.png}} \\
+\subfloat[Feature map 348 in \textbf{Fig. \ref{vgg:deconv-block5}}]{\includegraphics[width = 2.0in]{fig/results/deconv_vgg/block5/deconvolution_keras_deconv_0_block5_pool_348.png}} &
+\subfloat[Feature map 380 in \textbf{Fig. \ref{vgg:deconv-block5}}]{\includegraphics[width = 2.0in]{fig/results/deconv_vgg/block5/deconvolution_keras_deconv_0_block5_pool_380.png}} \\
 \end{tabular}
-\caption[Comparison of deconvolution for VGG16 block5\_pool layer]{Comparison of visualizations produced using a deconvolutional network for the visualization input images in the leftmost column, for the \texttt{block5\_pool} layer. The middle column shows their corresponding visualizations for a specific feature map. The rightmost column show the visualization of the same feature map for the visualization input image in \textbf{Fig. \ref{input-img1}}}
+\caption[Comparison of deconvolution for VGG16 \texttt{block5\_pool} layer]{Comparison of visualizations produced using a deconvolutional network for the visualization input images in the top row, for the \texttt{block5\_pool} layer. The middle row shows their corresponding visualizations for a specific feature map. The bottom row shows the visualizations of the same feature map for the visualization input image in \textbf{Fig. \ref{vgg:deconv-block5}}}
 \label{vgg:deconv-block5-comparison}
 \end{center}
 \end{figure}
@@ -425,7 +426,7 @@ The deconvolutional network technique is illustrated in a number of different fi
 \subfloat{\includegraphics[width = 1.0in]{fig/results/deconv_vgg/block3/deconvolution_keras_deconv_block3_specific_0_block3_pool_26.png}} &
 \subfloat{\includegraphics[width = 1.0in]{fig/results/deconv_vgg/block3/deconvolution_keras_deconv_block3_specific_0_block3_pool_171.png}} \\
 \end{tabular}
-\caption[Comparison of deconvolution for VGG16 block3\_pool layer]{Comparison of visualizations produced using a deconvolutional network for the visualization input images in the leftmost column, for the \texttt{block4\_pool} layer. The next columns show their corresponding visualizations for specific feature maps selected from the top 20 maximally activated feature maps for the visualization input image in \textbf{a}.}
+\caption[Comparison of deconvolutional visualizations for VGG16 \texttt{block3\_pool} layer]{Comparison of visualizations produced using a deconvolutional network for the visualization input images in the leftmost column, for the \texttt{block4\_pool} layer. The next columns show their corresponding visualizations for specific feature maps selected from the top 20 maximally activated feature maps for the top left visualization input image. Note that visualizations are cropped and zoomed.}
 \label{vgg:deconv-block3-comparison}
 \end{center}
 \end{figure}
@@ -433,42 +434,43 @@ The deconvolutional network technique is illustrated in a number of different fi
 \begin{figure}
 \captionsetup[subfigure]{labelformat=empty}
 \begin{center}
-\begin{tabular}{cccccccccc}
-\subfloat[\#0]{\frame{\includegraphics[width = 0.33in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_0.png}}} &
-\subfloat[\#10]{\frame{\includegraphics[width = 0.33in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_10.png}}} &
-\subfloat[\#13]{\frame{\includegraphics[width = 0.33in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_13.png}}} &
-\subfloat[\#17]{\frame{\includegraphics[width = 0.33in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_17.png}}} &
-\subfloat[\#18]{\frame{\includegraphics[width = 0.33in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_18.png}}} &
-\subfloat[\#20]{\frame{\includegraphics[width = 0.33in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_20.png}}} &
-\subfloat[\#26]{\frame{\includegraphics[width = 0.33in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_26.png}}} &
-\subfloat[\#29]{\frame{\includegraphics[width = 0.33in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_29.png}}} &
-\subfloat[\#32]{\frame{\includegraphics[width = 0.33in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_32.png}}} &
-\subfloat[\#34]{\frame{\includegraphics[width = 0.33in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_34.png}}} \\
-\subfloat[\#37]{\frame{\includegraphics[width = 0.33in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_37.png}}} &
-\subfloat[\#40]{\frame{\includegraphics[width = 0.33in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_40.png}}} &
-\subfloat[\#41]{\frame{\includegraphics[width = 0.33in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_41.png}}} &
-\subfloat[\#47]{\frame{\includegraphics[width = 0.33in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_47.png}}} &
-\subfloat[\#50]{\frame{\includegraphics[width = 0.33in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_50.png}}} &
-\subfloat[\#53]{\frame{\includegraphics[width = 0.33in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_53.png}}} &
-\subfloat[\#55]{\frame{\includegraphics[width = 0.33in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_55.png}}} &
-\subfloat[\#56]{\frame{\includegraphics[width = 0.33in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_56.png}}} &
-\subfloat[\#57]{\frame{\includegraphics[width = 0.33in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_57.png}}} &
-\subfloat[\#59]{\frame{\includegraphics[width = 0.33in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_59.png}}} \\
+\begin{tabular}{ccccc}
+\subfloat[Map \#0]{\frame{\includegraphics[width = 0.45in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_0.png}}} &
+\subfloat[Map \#10]{\frame{\includegraphics[width = 0.45in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_10.png}}} &
+\subfloat[Map \#13]{\frame{\includegraphics[width = 0.45in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_13.png}}} &
+\subfloat[Map \#17]{\frame{\includegraphics[width = 0.45in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_17.png}}} &
+\subfloat[Map \#18]{\frame{\includegraphics[width = 0.45in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_18.png}}} \\
+\subfloat[Map \#20]{\frame{\includegraphics[width = 0.45in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_20.png}}} &
+\subfloat[Map \#26]{\frame{\includegraphics[width = 0.45in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_26.png}}} &
+\subfloat[Map \#29]{\frame{\includegraphics[width = 0.45in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_29.png}}} &
+\subfloat[Map \#32]{\frame{\includegraphics[width = 0.45in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_32.png}}} &
+\subfloat[Map \#34]{\frame{\includegraphics[width = 0.45in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_34.png}}} \\
+\subfloat[Map \#37]{\frame{\includegraphics[width = 0.45in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_37.png}}} &
+\subfloat[Map \#40]{\frame{\includegraphics[width = 0.45in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_40.png}}} &
+\subfloat[Map \#41]{\frame{\includegraphics[width = 0.45in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_41.png}}} &
+\subfloat[Map \#47]{\frame{\includegraphics[width = 0.45in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_47.png}}} &
+\subfloat[Map \#50]{\frame{\includegraphics[width = 0.45in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_50.png}}} \\
+\subfloat[Map \#53]{\frame{\includegraphics[width = 0.45in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_53.png}}} &
+\subfloat[Map \#55]{\frame{\includegraphics[width = 0.45in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_55.png}}} &
+\subfloat[Map \#56]{\frame{\includegraphics[width = 0.45in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_56.png}}} &
+\subfloat[Map \#57]{\frame{\includegraphics[width = 0.45in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_57.png}}} &
+\subfloat[Map \#59]{\frame{\includegraphics[width = 0.45in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_59.png}}} \\
 \end{tabular}
-\caption[Deconvolution for VGG16 block1\_pool layer]{Visualizations produced using a deconvolutional network for the visualization input image in \textbf{Fig. \ref{vgg:input-image1}}, for the \texttt{block1\_pool} layer. All top 20 maximally activated feature maps (F.m.) are displayed.}
+\caption[Deconvolution for VGG16 \texttt{block1\_pool} layer]{Visualizations produced using a deconvolutional network for the visualization input image in \textbf{Fig. \ref{vgg:input-image1}}, for the \texttt{block1\_pool} layer. All top 20 maximally activated feature maps are displayed. Note that visualizations are cropped and zoomed.}
 \label{vgg:deconv-block1}
 \end{center}
 \end{figure}
 
 \subsubsection{Deep Visualization}
 
-The deep visualization technique requires a number of hyperparameters that impact the resulting visualizations. Some of the figures illustrates these impacts and thus a number of visualizations are produces using different hyperparameters settings. However, most of the deep visualizations were produced with a learning rate of 200 for 50 iterations. Unless otherwise specified, the $L_2$ decay, blur interval and blur standard deviation were set to 0.0001, 4 and 1 respectively, matching the third row of \textbf{Table \ref{tab:reg-hyperparams}}. \\
+The deep visualization technique requires a number of hyperparameters that impact the resulting visualizations. Some of the figures illustrates these impacts and thus a number of visualizations are produced using different hyperparameters settings. However, most of the deep visualizations were produced with a learning rate of 2500 for 500 iterations. Unless otherwise specified, the $L_2$ decay, blur interval and blur standard deviation were set to 0.0001, 4 and 1 respectively, matching the third row of \textbf{Table \ref{tab:reg-hyperparams}}. \\
 
-\noindent \textbf{Fig. \ref{vgg:deepvis-output}} present the deep visualizations of nine different output classes of the VGG16 network, selected to showcase a variety of features. \textbf{Fig. \ref{vgg:deepvis-output-variations}} illustrate the variations of the deep visualization technique in producing two visualizations for the same output class with the exact same hyperparameter settings. In \textbf{Fig. \ref{vgg:deepvis-output-hyperparameters}}, we present deep visualizations using each of the four useful combinations in \textbf{Table \ref{tab:reg-hyperparams}}, illustrating how these affect the visualization output. \\
+\noindent \textbf{Fig. \ref{vgg:deepvis-output}} presents the deep visualizations of nine different output classes of the VGG16 network, selected to showcase a variety of features. \textbf{Fig. \ref{vgg:deepvis-output-variations}} illustrates the variation of the deep visualization technique in producing two visualizations for the same output class with the exact same hyperparameter settings. In \textbf{Fig. \ref{vgg:deepvis-output-hyperparameters}}, we present deep visualizations using each of the four useful combinations in \textbf{Table \ref{tab:reg-hyperparams}}, illustrating how these affect the visualization output. \\
 
-\noindent Some examples of deep visualization of the \texttt{fc2} and \texttt{fc1} layers are shown in \textbf{Fig. \ref{vgg:deepvis-fc2}} and \textbf{Fig. \ref{vgg:deepvis-fc1}}, respectively. In \textbf{Fig. \ref{vgg:deepvis-blocks}}, deep visualizations of a randomly selected unit in each \texttt{pool} layer of the blocks 2-5 are presented. Since using the same learning rate and number of iterations for the lower layers as for the higher layers may not be beneficial, \textbf{Fig. \ref{vgg:deepvis-block5-lr-variations}} show how lowering these hyperparameters affect the resulting visualization. Finally, \textbf{Fig. \ref{vgg:deepvis-block1}} present deep visualizations of the \texttt{block1\_pool} layer.
+\noindent Some examples of deep visualization of the \texttt{fc2} and \texttt{fc1} layers are shown in \textbf{Fig. \ref{vgg:deepvis-fc2}} and \textbf{Fig. \ref{vgg:deepvis-fc1}}, respectively. In \textbf{Fig. \ref{vgg:deepvis-blocks}}, deep visualizations of a randomly selected unit in each pooling layer of the blocks 2-5 are presented. Since using the same learning rate and number of iterations for the lower layers as for the higher layers may not be beneficial, \textbf{Fig. \ref{vgg:deepvis-block5-lr-variations}} show how lowering these hyperparameters affect the resulting visualization. Finally, \textbf{Fig. \ref{vgg:deepvis-block1}} present deep visualizations of the \texttt{block1\_pool} layer.
 
 \begin{figure}
+\captionsetup[subfigure]{labelformat=empty}
 \begin{center}
 \begin{tabular}{ccc}
 \subfloat[Class 76 - tarantula]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_0_predictions_76.png}} & 
@@ -481,95 +483,121 @@ The deep visualization technique requires a number of hyperparameters that impac
 \subfloat[Class 953 - pineapple, ananas]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_1_predictions_953.png}} &
 \subfloat[Class 971 - bubble]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_0_predictions_971.png}} \\
 \end{tabular}
-\caption[Deep visualization of VGG16 output]{Deep visualization of the output layer for a selection of nine output classes of the VGG16 network. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \textbf{Table \ref{tab:reg-hyperparams}}.}
+\caption[Deep visualization of VGG16 \texttt{output} layer]{Deep visualization of the \texttt{output} layer for a selection of nine output classes of the VGG16 network. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \textbf{Table \ref{tab:reg-hyperparams}}.}
 \label{vgg:deepvis-output}
 \end{center}
 \end{figure}
 
+% har fjerna 3 visualiseringer som ikke ble nevnt fra den under her. kan brukes om vi vil ha litt større bilder
+
+\begin{comment}
+\begin{figure}
+\captionsetup[subfigure]{labelformat=empty}
+\begin{center}
+\begin{tabular}{cc}
+\subfloat[Class 76 - tarantula]{\includegraphics[width = 2.0in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_0_predictions_76.png}} & 
+\subfloat[Class 327 - starfish, sea star]{\includegraphics[width = 2.0in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_1_predictions_327.png}} \\
+\subfloat[Class 457 - bow tie, bow-tie, bowtie]{\includegraphics[width = 2.0in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_1_predictions_457.png}} &
+\subfloat[Class 879 - umbrella]{\includegraphics[width = 2.0in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_0_predictions_879.png}} \\
+\subfloat[Class 890 - volleyball]{\includegraphics[width = 2.0in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_1_predictions_890.png}} &
+\subfloat[Class 971 - bubble]{\includegraphics[width = 2.0in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_0_predictions_971.png}} \\
+\end{tabular}
+\caption[Deep visualization of VGG16 \texttt{output} layer]{Deep visualization of the \texttt{output} layer for a selection of six output classes of the VGG16 network. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \textbf{Table \ref{tab:reg-hyperparams}}.}
+\label{vgg:deepvis-output}
+\end{center}
+\end{figure}
+\end{comment}
+
 \begin{figure}
 \begin{center}
 \begin{tabular}{cc}
-\subfloat{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_0_predictions_76.png}} &
-\subfloat{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_1_predictions_76.png}} \\
+\subfloat{\includegraphics[width = 1.7in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_0_predictions_76.png}} &
+\subfloat{\includegraphics[width = 1.7in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_1_predictions_76.png}} \\
 \end{tabular}
-\caption[Variations in deep visualization of VGG16 output layer]{Two versions of deep visualization of the output layer for the 'tarantula' output class. Both visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \textbf{Table \ref{tab:reg-hyperparams}}.}
+\caption[Variations in deep visualization of VGG16 \texttt{output} layer]{Two versions of deep visualization for the \texttt{output} layer for the 'tarantula' output class. Both visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \textbf{Table \ref{tab:reg-hyperparams}}.}
 \label{vgg:deepvis-output-variations}
 \end{center}
 \end{figure}
 
 \begin{figure}
+\captionsetup[subfigure]{labelformat=empty}
 \begin{center}
 \begin{tabular}{cc}
-\subfloat[Row 1]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/alternatives/deepvis_keras_deepvis_fc3_alternative1_0_predictions_76.png}} &
-\subfloat[Row 2]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/alternatives/deepvis_keras_deepvis_fc3_alternative2_0_predictions_76.png}} \\
-\subfloat[Row 3]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_1_predictions_76.png}} &
-\subfloat[Row 4]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/alternatives/deepvis_keras_deepvis_fc3_alternative3_0_predictions_76.png}} \\
+\subfloat[Row 1]{\includegraphics[width = 1.7in]{fig/results/deepvis_vgg/alternatives/deepvis_keras_deepvis_fc3_alternative1_0_predictions_76.png}} &
+\subfloat[Row 2]{\includegraphics[width = 1.7in]{fig/results/deepvis_vgg/alternatives/deepvis_keras_deepvis_fc3_alternative2_0_predictions_76.png}} \\
+\subfloat[Row 3]{\includegraphics[width = 1.7in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_1_predictions_76.png}} &
+\subfloat[Row 4]{\includegraphics[width = 1.7in]{fig/results/deepvis_vgg/alternatives/deepvis_keras_deepvis_fc3_alternative3_0_predictions_76.png}} \\
 \end{tabular}
-\caption[Hyperparameter variations in deep visualization of VGG16 output layer]{Four versions of deep visualization of the output layer for the 'tarantula' output class. All visualizations are created using a learning rate of 2500 for 1000 iterations, but with hyperparameter corresponding to each of the rows in \textbf{Table \ref{tab:reg-hyperparams}}.}
+\caption[Hyperparameter variations in deep visualization of VGG16 \texttt{output} layer]{Four versions of deep visualization of the \texttt{output} layer for the 'tarantula' output class. All visualizations are created using a learning rate of 2500 for 1000 iterations, but with hyperparameter corresponding to each of the rows in \textbf{Table \ref{tab:reg-hyperparams}}.}
 \label{vgg:deepvis-output-hyperparameters}
 \end{center}
 \end{figure}
 
 \begin{figure}
+\captionsetup[subfigure]{labelformat=empty}
 \begin{center}
-\begin{tabular}{cccc}
-\subfloat[Unit 2176]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/fc1-2/deepvis_keras_deepvis_fc2_0_fc2_2176.png}} &
+\begin{tabular}{ccc}
+\subfloat[Unit 2176]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/fc1-2/deepvis_keras_deepvis_fc2_0_fc2_2176.png}} & 
 \subfloat[Unit 2816]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/fc1-2/deepvis_keras_deepvis_fc2_0_fc2_2816.png}} &
-\subfloat[Unit 3840]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/fc1-2/deepvis_keras_deepvis_fc2_0_fc2_3840.png}} &
+\subfloat[Unit 3840]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/fc1-2/deepvis_keras_deepvis_fc2_0_fc2_3840.png}} \\
 \end{tabular}
-\caption[Deep visualization of VGG16 fc2 layer]{Deep visualization of a selection of 3 units in the fc2 layer of the VGG16 network. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \textbf{Table \ref{tab:reg-hyperparams}}.}
+\caption[Deep visualization of VGG16 \texttt{fc2} layer]{Deep visualization of three units in the \texttt{fc2} layer of the VGG16 network. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \textbf{Table \ref{tab:reg-hyperparams}}.}
 \label{vgg:deepvis-fc2}
 \end{center}
 \end{figure}
 
 \begin{figure}
+\captionsetup[subfigure]{labelformat=empty}
 \begin{center}
 \begin{tabular}{cc}
-\subfloat[Unit 2048]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/fc1-2/deepvis_keras_deepvis_lower_1_fc1_2048.png}} &
-\subfloat[Unit 3072]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/fc1-2/deepvis_keras_deepvis_lower_0_fc1_3072.png}} \\
+\subfloat[Unit 2048]{\includegraphics[width = 2.0in]{fig/results/deepvis_vgg/fc1-2/deepvis_keras_deepvis_lower_1_fc1_2048.png}} &
+\subfloat[Unit 3072]{\includegraphics[width = 2.0in]{fig/results/deepvis_vgg/fc1-2/deepvis_keras_deepvis_lower_0_fc1_3072.png}} \\
 \end{tabular}
-\caption[Deep visualization of VGG16 fc1 layer]{Deep visualization of a selection of 2 units in the fc1 layer of the VGG16 network. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \textbf{Table \ref{tab:reg-hyperparams}}.}
+\caption[Deep visualization of VGG16 \texttt{fc1} layer]{Deep visualization of two units in the \texttt{fc1} layer of the VGG16 network. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \textbf{Table \ref{tab:reg-hyperparams}}.}
 \label{vgg:deepvis-fc1}
 \end{center}
 \end{figure}
 
 \begin{figure}
+\captionsetup[subfigure]{labelformat=empty}
 \begin{center}
 \begin{tabular}{cccc}
-\subfloat[Block 5]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/block2-5/deepvis_keras_deepvis_lower_0_block5_pool_(2,2,0).png}} &
-\subfloat[Block 4]{\includegraphics[width = 1.25in]{fig/results/deepvis_vgg/block2-5/deepvis_keras_deepvis_lower_0_block4_pool_(5,5,64).png}} &
-\subfloat[Block 3]{\includegraphics[width = 1.0in]{fig/results/deepvis_vgg/block2-5/deepvis_keras_deepvis_lower_0_block3_pool_(11,11,128).png}} &
-\subfloat[Block 2]{\includegraphics[width = 0.75in]{fig/results/deepvis_vgg/block2-5/deepvis_keras_deepvis_lower_0_block2_pool_(23,23,48).png}} \\
+\subfloat[Block 5]{\includegraphics[width = 1.25in, height = 1.25in]{fig/results/deepvis_vgg/block2-5/deepvis_keras_deepvis_lower_0_block5_pool_(2,2,0).png}} &
+\subfloat[Block 4]{\includegraphics[width = 1.0in, height = 1.0in]{fig/results/deepvis_vgg/block2-5/deepvis_keras_deepvis_lower_0_block4_pool_(5,5,64).png}} &
+\subfloat[Block 3]{\includegraphics[width = 0.75in, height = 0.75in]{fig/results/deepvis_vgg/block2-5/deepvis_keras_deepvis_lower_0_block3_pool_(11,11,128).png}} &
+\subfloat[Block 2]{\includegraphics[width = 0.5in, height = 0.5in]{fig/results/deepvis_vgg/block2-5/deepvis_keras_deepvis_lower_0_block2_pool_(23,23,48).png}} \\
 \end{tabular}
-\caption[Deep visualization of VGG16 pool layers in block 2-5]{Deep visualization of a unit from each of the pool layers in block2-5 of the VGG16 network. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \textbf{Table \ref{tab:reg-hyperparams}}.}
+\caption[Deep visualization of VGG16 pooling layers in block 2-5]{Deep visualization of a unit from each of the pooling layers in block 2-5 of the VGG16 network. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \textbf{Table \ref{tab:reg-hyperparams}}.}
 \label{vgg:deepvis-blocks}
 \end{center}
 \end{figure}
 
 \begin{figure}
+\captionsetup[subfigure]{labelformat=empty}
 \begin{center}
 \begin{tabular}{cc}
-\subfloat[2500 lr, 500 iterations]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/block2-5/deepvis_keras_deepvis_lower_0_block5_pool_(2,2,0).png}} &
-\subfloat[1000 lr, 250 iterations]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/block2-5/deepvis_keras_deepvis_lower_settings_0_block5_pool_(2,2,0).png}} \\
+\subfloat[2500 lr, 500 iterations]{\includegraphics[width = 1.5in, height = 1.5in]{fig/results/deepvis_vgg/block2-5/deepvis_keras_deepvis_lower_0_block5_pool_(2,2,0).png}} &
+\subfloat[1000 lr, 250 iterations]{\includegraphics[width = 1.5in, height = 1.5in]{fig/results/deepvis_vgg/block2-5/deepvis_keras_deepvis_lower_settings_0_block5_pool_(2,2,0).png}} \\
 \end{tabular}
-\caption[Learning rate variations in deep visualization of VGG16 block5\_pool layer]{Two versions of deep visualization of a unit in the block5\_pool layer of the VGG16 network. The visualizations are created using different learning rates (lr) and number of iterations. The hyperparameter settings correspond to the third row of \textbf{Table \ref{tab:reg-hyperparams}}.}
+\caption[Learning rate variations in deep visualization of VGG16 \texttt{block5\_pool} layer]{Two versions of deep visualization of a unit in the \texttt{block5\_pool} layer of the VGG16 network. The visualizations are created using different learning rates (lr) and number of iterations. The hyperparameter settings correspond to the third row of \textbf{Table \ref{tab:reg-hyperparams}}.}
 \label{vgg:deepvis-block5-lr-variations}
 \end{center}
 \end{figure}
 
 \begin{figure}
+\captionsetup[subfigure]{labelformat=empty}
 \begin{center}
-\begin{tabular}{cccc}
-\subfloat[(56, 56, 0)]{\includegraphics[width = 0.7in, height = 0.7in]{fig/results/deepvis_vgg/block1/deepvis_keras_deepvis_lower_0_block1_pool_(56,56,0).png}} &
-\subfloat[(56, 56, 8)]{\includegraphics[width = 0.7in, height = 0.7in]{fig/results/deepvis_vgg/block1/deepvis_keras_deepvis_lower_0_block1_pool_(56,56,8).png}} &
-\subfloat[(56, 56, 16)]{\includegraphics[width = 0.7in, height = 0.7in]{fig/results/deepvis_vgg/block1/deepvis_keras_deepvis_lower_0_block1_pool_(56,56,16).png}} &
-\subfloat[(56, 56, 24)]{\includegraphics[width = 0.7in, height = 0.7in]{fig/results/deepvis_vgg/block1/deepvis_keras_deepvis_lower_0_block1_pool_(56,56,24).png}} \\
-\subfloat[(56, 56, 32)]{\includegraphics[width = 0.7in, height = 0.7in]{fig/results/deepvis_vgg/block1/deepvis_keras_deepvis_lower_0_block1_pool_(56,56,32).png}} &
-\subfloat[(56, 56, 40)]{\includegraphics[width = 0.7in, height = 0.7in]{fig/results/deepvis_vgg/block1/deepvis_keras_deepvis_lower_0_block1_pool_(56,56,40).png}} &
-\subfloat[(56, 56, 48)]{\includegraphics[width = 0.7in, height = 0.7in]{fig/results/deepvis_vgg/block1/deepvis_keras_deepvis_lower_0_block1_pool_(56,56,48).png}} &
-\subfloat[(56, 56, 56)]{\includegraphics[width = 0.7in, height = 0.7in]{fig/results/deepvis_vgg/block1/deepvis_keras_deepvis_lower_0_block1_pool_(56,56,56).png}} \\
+\begin{tabular}{cccccc}
+%\subfloat[(56, 56, 0)]{\includegraphics[width = 0.5in, height = 0.5in]{fig/results/deepvis_vgg/block1/deepvis_keras_deepvis_lower_0_block1_pool_(56,56,0).png}} &
+\subfloat[(56, 56, 8)]{\includegraphics[width = 0.55in, height = 0.55in]{fig/results/deepvis_vgg/block1/deepvis_keras_deepvis_lower_0_block1_pool_(56,56,8).png}} &
+\subfloat[(56, 56, 16)]{\includegraphics[width = 0.55in, height = 0.55in]{fig/results/deepvis_vgg/block1/deepvis_keras_deepvis_lower_0_block1_pool_(56,56,16).png}} &
+\subfloat[(56, 56, 24)]{\includegraphics[width = 0.55in, height = 0.55in]{fig/results/deepvis_vgg/block1/deepvis_keras_deepvis_lower_0_block1_pool_(56,56,24).png}} &
+\subfloat[(56, 56, 32)]{\includegraphics[width = 0.55in, height = 0.55in]{fig/results/deepvis_vgg/block1/deepvis_keras_deepvis_lower_0_block1_pool_(56,56,32).png}} &
+\subfloat[(56, 56, 40)]{\includegraphics[width = 0.55in, height = 0.55in]{fig/results/deepvis_vgg/block1/deepvis_keras_deepvis_lower_0_block1_pool_(56,56,40).png}} &
+\subfloat[(56, 56, 48)]{\includegraphics[width = 0.55in, height = 0.55in]{fig/results/deepvis_vgg/block1/deepvis_keras_deepvis_lower_0_block1_pool_(56,56,48).png}} \\
+%\subfloat[(56, 56, 56)]{\includegraphics[width = 0.5in, height = 0.5in]{fig/results/deepvis_vgg/block1/deepvis_keras_deepvis_lower_0_block1_pool_(56,56,56).png}} \\
 \end{tabular}
-\caption[Deep visualization of VGG16 block1\_pool layer]{Deep visualization of a selection of eight units in the block1\_pool layer of the VGG16 network, with the unit index captioned below each image. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \textbf{Table \ref{tab:reg-hyperparams}}.}
+\caption[Deep visualization of VGG16 \texttt{block1\_pool} layer]{Deep visualization of six units in the \texttt{block1\_pool} layer of the VGG16 network, with the unit index captioned below each image. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \textbf{Table \ref{tab:reg-hyperparams}}.}
 \label{vgg:deepvis-block1}
 \end{center}
 \end{figure}

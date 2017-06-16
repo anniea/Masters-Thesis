@@ -13,7 +13,7 @@ This chapter will introduce the thesis by providing a background for the problem
     \item A case study in facial recognition
 \end{enumerate}
 
-\noindent The first part proposes a tool for visualizing data produced during the training of an ANN. This visualization tool should be implemented in the form of a web interface where users can upload and run their Python scripts for creating and training such networks. The tool should use established visualization techniques to generate visualizations for the user in order to help them gain insight into why their networks behave as they do and, by extension, how they can be improved. A prototype of this interface has been implemented as part of the Specialization Project and will serve as a foundation for the continuation of the development. A description of the prototype, as well as an overview of the implementation details for the thesis, will be presented in chapter \ref{implementation-chap}. \\
+\noindent The first part proposes a tool for visualizing data produced during the training of an ANN. This visualization tool should be implemented in the form of a web interface where users can upload and run their Python scripts for creating and training such networks. The tool should use established visualization techniques to generate visualizations for the user in order to help them gain insight into why their networks behave as they do and, by extension, how they can be improved. A prototype of this interface has been implemented as part of the Specialization Project and will serve as a foundation for the continuation of the development. A description of the prototype, as well as an overview of the implementation details for the thesis, will be presented in chapter \ref{chap:implementation-chap}. \\
 
 \noindent The case study in the second part explores whether it is possible to exploit facial expression data in order to improve an ANN for face recognition. The idea is that a network with access to facial expression data could learn the alterations of features associated with various expressions, and apply this to recognize faces which differ in the corresponding features. To examine the idea, a well known ANN architecture should be adapted to the face recognition domain to create two different networks: one conventional to act as a basis to be evaluated against and one experimental that exploits facial expression data.\\
 
@@ -30,7 +30,7 @@ The thesis introduces a visualization tool, implemented as a web interface, that
 
 \noindent The thesis also explores the face recognition field by investigating if the exploitation of facial expression data in face recognition systems could be beneficial. The results of the case study will indicate whether the approach has initial merit and should be researched further.
 
-\section{Research Questions and Objectives} \label{research-questions}
+\section{Research Questions and Objectives} \label{sec:research-questions}
 
 This section composes the problem stated into two research questions that will guide the problem solving process. We have also defined a set of research objectives that identifies the goals associated with each of the research questions. These goals must be achieved in order to be able to answer the questions.
 
@@ -61,29 +61,29 @@ We aim to explore whether it is possible to exploit facial expression data in or
 \noindent To answer this question, we will need to complete the following research objective:
 
 \begin{enumerate}[align=left, labelwidth=3.5em, leftmargin=!, itemindent=0em]
-    \item[\textbf{RO 2.1:}]Investigate what happens when incorporating expression data in a face recognition system.
+    \item[\textbf{RO 2.1:}]Investigate how performance is affected when incorporating expression data in a face recognition system.
 \end{enumerate}
 
 \section{Research Methodology}
 
-This section will explain the research method used in our thesis. Note that this is not to be confused with the more specific system development method, which is the explanation and documentation of how the suggested systems are implemented. and will be addressed in chapter \ref{implementation-chap}. The research methodology is the combination of research strategies and data generation methods to be used in the thesis. Even though our research consists of two separate problems, we plan to address them simultaneously, and will employ similar methods for both. Thus, parts of this section discuss the research in general instead of separately for each research question.
+This section will explain the research method used in our thesis. Note that this is not to be confused with the more specific system development method, which is the explanation and documentation of how the suggested systems are implemented. The system development method will be addressed in chapter \ref{chap:implementation}. The research methodology is the combination of research strategies and data generation methods to be used in the thesis. Even though our research consists of two separate problems, we plan to address them simultaneously, and will employ similar methods for both. Thus, parts of this section discuss the research in general instead of separately for each research question.
 
 \subsection{Research Strategy}
 
 Oates \cite{oates} proposed six different strategies for answering research questions. Since both of our questions are concerned with the implementation of some kind of computer system, it is natural to employ the design and creation strategy, which focuses on developing new information technology (IT) products, or so called artefacts. March \& Smith \cite{march-smith} defines four types of IT artefacts: constructs, models, methods and instantiations. Instantiations are working systems demonstrating that constructs, models, methods, ideas or theories can be implemented in a computer-based system. The research output in our case will be two instantiations: the implemented visualization tool, and an implementation of a face recognition system incorporating a novel idea. \\
 
-\noindent Vaishnavi \& Kuechler \cite{designscience} present an iterative process typical for design and creation, illustrated in \textbf{Fig. \ref{dsr-cycle}}. The process suggests a "learning through making" approach and involves five steps, followed in an iterative cycle: awareness of problem, suggestion, development, evaluation and conclusion. The first step is to study existing literature and research to uncover the need for something. The second step provides a creative leap from the need to a simple idea of a solution. Then, the idea is implemented in the third step, followed by an evaluation of this implementation and an explanation of possible deviations from the expectation in the fourth step. Finally, in the fifth step, the result is documented, and the knowledge gained, as well as any possible future work, is identified. \\
+\noindent Vaishnavi \& Kuechler \cite{designscience} present an iterative process typical for design and creation, illustrated in \textbf{Fig. \ref{fig:dsr-cycle}}. The process suggests a "learning through making" approach and involves five steps, followed in an iterative cycle: awareness of problem, suggestion, development, evaluation and conclusion. The first step is to study existing literature and research to uncover the need for something. The second step provides a creative leap from the need to a simple idea of a solution. Then, the idea is implemented in the third step, followed by an evaluation of this implementation and an explanation of possible deviations from the expectation in the fourth step. Finally, in the fifth step, the result is documented, and the knowledge gained, as well as any possible future work, is identified. \\
 
 \begin{figure}[h!]
     \centering
         \includegraphics[width=0.7\textwidth]{fig/dsr-cycle.pdf}
         \caption{Research Process Model}
-        \label{dsr-cycle}
+        \label{fig:dsr-cycle}
 \end{figure}
 
-\noindent For the visualization tool, the first couple of iterations of this cycle have already been conducted in the Specialization Project. The result of this project included many pointers on future work, which will be addressed in this thesis. We will continue to repeat the process until we can conclude with an implementation that is satisfactory according to our research question and objectives. For the case study, however, no development was conducted in the Specialization Project. The focus was rather on the first two steps, namely to define the problem and suggest a solution. In this thesis, we will continue the process by implementing a suggested solution, and continue to evaluate and improve it until we reach a conclusion.\\
+\noindent For the visualization tool, the first couple of iterations of this cycle have already been conducted in the Specialization Project. The result of this project included many pointers to future work, which will be addressed in this thesis. We will continue to repeat the process until we can conclude with an implementation that is satisfactory according to our research question and objectives. For the case study, however, no development was conducted in the Specialization Project. The focus was rather on the first two steps, namely to define the problem and suggest a solution. In this thesis, we will continue the process by implementing a suggested solution, and continue to evaluate and improve it until we reach a conclusion.\\
 
-\subsection{Data Generation Methods} \label{data-generation-methods}
+\subsection{Data Generation Methods} \label{sec:data-generation-methods}
 
 The data that will be used in the thesis will mainly be qualitative data in the form of documents. For the implementation of the visualization tool, articles on various visualization techniques that can aid in understanding ANNs will be essential. We will also make use of documentation of the frameworks and technologies used in implementation. To document the implemented tool and capture our research strategy, we will generate our own documents using architectural diagrams and user manuals. \\
 
@@ -97,6 +97,8 @@ To present the results of the visualization tool, we will make use of well known
 
 \section{Thesis Structure}
 
+\textbf{Table \ref{tab:thesis-structure}} presents an overview of the structure of the thesis.
+
 \begin{table}[!h]
 \begin{center}
 \begin{tabular}{ | l | p{8cm} |}
@@ -108,16 +110,15 @@ To present the results of the visualization tool, we will make use of well known
 4. Implementation & The implementation of the visualization tool and case study in terms of methods and architecture. \\ \hline
 5. Results & The results from both the visualizations and the case study. \\ \hline
 6. Discussion & Discussion of the results presented in the previous chapter. \\ \hline
-7. Conclusion & A short conclusion. \\ \hline
-8. Future Work & Some pointers on future work. \\ \hline
+7. Conclusion and Future Work & A short conclusion and some pointers to future work. \\ \hline
 A. Installation \& Setup & A step by step wizard on how to install and set up the visualization tool. \\ \hline
 B. User Manual & How to use the visualization tool, including screenshots of the GUI. \\ \hline
-C. Callbacks API & An API for the callbacks available to be used with the visualization tool. \\ \hline
+C. Callbacks API & An API for the callbacks to be used with the visualization tool. \\ \hline
 D. Visualization Files & A note on the format of the content of the visualization files. \\ \hline
 \end{tabular}
 \end{center}
 \caption{Overview of the thesis structure}
-\label{tab:1}
+\label{tab:thesis-structure}
 \end{table}
 
 \cleardoublepage

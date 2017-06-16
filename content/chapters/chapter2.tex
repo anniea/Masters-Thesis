@@ -2,12 +2,18 @@
 
 \chapter{Background Theory}
 
+This chapter provides the background theory necessary for understanding the foundation of the work to be conducted in the thesis. Note that the topics here are not exhaustively explained. Only the parts relevant to the thesis is covered. We start with an introduction to ANNs and follow with a deeper look at CNNs. Then, we describe visualization techniques for visualizing such networks, followed with a brief overview of transfer learning, before ending the chapter with an examination of facial expressions and their relation to CNNs.
+
+\begin{comment}
 Mention that the topics here are not exhaustively explained, and only the parts relevant to our thesis is covered. 
 
 To from fall project, "introducing" visualizations explanation:
 \noindent \textit{To gain a beneficial amount of information from our visualization website, we determined several different techniques to be researched. In this section, we present the techniques we have selected as appropriate for our purpose. Their advantages and relevance are discussed, and a brief description of how they function are given. For further explanations on implementation, we refer the reader to their respective articles.}
+\end{comment}
 
 \section{Artificial Neural Networks}
+
+
 
 \textit{This was missing in the specialization project. Need to cover all concepts used later in the report. This includes all different layers of a neural network. The layers (dropout, pooling, etc) could perhaps be a separate section after this one.}
 
@@ -38,7 +44,7 @@ The idea of an ANN is that it can approximate any continuous function, and that 
 
 \noindent There are several different classes and types of ANNs. We will focus on the standard feed-forward neural network, and thus we will use the term ANN when referring to such a network. In a feed-forward network, all connections are directed from one layer to the next layer, and there are no cycles or connections between units in the same layer. \\
 
-\noindent The first layer of an ANN is called the input layer. Similarly, the last layer is called the output layer. All layers in between are referred to as hidden layers, and are usually fully connected layers. This means that each layer node is connected to every node in the preceding layer. A layer can also be a convolutional layer or a pooling layer, but these cases will be covered later, in section \ref{conv-networks}.
+\noindent The first layer of an ANN is called the input layer. Similarly, the last layer is called the output layer. All layers in between are referred to as hidden layers, and are usually fully connected layers. This means that each layer node is connected to every node in the preceding layer. A layer can also be a convolutional layer or a pooling layer, but these cases will be covered later, in section \ref{sec:conv-networks}.
 
 \subsection{Activation Functions}
 
@@ -115,9 +121,9 @@ The Rectified Linear Unit (ReLU) activation has the mathematical function $f(x) 
 
 The softmax activation function is a variant of the sigmoid function. Instead of binary classification, it is used for the output units of a multiclass classification problem, where the goal is to classify instances into one of more than two classes. The mathematical equation for the softmax function is $f(x) = e^x/\sum_{j=0}^k e^{x_j}$. It calculates the probability distribution of each target class over all possible target classes. A convenient result of this is that the sum of all probabilities will be equal to one. Note that the softmax function is not used in hidden units, but only as the activation function of output units.
 
-\subsection{Training a Network} \label{training-sec}
+\subsection{Training a Network} \label{sec:training}
 
-The weights of an ANN, often referred to as the parameters, can be learned by training the network on a set of training data in a procedure called supervised learning. Typically, the weights are initialized to small, randomly generated numbers. The training data consists of training pairs of input and output data, with the output being the desired output of the ANN for the given input. In classification, for instance, the input could be an image, and the output could denote what the image represents, e.g. a cat. In training, the difference between the desired output and the network's actual output is used to update its weights. This process is elaborated upon in section \ref{backprop}. Often, it is useful to include a validation data set and a test data set in addition to the training set. Both of them should be representative of the training set. The validation set can be used during training to measure performance on data the network has not been explicitly trained on. The test set is used on fully trained networks to compare their performance. It is important that the different data sets consist of a substantial amount of diverse training pairs.
+The weights of an ANN, often referred to as the parameters, can be learned by training the network on a set of training data in a procedure called supervised learning. Typically, the weights are initialized to small, randomly generated numbers. The training data consists of training pairs of input and output data, with the output being the desired output of the ANN for the given input. In classification, for instance, the input could be an image, and the output could denote what the image represents, e.g. a cat. In training, the difference between the desired output and the network's actual output is used to update its weights. This process is elaborated upon in section \ref{sec:backprop}. Often, it is useful to include a validation data set and a test data set in addition to the training set. Both of them should be representative of the training set. The validation set can be used during training to measure performance on data the network has not been explicitly trained on. The test set is used on fully trained networks to compare their performance. It is important that the different data sets consist of a substantial amount of diverse training pairs.
 
 \subsubsection{Data Preprocessing}
 
@@ -133,7 +139,7 @@ The training data of an ANN can often be noisy and incomplete. Overfitting is wh
 
 %  Cross entropy cost is appropriate to classification where the goal is to minimize the number of mis-classified training samples by imposing an exponentially increasing error the closer an output comes to being "1" when it should be "0", and vice versa.
 
-\subsection{Gradient Descent and Backpropagation} \label{backprop}
+\subsection{Gradient Descent and Backpropagation} \label{sec:backprop}
 
 \noindent To optimize the loss, we can use an algorithm called gradient descent, which minimizes any function iteratively. In short, the algorithm makes the learning process a repeated loop of evaluating the gradient, and then updating the weights based on this gradient. The simplest form of this algorithm, also called the vanilla version, is shown in \textbf{Code \ref{code:1}}. \\
 
@@ -171,7 +177,7 @@ One way to improve SGD is to add momentum. SGD can get stuck in local optima, an
 
 Adaptive learning rate methods are algorithms that automatically adapts the learning rate to the parameters. They are all quite similar, and perform thereafter. In general, SGD often finds a minimum, but these methods can help to achieve convergence faster, and requires no tuning of the learning rate. The algorithms are usually implemented with a decent default starting value. Adagrad was the first adaptive learning rate method proposed, and the later additions are extensions of it. Its weakness is that the learning rate decreases to eventually become too small. AdaDelta and RMSprop are both methods that overcome this flaw, and they only differ slightly in implementation. Another option, Adam, adds momentum to the optimization as well.
 
-\section{Convolutional Neural Networks} \label{conv-networks}
+\section{Convolutional Neural Networks} \label{sec:conv-networks}
 
 A variation of the traditional ANN, convolutional neural networks (CNNs) are especially well suited for handling input data that can be arranged in a grid-like topology. These types of networks can be applied to input of any dimension, but are commonly used in situations where the processing of images is required. We will concentrate on the convolution of images, as it is of most relevance to the thesis. \\
 
@@ -218,9 +224,9 @@ S(i, j) = (I*K)(i, j) = \sum_{m} \sum_{n} I(i+m, j+n) K(m, n)
         \label{2d-conv}
 \end{figure}
  
-\subsection{Convolution as Matrix Multiplication} \label{conv-matrix}
+\subsection{Convolution as Matrix Multiplication} \label{sec:conv-matrix}
  
-Discrete convolution can be represented by a matrix multiplication and there are multiple ways to define the operation. The definition presented here was chosen as it allows the differences between convolution and transposed convolution to be easily demonstrated in section \ref{trans-conv}. \\
+Discrete convolution can be represented by a matrix multiplication and there are multiple ways to define the operation. The definition presented here was chosen as it allows the differences between convolution and transposed convolution to be easily demonstrated in section \ref{sec:trans-conv}. \\
 
 \noindent Consider a discrete convolution of a 4x4 input matrix with a 3x3 kernel matrix. To perform this convolution via matrix multiplication, we must first unroll the input matrix from left to right and top to bottom, reshaping the input into a 16-dimensional vector $I$. The kernel must also be modified, creating a sparse matrix $K$, where $w_{ij}$ is the element at row $i$ and column $j$ in the original kernel:
 
@@ -276,7 +282,7 @@ Not surprisingly, the filter amount denotes how many different filters the layer
 
 \subsubsection{Strides}
 
-The stride refers to the distance between filter applications in units. For image input, it applies in both spatial directions, meaning two separate strides must be specified. In a basic convolution, with single strides and no padding, the filter would be applied to every unique (spatial) neighborhood of units that matches the filter size. For a 4x3 input and a 2x2 filter, there exist six such neighborhoods, as implied by Fig. \ref{2d-conv}. Each filter region is then a single step away from any another, both vertically and horizontally. If we increase the horizontal stride to two, the filter will only be applied to every second neighborhood in that direction. As a result, four regions of the input would be convolved, creating a 2x2 feature map. By increasing both strides to two, the feature map would be further reduced to 2x1, as there would not be enough units for two filter regions that were two steps apart in the vertical direction. The strides can be further increased, but they are rarely set to large values. The purpose of the strides is to downsample the input, reducing computational cost at the expense of finer feature extraction. Although increasing the filter size would also diminish the feature map, it would limit the layer's feature detection capabilities, making larger strides the preferred approach.
+The stride refers to the distance between filter applications in units. For image input, it applies in both spatial directions, meaning two separate strides must be specified. In a basic convolution, with single strides and no padding, the filter would be applied to every unique (spatial) neighborhood of units that matches the filter size. For a 4x3 input and a 2x2 filter, there exist six such neighborhoods, as implied by \textbf{Fig. \ref{2d-conv}}. Each filter region is then a single step away from any another, both vertically and horizontally. If we increase the horizontal stride to two, the filter will only be applied to every second neighborhood in that direction. As a result, four regions of the input would be convolved, creating a 2x2 feature map. By increasing both strides to two, the feature map would be further reduced to 2x1, as there would not be enough units for two filter regions that were two steps apart in the vertical direction. The strides can be further increased, but they are rarely set to large values. The purpose of the strides is to downsample the input, reducing computational cost at the expense of finer feature extraction. Although increasing the filter size would also diminish the feature map, it would limit the layer's feature detection capabilities, making larger strides the preferred approach.
 
 \subsubsection{Padding}
 
@@ -286,7 +292,7 @@ Padding has the opposite effect of strides and is used to either retain the spat
 
 \subsection{Training a Convolutional Layer}
 
-Training a convolutional layer is similar to training a fully connected one, as explained in section \ref{training-sec}. As discussed in section \ref{conv-matrix}, convolution can be thought of as a matrix multiplication. Following the example from that section, we use the kernel matrix $K$ to define the backward pass for convolutional layers. While we have established that convolutional layers often handle input, output and kernels with three dimensions, we use 2D matrices here to simply illustrate the backward pass approach. To that effect, we also assume single strides and no padding. 
+Training a convolutional layer is similar to training a fully connected one, as explained in section \ref{sec:training-sec}. As discussed in section \ref{sec:conv-matrix}, convolution can be thought of as a matrix multiplication. Following the example from that section, we use the kernel matrix $K$ to define the backward pass for convolutional layers. While we have established that convolutional layers often handle input, output and kernels with three dimensions, we use 2D matrices here to simply illustrate the backward pass approach. To that effect, we also assume single strides and no padding. 
 
 \subsubsection{The Backward Pass}
 
@@ -300,11 +306,11 @@ In a forward pass, a single entry in the output vector is only affected by a sub
 
 Strides and padding have an effect on the output size of a layer, as previously explained. These two, in combination with input size and filter size, determine the spatial size of the feature maps. Using different stride and padding policies, forward passes for multiple inputs of varying size can produce feature maps of similar size. As a result, performing a backward pass transposed convolution will not necessarily be as straightforward as in the basic case, with single strides and no padding. The details on how transposed convolution can be performed with the various combinations of strides and padding is not of great importance to the thesis and will be described no further. It suffices to be aware of the issue, which explain why some implementations require the desired output size to perform transposed convolution.
 
-\subsection{Transposed Convolutional Layer} \label{trans-conv}
+\subsection{Transposed Convolutional Layer} \label{sec:trans-conv}
 
 A transposed convolutional layer (also known as a fractionally strided convolutional layer) is almost identical to a regular convolutional layer, with an important distinction: the forward and backward passes are swapped. Where a regular layer uses $K$ and $K^T$ for the forward and backward pass, respectively, the transposed convolutional layer would use $K^T$ and $K$, respectively. As $(K^T)^T=K$, the transposed convolutional layer is simply a regular convolutional layer using transposed convolution matrices, hence the name. Because both the passes are defined by $K$, the connectivity pattern found in regular layers also holds for transposed convolutional layers. \\
 
-\noindent Transposed convolutional layers can be implemented with the same hyperparameters as regular convolutional layers. In this case, the strides and the padding specified usually applies to the convolution operation in the backward pass, which then dictates how the transposed convolution in the forward pass will behave. These layers are typically found in networks used to reconstruct some input from the output of another CNN. An example is deconvolutional neural networks (DCNNs), which try to reconstruct an input image, with certain features highlighted, from a set of feature maps. DCNNs will be explored further in section \ref{visualization-theory}, which covers visualization techniques.
+\noindent Transposed convolutional layers can be implemented with the same hyperparameters as regular convolutional layers. In this case, the strides and the padding specified usually applies to the convolution operation in the backward pass, which then dictates how the transposed convolution in the forward pass will behave. These layers are typically found in networks used to reconstruct some input from the output of another CNN. An example is deconvolutional neural networks (DCNNs), which try to reconstruct an input image, with certain features highlighted, from a set of feature maps. DCNNs will be explored further in section \ref{sec:visualization-theory}, which covers visualization techniques.
 
 \subsection{Pooling Layer}
 
@@ -321,7 +327,7 @@ The benefit of pooling layers is that they make a network approximately invarian
 CNNs with max pooling layers can still be trained with gradient descent and backpropagation. There does not exist an inverse to the max pooling function to use in a backward pass, but that problem can be solved using so called switches, which are routings between input and output units. In a forward pass, simply save which input units had a maximum value and which output unit they correspond to. These routings can then be used in backpropagation to pass the error back to the right unit. 
 
 
-\section{Visualization} \label{visualization-theory}
+\section{Visualization} \label{sec:visualization-theory}
 
 When using ANNs to solve complex problems the inner workings can be difficult to understand. It is not unlikely that the network is highly non-linear and requires millions of parameter values to obtain a desirable performance level. In these cases, it is hard to gain insight about the network's behaviour by examining the parameter values directly, both because of the unfeasible amount of values and each value's relative insignificance by itself. However, when applying ANNs to tasks in the image domain, there are several ways to help us understand the inner workings of the network by presenting information in the same readable format as the input. Aside from the fact that images more suited than numbers for human readability, there exist several techniques that utilizes the connections in the network to produce visualizations. These images can then provide insight into a larger part of the network, spanning several layers, possibly the whole network. Through the use of these visualization techniques, the network can be improved by making informed decisions, instead of employing a trial and error approach. 
 
@@ -350,7 +356,7 @@ A simple, yet useful, visualization technique for ANNs is to compute saliency ma
 
 \noindent A saliency map would typically be computed for an input image and its resulting top classification. To obtain the saliency map, backpropagation must be employed to find the gradient of the loss of the selected class with respect to the image. This gradient will be a matrix with the same dimensions as the input image. The absolute value of the gradient matrix should then be calculated and the entries scaled to match standard pixel values. If the input is an RGB image, the matrix should be transformed from 3D to 2D by computing the maximum values across the color channels. The resulting matrix corresponds to a grayscale image that represents the saliency map of the input for the chosen class. The map and input have equal size in the spatial dimensions, and the map entry at \textit{(i,j)} shows the saliency of the input pixel at \textit{(i,j)}, RGB or otherwise. Note that it is also possible to compute the positive saliency, i.e. a map that shows how the pixels positively correlate with the output, by discarding the negative gradient values instead of computing their absolute. The negative saliency map can be acquired in a similar manner by discarding the positive gradient values.
 
-\subsection{Deconvolutional Network} \label{deconv-net}
+\subsection{Deconvolutional Network} \label{sec:deconv-net}
 
 Modern ANNs that receive images as inputs are likely to have convolutional layers form the initial part of the network. This part is aimed at detecting certain features in the image, with the complexity of the features rising as the depth of the convolutional part increases. In such cases, we can utilize a visualization technique that employs a deconvolutional network, which can be thought of as a reverse convolutional network \cite{deconv-net-article}. The visualizations are used to interpret the feature activity in the intermediate layers of the original network. To obtain a visualization, an image is first fed to the original network to produce activations in its various layers. The activations of the convolutional part can then be processed and passed to the deconvolutional network to create a visualization of the pattern in the input image that was responsible for eliciting the given activations. This pattern can then reveal what a certain part of the original network finds important and what it is looking for in an image. 
 \subsubsection{Constructing a Deconvolutional Network}
@@ -363,7 +369,7 @@ The fact that a transposed convolution can reverse a convolution downsampling wh
 
 \noindent As previously mentioned, the input to the transposed convolution should first be passed through a ReLU activation function. In a convolutional layer, ReLU ensures that the feature maps outputted are strictly positive. For the convolution input reconstruction to be valid, the reconstructed feature maps used as input for the transposed convolutional layers must also be strictly positive. Passing the reconstructed feature maps through a ReLU activation function ensures this.
 
-\subsubsection{Approximating Unpooling}
+\subsubsection{Approximating Unpooling} \label{sec:unpool-theory}
 
 To reverse the effects of the max pooling layers of the original network, the deconvolutional network uses unpooling layers. Pooling, however, is not an invertible operation and the unpooling layers therefore focus on obtaining an approximation of the original max pooling input. The key to the approximation is to use a switch variable for each pooling region. When performing max pooling, these switches record the location of the chosen maximum in each region and pass the information to the unpooling layer. Here, they are used to place the entries in the unpooling input into the appropriate locations in the output. The result is an unpooling output that only has non-zero values in entries that correspond to the maximum entries in the pooling input. This reconstruction approach preserves the structure of how max pooling processes stimulus. 
 
@@ -378,7 +384,7 @@ When the original network is applied to an input image, the switches created in 
 \noindent Visualizing for several layers can also shed light on the hierarchy of the filters, where the lower layers usually concentrates on low level features like edges and textures and the upper layers looks for more complex features, e.g. eyes. If a network experiences problems with upper layer filters, it is possible that these stem from poor filters further down. Applied during training, visualizations from different layers reveal when the filters of each layer converges. Typically, the lower layer filters converge quickly, while the upper layer filters develop at a much slower rate.
 
 
-\subsection{Deep Visualization} \label{deep-vis}
+\subsection{Deep Visualization} \label{sec:deep-vis}
 
 Whereas the previously discussed techniques (aside from plotting) are all dependent on a provided image to stimulate the network in order to create visualizations, deep visualization is not. Instead of examining the network's reaction to certain input, deep visualization aims to create images that represent what a selected part of the network is looking for. In order to achieve this, several steps are taken. \\
 
@@ -427,7 +433,7 @@ Through a random hyperparameter search, \cite{deepvis} found several useful comb
 
 \noindent The four combinations produce visualizations that complement each other. The first one can be used to produce images that show a sparse set of important regions. The second tends to result in images with high frequency patterns. The third favors images with low frequency patterns. Finally, the fourth one generates visualizations with dense pixel data. Used separately, the most beneficial images can be developed from the third combination, although more insight can be gained by examining visualizations from all four combinations at once.
 
-\section{Transfer Learning} \label{transfer-learning}
+\section{Transfer Learning} \label{sec:transfer-learning}
 
 The idea behind transfer learning is that knowledge learned from solving one problem can be used to solve a different, but related problem. Specifically related to image recognition, research has shown that CNNs trained on images learn generic features for the first couple of layers, and that these features are applicable for several different datasets and tasks. Modern CNNs are usually very deep and requires a signification amount of time to train, and therefore many researchers choose to publish their fully trained networks, including weights, allowing others to use them for their own purposes. Using transfer learning, these networks can be employed in a wide variety of tasks, with only a minor amount of modification and training. There are two primary approaches for employing transfer learning: using the CNN as a fixed feature extractor, and fune-tuning the CNN. \\ 
 
@@ -445,7 +451,7 @@ Fine-tuning a pretrained CNN includes not only replacing the top layer of the ne
 
 
 
-\section{Facial Expressions} \label{facial-expressions} % theo syns denne er tynn. legge på det som ikke har kilder?
+\section{Facial Expressions} \label{sec:facial-expressions} % theo syns denne er tynn. legge på det som ikke har kilder?
 
 Face recognition in unconstrained environments remains difficult for several reasons. Among the challenges are facial expressions, pose, illumination, aging effects, and poor image quality. A facial expression can be described as the combination of a number of variations in a person's facial features. These variations are caused by the contraction or extension of facial muscles, and effort has been made to categorize the effects of muscle activity on facial features into a Facial Action Coding System (FACS) \cite{facs}. FACS encodes facial displays into action units (AU), which specify the muscles involved and how they affect the facial expression. The system is widely employed in expression research and has, among other things, been used to create a facial expression database \cite{exp-db}, to further fuel the progress of facial expression analysis. The intricacy and extent of human emotional expressions have also inspired attempts at creating a confined and discrete set of human facial expressions. A popular such set is Ekman's six basic expressions: happiness, surprise, sadness, anger, disgust and fear \cite{ekman}.
 

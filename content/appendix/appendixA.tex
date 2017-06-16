@@ -1,12 +1,12 @@
 \appendix
 %===================================== APPENDIX A =================================
-\chapter{Installation \& Setup}
+\chapter{Installation \& Setup} \label{app:installation-setup}
 
 % mention and describe config file
 
 This explains how to install and set up the visualization tool ready for use. We assume that the user have Python 3.5 installed.
 
-\section*{Installation}
+\section{Installation}
 
 The first thing you need to do is download or clone the GitHub repository to your computer. Open a command line interface and navigate to the main directory of the repository, \texttt{training-visualizer}. \\
 
@@ -22,13 +22,13 @@ pip install -r visualizer/requirements.txt
 
 \noindent \textbf{Note:} If you already have an installation of the Python Imaging Library (PIL) package, you will get a failure when trying to install the Pillow package listed in the requirements file. The PIL package should be a sufficient replacement, and the error can be ignored.
 
-\section*{Configuration and Setup}
+\section{Configuration and Setup}
 
 The visualizer folder of the project contains a configuration file that can be used to configure some settings for the application, most of which are not of importance for a typical user. However, if you are using a different command than \texttt{python3} to run Python programs, it is crucial that you change the \texttt{PYTHON} variable to the actual command you are using.\\
 
 \noindent After the application has been properly configured, we can start performing the necessary setup. To make this process easier for the user, we have created bash scripts for Linux and MacOS, and batch scripts for Windows, containing the necessary commands.
 
-\subsection*{Linux and MacOS}
+\subsection{Linux and MacOS}
 
 For Linux and MacOS, the only thing we need to set up the visualization tool is initializing the database. The environment setup is included in the scripts for starting the application, which we will see in a later section. The command for initializing the database is as follows:
 
@@ -40,7 +40,7 @@ bgcolor=mygray
 source linux_macos/init_db.sh
 \end{minted}
 
-\subsection*{Windows}
+\subsection{Windows}
 
 For Windows, we need to both set up the environment and initialize the database. This is done by running these two batch files in the command line:
 
@@ -57,7 +57,7 @@ windows/init_db.bat
 
 The application consists of two separate processes in order to function correctly: a Flask application server, and a Bokeh visualization server. We will now demonstrate how to start these servers.
 
-\subsection*{Linux and MacOS}
+\subsection{Linux and MacOS}
 
 In the same command line window that you executed the database setup command, run the following in order to start the Flask application server:
 
@@ -79,7 +79,7 @@ bgcolor=mygray
 source linux_macos/start_bokeh.sh
 \end{minted}
 
-\subsection*{Windows}
+\subsection{Windows}
 
 In the same command line window that you executed the environment and database setup commands, run the following batch file in order to start both the Flask application server and the Bokeh visualization server:
 
@@ -91,6 +91,6 @@ bgcolor=mygray
 windows/start_servers.bat
 \end{minted}
 
-\noindent Navigate to \texttt{localhost:5000} in a web browser (we recommend Google Chrome), and the visualization tool login page should be displayed. For more information on how to proceed, see appendix \ref{user-manual}.
+\noindent Navigate to \texttt{localhost:5000} in a web browser (we recommend Google Chrome), and the visualization tool login page should be displayed. For more information on how to proceed, see appendix \ref{app:user-manual}.
 
 \cleardoublepage
