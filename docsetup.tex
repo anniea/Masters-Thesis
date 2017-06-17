@@ -30,6 +30,12 @@
 % har lagt til disse selv:
 %\usepackage{caption}
 
+\usepackage[english]{babel}
+\providecommand*{\listingautorefname}{Code}
+\addto\extrasenglish{%
+  \renewcommand{\chapterautorefname}{Chapter}%
+  \renewcommand{\sectionautorefname}{Section}%
+}
 \usepackage{tikz}
 \usepackage{pgfplots}
 \pgfplotsset{width=5cm,compat=1.9}
@@ -48,8 +54,21 @@
 
 % slutt på egendef
 
-\usepackage{glossaries}
-\makeglossaries
+\usepackage[acronym,shortcuts]{glossaries}
+\makenoidxglossaries
+
+\newacronym{ann}{ANN}{artificial neural network}
+\newacronym{it}{IT}{Information Technology}
+\newacronym{mlp}{MLP}{multi-layer perceptron}
+\newacronym{relu}{ReLU}{Rectified Linear Unit}
+\newacronym{sgd}{SGD}{Stochastic Gradient Descent}
+\newacronym{cnn}{CNN}{convolutional neural network}
+\newacronym{imfdb}{IMFDB}{Indian Movie Face Database}
+\newacronym{ilsvrc}{ILSVRC}{ImageNet Large Scale Visual Recognition Challenge}
+\newacronym{facs}{FACS}{Facial Action Coding System}
+
+
+%\makeglossaries
 %\newglossarytype[abr]{abbr}{abt}{abl}
 %\newglossarytype[alg]{acronyms}{acr}{acn}
 \newcommand{\abbrname}{Abbreviations} 
