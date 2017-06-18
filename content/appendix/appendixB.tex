@@ -112,7 +112,7 @@
         \label{layeract-tab2}
 \end{figure}
 
-\noindent The next tab, seen in \textbf{Fig. \ref{layeract-tab1}} and \textbf{Fig. \ref{layeract-tab2}}, shows the layer activations. Note that this tab may take some time to load, depending on the size of your input image and the number of layers in your network. Once loaded, you can see the input image, followed by the activations for the different layers. Input, dropout and flatten layers are automatically excluded if not specified otherwise in the callback. For layers with 3D output, like convolutional and pooling layers, the activations of the filters are concatenated into grids separated by white borders. Layers with 1D output are also displayed in image format, with each output unit as a pixel. \\
+\noindent The next tab, seen in \textbf{Fig. \ref{layeract-tab1}} and \textbf{Fig. \ref{layeract-tab2}}, shows the layer activations. Note that this tab may take some time to load, depending on the size of your input image and the number of layers in your network. Once loaded, you can see the input image, followed by the activations for the different layers. Input, dropout and flatten layers are automatically excluded if not specified otherwise in the callback. For layers with 3D output, like convolutional and pooling layers, the activations of the filters are concatenated into grids separated by white borders. Layers with 1D output are also displayed in image format, with each output unit as a pixel. The activations can be used to determine what features a network learns at its various layers. Additionally, if some feature maps are entirely dark for many different visualization input images, so-called dead filters, this can be a warning that the learning rate is too high. \\
 
 % saliency map
 

@@ -3,7 +3,7 @@
 
 This appendix will explain how to use the custom callbacks in your Keras network script, and provide you with an API. For a presentation of the various visualization techniques explaining the underlying theory, see \autoref{sec:visualization-theory} of the thesis.
 
-\section*{Usage of Callbacks}
+\section{Usage of Callbacks}
 
 The API includes a wrapper class that allows for adding and initializing the custom callbacks in a simple and straightforward manner. The first thing you need to do is to import the wrapper class:
 
@@ -51,7 +51,7 @@ model.fit(x, y, callbacks=callbacks.get_list())
 
 \noindent You can also instantiate the callbacks separately, instead of using the wrapper class.
 
-\subsection*{CustomCallbacks}
+\subsection{CustomCallbacks}
 
 \begin{minted}
 [
@@ -69,7 +69,7 @@ custom_keras.callbacks.CustomCallbacks(file_folder,
 
 \noindent A wrapper class for callbacks. The arguments are arguments that two or more of the callbacks have in common. They will be passed on to the applicable callbacks when adding them.
 
-\subsubsection*{Arguments}
+\subsubsection{Arguments}
 
 \begin{itemize}
     \item \textbf{file\_folder:} Should always be \texttt{os.path.dirname(\_\_file\_\_)}.
@@ -78,7 +78,7 @@ custom_keras.callbacks.CustomCallbacks(file_folder,
     \item \textbf{base\_interval:} The base interval that the visualizations will be computed at, unless specified otherwise. Many of the callbacks have their own interval argument that can be set individually.
 \end{itemize}
 
-\subsubsection*{Methods}
+\subsubsection{Methods}
 
 The arguments of the wrapper methods correspond to the arguments of the associated callbacks, excluding \texttt{file\_folder}, \texttt{custom\_preprocess} and \texttt{custom\_postprocess}, which are set in the wrapper instantiation. Specifying the \texttt{interval} argument for a certain callback will override the \texttt{base\_interval} argument.
 
@@ -92,9 +92,9 @@ The arguments of the wrapper methods correspond to the arguments of the associat
     \item \textbf{register\_deep\_visualization:} Registers the \texttt{DeepVisualization} callback.
 \end{itemize}
 
-\section*{Available Callbacks}
+\section{Available Callbacks}
 
-\subsection*{NetworkSaver}
+\subsection{NetworkSaver}
 
 \begin{minted}
 [
@@ -109,13 +109,13 @@ custom_keras.callbacks.NetworkSaver(file_folder)
 
 \noindent Saves the network after each epoch.
 
-\subsubsection*{Arguments}
+\subsubsection{Arguments}
 
 \begin{itemize}
     \item \textbf{file\_folder:} Should always be \texttt{os.path.dirname(\_\_file\_\_)}.
 \end{itemize}
 
-\subsection*{TrainingProgress}
+\subsection{TrainingProgress}
 
 \begin{minted}
 [
@@ -130,13 +130,13 @@ custom_keras.callbacks.TrainingProgress(file_folder)
 
 \noindent Saves training accuracy and loss after each batch. If validation is enabled, the callback will also save the validation accuracy and loss after each epoch. This callback assumes that accuracy is enabled as a metric in your Keras model.
 
-\subsubsection*{Arguments}
+\subsubsection{Arguments}
 
 \begin{itemize}
     \item \textbf{file\_folder:} Should always be \texttt{os.path.dirname(\_\_file\_\_)}.
 \end{itemize}
 
-\subsection*{LayerActivations}
+\subsection{LayerActivations}
 
 \begin{minted}
 [
@@ -154,7 +154,7 @@ custom_keras.callbacks.LayerActivations(file_folder,
 
 \noindent Produces the layer activations for each layer of the network, except the excluded layers. 
 
-\subsubsection*{Arguments}
+\subsubsection{Arguments}
 
 \begin{itemize}
     \item \textbf{file\_folder:} Should always be \texttt{os.path.dirname(\_\_file\_\_)}.
@@ -163,7 +163,7 @@ custom_keras.callbacks.LayerActivations(file_folder,
     \item \textbf{interval:} The interval that the visualization will be computed at.
 \end{itemize}
 
-\subsection*{SaliencyMaps}
+\subsection{SaliencyMaps}
 
 \begin{minted}
 [
@@ -181,7 +181,7 @@ custom_keras.callbacks.SaliencyMaps(file_folder,
 
 \noindent Produces a saliency map of the uploaded visualization image showing to what degree the pixels of the image influenced the result.
 
-\subsubsection*{Arguments}
+\subsubsection{Arguments}
 
 \begin{itemize}
     \item \textbf{file\_folder:} Should always be \texttt{os.path.dirname(\_\_file\_\_)}.
@@ -190,7 +190,7 @@ custom_keras.callbacks.SaliencyMaps(file_folder,
     \item \textbf{interval:} The interval that the visualization will be computed at.
 \end{itemize}
 
-\subsection*{DeconvolutionalNetwork}
+\subsection{DeconvolutionalNetwork}
 
 \begin{minted}
 [
@@ -212,7 +212,7 @@ custom_keras.callbacks.DeconvolutionalNetwork(file_folder,
 
 \noindent Produces visualizations of feature maps in the specified layer using a deconvolutional network and the uploaded visualization image. For simple convolutional models, the deconvolutional model can be automatically generated. For more complex convolutional models, the deconvolutional model created must be created by hand and passed to the callback.
 
-\subsubsection*{Arguments}
+\subsubsection{Arguments}
 
 \begin{itemize}
     \item \textbf{file\_folder:} Should always be \texttt{os.path.dirname(\_\_file\_\_)}.
@@ -225,7 +225,7 @@ custom_keras.callbacks.DeconvolutionalNetwork(file_folder,
     \item \textbf{interval:} The interval that the visualization will be computed at.
 \end{itemize}
 
-\subsection*{DeepVisualization}
+\subsection{DeepVisualization}
 
 \begin{minted}
 [
@@ -252,7 +252,7 @@ custom_keras.callbacks.DeepVisualization(file_folder,
 
 \noindent Produces deep visualizations from the units selected. Involves a number of optional arguments for regularization values that can be set to employ various regularization techniques in order to produce interpretable visualizations. The regularization techniques available are $L_2$ decay, Gaussian blur and clipping based on specific attributes. Some useful combinations of the regularization values can be seen in \textbf{Table \ref{tab:reg-hyperparams}}.
 
-\subsubsection*{Arguments}
+\subsubsection{Arguments}
 
 \begin{itemize}
     \item \textbf{file\_folder:} Should always be \texttt{os.path.dirname(\_\_file\_\_)}.
