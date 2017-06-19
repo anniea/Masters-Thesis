@@ -30,6 +30,7 @@
 % har lagt til disse selv:
 %\usepackage{caption}
 
+\usepackage{courier}
 \usepackage[english]{babel}
 \providecommand*{\listingautorefname}{Code}
 \addto\extrasenglish{%
@@ -45,12 +46,21 @@
 \renewcommand\listingscaption{Code}
 \renewcommand\listoflistingscaption{List of Code}
 \renewcommand{\thelisting}{\thechapter.\arabic{listing}}
+
 \usepackage{comment}
 \usepackage{enumitem}
 \usepackage{subfig}
 \usepackage{multirow}
 
 \definecolor{mygray}{gray}{0.95}
+
+\newcommand*\justify{%
+  \fontdimen2\font=0.4em% interword space
+  \fontdimen3\font=0.2em% interword stretch
+  \fontdimen4\font=0.1em% interword shrink
+  \fontdimen7\font=0.1em% extra space
+  \hyphenchar\font=`\-% allowing hyphenation
+}
 
 % slutt på egendef
 
@@ -70,6 +80,11 @@
 \newacronym{imfdb}{IMFDB}{Indian Movie Face Database}
 \newacronym{ilsvrc}{ILSVRC}{ImageNet Large Scale Visual Recognition Challenge}
 \newacronym{facs}{FACS}{Facial Action Coding System}
+\newacronym{prelu}{PReLU}{Parametric Rectified Linear Unit}
+\newacronym{digits}{DIGITS}{Deep Learning GPU Training System}
+\newacronym{lfw}{LFW}{Labeled Faces in the Wild}
+\newacronym{vgg}{VGG}{Visual Geometry Group}
+\newacronym{mnist}{MNIST}{Modified National Institute of Standards and Technology}
 
 
 

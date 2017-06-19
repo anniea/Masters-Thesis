@@ -2,6 +2,8 @@
 
 \chapter{Conclusion and Future Work}
 
+In this chapter we offer a conclusion based on the results in \autoref{chap:results} and the discussion in \autoref{chap:discussion}, both for the implemented visualization tool and the case study. Additionally, we include pointers to interesting directions for future research.
+
 \section{Conclusion} % husk å ta med open source
 
 % do not introduce any new information
@@ -31,8 +33,7 @@ The goal of the implemented visualization tool was to help researchers improve t
 
 \noindent The performance measures revealed that the extra input architectures were more successful in classifying identification than their baseline counterparts. The chosen configurations had a sole architectural distinction compared the the baseline architectures, namely the additional input. This implies that the enhanced performance came as a direct result of the inclusion of the expression data. Consequently, the case study has shown that employing facial expression data as an additional network input has the potential to improve a face recognition system. The extra output architectures had less favorable results, performing mostly worse than the configurations from the other approaches. It would be beneficial to explore these results further, examining the effects of the experimental approaches with a larger dataset, with emphasis on the promising extra input architectures. \\
 
-% felles avsnitt her
-\noindent To summarize, we have successfully implemented a tool that facilitates insight into \acrshortpl{ann} using visualization, and completed a face recognition case study that provided interesting findings. We hope that these results can help further the research into \acrshortpl{ann} applied on images, and face recognition systems, respectively.
+\noindent To summarize, we have successfully implemented a tool that facilitates insight into \acrshortpl{ann} using visualization, and completed a face recognition case study that provided interesting findings. We hope that these results can help further the research into \acrshortpl{ann} applied on images, and face recognition systems.
 
 \section{Future Work}
 
@@ -42,7 +43,7 @@ This section provides some pointers to future work based on our findings for bot
 
 The visualization techniques described in this thesis are only a selection of those available. Adding even more options for visualizing could further improve the understanding of ANNs. Some examples are the visualization of weights, plots of learning rate, and an improved version of saliency maps using guided backpropagation. The tool could also be extended to work for a broader set of networks, for instance networks with several inputs. \\
 
-\noindent Examining the resulting visualizations showed that additional insights can be uncovered by comparing visualizations of different stages, or even of different visualization input images. A useful extension could thus be to incorporate the possibility of uploading several images at execution. The presentation of the visualizations could also be significantly approved to allow for better comparison. Another valuable feature that could be added is the option of visualizing a prediction using a fully trained network. The functionality for producing the visualizations is already implemented, but needs to be incorporated in a different way than through callbacks if they were to be used in prediction.\\
+\noindent Examining the resulting visualizations showed that additional insights can be uncovered by comparing visualizations at different stages, or even of different visualization input images. A useful extension could thus be to incorporate the possibility of uploading several images at execution. The presentation of the visualizations could also be significantly approved to allow for better comparison. Another valuable feature that could be added is the option of visualizing a prediction using a fully trained network. The functionality for producing the visualizations is already implemented, but needs to be incorporated in a different way than through callbacks if they were to be used in prediction.\\
 
 \noindent Performance was not considered a serious concern while implementing the visualization tool. Some of the visualization techniques are computationally heavy and will therefore take some time to produce, regardless of the implementation. However, in cases where there are a large number of visualizations to be presented, the presentation should be done as smooth and quick as possible. In hindsight, Bokeh might not be the best visualization library in terms of efficiency. Since the tool was created with modifiability in mind, replacing Bokeh with another visualization library would be fairly uncomplicated. 
 

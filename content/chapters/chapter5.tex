@@ -6,20 +6,20 @@ This chapter presents the results of the thesis work relevant for answering the 
 
 \section{Visualization Tool} \label{sec:visualization-tool-results}
 
-This section will focus on showcasing a representative selection of visualizations generated using the various visualization techniques implemented in the visualization tool. The visualizations were produced using the tool, but we will display them as independent images instead of incorporated into the web interface. We refer the reader to \autoref{app:user-manual} and \autoref{app:callbacks-api} for an overview of the implemented visualization tool. Note that all visualizations are best viewed electronically.
+This section will focus on showcasing a representative selection of visualizations generated using the various visualization techniques implemented in the visualization tool. The visualizations were produced using the tool, but we will display them as independent images instead of incorporated into the web interface. We refer the reader to \autoref{app:user-manual} and \autoref{app:callbacks-api} for an overview of the implemented visualization tool. Note that the visualizations are best viewed electronically.
 
 % kan skrive noe om at vi gjør det slik fordi vi vil ha visualiseringen i fokus?
 % lettere å sammenlikne visualiseringer
 
 \subsection{Example Networks} \label{sec:example-networks}
 
-The visualization results were produced using two different example \acrshortpl{ann}. The first network is a simple \acrshort{cnn} trained on the MNIST dataset, which is commonly used as a toy problem \cite{mnist}. This network is quickly trained from scratch to near perfect accuracy, which allowed us to easily show how the visualizations evolve throughout the training progress. The second network is the more advanced VGG network, using the 16-layer version in configuration D of \cite{vgg}. In this case, we used a model with weights pretrained on \acrshort{ilsvrc} 2012 image set \cite{imagenet}. Some of the visualizations, such as those from the deconvolutional network technique, require a large network with many convolutional layers to demonstrate their full capabilities. Using a fully trained VGG model, we were able to present a second set of visualizations illustrating more complex features, without having to spend a large amount of time training the network. The VGG network also allowed us to display how the visualizations handle RGB images, compared to the grayscale images of the MNIST dataset. Both networks were implemented following examples provided by Keras, and in the following sections we describe their implementations and training processes in detail.\\
+The visualization results were produced using two different example \acrshortpl{ann}. The first network is a simple \acrshort{cnn} trained on the \acrfull{mnist} dataset\footnote{http://yann.lecun.com/exdb/mnist/}, which is commonly used as a toy problem. This network is quickly trained from scratch to near perfect accuracy, which allowed us to easily show how the visualizations evolve throughout the training progress. The second network is the more advanced \acrshort{vgg} network, more specifically the 16-layer version in configuration D \cite{vgg}. In this case, we used a model with weights pretrained on \acrshort{ilsvrc} 2012 image set \cite{imagenet}. Some of the visualizations, such as those from the deconvolutional network technique, require a large network with many convolutional layers to demonstrate their full capabilities. Using a fully trained \acrshort{vgg} model, we were able to present a second set of visualizations illustrating more complex features, without having to spend a large amount of time training the network. The \acrshort{vgg} network also allowed us to display how the visualizations handle RGB images, compared to the grayscale images of the \acrshort{mnist} dataset. Both networks were implemented following examples provided by Keras, and in the following sections we describe their implementations and training processes in detail.\\
 
 \noindent Note that there are several ways to count the number of layers in an \acrshort{ann}. Some conventions do not include pooling or flattening layers, or even the input and output layers. To ensure consistency when describing the network architectures, we will define the number of layers as the number of Keras layers, as listed in their documentation \cite{keras-documentation}.
 
-\subsubsection{The MNIST Network}
+\subsubsection{The \acrshort{mnist} Network}
 
-The MNIST network is a simple \acrshort{cnn} with three convolutional layers, including the max pooling layer. It is trained on the MNIST dataset, which contains 60,000 28x28 grayscale images of handwritten digits. The network architecture can be seen in \autoref{fig:mnist-architecture}, and was created following an example implementation from Keras \cite{keras-mnist}. The network consists of 10 layers, where three are convolutional and pooling layers, and two are fully connected, denoted as dense layers in Keras. In addition to an input layer, there are also two dropout layers to prevent overfitting, and a flattening layer to convert the 3D output from the convolutional part to 1D input for the fully connected part. The Keras model is trained using an AdaDelta optimizer to minimize the categorical cross-entropy loss. \\
+The \acrshort{mnist} network is a simple \acrshort{cnn} with three convolutional layers, including the max pooling layer. It is trained on the \acrshort{mnist} dataset, which contains 60,000 28x28 grayscale images of handwritten digits. The network architecture can be seen in \autoref{fig:mnist-architecture}, and was created following an example implementation from Keras \footnote{https://github.com/fchollet/keras/blob/master/examples/mnist\_cnn.py}. The network consists of 10 layers, where three are convolutional and pooling layers, and two are fully connected, denoted as dense layers in Keras. In addition to an input layer, there are also two dropout layers to prevent overfitting, and a flattening layer to convert the 3D output from the convolutional part to 1D input for the fully connected part. The model is trained using an AdaDelta optimizer with default Keras values\footnote{https://keras.io/optimizers/\#adadelta} to minimize the categorical cross-entropy loss. \\
 
 \noindent To generate the results, the network was trained for two epochs with a batch size of 128, shuffling the data at each epoch. In addition to the 60,000 training images, 10,000 images were used as validation data. The 10 images in \autoref{fig:mnist-input-images} were extracted from the validation dataset to be used as visualization input images. The training process was repeated using each of these images as input for the visualizations. The visualizations were produced five times during each epoch, in addition to once at the very beginning of the training, giving a total of 11 different sets of visualization results for each of the 10 digits. The produced visualizations were manually processed and a representative selection were extracted, presented in \autoref{sec:mnist-vis-results}.
 
@@ -37,16 +37,16 @@ The MNIST network is a simple \acrshort{cnn} with three convolutional layers, in
 \subfloat['8': 100\%]{\includegraphics[width = 0.61in]{fig/results/input_mnist/test8.png}} &
 \subfloat['9': 100\%]{\includegraphics[width = 0.61in]{fig/results/input_mnist/test9.png}} \\
 \end{tabular}
-\caption[Visualization input images for MNIST]{The images used as visualization input for the MNIST network, captioned with their corresponding classification result and confidence at stage 1 of training. Note that \textbf{f} was incorrectly classified as '2'. At stage 2, all images were correctly classified with 100\% certainty.}
+\caption[Visualization input images for \acrshort{mnist}]{The images used as visualization input for the \acrshort{mnist} network, captioned with their corresponding classification result and confidence at stage 1 of training. Note that \textbf{f} was incorrectly classified as '2'. At stage 2, all images were correctly classified with 100\% certainty.}
 \label{fig:mnist-input-images}
 \end{center}
 \end{figure}
 
-\subsubsection{The VGG Network}
+\subsubsection{The \acrshort{vgg} Network}
 
-The VGG network is a significantly deeper \acrshort{cnn} than the first network. It consists of five blocks of 3-4 convolutional layers each, including the max pooling layers, followed by a flattening layer and three fully connected layers, for a total of 23 layers. The full architecture can be seen in \autoref{fig:vgg-architecture}. The VGG model used has weights trained on the \acrshort{ilsvrc} image set and is available through the Keras Applications module \cite{keras-applications-vgg16, keras-vgg16}. \\
+The \acrshort{vgg} network is a significantly deeper \acrshort{cnn} than the first network. It consists of five blocks of 3-4 convolutional layers each, including the max pooling layers, followed by a flattening layer and three fully connected layers, for a total of 23 layers. The full architecture can be seen in \autoref{fig:vgg-architecture}. The \acrshort{vgg} model used has weights trained on the \acrshort{ilsvrc} image set and is available through the Keras Applications module \cite{keras-applications-vgg16, keras-vgg16}. \\
 
-\noindent As mentioned, the VGG network employed is a fully trained model, meaning that the results generated using this network only consist of visualizations produced at the very end of the training process. The three visualization input images seen in \autoref{fig:vgg-input-images} were used to produce visualizations, with the image in \autoref{fig:vgg-input-image1} being the main visualization input image. The other two images were used to produce visualizations to compare to. They were selected as they are both related to the main image in some way. Specifically, one contains a bicycle similar to the tricycle in the main image, and the other contains a woman with similar features to the girl in the main image. The visualization techniques were repeated a number of times with various configurations and the different input images. The resulting visualizations were manually processed, and a representative selection are presented in \autoref{sec:vgg-vis-results}.
+\noindent As mentioned, the \acrshort{vgg} network employed is a fully trained model, meaning that the results generated using this network only consist of visualizations produced at the very end of the training process. The three visualization input images seen in \autoref{fig:vgg-input-images} were used to produce visualizations, with the image in \autoref{fig:vgg-input-image1} being the main visualization input image. The other two images were used to produce visualizations to compare to. They were selected as they are both related to the main image in some way. Specifically, one contains a bicycle similar to the tricycle in the main image, and the other contains a woman with similar features to the girl in the main image. The visualization techniques were repeated a number of times with various configurations and the different input images. The resulting visualizations were manually processed, and a representative selection are presented in \autoref{sec:vgg-vis-results}.
 
 \begin{figure}[p]
 \begin{center}
@@ -55,7 +55,7 @@ The VGG network is a significantly deeper \acrshort{cnn} than the first network.
 \subfloat['cliff, drop, drop-off': 64.35\%]{\includegraphics[width=0.5\textwidth]{fig/results/input_vgg/biking.JPEG}} \\
 \subfloat['sombrero': 50.91\%]{\includegraphics[width=0.5\textwidth]{fig/results/input_vgg/girl.JPEG}} \\
 \end{tabular}
-\caption[Visualization input images for VGG]{The images used as visualization input for the VGG network, captioned with their corresponding classification result and confidence.}
+\caption[Visualization input images for \acrshort{vgg}]{The images used as visualization input for the \acrshort{vgg} network, captioned with their corresponding classification result and confidence.}
 \label{fig:vgg-input-images}
 \end{center}
 \end{figure}
@@ -64,20 +64,20 @@ The VGG network is a significantly deeper \acrshort{cnn} than the first network.
     \begin{minipage}{0.5\textwidth}
         \centering
             \includegraphics[width=0.6\textwidth]{fig/mnist_keras.pdf}
-            \caption{Architecture of the MNIST network with layer names and types. Note that the layer type refers to the Keras 2 \acrshort{api}.}
+            \caption{Architecture of the \acrshort{mnist} network with layer names and types. Note that the layer type refers to the Keras 2 \acrshort{api}.}
             \label{fig:mnist-architecture}
     \end{minipage}
     \begin{minipage}{0.4\textwidth}
         \centering
             \includegraphics[width=0.7\textwidth]{fig/vgg_keras.pdf}
-            \caption{Architecture of the VGG network with layer names and types. Note that the layers refer to the Keras 2 \acrshort{api}.}
+            \caption{Architecture of the \acrshort{vgg} network with layer names and types. Note that the layers refer to the Keras 2 \acrshort{api}.}
             \label{fig:vgg-architecture}
     \end{minipage}
 \end{figure}
 
-\subsection{MNIST Visualization Results} \label{sec:mnist-vis-results}
+\subsection{\acrshort{mnist} Visualization Results} \label{sec:mnist-vis-results}
 
-This section presents the visualization results produced by the various visualization techniques for the MNIST network.
+This section presents the visualization results produced by the various visualization techniques for the \acrshort{mnist} network.
 
 \subsubsection{Training Progress}
 
@@ -91,7 +91,7 @@ The visualizations of the training progress can be seen in \autoref{fig:mnist-tr
 \subfloat{\includegraphics[width=1\textwidth]{fig/results/training_progress/accuracy.png}} \\
 \subfloat{\includegraphics[width=1\textwidth]{fig/results/training_progress/loss.png}} \\
 \end{tabular}
-\caption[Batch accuracy and loss for MNIST network]{Batch accuracy and loss over epoch for the MNIST network. Validation accuracy and loss displayed as green dots at each epoch.}
+\caption[Batch accuracy and loss for \acrshort{mnist} network]{Batch accuracy and loss over epoch for the \acrshort{mnist} network. Validation accuracy and loss displayed as green dots at each epoch. Note that the validation accuracy and loss are best viewed electronically.}
 \label{fig:mnist-training-progress}
 \end{center}
 \end{figure}
@@ -114,7 +114,7 @@ The visualizations of the training progress can be seen in \autoref{fig:mnist-tr
 \subfloat[fc2]{\frame{\includegraphics[width=\textwidth]{fig/results/layeract_mnist/all_layers/layer_act_mnist_0_10_dense_2.png}}} \\
 \subfloat[output]{\frame{\includegraphics[width=0.3\textwidth]{fig/results/layeract_mnist/all_layers/layer_act_mnist_0_10_dense_3.png}}} \\
 \end{tabular}
-\caption[Layer activations for all MNIST layers]{Layer activations for all layers of the MNIST network, excluding flattening and dropout layers, for visualization input image 0 after two epochs.}
+\caption[Layer activations for all \acrshort{mnist} layers]{Layer activations for all layers of the \acrshort{mnist} network, excluding flattening and dropout layers, for visualization input image 0 after two epochs.}
 \label{fig:mnist-layer-act-all}
 \end{center}
 \end{figure}
@@ -129,7 +129,7 @@ The visualizations of the training progress can be seen in \autoref{fig:mnist-tr
 \subfloat[Stage 5]{\frame{\includegraphics[width=0.8\textwidth]{fig/results/layeract_mnist/layer_act_mnist_0_5_conv2d_2.png}}} \\
 \subfloat[Stage 10]{\frame{\includegraphics[width=0.8\textwidth]{fig/results/layeract_mnist/layer_act_mnist_0_10_conv2d_2.png}}} \\
 \end{tabular}
-\caption[Change in activations in \texttt{conv2} of MNIST]{Layer activations for the \texttt{conv2} layer of the MNIST network at various stages in the training process.}
+\caption[Change in activations in \texttt{conv2} of \acrshort{mnist}]{Layer activations for the \texttt{conv2} layer of the \acrshort{mnist} network at various stages in the training process.}
 \label{fig:mnist-layer-act-conv2}
 \end{center}
 \end{figure}
@@ -213,7 +213,7 @@ The visualizations of the training progress can be seen in \autoref{fig:mnist-tr
 \subfloat{\includegraphics[width = 0.5in]{fig/results/saliency_mnist/saliency_mnist_9_7.png}} &
 \subfloat{\includegraphics[width = 0.5in]{fig/results/saliency_mnist/saliency_mnist_9_10.png}} \\
 \end{tabular}
-\caption[Saliency maps for MNIST]{Saliency maps for the MNIST network with visualization input images 0-9 classified as presented in \autoref{fig:mnist-input-images}. Input images are displayed in the first column, followed by samples collected at certain stages of training. The two training epochs consisted of ten evenly distributed stages. Note that stage 0 is produced before the training has started.}
+\caption[Saliency maps for \acrshort{mnist}]{Saliency maps for the \acrshort{mnist} network with visualization input images 0-9 classified as presented in \autoref{fig:mnist-input-images}. Input images are displayed in the first column, followed by samples collected at certain stages of training. The two training epochs consisted of ten evenly distributed stages. Note that stage 0 is produced before the training has started.}
 \label{fig:mnist-saliency}
 \end{center}
 \end{figure}
@@ -222,7 +222,7 @@ The visualizations of the training progress can be seen in \autoref{fig:mnist-tr
 
 For the deconvolutional network technique, visualizations of all 32 feature maps in the \texttt{pool} layer were produced. Four feature maps that illustrate different behaviours were manually selected and are displayed together with the visualization input image in \autoref{fig:mnist-deconv}. \\
 
-\noindent As mentioned, the MNIST network is not optimal for demonstrating the deconvolutional network technique, since it consists of only two convolutional layers. The input images are composed of simple lines, and the features detected in the convolutional layers are mainly edges. The capabilities of a deconvolutional network is better illustrated using the VGG network.
+\noindent As mentioned, the \acrshort{mnist} network is not optimal for demonstrating the deconvolutional network technique, since it consists of only three convolutional layers. The input images are composed of simple lines, and the features detected in the convolutional layers are mainly edges. The capabilities of a deconvolutional network is better illustrated using the \acrshort{vgg} network.
 
 \begin{figure}
 \captionsetup[subfigure]{labelformat=empty}
@@ -234,14 +234,14 @@ For the deconvolutional network technique, visualizations of all 32 feature maps
 \subfloat[Map \#25]{\includegraphics[width = 0.5in]{fig/results/deconv_mnist/deconvolution_mnist_0_10_max_pooling2d_1_25.png}} & 
 \subfloat[Map \#28]{\includegraphics[width = 0.5in]{fig/results/deconv_mnist/deconvolution_mnist_0_10_max_pooling2d_1_28.png}} \\
 \end{tabular}
-\caption[Deconvolutional results for MNIST pool layer]{Visualizations produced using a deconvolutional network for the visualization input image in \textbf{a}. A selection of four different feature maps from the \texttt{pool} layer is displayed.}
+\caption[Deconvolutional results for \acrshort{mnist} \texttt{pool} layer]{Visualizations produced using a deconvolutional network for the visualization input image in \textbf{a}. A selection of four different feature maps from the \texttt{pool} layer is displayed.}
 \label{fig:mnist-deconv}
 \end{center}
 \end{figure}
 
 \subsubsection{Deep Visualization}
 
-The deep visualizations were produced with a learning rate of 200 for 50 iterations. The $L_2$ decay, blur interval and blur standard deviation were set to 0.0001, 4 and 1 respectively, matching one of the useful combinations in \autoref{tab:reg-hyperparams}. The deep visualizations of the output layer are shown in \autoref{fig:mnist-deepvis-output}. The visualizations from stages 1, 5 and 10 are presented, to show how they evolve during training. Deep visualizations of some of the lower layers, specifically \texttt{fc2} and \texttt{fc1}, are presented in \autoref{fig:mnist-deepvis-fc2} and \autoref{fig:mnist-deepvis-fc1}, respectively. These show a selection of visualizations produced at the final stage of training.
+The deep visualizations were produced with a learning rate of 200 for 50 iterations. The $L_2$ decay, blur interval and blur standard deviation were set to 0.0001, 4 and 1 respectively, matching one of the useful combinations in \autoref{tab:reg-hyperparams}. The deep visualizations of the output layer are shown in \autoref{fig:mnist-deepvis-output}. The visualizations from stages 1, 5 and 10 are presented, to show how they evolve during training. When producing several images with deep visualization, the results will vary. This variation reveal how invariant the network is, by demonstrating how its units maximally activate on similar, but not identical, images. Deep visualizations of some of the lower layers, specifically \texttt{fc2} and \texttt{fc1}, are presented in \autoref{fig:mnist-deepvis-fc2} and \autoref{fig:mnist-deepvis-fc1}, respectively. These show a selection of visualizations produced at the final stage of training.
 
 \begin{figure}
 \begin{center}
@@ -299,7 +299,7 @@ The deep visualizations were produced with a learning rate of 200 for 50 iterati
 \subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_1_10_dense_3_9.png}} &
 \subfloat{\includegraphics[width = 0.49in]{fig/results/deepvis_mnist/other_numbers/deepvis_mnist_2_10_dense_3_9.png}} \\
 \end{tabular}
-\caption[Deep visualization from MNIST output units]{Deep visualization of the output layer for all 10 possible output classes of the MNIST network. An example image from each class is shown in the first column. Column 2-4 shows samples collected at certain stages of training. The two training epochs consisted of ten evenly distributed stages. The last three columns show the variations acquired from multiple deep visualization from the same unit.}
+\caption[Deep visualization from \acrshort{mnist} output units]{Deep visualization of the output layer for all 10 possible output classes of the \acrshort{mnist} network. An example image from each class is shown in the first column. Column 2-4 shows samples collected at certain stages of training. The two training epochs consisted of ten evenly distributed stages. The last three columns show the variations acquired from multiple deep visualization from the same unit.}
 \label{fig:mnist-deepvis-output}
 \end{center}
 \end{figure}
@@ -314,7 +314,7 @@ The deep visualizations were produced with a learning rate of 200 for 50 iterati
 \subfloat[Unit 40]{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_dense/deepvis_mnist_0_10_dense_2_40}} & 
 \subfloat[Unit 56]{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_dense/deepvis_mnist_0_10_dense_2_56}} \\
 \end{tabular}
-\caption[Deep visualization of MNIST layer \texttt{fc2}]{Deep visualizations for a selection of the units in the \texttt{fc2} layer of the MNIST network.}
+\caption[Deep visualization of \acrshort{mnist} layer \texttt{fc2}]{Deep visualizations for a selection of the units in the \texttt{fc2} layer of the \acrshort{mnist} network.}
 \label{fig:mnist-deepvis-fc2}
 \end{center}
 \end{figure}
@@ -327,25 +327,25 @@ The deep visualizations were produced with a learning rate of 200 for 50 iterati
 \subfloat[Unit 32]{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_dense/deepvis_mnist_0_10_dense_1_32}} &
 \subfloat[Unit 96]{\includegraphics[width = 0.5in]{fig/results/deepvis_mnist/other_dense/deepvis_mnist_0_10_dense_1_96}} \\ 
 \end{tabular}
-\caption[Deep visualization of MNIST layer\texttt{fc1}]{Deep visualizations for a selection of the units in the \texttt{fc1} layer of the MNIST network.}
+\caption[Deep visualization of \acrshort{mnist} layer\texttt{fc1}]{Deep visualizations for a selection of the units in the \texttt{fc1} layer of the \acrshort{mnist} network.}
 \label{fig:mnist-deepvis-fc1}
 \end{center}
 \end{figure}
 
-\subsection{VGG Visualization Results} \label{sec:vgg-vis-results}
+\subsection{\acrshort{vgg} Visualization Results} \label{sec:vgg-vis-results}
 
-This section presents the visualization results produced by the various visualization techniques for the VGG network. Note that as there were no training completed while generating the visualizations, naturally there are no training progress to visualize.
+This section presents the visualization results produced by the various visualization techniques for the \acrshort{vgg} network. Note that there was no training completed while generating the visualizations. Naturally, there does not exist any training progress to visualize.
 
 \subsubsection{Layer Activations}
 
-\autoref{fig:vgg-layer-act} show the layer activations for the \texttt{block1\_conv2} layer of the VGG network. Although the network contains many layers, we only display the single example to avoid cluttering. The \texttt{block1\_conv2} was chosen because it has a varied set of feature maps. Additionally, the amount of feature maps is manageable.
+\autoref{fig:vgg-layer-act} show the layer activations for the \texttt{block1\_conv2} layer of the \acrshort{vgg} network. Although the network contains many layers, we only display the single example to avoid cluttering. The \texttt{block1\_conv2} was chosen because it has a varied set of feature maps. Additionally, the amount of feature maps is manageable.
 
 \begin{figure}
 \begin{center}
 \begin{tabular}{c}
 \subfloat{\frame{\includegraphics[width=0.8\textwidth]{fig/results/layeract_vgg/layer_act_keras_rest_of_vis_1_block1_conv2.png}}} \\
 \end{tabular}
-\caption[Layer activations for VGG \texttt{block1\_conv2} layer]{Layer activations for the \texttt{block1\_conv2} layer of the VGG network.}
+\caption[Layer activations for \acrshort{vgg} \texttt{block1\_conv2} layer]{Layer activations for the \texttt{block1\_conv2} layer of the \acrshort{vgg} network.}
 \label{fig:vgg-layer-act}
 \end{center}
 \end{figure}
@@ -365,16 +365,16 @@ This section presents the visualization results produced by the various visualiz
 \subfloat{\includegraphics[width = 2.0in]{fig/results/input_vgg/girl_resized.JPEG}} &
 \subfloat{\includegraphics[width = 2.0in]{fig/results/saliency_vgg/saliency_keras_rest_of_vis_1.png}} \\
 \end{tabular}
-\caption[Saliency maps for VGG]{Saliency maps for the VGG network for three separate visualization input images classified as presented in \autoref{fig:vgg-input-images}.}
+\caption[Saliency maps for \acrshort{vgg}]{Saliency maps for the \acrshort{vgg} network for three separate visualization input images classified as presented in \autoref{fig:vgg-input-images}.}
 \label{fig:vgg-saliency}
 \end{center}
 \end{figure}
 
 \subsubsection{Deconvolutional Network}
 
-The deconvolutional network technique is illustrated in a number of different figures. \autoref{fig:vgg-deconv-block5} shows visualizations of six different feature maps of the \texttt{block5\_pool} layer produced using a deconvolutional network autogenerated for the VGG network. The feature maps are selected from the top 20 maximally activated feature maps, and are chosen as to show the activations of different regions of the visualization input image. In \autoref{fig:vgg-deconv-block5-comparison}, two of these feature maps are compared to the same feature maps visualized using two different visualization input images. \\
+The deconvolutional network technique is illustrated in a number of different figures. \autoref{fig:vgg-deconv-block5} shows visualizations of six different feature maps of the \texttt{block5\_pool} layer produced using a deconvolutional network autogenerated for the \acrshort{vgg} network. The feature maps are selected from the top 20 maximally activated feature maps, and are chosen as to show the activations of different regions of the visualization input image. In \autoref{fig:vgg-deconv-block5-comparison}, two of these feature maps are compared to the same feature maps visualized using two different visualization input images. \\
 
-\noindent To illustrate the deconvolutional technique employed on lower layers, \autoref{fig:vgg-deconv-block3-comparison} shows a comparison of feature maps in layer \texttt{block3\_pool}, for two separate visualization input images. \autoref{fig:vgg-deconv-block1} shows visualizations of feature maps in the even lower \texttt{block1\_pool} layer, using the image in \autoref{fig:vgg-input-image1} as input for the deconvolutional network. Note that all visualizations of lower layers are cropped and zoomed to improve readability, and that they originally appeared at different parts of the image. 
+\noindent To illustrate the deconvolutional technique employed on lower layers, \autoref{fig:vgg-deconv-block3-comparison} shows a comparison of feature maps in layer \texttt{block3\_pool}, for two separate visualization input images. \autoref{fig:vgg-deconv-block1} shows visualizations of feature maps in the even lower \texttt{block1\_pool} layer, using the image in \autoref{fig:vgg-input-image1} as input for the deconvolutional network. Note that all visualizations of lower layers are cropped to improve readability, and that they originally appeared at different parts of the image. 
 
 \begin{figure}
 \captionsetup[subfigure]{labelformat=empty}
@@ -390,7 +390,7 @@ The deconvolutional network technique is illustrated in a number of different fi
 \subfloat[Feature map 450]{\includegraphics[width = 2.1in]{fig/results/deconv_vgg/block5/deconvolution_keras_deconv_0_block5_pool_450.png}} \\
 %\subfloat[Feature map 459]{\includegraphics[width = 1.5in]{fig/results/deconv_vgg/block5/deconvolution_keras_deconv_0_block5_pool_459.png}} \\
 \end{tabular}
-\caption[Deconvolution for VGG \texttt{block5\_pool} layer]{Visualizations produced using a deconvolutional network for the \texttt{block5\_pool} layer. A selection of four different features from the top 20 maximally activated feature maps in the \texttt{block5\_pool} layer are displayed.}
+\caption[Deconvolution for \acrshort{vgg} \texttt{block5\_pool} layer]{Visualizations produced using a deconvolutional network for the \texttt{block5\_pool} layer. A selection of four different features from the top 20 maximally activated feature maps from the \texttt{block5\_pool} layer are displayed.}
 \label{fig:vgg-deconv-block5}
 \end{center}
 \end{figure}
@@ -406,7 +406,7 @@ The deconvolutional network technique is illustrated in a number of different fi
 \subfloat[Feature map 348 in \autoref{fig:vgg-deconv-block5}]{\includegraphics[width = 2.0in]{fig/results/deconv_vgg/block5/deconvolution_keras_deconv_0_block5_pool_348.png}} &
 \subfloat[Feature map 380 in \autoref{fig:vgg-deconv-block5}]{\includegraphics[width = 2.0in]{fig/results/deconv_vgg/block5/deconvolution_keras_deconv_0_block5_pool_380.png}} \\
 \end{tabular}
-\caption[Comparison of deconvolution for VGG \texttt{block5\_pool} layer]{Comparison of visualizations produced using a deconvolutional network for the visualization input images in the top row, for the \texttt{block5\_pool} layer of the VGG network. The middle row shows their corresponding visualizations for a specific feature map. The bottom row shows the visualizations of the same feature map for the visualization input image in \autoref{fig:vgg-deconv-block5}}
+\caption[Comparison of deconvolution for \acrshort{vgg} \texttt{block5\_pool} layer]{Comparison of visualizations produced using a deconvolutional network for the visualization input images in the top row, for the \texttt{block5\_pool} layer of the \acrshort{vgg} network. The middle row shows their corresponding visualizations for a specific feature map. The bottom row shows the visualizations of the same feature map for the visualization input image in \autoref{fig:vgg-deconv-block5}}
 \label{fig:vgg-deconv-block5-comparison}
 \end{center}
 \end{figure}
@@ -424,7 +424,7 @@ The deconvolutional network technique is illustrated in a number of different fi
 \subfloat{\includegraphics[width = 1.0in]{fig/results/deconv_vgg/block3/deconvolution_keras_deconv_block3_specific_0_block3_pool_26.png}} &
 \subfloat{\includegraphics[width = 1.0in]{fig/results/deconv_vgg/block3/deconvolution_keras_deconv_block3_specific_0_block3_pool_171.png}} \\
 \end{tabular}
-\caption[Comparison of deconvolutional visualizations for VGG \texttt{block3\_pool} layer]{Comparison of visualizations produced using a deconvolutional network for the visualization input images in the leftmost column, for the \texttt{block4\_pool} layer of the VGG network. The next columns show their corresponding visualizations for specific feature maps selected from the top 20 maximally activated feature maps for the top left visualization input image. Note that visualizations are cropped and zoomed.}
+\caption[Comparison of deconvolutional visualizations for \acrshort{vgg} \texttt{block3\_pool} layer]{Comparison of visualizations produced using a deconvolutional network for the visualization input images in the leftmost column, for the \texttt{block4\_pool} layer of the \acrshort{vgg} network. The next columns show their corresponding visualizations for specific feature maps selected from the top 20 maximally activated feature maps for the top left visualization input image. Note that the visualizations are cropped.}
 \label{fig:vgg-deconv-block3-comparison}
 \end{center}
 \end{figure}
@@ -454,7 +454,7 @@ The deconvolutional network technique is illustrated in a number of different fi
 \subfloat[Map \#57]{\frame{\includegraphics[width = 0.45in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_57.png}}} &
 \subfloat[Map \#59]{\frame{\includegraphics[width = 0.45in]{fig/results/deconv_vgg/block1/deconvolution_keras_deconv_block1_0_block1_pool_59.png}}} \\
 \end{tabular}
-\caption[Deconvolution for VGG \texttt{block1\_pool} layer]{Visualizations produced using a deconvolutional network for the visualization input image in \autoref{fig:vgg-input-image1}, for the \texttt{block1\_pool} layer of the VGG network. All top 20 maximally activated feature maps are displayed. Note that visualizations are cropped and zoomed.}
+\caption[Deconvolution for \acrshort{vgg} \texttt{block1\_pool} layer]{Visualizations produced using a deconvolutional network for the visualization input image in \autoref{fig:vgg-input-image1}, for the \texttt{block1\_pool} layer of the \acrshort{vgg} network. All top 20 maximally activated feature maps are displayed. Note that the visualizations are cropped.}
 \label{fig:vgg-deconv-block1}
 \end{center}
 \end{figure}
@@ -463,7 +463,7 @@ The deconvolutional network technique is illustrated in a number of different fi
 
 The deep visualization technique requires a number of hyperparameters that impact the resulting visualizations. Some of the figures illustrates these impacts and thus a number of visualizations are produced using different hyperparameters settings. However, most of the deep visualizations were produced with a learning rate of 2500 for 500 iterations. Unless otherwise specified, the $L_2$ decay, blur interval and blur standard deviation were set to 0.0001, 4 and 1 respectively, matching the third row of \autoref{tab:reg-hyperparams}. \\
 
-\noindent \autoref{fig:vgg-deepvis-output} presents the deep visualizations of nine different output classes of the VGG network, selected to showcase a variety of features. \autoref{fig:vgg-deepvis-output-variations} illustrates the variation of the deep visualization technique in producing two visualizations for the same output class with the exact same hyperparameter settings. In \autoref{fig:vgg-deepvis-output-hyperparameters}, we present deep visualizations using each of the four useful combinations in \autoref{tab:reg-hyperparams}, illustrating how these affect the visualization output. \\
+\noindent \autoref{fig:vgg-deepvis-output} presents the deep visualizations of nine different output classes of the \acrshort{vgg} network, selected to showcase a variety of features. \autoref{fig:vgg-deepvis-output-variations} illustrates the variation of the deep visualization technique in producing two visualizations for the same output class with the exact same hyperparameter settings. In \autoref{fig:vgg-deepvis-output-hyperparameters}, we present deep visualizations using each of the four useful combinations in \autoref{tab:reg-hyperparams}, illustrating how these affect the visualization output. \\
 
 \noindent Some examples of deep visualization of the \texttt{fc2} and \texttt{fc1} layers are shown in \autoref{fig:vgg-deepvis-fc2} and \autoref{fig:vgg-deepvis-fc1}, respectively. In \autoref{fig:vgg-deepvis-blocks}, deep visualizations of a randomly selected unit in each pooling layer of the blocks 2-5 are presented. Since using the same learning rate and number of iterations for the lower layers as for the higher layers may not be beneficial, \autoref{fig:vgg-deepvis-block5-lr-variations} show how lowering these hyperparameters affect the resulting visualization. Finally, \autoref{fig:vgg-deepvis-block1} present deep visualizations of the \texttt{block1\_pool} layer.
 
@@ -481,30 +481,10 @@ The deep visualization technique requires a number of hyperparameters that impac
 \subfloat[Class 953 - pineapple, ananas]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_1_predictions_953.png}} &
 \subfloat[Class 971 - bubble]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_0_predictions_971.png}} \\
 \end{tabular}
-\caption[Deep visualization of VGG \texttt{output} layer]{Deep visualization of the \texttt{output} layer for a selection of nine output classes of the VGG network. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \autoref{tab:reg-hyperparams}.}
+\caption[Deep visualization of \acrshort{vgg} \texttt{output} layer]{Deep visualization of the \texttt{output} layer for a selection of nine output classes of the \acrshort{vgg} network. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \autoref{tab:reg-hyperparams}.}
 \label{fig:vgg-deepvis-output}
 \end{center}
 \end{figure}
-
-% har fjerna 3 visualiseringer som ikke ble nevnt fra den under her. kan brukes om vi vil ha litt større bilder
-
-\begin{comment}
-\begin{figure}
-\captionsetup[subfigure]{labelformat=empty}
-\begin{center}
-\begin{tabular}{cc}
-\subfloat[Class 76 - tarantula]{\includegraphics[width = 2.0in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_0_predictions_76.png}} & 
-\subfloat[Class 327 - starfish, sea star]{\includegraphics[width = 2.0in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_1_predictions_327.png}} \\
-\subfloat[Class 457 - bow tie, bow-tie, bowtie]{\includegraphics[width = 2.0in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_1_predictions_457.png}} &
-\subfloat[Class 879 - umbrella]{\includegraphics[width = 2.0in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_0_predictions_879.png}} \\
-\subfloat[Class 890 - volleyball]{\includegraphics[width = 2.0in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_1_predictions_890.png}} &
-\subfloat[Class 971 - bubble]{\includegraphics[width = 2.0in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_0_predictions_971.png}} \\
-\end{tabular}
-\caption[Deep visualization of VGG \texttt{output} layer]{Deep visualization of the \texttt{output} layer for a selection of six output classes of the VGG network. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \autoref{tab:reg-hyperparams}.}
-\label{fig:vgg-deepvis-output}
-\end{center}
-\end{figure}
-\end{comment}
 
 \begin{figure}
 \begin{center}
@@ -512,7 +492,7 @@ The deep visualization technique requires a number of hyperparameters that impac
 \subfloat{\includegraphics[width = 1.7in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_0_predictions_76.png}} &
 \subfloat{\includegraphics[width = 1.7in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_1_predictions_76.png}} \\
 \end{tabular}
-\caption[Variations in deep visualization of VGG \texttt{output} layer]{Two versions of deep visualization for the \texttt{output} layer of th VGG network for the 'tarantula' output class. Both visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \autoref{tab:reg-hyperparams}.}
+\caption[Variations in deep visualization of \acrshort{vgg} \texttt{output} layer]{Two versions of deep visualization for the \texttt{output} layer of the \acrshort{vgg} network for the 'tarantula' output class. Both visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \autoref{tab:reg-hyperparams}.}
 \label{fig:vgg-deepvis-output-variations}
 \end{center}
 \end{figure}
@@ -526,7 +506,7 @@ The deep visualization technique requires a number of hyperparameters that impac
 \subfloat[Row 3]{\includegraphics[width = 1.7in]{fig/results/deepvis_vgg/deepvis_keras_deepvis_1_predictions_76.png}} &
 \subfloat[Row 4]{\includegraphics[width = 1.7in]{fig/results/deepvis_vgg/alternatives/deepvis_keras_deepvis_fc3_alternative3_0_predictions_76.png}} \\
 \end{tabular}
-\caption[Hyperparameter variations in deep visualization of VGG \texttt{output} layer]{Four versions of deep visualization of the \texttt{output} layer of the VGG network for the 'tarantula' output class. All visualizations are created using a learning rate of 2500 for 1000 iterations, but with hyperparameter corresponding to each of the rows in \autoref{tab:reg-hyperparams}.}
+\caption[Hyperparameter variations in deep visualization of \acrshort{vgg} \texttt{output} layer]{Four versions of deep visualization of the \texttt{output} layer of the \acrshort{vgg} network for the 'tarantula' output class. All visualizations are created using a learning rate of 2500 for 1000 iterations, but with hyperparameter corresponding to each of the rows in \autoref{tab:reg-hyperparams}.}
 \label{fig:vgg-deepvis-output-hyperparameters}
 \end{center}
 \end{figure}
@@ -539,7 +519,7 @@ The deep visualization technique requires a number of hyperparameters that impac
 \subfloat[Unit 2816]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/fc1-2/deepvis_keras_deepvis_fc2_0_fc2_2816.png}} &
 \subfloat[Unit 3840]{\includegraphics[width = 1.5in]{fig/results/deepvis_vgg/fc1-2/deepvis_keras_deepvis_fc2_0_fc2_3840.png}} \\
 \end{tabular}
-\caption[Deep visualization of VGG \texttt{fc2} layer]{Deep visualization of three units in the \texttt{fc2} layer of the VGG network. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \autoref{tab:reg-hyperparams}.}
+\caption[Deep visualization of \acrshort{vgg} \texttt{fc2} layer]{Deep visualization of three units in the \texttt{fc2} layer of the \acrshort{vgg} network. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \autoref{tab:reg-hyperparams}.}
 \label{fig:vgg-deepvis-fc2}
 \end{center}
 \end{figure}
@@ -551,7 +531,7 @@ The deep visualization technique requires a number of hyperparameters that impac
 \subfloat[Unit 2048]{\includegraphics[width = 2.0in]{fig/results/deepvis_vgg/fc1-2/deepvis_keras_deepvis_lower_1_fc1_2048.png}} &
 \subfloat[Unit 3072]{\includegraphics[width = 2.0in]{fig/results/deepvis_vgg/fc1-2/deepvis_keras_deepvis_lower_0_fc1_3072.png}} \\
 \end{tabular}
-\caption[Deep visualization of VGG \texttt{fc1} layer]{Deep visualization of two units in the \texttt{fc1} layer of the VGG network. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \autoref{tab:reg-hyperparams}.}
+\caption[Deep visualization of \acrshort{vgg} \texttt{fc1} layer]{Deep visualization of two units in the \texttt{fc1} layer of the \acrshort{vgg} network. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \autoref{tab:reg-hyperparams}.}
 \label{fig:vgg-deepvis-fc1}
 \end{center}
 \end{figure}
@@ -565,7 +545,7 @@ The deep visualization technique requires a number of hyperparameters that impac
 \subfloat[Block 3]{\includegraphics[width = 0.75in, height = 0.75in]{fig/results/deepvis_vgg/block2-5/deepvis_keras_deepvis_lower_0_block3_pool_(11,11,128).png}} &
 \subfloat[Block 2]{\includegraphics[width = 0.5in, height = 0.5in]{fig/results/deepvis_vgg/block2-5/deepvis_keras_deepvis_lower_0_block2_pool_(23,23,48).png}} \\
 \end{tabular}
-\caption[Deep visualization of VGG pooling layers in block 2-5]{Deep visualization of a unit from each of the pooling layers in block 2-5 of the VGG network. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \autoref{tab:reg-hyperparams}.}
+\caption[Deep visualization of \acrshort{vgg} pooling layers in block 2-5]{Deep visualization of a unit from each of the pooling layers in block 2-5 of the \acrshort{vgg} network. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \autoref{tab:reg-hyperparams}.}
 \label{fig:vgg-deepvis-blocks}
 \end{center}
 \end{figure}
@@ -577,7 +557,7 @@ The deep visualization technique requires a number of hyperparameters that impac
 \subfloat[2500 lr, 500 iterations]{\includegraphics[width = 1.5in, height = 1.5in]{fig/results/deepvis_vgg/block2-5/deepvis_keras_deepvis_lower_0_block5_pool_(2,2,0).png}} &
 \subfloat[1000 lr, 250 iterations]{\includegraphics[width = 1.5in, height = 1.5in]{fig/results/deepvis_vgg/block2-5/deepvis_keras_deepvis_lower_settings_0_block5_pool_(2,2,0).png}} \\
 \end{tabular}
-\caption[Learning rate variations in deep visualization of VGG \texttt{block5\_pool} layer]{Two versions of deep visualization of a unit in the \texttt{block5\_pool} layer of the VGG network. The visualizations are created using different learning rates (lr) and number of iterations. The hyperparameter settings correspond to the third row of \autoref{tab:reg-hyperparams}.}
+\caption[Learning rate variations in deep visualization of \acrshort{vgg} \texttt{block5\_pool} layer]{Two versions of deep visualization of a unit in the \texttt{block5\_pool} layer of the \acrshort{vgg} network. The visualizations are created using different learning rates (lr) and number of iterations. The hyperparameter settings correspond to the third row of \autoref{tab:reg-hyperparams}.}
 \label{fig:vgg-deepvis-block5-lr-variations}
 \end{center}
 \end{figure}
@@ -586,20 +566,17 @@ The deep visualization technique requires a number of hyperparameters that impac
 \captionsetup[subfigure]{labelformat=empty}
 \begin{center}
 \begin{tabular}{cccccc}
-%\subfloat[(56, 56, 0)]{\includegraphics[width = 0.5in, height = 0.5in]{fig/results/deepvis_vgg/block1/deepvis_keras_deepvis_lower_0_block1_pool_(56,56,0).png}} &
 \subfloat[(56, 56, 8)]{\includegraphics[width = 0.55in, height = 0.55in]{fig/results/deepvis_vgg/block1/deepvis_keras_deepvis_lower_0_block1_pool_(56,56,8).png}} &
 \subfloat[(56, 56, 16)]{\includegraphics[width = 0.55in, height = 0.55in]{fig/results/deepvis_vgg/block1/deepvis_keras_deepvis_lower_0_block1_pool_(56,56,16).png}} &
 \subfloat[(56, 56, 24)]{\includegraphics[width = 0.55in, height = 0.55in]{fig/results/deepvis_vgg/block1/deepvis_keras_deepvis_lower_0_block1_pool_(56,56,24).png}} &
 \subfloat[(56, 56, 32)]{\includegraphics[width = 0.55in, height = 0.55in]{fig/results/deepvis_vgg/block1/deepvis_keras_deepvis_lower_0_block1_pool_(56,56,32).png}} &
 \subfloat[(56, 56, 40)]{\includegraphics[width = 0.55in, height = 0.55in]{fig/results/deepvis_vgg/block1/deepvis_keras_deepvis_lower_0_block1_pool_(56,56,40).png}} &
 \subfloat[(56, 56, 48)]{\includegraphics[width = 0.55in, height = 0.55in]{fig/results/deepvis_vgg/block1/deepvis_keras_deepvis_lower_0_block1_pool_(56,56,48).png}} \\
-%\subfloat[(56, 56, 56)]{\includegraphics[width = 0.5in, height = 0.5in]{fig/results/deepvis_vgg/block1/deepvis_keras_deepvis_lower_0_block1_pool_(56,56,56).png}} \\
 \end{tabular}
-\caption[Deep visualization of VGG \texttt{block1\_pool} layer]{Deep visualization of six units in the \texttt{block1\_pool} layer of the VGG network, with the unit index captioned below each image. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \autoref{tab:reg-hyperparams}.}
+\caption[Deep visualization of \acrshort{vgg} \texttt{block1\_pool} layer]{Deep visualization of six units in the \texttt{block1\_pool} layer of the \acrshort{vgg} network, with the unit index captioned below each image. The visualizations are created using a learning rate of 2500 for 1000 iterations. The hyperparameter settings correspond to the third row of \autoref{tab:reg-hyperparams}.}
 \label{fig:vgg-deepvis-block1}
 \end{center}
 \end{figure}
-
 
 \section{Case Study in Face Recognition} \label{sec:case-results}
 
@@ -608,8 +585,6 @@ Here we will present the performance of multiple case study networks, based on t
 \subsection{Network Performance}
 
 For every architecture configuration described in \autoref{sec:case-networks}, a network was created, trained and tested. The performance results of each network with a single output is displayed in \autoref{tab:case-results}, with loss and accuracy for the validation and test sets. For the extra output architectures, the identification and expression classification performance are measured separately, and are similarly displayed in \autoref{tab:case-results-id} and \autoref{tab:case-results-exp}. The values represent the average result each network achieved on the respective sets. The differences found in the performance measurements may be modest, but considering how small the architectural differences are, they are not negligible.
-
-
 
 \begin{table}[h!]
 \begin{center}
@@ -625,7 +600,7 @@ E & 0.80243 & 0.79030 & 0.77779 & 0.83946 \\ \hline
 F & 0.79030 & 0.78232 & 0.82492 & 0.86545 \\ \hline
 \end{tabular}
 \end{center}
-\caption[Performance of case study networks with a single output]{Performance of case study networks with a single output. Describe results a bit. Networks were trained as described in \autoref{case-training}}
+\caption[Performance of case study networks with a single output]{Performance of case study networks with a single output. Describe results a bit. Networks were trained as described in \autoref{sec:case-training}}
 \label{tab:case-results}
 \end{table}
 
@@ -642,7 +617,7 @@ H & 0.78780 & 0.77966 & 0.84904 & 0.89195 \\ \hline
 I & 0.77052 & 0.76338 & 0.94080 & 0.96959 \\ \hline
 \end{tabular}
 \end{center}
-\caption[Identification performance of extra output case study networks]{Identification performance of extra output case study networks. Describe a bit more. Combined metric performance can be seen in \autoref{tab:case-results}. Networks were trained as described in \autoref{case-training}}
+\caption[Identification performance of extra output case study networks]{Identification performance of extra output case study networks. Describe a bit more. Combined metric performance can be seen in \autoref{tab:case-results}. Networks were trained as described in \autoref{sec:case-training}}
 \label{tab:case-results-id}
 \end{table}
 
@@ -659,22 +634,15 @@ H & 0.52509 & 0.53407 & 1.30467 & 1.28520 \\ \hline
 I & 0.52210 & 0.53938 & 1.32465 & 1.29725 \\ \hline
 \end{tabular}
 \end{center}
-\caption[Expression performance of extra output case study networks]{Expression performance of extra output case study networks. Describe a bit more. Combined metric performance can be seen in \autoref{tab:case-results}. Networks were trained as described in \autoref{case-training}}
+\caption[Expression performance of extra output case study networks]{Expression performance of extra output case study networks. Describe a bit more. Combined metric performance can be seen in \autoref{tab:case-results}. Networks were trained as described in \autoref{sec:case-training}}
 \label{tab:case-results-exp}
 \end{table}
 
-% også legg til id acc og loss + exp acc og loss for extra output nettverk
-
-\subsection{Training} \label{case-training}
-
-% list training times
-
+\subsection{Training} \label{sec:case-training}
 
 The case study networks are regarded as separate from the pretrained network, as explained in \autoref{sec:case-networks}. They are also trained accordingly, using feature input instead of image input. The networks were implemented using Keras, with TensorFlow as the backend framework. Because of small amount of weighted layers in these architectures, the training of each one is completed quickly. When training the different networks, we varied the amount of epochs used, while the batch size was fixed at 512. For the configuration A, D, and G, the networks were trained for 25, 30, and 25 epochs, respectively. The networks based on the other configurations were all trained for 50 epochs. Generally, the shorter epoch amounts were either chosen because of a lack of significant progress in the later epochs, or to prevent overfitting. The training times can be seen in \autoref{tab:train-times}. To generate the features on which the networks were trained, the pretrained model processed all images in the chosen dataset. Upon processing, each image was resized to have a height and width of 224 pixels, and had the mean values of the original training set subtracted from its pixel values. For the training, validation and test sets, the feature extraction took a total of 181 minutes. \\
 
-\noindent Every network was trained using the adaptive learning algorithm Adam, with an initial learning rate 0.0005. The loss trying to be minimized by this learning algorithm was measured using categorical cross-entropy, and the weights were initialized using a Glorot uniform initializer, also known as a Xavier uniform initializer. All training occurred on the same hardware, an Intel\textregistered{} Core\texttrademark{} i7-6700 3.40 GHz CPU. 
-
-% epochs vary (baseline: 25, 50, 50. exp1: 30, 50, 50. exp2: 0, 0, 0.)
+\noindent Every network was trained using the adaptive learning algorithm Adam, with an initial learning rate of 0.0005. This learning rate is lower than the recommended default value\footnote{https://keras.io/optimizers/\#adam}, but is chosen due to the use of transfer learning. The other parameters of Adam use the default values. The loss trying to be minimized by this learning algorithm was measured using categorical cross-entropy, and the weights were initialized using a Glorot uniform initializer, also known as a Xavier uniform initializer. All training occurred on the same hardware, an Intel\textregistered{} Core\texttrademark{} i7-6700 3.40 GHz CPU. 
 
 % Other Adam arguments, which are based on the original paper.
 % beta\_1: float, 0 < beta < 1. Generally close to 1.
