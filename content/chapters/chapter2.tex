@@ -174,23 +174,23 @@ The theory presented in this section is gathered from Goodfellow et al. \cite{co
 
 \subsection{Convolution Operation}
 
-Generally, convolution can be defined as an operation on two functions, $x$ and $w$, of a real-valued argument, $t$:
+Generally, convolution can be defined as an operation on two functions, $x$ and $w$, of a real-valued argument, $t$, as in \autoref{eq:general}.
 
 \begin{equation}
 s(t) = \int x(a)w(t-a) da    
-\end{equation}
+\end{equation} \label{eq:general}
 
-\noindent The operation is typically denoted $s(t) = (x*w)(t)$. While the above definition is for arguments in the continuous range, data in computer applications is usually discrete. If we assume that $x$ and $w$ are only defined on discrete values of $t$, the convolution operation can be discretized:
+\noindent The operation is typically denoted $s(t) = (x*w)(t)$. While the definition in \autoref{eq:general} is for arguments in the continuous range, data in computer applications is usually discrete. If we assume that $x$ and $w$ are only defined on discrete values of $t$, the convolution operation can be discretized, as defined in \autoref{eq:discrete}.
 
 \begin{equation}
 s(t) = (x*w)(t) = \sum_{a=-\infty}^{\infty} x(a)w(t-a)
-\end{equation}
+\end{equation} \label{eq:discrete}
 
-\noindent In \acrshort{cnn} terminology, $x$ and $w$ represents the input and the convolution kernel, respectively. For a network, the input and kernel are usually multidimensional arrays, the first containing data and the second containing the network parameters, or weights. Because these arrays are finite, we can assume that the functions are zero for elements that reside outside the arrays' range. The infinite summation in the discrete convolution operation can then be reduced to a summation over a finite number of array elements. In addition, it is often desirable to perform convolutions over multiple axes at a time. The convolution operation for a 2D image input $I$, using a 2D kernel $K$, would then be defined:
+\noindent In \acrshort{cnn} terminology, $x$ and $w$ represents the input and the convolution kernel, respectively. For a network, the input and kernel are usually multidimensional arrays, the first containing data and the second containing the network parameters, or weights. Because these arrays are finite, we can assume that the functions are zero for elements that reside outside the arrays' range. The infinite summation in the discrete convolution operation can then be reduced to a summation over a finite number of array elements. In addition, it is often desirable to perform convolutions over multiple axes at a time. The convolution operation for a 2D image input $I$, using a 2D kernel $K$, would then be defined as in \autoref{eq:2d-kernel}.
 
 \begin{equation}
 S(i, j) = (I*K)(i, j) = \sum_{m} \sum_{n} I(m, n) K(i-m, j-n)
-\end{equation}
+\end{equation} \label{eq:2d-kernel}
 
 \noindent Since convolution is commutative, the following is equivalent:
 
