@@ -6,10 +6,7 @@ This chapter presents the results of the thesis work relevant for answering the 
 
 \section{Visualization Tool} \label{sec:visualization-tool-results}
 
-This section will focus on showcasing a representative selection of visualizations generated using the various visualization techniques implemented in the visualization tool. The visualizations were produced using the tool, but we will display them as independent images instead of incorporated into the web interface. We refer the reader to \autoref{app:user-manual} and \autoref{app:callbacks-api} for an overview of the implemented visualization tool. Note that the visualizations are best viewed electronically.
-
-% kan skrive noe om at vi gjør det slik fordi vi vil ha visualiseringen i fokus?
-% lettere å sammenlikne visualiseringer
+This section will focus on showcasing a representative selection of visualizations generated using the various visualization techniques implemented in the visualization tool. The visualizations were produced using the tool, but we will display them as independent images instead of incorporated into the web interface. We refer the reader to \autoref{app:user-manual} and \autoref{app:callbacks-api} for an overview of the implemented visualization tool.
 
 \subsection{Example Networks} \label{sec:example-networks}
 
@@ -44,7 +41,7 @@ The \acrshort{mnist} network is a simple \acrshort{cnn} with three convolutional
 
 \subsubsection{The \acrshort{vgg} Network}
 
-The \acrshort{vgg} network is a significantly deeper \acrshort{cnn} than the first network. It consists of five blocks of 3-4 convolutional layers each, including the max pooling layers, followed by a flattening layer and three fully connected layers, for a total of 23 layers. The full architecture can be seen in \autoref{fig:vgg-architecture}. The \acrshort{vgg} model used has weights trained on the \acrshort{ilsvrc} image set and is available through the Keras Applications module \cite{keras-applications-vgg16, keras-vgg16}. \\
+The \acrshort{vgg} network is a significantly deeper \acrshort{cnn} than the first network. It consists of five blocks of 3-4 convolutional layers each, including the max pooling layers, followed by a flattening layer and three fully connected layers, for a total of 23 layers. The full architecture can be seen in \autoref{fig:vgg-architecture}. The \acrshort{vgg} model used has weights trained on the \acrshort{ilsvrc} image set and is available through the Keras Applications module\footnote{https://keras.io/applications/\#vgg16} \cite{keras-vgg16}. \\
 
 \noindent As mentioned, the \acrshort{vgg} network employed is a fully trained model, meaning that the results generated using this network only consist of visualizations produced at the very end of the training process. The three visualization input images seen in \autoref{fig:vgg-input-images} were used to produce visualizations, with the image in \autoref{fig:vgg-input-image1} being the main visualization input image. The other two images were used to produce visualizations to compare to. They were selected as they are both related to the main image in some way. Specifically, one contains a bicycle similar to the tricycle in the main image, and the other contains a woman with similar features to the girl in the main image. The visualization techniques were repeated a number of times with various configurations and the different input images. The resulting visualizations were manually processed, and a representative selection are presented in \autoref{sec:vgg-vis-results}.
 
@@ -641,13 +638,7 @@ I & 0.52210 & 0.53938 & 1.32465 & 1.29725 \\ \hline
 
 The case study networks are regarded as separate from the pretrained network, as explained in \autoref{sec:case-networks}. They are also trained accordingly, using feature input instead of image input. The networks were implemented using Keras, with TensorFlow as the backend framework. Because of small amount of weighted layers in these architectures, the training of each one is completed quickly. When training the different networks, we varied the amount of epochs used, while the batch size was fixed at 512. For the configuration A, D, and G, the networks were trained for 25, 30, and 25 epochs, respectively. The networks based on the other configurations were all trained for 50 epochs. Generally, the shorter epoch amounts were either chosen because of a lack of significant progress in the later epochs, or to prevent overfitting. The training times can be seen in \autoref{tab:train-times}. To generate the features on which the networks were trained, the pretrained model processed all images in the chosen dataset. Upon processing, each image was resized to have a height and width of 224 pixels, and had the mean values of the original training set subtracted from its pixel values. For the training, validation and test sets, the feature extraction took a total of 181 minutes. \\
 
-\noindent Every network was trained using the adaptive learning algorithm Adam, with an initial learning rate of 0.0005. This learning rate is lower than the recommended default value\footnote{https://keras.io/optimizers/\#adam}, but is chosen due to the use of transfer learning. The other parameters of Adam use the default values. The loss trying to be minimized by this learning algorithm was measured using categorical cross-entropy, and the weights were initialized using a Glorot uniform initializer, also known as a Xavier uniform initializer \cite{glorot}. All training occurred on the same hardware, an Intel\textregistered{} Core\texttrademark{} i7-6700 3.40 GHz CPU. 
-
-% Other Adam arguments, which are based on the original paper.
-% beta\_1: float, 0 < beta < 1. Generally close to 1.
-% beta\_2: float, 0 < beta < 1. Generally close to 1.
-% epsilon: float >= 0. Fuzz factor.
-% decay: float >= 0. Learning rate decay over each update.
+\noindent Every network was trained using the adaptive learning algorithm Adam, with an initial learning rate of 0.0005. This learning rate is lower than the recommended default value, but is chosen due to the use of transfer learning. The other parameters of Adam use the default values\footnote{https://keras.io/optimizers/\#adam}. The loss trying to be minimized by this learning algorithm was measured using categorical cross-entropy, and the weights were initialized using a Glorot uniform initializer, also known as a Xavier uniform initializer \cite{glorot}. All training occurred on the same hardware, an Intel\textregistered{} Core\texttrademark{} i7-6700 3.40 GHz CPU. 
 
 \begin{table}[h!]
 \begin{center}
