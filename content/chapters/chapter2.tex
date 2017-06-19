@@ -166,7 +166,9 @@ Adaptive learning rate methods are algorithms that automatically adapts the lear
 
 \section{Convolutional Neural Networks} \label{sec:conv-networks}
 
-A variation of the traditional \acrshort{ann}, \acrshortpl{cnn} are especially well suited for handling input data that can be arranged in a grid-like topology. These types of networks can be applied to input of any dimension, but are commonly used in situations where the processing of images is required. We will concentrate on the convolution of images, as it is of most relevance to the thesis. \\
+The theory presented in this section is gathered from Goodfellow et al. \cite{conv-net-book}, if not explicitly stated otherwise. \\
+
+\noindent A variation of the traditional \acrshort{ann}, \acrshortpl{cnn} are especially well suited for handling input data that can be arranged in a grid-like topology. These types of networks can be applied to input of any dimension, but are commonly used in situations where the processing of images is required. We will concentrate on the convolution of images, as it is of most relevance to the thesis. \\
 
 \noindent A typical \acrshort{cnn} architecture involves multiple convolutional layers as the main body of the network, interspersed with pooling layers, before ending with one or more fully connected layers. A convolutional layer employs a mathematical operation called convolution, from which the name of both the layer and the network type is derived. Before explaining the convolutional layer and the pooling layer, as well as a convolutional layer variant called the transposed convolutional layer, we review the convolution operation and its matrix multiplication counterpart.
 
@@ -207,7 +209,7 @@ S(i, j) = (I*K)(i, j) = \sum_{m} \sum_{n} I(i+m, j+n) K(m, n)
 \begin{figure}[h!]
     \centering
         \includegraphics[width=0.6\textwidth]{fig/2d_conv.pdf}
-        \caption[An example of 2D cross-correlation.]{An example of 2D cross-correlation. Arrows indicate how marked input and kernel combine to create output. The example uses single strides and no padding.}
+        \caption[An example of 2D cross-correlation.]{An example of 2D cross-correlation. Arrows indicate how marked input and kernel combine to create output. The example uses single strides and no padding. Figure found in Goodfellow et al.  \cite{conv-math}}
         \label{fig:2d-conv}
 \end{figure}
  
@@ -215,7 +217,7 @@ S(i, j) = (I*K)(i, j) = \sum_{m} \sum_{n} I(i+m, j+n) K(m, n)
  
 Discrete convolution can be represented by a matrix multiplication and there are multiple ways to define the operation. The definition presented here was chosen as it allows the differences between convolution and transposed convolution to be easily demonstrated in \autoref{sec:trans-conv}. \\
 
-\noindent Consider a discrete convolution of a 4x4 input matrix with a 3x3 kernel matrix. To perform this convolution via matrix multiplication, we must first unroll the input matrix from left to right and top to bottom, reshaping the input into a 16-dimensional vector $I$. The kernel must also be modified, creating a sparse matrix $K$, where $w_{ij}$ is the element at row $i$ and column $j$ in the original kernel:
+\noindent Consider a discrete convolution of a 4x4 input matrix with a 3x3 kernel matrix. To perform this convolution via matrix multiplication, we must first unroll the input matrix from left to right and top to bottom, reshaping the input into a 16-dimensional vector $I$. The kernel must also be modified, creating a sparse matrix $K$, where $w_{ij}$ is the element at row $i$ and column $j$ in the original kernel, as seen in \autoref{eq:kernel-matrix} \cite{conv-math}.
 
 \begin{equation}
     K = 
@@ -269,7 +271,7 @@ Not surprisingly, the filter amount denotes how many different filters the layer
 
 \subsubsection{Strides}
 
-The stride refers to the distance between filter applications in units. For image input, it applies in both spatial directions, meaning two separate strides must be specified. In a basic convolution, with single strides and no padding, the filter would be applied to every unique (spatial) neighborhood of units that matches the filter size. For a 4x3 input and a 2x2 filter, there exist six such neighborhoods, as implied by \autoref{fig:2d-conv}. Each filter region is then a single step away from any another, both vertically and horizontally. If we increase the horizontal stride to two, the filter will only be applied to every second neighborhood in that direction. As a result, four regions of the input would be convolved, creating a 2x2 feature map. By increasing both strides to two, the feature map would be further reduced to 2x1, as there would not be enough units for two filter regions that are two steps apart in the vertical direction. The strides can be further increased, but they are rarely set to large values. The purpose of the strides is to downsample the input, reducing computational cost at the expense of finer feature extraction. Although increasing the filter size would also diminish the feature map, it would limit the layer's feature detection capabilities, making larger strides the preferred approach.
+The stride refers to the distance between filter applications in units. For image input, it applies in both spatial directions, meaning two separate strides must be specified. In a basic convolution, with single strides and no padding, the filter would be applied to every unique (spatial) neighborhood of units that matches the filter size. For a 4x3 input and a 2x2 filter, there exist six such neighborhoods, as implied by \autoref{fig:2d-conv}. Each filter region is then a single step away from any another, both vertically and horizontally. If we increase the horizontal stride to two, the filter will only be applied to every second neighborhood in that direction. As a result, four regions of the input would be convolved, creating a 2x2 feature map. By increasing both strides to two, the feature map would be further reduced to 2x1, as there would not be enough units for two filter regions that are two steps apart in the vertical direction. The strides can be further increased, but they are rarely set to large values \cite{cs231n-part1}. The purpose of the strides is to downsample the input, reducing computational cost at the expense of finer feature extraction. Although increasing the filter size would also diminish the feature map, it would limit the layer's feature detection capabilities, making larger strides the preferred approach.
 
 \subsubsection{Padding}
 
@@ -323,26 +325,9 @@ While training, the progress of the network can be visualized in a simple line p
 
 \subsection{Layer Activations}
 
-Visualizing the activations of the layers in a network is a straightforward, yet useful, visualization technique. It is informative because all data flowing through the network can be visualized. The activation output is most readable for the convolutional layers, and especially so for the earlier ones. For a convolutional layer, the activations of each filter of the layer are typically displayed in a grid of feature maps. The feature maps denote high activations with a bright color, and low activations with a dark color. The brighter the color, the higher the activation. \\
+Visualizing the activations of the layers in a network is a straightforward, yet useful visualization technique. It is informative because all data flowing through the network can be visualized \cite{yosinski-deepvis}. The activation output is most readable for the convolutional layers, and especially so for the earlier ones. For a convolutional layer, the activations of each filter of the layer are typically displayed in a grid of feature maps. The feature maps denote high activations with a bright color, and low activations with a dark color. The brighter the color, the higher the activation. \\
 
-\noindent The layer activations can be used to determine what features a network learns at its various layers. The activations can also be helpful to confirm that the network is progressing well, if the output is showing signs of activation in areas with similar features. These patterns should become more and more clear as training goes on, and when the activations start experiencing little or no change, the proper filters should be obtained. In networks using \acrshortpl{relu}, a common activation function, the expectation of seeing sparse and localized activations can be confirmed, which is an indicator of the network learning properly. If some feature maps are entirely dark for many different input images, this can be a warning sign that the learning rate is too high. The particular filters are then rendered useless, and they have no possible way of recovering \cite{cs231n_act}.
-
-% Layer Activations. The most straight-forward visualization technique is to show the activations of the network during the forward pass. For ReLU networks, the activations usually start out looking relatively blobby and dense, but as the training progresses the activations usually become more sparse and localized. One dangerous pitfall that can be easily noticed with this visualization is that some activation maps may be all zero for many different inputs, which can indicate dead filters, and can be a symptom of high learning rates.
-
-\begin{comment}
-From yosinski paper, section 2: "Although this visualization is simple to implement, we find
-it informative because all data flowing through the network can be visualized. There is nothing mysterious happening behind the scenes."
-
-\textit{The activation output is most readable for the convolutional layers, and especially so for the earlier ones. The activations in convolutional layers can also be called feature maps, and the units in these maps typically share the same weight matrix, called the filter. The filter will, through backpropagation, learn to look for certain features, for example a horizontal edge. Applying the filter to the input creates the feature map, which can convey information about where the filter found the feature it was looking for. For deeper convolutional layers, these features become more complex and so does the input. It is the simplicity of their filters and input that make the earlier layers activations easier to interpret. Considering these filters, the activation output can be helpful to confirm that the network is progressing well, if the output is showing signs of activation in areas with similar features. These patterns should become more and more clear as training goes on, and when the activations start experiencing little or no change, the proper filters should be obtained.} \\
-
-\noindent \textit{Additionally, in networks using \acrshortpl{relu}, a common activation function, the expectation of seeing sparse and localized activations can be confirmed, which is an indicator of the network learning properly. If some feature maps are entirely dark, with all pixel values zero, this can be a warning sign that the learning rate is too high. The particular filters are then rendered useless, and they have no possible way to recover \cite{cs231n_act}. }
-
-- most readable for feature maps?
-- feature maps kan avsløre hva filteret ser etter
-- gives an overall impression of the network and how it is faring
-- yosinski kommentar
-
-\end{comment}
+\noindent The layer activations can be used to determine what features a network learns to detect at its various layers, by examining the similarities between the areas where the filter activates. The activations can also be helpful to confirm that the network is progressing well, if the output is showing signs of activation in areas with similar features. These patterns should become more and more clear as training goes on, and when the activations start experiencing little or no change, the proper filters should have been obtained. In networks using \acrshortpl{relu}, a common activation function, the expectation of seeing sparse and localized activations can be confirmed, which is an indicator of the network learning properly. If some feature maps are entirely dark for many different input images, this can be a warning sign that the learning rate is too high. The corresponding filters are then rendered useless, and they have no possible way of recovering \cite{cs231n-act}.
 
 \subsection{Saliency Maps}
 
@@ -352,11 +337,13 @@ A simple, yet useful, visualization technique for \acrshortpl{ann} is to compute
 
 \subsection{Deconvolutional Network} \label{sec:deconv-net}
 
-Modern \acrshortpl{ann} that receive images as inputs are likely to have convolutional layers form the initial part of the network. This part is aimed at detecting certain features in the image, with the complexity of the features rising as the depth of the convolutional part increases. In such cases, we can utilize a visualization technique that employs a deconvolutional network, which can be thought of as a reverse convolutional network \cite{deconv-net-article}. The visualizations are used to interpret the feature activity in the intermediate layers of the original network. To obtain a visualization, an image is first passed to the original network to produce activations in its various layers. The activations of the convolutional part can then be processed and passed to the deconvolutional network to create a visualization of the pattern in the input image that was responsible for eliciting the given activations. This pattern can then reveal what a certain part of the original network finds important and what it is looking for in an image.
+This section is based on the work of Zeiler and Fergus \cite{deconv-vis-article}, unless otherwise specified. \\
+
+\noindent Modern \acrshortpl{ann} that receive images as inputs are likely to have convolutional layers form the initial part of the network. This part is aimed at detecting certain features in the image, with the complexity of the features rising as the depth of the convolutional part increases. In such cases, we can utilize a visualization technique that employs a deconvolutional network, which can be thought of as a reverse convolutional network \cite{deconv-net-article}. The visualizations are used to interpret the feature activity in the intermediate layers of the original network. To obtain a visualization, an image is first passed to the original network to produce activations in its various layers. The activations of the convolutional part can then be processed and passed to the deconvolutional network to create a visualization of the pattern in the input image that was responsible for eliciting the given activations. This pattern can then reveal what a certain part of the original network finds important and what it is looking for in an image.
 
 \subsubsection{Constructing a Deconvolutional Network}
 
-To build such a deconvolutional network, it is necessary to examine the original network we want to produce visualizations for. Only the feature extracting part is of interest, and we can regard this part as a network on its own. The purpose of the deconvolutional network is to map the feature activity present in this convolutional network back to the input pixel space \cite{deconv-vis-article}. For a convolutional network consisting of convolution and max pooling layers, the corresponding deconvolutional network would consist of transposed convolution and unpooling layers in the opposite order of the original layers. In addition, where a \acrshort{relu} activation function commonly follow each convolutional layer, they would precede transposed convolutional layers. In other words, a top-down examination the convolutional network would enable a bottom-up creation of the deconvolutional network. 
+To build such a deconvolutional network, it is necessary to examine the original network we want to produce visualizations for. Only the feature extracting part is of interest, and we can regard this part as a network on its own. The purpose of the deconvolutional network is to map the feature activity present in this convolutional network back to the input pixel space. For a convolutional network consisting of convolution and max pooling layers, the corresponding deconvolutional network would consist of transposed convolution and unpooling layers in the opposite order of the original layers. In addition, where a \acrshort{relu} activation function commonly follow each convolutional layer, they would precede transposed convolutional layers. In other words, a top-down examination the convolutional network would enable a bottom-up creation of the deconvolutional network. 
 
 \subsubsection{Mapping Features to Input}
 
@@ -380,7 +367,9 @@ When the original network is applied to an input image, the switches created in 
 
 \subsection{Deep Visualization} \label{sec:deep-vis}
 
-Whereas the previously discussed techniques (aside from plotting) are all dependent on a provided image to stimulate the network in order to create visualizations, deep visualization is not. Instead of examining the network's reaction to certain input, deep visualization aims to create images that represent what a selected part of the network is looking for. In order to achieve this, several steps are taken. \\
+The deep visualization theory presented here is based on the paper from Yosinski et al. \cite{yosinski-deepvis}, unless otherwise specified. \\
+
+\noindent Whereas the previously discussed techniques (aside from plotting) are all dependent on a provided image to stimulate the network in order to create visualizations, deep visualization is not. Instead of examining the network's reaction to certain input, deep visualization aims to create images that represent what a selected part of the network is looking for. In order to achieve this, several steps are taken. \\
 
 \noindent At first, an individual unit in the network must be chosen. It is this particular unit that the visualization will offer insight into. Secondly, an initial image should be created by setting every pixel to a random value. The dimensions should match the network's expected input. The next step is to compute an update to the image using gradient ascent. By iteratively updating the pixel values with the gradient of the loss of the chosen unit with respect to the image, the technique is able to produce images that maximally activate the unit. The idea is that images that cause that strongly activate the unit would resemble the object or type of input that the unit looks for, i.e. its learned features. However, images produced from gradient ascent alone are inclined to contain certain hacks to influence the activation. These hacks, like extreme pixel values and structured high frequency patterns, guide the process away from natural, interpretable images. Fortunately, this behaviour can be suppressed. By employing regularization techniques to deter the evolution of hacks in the image, deep visualization will produce visualizations that are able to reveal the learned features of the unit. By repeating these two steps, updating the image with the gradient and then regularizing it, the process will eventually result in a viable visualization. When updating the image with the gradient, there can also be a learning rate attached, to accelerate (or decelerate) learning. It is worth noting that the process is stochastic as a result of the random initial images. Producing several visualizations for a single unit would therefore display certain variances. These variances in turn reveal the invariances learned by the unit. \\
 
@@ -390,7 +379,7 @@ Whereas the previously discussed techniques (aside from plotting) are all depend
 
 \subsubsection{$L_2$ Decay}
 
-Employing $L_2$ decay is a common regularization technique for \acrshortpl{ann}, where it is used to penalize large weight values. In these cases, the weights are linearly decayed towards zero with a chosen regularization strength. In deep visualization, $L_2$ decay is similarly applied to the visualization, where it is used to penalize extreme pixel values and prevents them from dominating the image. This is desirable as extreme pixel values are neither naturally prevalent nor useful for visualizations.
+Employing $L_2$ decay is a common regularization technique for \acrshortpl{ann}, where it is used to penalize large weight values. In these cases, the weights are linearly decayed towards zero with a chosen regularization strength \cite{cs231n-reg}. In deep visualization, $L_2$ decay is similarly applied to the visualization, where it is used to penalize extreme pixel values and prevents them from dominating the image. This is desirable as extreme pixel values are neither naturally prevalent nor useful for visualizations.
 
 \subsubsection{Gaussian Blur}
 
@@ -406,7 +395,7 @@ Another characteristic of images produced using deep visualization is an abundan
 
 \subsubsection{Regularization Hyperparameter Values}
 
-Through a random hyperparameter search, \cite{deepvis} found several useful combinations that create visualizations with certain desirable characteristics. Not all of the previously described regularization techniques are included, however. Both clipping based on value and clipping based on contribution are included in \cite{deepvis-web-article}, but not in \cite{deepvis} (the latter is briefly mentioned). As a result, they are not included in the hyperparameter suggestions, but have been explained for the sake of diversity. \\
+Through a random hyperparameter search, Yosinski et al. \cite{yosinski-deepvis} found several useful combinations that create visualizations with certain desirable characteristics. Not all of the previously described regularization techniques are included, however. Both clipping based on value and clipping based on contribution are included in the web article of Yosinski et al.\footnote{http://yosinski.com/deepvis}, but not in the Yosinski et al. paper \cite{yosinski-deepvis} (the latter is briefly mentioned). As a result, they are not included in the hyperparameter suggestions, but have been explained for the sake of diversity. \\
 
 \noindent Denoting $L_2$ decay rate as $\theta_{decay}$, blur interval as $\theta_{b\_interval}$, blur kernel standard deviation as $\theta_{b\_std}$, norm percentile threshold as $\theta_{norm}$ and absolute contribution percentile threshold as $\theta_{abs\_contr}$, the hyperparameter combinations are shown in \autoref{tab:reg-hyperparams}.
 
@@ -421,11 +410,9 @@ Through a random hyperparameter search, \cite{deepvis} found several useful comb
 0 & 4 & 0.5 & 0 & 90 \\ \hline
 \end{tabular}
 \end{center}
-\caption[Hyperparameters found in random search.]{Hyperparameters found in random search, with useful combinations located in rows}
+\caption[Hyperparameters found in random search.]{Hyperparameters found in random search, with useful combinations located in rows. The four combinations produce visualizations that complement each other. The first one can be used to produce images that show a sparse set of important regions. The second tends to result in images with high frequency patterns. The third favors images with low frequency patterns. Finally, the fourth one generates visualizations with dense pixel data. Used separately, the most beneficial images can be developed from the third combination, although more insight can be gained by examining visualizations from all four combinations at once.}
 \label{tab:reg-hyperparams}
 \end{table}
-
-\noindent The four combinations produce visualizations that complement each other. The first one can be used to produce images that show a sparse set of important regions. The second tends to result in images with high frequency patterns. The third favors images with low frequency patterns. Finally, the fourth one generates visualizations with dense pixel data. Used separately, the most beneficial images can be developed from the third combination, although more insight can be gained by examining visualizations from all four combinations at once.
 
 \section{Transfer Learning} \label{sec:transfer-learning}
 
@@ -445,7 +432,7 @@ Face recognition in unconstrained environments remains difficult for several rea
 
 \subsection{\acrshortpl{cnn} for Expression Recognition}
 
-There exists a long history of research into analyzing facial expressions in human subjects. For computer systems, researchers have been interested in creating automatic expression analysis, which is comprised of three steps: face acquisition, facial data extraction and representation, and facial expression recognition. Extracting and representing facial data can either be completed using geometric feature-based methods or appearance-based methods. The former present the shape and location of certain facial components, like the mouth or eyes, in a vector to represent the face geometry. The latter utilizes filters to extract feature vectors, either applying them to the full image of a face or at specific regions of it. \\
+There exists a long history of research into analyzing facial expressions in human subjects. For computer systems, researchers have been interested in creating automatic expression analysis, which is comprised of three steps: face acquisition, facial data extraction and representation, and facial expression recognition. Extracting and representing facial data can either be completed using geometric feature-based methods or appearance-based methods. The former present the shape and location of certain facial components, like the mouth or eyes, in a vector to represent the face geometry. The latter utilizes filters to extract feature vectors, either applying them to the full image of a face or at specific regions of it \cite{exp-rec-book}. \\
 
 \noindent Face expression recognition is a task that \acrshortpl{cnn} have been successfully applied to. A \acrshort{cnn} for expression recognition incorporates all of the aforementioned three steps in single network, using an appearance-based method with convolutional filters. Examples are the Action Unit-inspired Deep Network \cite{audn} and DeXpression \cite{dexpression}. Both network produce state of the art competitive results for expression recognition performance on the Extended Cohn-Kanade database \cite{ck-plus}. The former achieves 93.70\% accuracy, while the latter achieves 99.60\% accuracy. These results demonstrate that \acrshortpl{cnn} have the ability to extract and recognize expressions from image input. 
 

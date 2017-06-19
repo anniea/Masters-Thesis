@@ -15,7 +15,7 @@ In this section we start with interpreting and explaining each of the visualizat
 
 \subsection{Training Progress}
 
-The only produced visualizations of the training progress were the batch accuracy and batch loss plots of the \acrshort{mnist} network in \autoref{fig:mnist-training-progress}. Both plots indicate a healthy network, reaching a training accuracy of close to 100\% shortly after three epochs of training. Even though the training continued for another three epochs, the network show no signs of overfitting as the validation accuracy is still high.
+The only produced visualizations of the training progress were the batch accuracy and batch loss plots of the \acrshort{mnist} network in \autoref{fig:mnist-training-progress}. Both plots indicate a healthy network, reaching a training accuracy of close to 100\% shortly after three epochs of training. Even though the training continued for another three epochs, the network shows no signs of overfitting as the validation accuracy is still high.
 
 \subsection{Layer Activations}
 
@@ -63,44 +63,17 @@ For the \acrshort{mnist} network, four simple visualizations produced using a de
 
 The visualization tool incorporates the presented visualization techniques in a simple web interface, as seen in the user manual in \autoref{app:user-manual}. It allows users to browse the various visualizations while the network is training. By interpreting the results of \autoref{sec:visualization-tool-results}, we have seen that there is undoubtedly insight to be gained from using these visualization techniques. For a fully trained network, the visualizations provide indications on how the \acrshort{ann} is behaving and why it behaves as it does. We have also seen that examining the visualizations during training can deepen the understanding of how the network progresses and when the learning process seem to be at an end, marked by diminishing changes to the visualizations. The training progress provides a straightforward indication on how well the network is performing, while the other techniques focus on uncovering what the various units in the network are actually looking for or find important, using different perspectives. The knowledge acquired from studying each of the visualization techniques may overlap, but by combining the various approaches, we can gain a greater overall intuition. \\
 
-We chose to showcase the visualization techniques using well-known example \acrshortpl{ann}, naturally already known to achieve good results, to concentrate our focus on what the visualizations reveal about their behaviour. Knowing how an \acrshort{ann} works, 
+\noindent We chose to showcase the visualization techniques using well-known example \acrshortpl{ann}, naturally already known to achieve good results, to concentrate our focus on what the visualizations reveal about their behaviour. The visualizations provide insights into the networks, whether they perform well or poorly. Understanding how a network behaves, and why, makes it possible to identify shortcomings, and further to address these by making informed decisions on improvements. \\
 
-
-Knowledge of the inner workings of an \acrshort{ANN} is 
-
-
-Both of our example \acrshort{ann} were networks already known to achieve good results. We wanted to showcase the visualization techniques using well-known networks, to concentrate our focus on what the visualizations reveal about their behaviour. This knowledge is directly related to how one
-
-
-what the visualizations 
-
-and naturally theese 
-
-and concentrate on demonstrating how they 
-
-Our focus was to demonstrate how the implemented visualization techniques can 
-
-Our focus was on illustrating how the implemented visualizations 
-
-% example networks known to achieve good results.
-% we wanted to use well-known networks --> naturally these are good
-% focus was on 
-
-% the visualizations provide insights into the behaviour, whether it is good or bad.
-% understanding how the network behaves make it possible to make informed decisions on changes instead of employing trial and error approach.
-
-
-
-%Through the use of these visualization techniques, the network can be improved by making informed decisions, instead of employing a trial and error approach.
-
-
+\begin{comment}
 \noindent Note that both of our example \acrshortpl{ann} were networks already known to achieve good results. Thus our presented visualizations do not imply any obvious measures that could be taken in order to improve performance. However, as the visualizations still provided an extensive amount of information, it is likely that they could give good pointers on improvements for a lesser network. To be able to identify a network's shortcomings, it is essential to understand how the network behaves, and why it behaves that way. \\
+\end{comment}
 
-\noindent Many of the resulting visualizations were presented side-by-side, as comparison can be a useful and lead to even further insight. Although looking at visualizations for a number of visualization input images is helpful, the tool currently only allows a single visualization input image for each network. This feature was given a lower priority compared to supplying a wide range of visualization techniques and making them easy to use.\\
+\noindent Many of the resulting visualizations were presented side-by-side, as comparison can be useful and lead to even further insight. Although looking at visualizations for a number of visualization input images is helpful, the tool currently only allows a single visualization input image for each network. This feature was given a lower priority compared to supplying a wide range of visualization techniques and making them easy to use.\\
 
 \section{Case Study in Face Recognition}
 
-The case study networks included in \autoref{sec:case-results} does not all represent the most promising architectures. We have three architecture types: the baseline, the architecture with extra input, and the architecture with extra output. For each of these, three configurations were included: a minimal, a preferred, and an interesting alternative. The minimal configurations were A, D and G, while the preferred were B, E and H, and lastly, the alternate ones were C, F, and I. Before comparing the three architecture approaches, we first compare the chosen configurations within each approach.
+The case study networks included in \autoref{sec:case-results} do not all represent the most promising architectures. We have three architecture types: the baseline, the architecture with extra input, and the architecture with extra output. For each of these, three configurations were included: a minimal, a preferred, and an interesting alternative. The minimal configurations were A, D and G, while the preferred were B, E and H, and lastly, the alternate ones were C, F, and I. Before comparing the three architecture approaches, we first compare the chosen configurations within each approach.
 
 \subsection{Baseline Networks}
 
@@ -108,7 +81,7 @@ The baseline networks were created using configurations A, B and C. The differen
 
 \subsection{Extra Input Networks}
 
-Configurations D, E and F were used to create the extra input networks. These differ not only in depth, but also in where the additional input is supplied. E and F have the equally deep, with D being shallower than both. Using a minimal configuration, D has no other option than to inject the extra input right at the start of the network. E and F introduce the expression input at different depths, which marks the main distinction between their architectures. From \autoref{tab:case-results}, we can see that the complexity gained by adding more layers has a beneficial effect on performance, as both the deeper networks outperform the shallow one, in all aspects. The network from configuration D has inferior performance due to its sole weight layer, the output, which needs to make sense of the combined inputs without any additional processing. E and F does have extra processing, but distinct kinds of processing. In F, the expression input is provided early on in the network, forcing every weighted layer in the model process the information from the feature and expression inputs simultaneously. E, however, injects the expression input later, leaving earlier layers free to exclusively process the feature input. With the performance of E being unequivocally better than F's, the processing of feature input in isolation appear to have advantageous effects. A possibility is that the computations on the feature input alone refines the features, which then eases the subsequent simultaneous processing. 
+Configurations D, E and F were used to create the extra input networks. These differ not only in depth, but also in where the additional input is supplied. E and F have the equally deep, with D being shallower than both. Using a minimal configuration, D has no other option than to inject the extra input right at the start of the network. E and F introduce the expression input at different depths, which marks the main distinction between their architectures. From \autoref{tab:case-results}, we can see that the complexity gained by adding more layers has a beneficial effect on performance, as both the deeper networks outperform the shallow one, in all aspects. The network from configuration D has inferior performance due to its sole weight layer, the output, which needs to make sense of the combined inputs without any additional processing. E and F does have extra processing, but distinct kinds of processing. In F, the expression input is provided early on in the network, forcing every weighted layer in the model to process the information from the feature and expression inputs simultaneously. E, however, injects the expression input later, leaving earlier layers free to exclusively process the feature input. With the performance of E being unequivocally better than F's, the processing of feature input in isolation appear to have advantageous effects. A possibility is that the computations on the feature input alone refines the features, which then eases the subsequent simultaneous processing. 
 
 \subsection{Extra Output Networks}
 
@@ -128,7 +101,7 @@ To compare the extra output approach to the others, we focus on the identificati
 
 \subsection{Experienced Limitations}
 
-It is important to note that the performance gain of the extra input architectures was moderate, as was the performance differences in general. An explanation for this is the humble size of the various architectures and their similarity to each other. While these qualities make the current performance differences more significant, it also raises the question about how the experimental approaches would alter the behaviour of larger networks, if they would perform similarly or if the differences would grow or diminish. In our case study, the size of the dataset prevents us from examining this interesting question, as attempts at creating a larger architecture consistently resulted in overfitted networks, despite heavy regularization. Additionally, without a substantially large dataset, we did not have the ability to train a sophisticated feature extractor from scratch. Rather, we were confined to using a pretrained model. The model chosen did not have any training on expression data, because of a distinct lack of such alternatives. \\
+It is important to note that the performance gain of the extra input architectures was moderate, as was the performance differences in general. An explanation for this is the humble size of the various architectures and their similarity to each other. While these qualities make the current performance differences more significant, it also raises the question about how the experimental approaches would alter the behaviour of larger networks, if they would perform similarly or if the differences would grow or diminish. In our case study, the size of the dataset prevents us from examining this interesting question, as attempts at creating a larger architecture consistently resulted in overfitted networks, despite heavy regularization. Additionally, without a substantially larger dataset, we did not have the ability to train a sophisticated feature extractor from scratch. Rather, we were confined to using a pretrained model. The model chosen did not have any training on expression data, because of a distinct lack of such alternatives. \\
 
 \noindent With a more extensive dataset, a larger network could be trained with which the experimental approaches could be explored further. We would for instance have more options on where to input the expression data for the extra input architectures, which has shown to have an impact on performance in the smaller networks. Similarly, we could expand the amount of specialized processing for each output when using architectures with an additional expression output. The extra output networks could also benefit from using a feature extractor that had expression data included in its training.
 
