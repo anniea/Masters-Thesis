@@ -177,39 +177,44 @@ The theory presented in this section is gathered from Goodfellow et al. \cite{co
 Generally, convolution can be defined as an operation on two functions, $x$ and $w$, of a real-valued argument, $t$, as in \autoref{eq:general}.
 
 \begin{equation}
-s(t) = \int x(a)w(t-a) da    
-\end{equation} \label{eq:general}
+\label{eq:general}  
+s(t) = \int x(a)w(t-a) da
+\end{equation} 
 
 \noindent The operation is typically denoted $s(t) = (x*w)(t)$. While the definition in \autoref{eq:general} is for arguments in the continuous range, data in computer applications is usually discrete. If we assume that $x$ and $w$ are only defined on discrete values of $t$, the convolution operation can be discretized, as defined in \autoref{eq:discrete}.
 
 \begin{equation}
+\label{eq:discrete}
 s(t) = (x*w)(t) = \sum_{a=-\infty}^{\infty} x(a)w(t-a)
-\end{equation} \label{eq:discrete}
+\end{equation} 
 
 \noindent In \acrshort{cnn} terminology, $x$ and $w$ represents the input and the convolution kernel, respectively. For a network, the input and kernel are usually multidimensional arrays, the first containing data and the second containing the network parameters, or weights. Because these arrays are finite, we can assume that the functions are zero for elements that reside outside the arrays' range. The infinite summation in the discrete convolution operation can then be reduced to a summation over a finite number of array elements. In addition, it is often desirable to perform convolutions over multiple axes at a time. The convolution operation for a 2D image input $I$, using a 2D kernel $K$, would then be defined as in \autoref{eq:2d-kernel}.
 
 \begin{equation}
+\label{eq:2d-kernel}
 S(i, j) = (I*K)(i, j) = \sum_{m} \sum_{n} I(m, n) K(i-m, j-n)
-\end{equation} \label{eq:2d-kernel}
+\end{equation} 
 
-\noindent Since convolution is commutative, the following is equivalent:
+\noindent Since convolution is commutative, the definition in \autoref{eq:commutative} is equivalent.
 
 \begin{equation}
+\label{eq:commutative}
 S(i, j) = (K*I)(i, j) = \sum_{m} \sum_{n} I(i-m, j-n) K(m, n)
-\end{equation}
+\end{equation} 
 
-\noindent The commutative property is a result of the kernel being flipped relative to the input, such that the input index increases with $m$, while the kernel index decreases. This property is not essential in practice and many \acrshort{ann} libraries implement cross-correlation instead, calling it convolution. In reality, cross-correlation is equivalent to convolution without the kernel flipping:
+\noindent The commutative property is a result of the kernel being flipped relative to the input, such that the input index increases with $m$, while the kernel index decreases. This property is not essential in practice and many \acrshort{ann} libraries implement cross-correlation instead, calling it convolution. In reality, cross-correlation is equivalent to convolution without the kernel flipping, shown in \autoref{eq:cross-correlation}.
 
 \begin{equation}
+\label{eq:cross-correlation}
 S(i, j) = (I*K)(i, j) = \sum_{m} \sum_{n} I(i+m, j+n) K(m, n)
-\end{equation}
+\end{equation} 
 
 \noindent An example of an application of cross-correlation on 2D input can be seen in \autoref{fig:2d-conv} Following convention, we will not differentiate between the two approaches any further, and refer to both as convolution operations. 
 
 \begin{figure}[h!]
     \centering
         \includegraphics[width=0.6\textwidth]{fig/2d_conv.pdf}
-        \caption[An example of 2D cross-correlation.]{An example of 2D cross-correlation. Arrows indicate how marked input and kernel combine to create output. The example uses single strides and no padding. Figure found in Goodfellow et al.  \cite{conv-math}}
+        \caption[An example of 2D cross-correlation.]{An example of 2D cross-correlation. Arrows indicate how marked input and kernel combine to create output. The example uses single strides and no padding. Figure found in Goodfellow et al.  \cite{conv-net-book}.}
         \label{fig:2d-conv}
 \end{figure}
  
@@ -220,6 +225,7 @@ Discrete convolution can be represented by a matrix multiplication and there are
 \noindent Consider a discrete convolution of a 4x4 input matrix with a 3x3 kernel matrix. To perform this convolution via matrix multiplication, we must first unroll the input matrix from left to right and top to bottom, reshaping the input into a 16-dimensional vector $I$. The kernel must also be modified, creating a sparse matrix $K$, where $w_{ij}$ is the element at row $i$ and column $j$ in the original kernel, as seen in \autoref{eq:kernel-matrix} \cite{conv-math}.
 
 \begin{equation}
+\label{eq:kernel-matrix}
     K = 
     \left(
     \begin{smallmatrix}
@@ -229,7 +235,7 @@ Discrete convolution can be represented by a matrix multiplication and there are
     0 & 0 & 0 & 0 & 0 & \textit{$w_{00}$} & \textit{$w_{01}$} & \textit{$w_{02}$} & 0 & \textit{$w_{10}$} & \textit{$w_{11}$} & \textit{$w_{12}$} & 0 & \textit{$w_{20}$} & \textit{$w_{21}$} & \textit{$w_{22}$} \\
     \end{smallmatrix}
     \right)
-\end{equation} \label{eq:kernel-matrix}
+\end{equation} 
 
 \noindent Executing the matrix multiplication $KI$ would then produce a 4-dimensional vector, which could be reshaped into the 2x2 matrix we expect from the convolution. Thus, the matrix multiplication is equivalent to the regular convolution operation.
 
@@ -281,7 +287,7 @@ Padding has the opposite effect of strides and is used to either retain the spat
 
 \subsection{Training a Convolutional Layer}
 
-Training a convolutional layer is similar to training a fully connected one, as explained in \autoref{sec:training}. In \autoref{sec:conv-matrix}, convolution is defined as a matrix multiplication. Following the example from that section, we use the kernel matrix $K$ to define the backward pass for convolutional layers. While we have established that convolutional layers often handle input, output and kernels with three dimensions, we use 2D matrices here to simply illustrate the backward pass approach. To that effect, we also assume single strides and no padding. 
+Training a convolutional layer is similar to training a fully connected one, as explained in \autoref{sec:training}. In \autoref{sec:conv-matrix}, convolution is defined as a matrix multiplication. Following the example from that section, we use the kernel matrix $K$ from \autoref{eq:kernel-matrix} to define the backward pass for convolutional layers. While we have established that convolutional layers often handle input, output and kernels with three dimensions, we use 2D matrices here to simply illustrate the backward pass approach. To that effect, we also assume single strides and no padding. 
 
 \subsubsection{The Backward Pass}
 
